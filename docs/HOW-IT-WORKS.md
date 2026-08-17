@@ -136,6 +136,12 @@ Policy: [okf/decisions/mcp-allowlist-only.md](../okf/decisions/mcp-allowlist-onl
 
 ---
 
+## Why this design
+
+Operator ETL separates **deterministic ETL** (medallion warehouse, SQL marts) from **bounded agents** (LangGraph orchestration, MCP allowlist). PII never reaches unconstrained tools; the critic rejects insight numbers that do not exist in gold. Each invariant maps to an authoritative source and a pytest — see [FOUNDATIONS.md](FOUNDATIONS.md).
+
+---
+
 ## Proof before trust
 
 Before claiming the system works or scaling to staging:

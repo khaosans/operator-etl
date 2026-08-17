@@ -984,4 +984,21 @@ Operator ETL is an **agentic system that works** because agents have a narrow, e
 
 ---
 
+## Appendix C — References
+
+Proof matrix with test mapping: [FOUNDATIONS.md](FOUNDATIONS.md)
+
+1. Databricks. (2020). Medallion Architecture. https://www.databricks.com/glossary/medallion-architecture
+2. Kleppmann, M. (2017). *Designing Data-Intensive Applications*. O'Reilly. Ch. 11 — stream processing and idempotent consumers.
+3. LangChain. LangGraph documentation. https://langchain-ai.github.io/langgraph/
+4. Anthropic. Model Context Protocol specification. https://modelcontextprotocol.io/
+5. NIST. (2010). SP 800-122 — Guide to Protecting the Confidentiality of Personally Identifiable Information. https://csrc.nist.gov/publications/detail/sp/800-122/final
+6. Goodhart, C. A. E. (1975). Problems of Monetary Management: The U.K. Experience. In *Papers in Monetary Economics*. Reserve Bank of Australia.
+7. Lewis, P. et al. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. *NeurIPS*. https://arxiv.org/abs/2005.11401
+8. NIST. (2023). AI Risk Management Framework (AI RMF 1.0). https://www.nist.gov/itl/ai-risk-management-framework
+9. U.S. Congress. 5 U.S.C. § 552 — Freedom of Information Act. https://www.foia.gov/
+10. OWASP. Top 10 for Large Language Model Applications. https://owasp.org/www-project-top-10-for-large-language-model-applications/
+
+---
+
 *End of white paper*

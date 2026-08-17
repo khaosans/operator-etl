@@ -113,6 +113,7 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 | Doc | Audience |
 |---|---|
 | [docs/README.md](docs/README.md) | Documentation index (start here for depth) |
+| [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Why this design — sources, invariants, tests |
 | [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) | Usage model and three planes |
 | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step test case verification |
 | [docs/SCALING.md](docs/SCALING.md) | Local MVP → GCP scale ladder |
@@ -127,7 +128,7 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 
 ## Standards
 
-We follow [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf), medallion warehouse layering, LangGraph for control flow, MCP for agent boundaries, and fail-closed PII policy. Full reference: **[docs/STANDARDS.md](docs/STANDARDS.md)**
+We follow [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf), medallion warehouse layering, LangGraph for control flow, MCP for agent boundaries, and fail-closed PII policy. **Foundations →** [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) · Full index: **[docs/STANDARDS.md](docs/STANDARDS.md)**
 
 ---
 

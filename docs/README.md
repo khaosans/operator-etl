@@ -17,6 +17,7 @@ Proof gate: `make e2e` from repo root.
 
 | Goal | Doc |
 |---|---|
+| **Why this design** | [FOUNDATIONS.md](FOUNDATIONS.md) |
 | **Understand the system** | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) |
 | **See test case work** | [WALKTHROUGH.md](WALKTHROUGH.md) |
 | **Scale to GCP** | [SCALING.md](SCALING.md) |

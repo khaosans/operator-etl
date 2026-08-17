@@ -32,15 +32,18 @@ timestamp: 2026-08-17T00:00:00Z
 
 ## Test file mapping
 
-| Assertion | Test / script |
-|---|---|
-| Graph completes, critic passes | `tests/test_gov_graph.py` |
-| PII not in redacted output | `tests/test_pii.py` |
-| Hallucinated numbers rejected | `tests/test_critic.py` |
-| MCP allowlist deny/permit | `tests/test_mcp_tools.py` |
-| Idempotent ingest | `tests/test_pipeline.py` |
-| Fresh warehouse E2E smoke | `scripts/demo_mvp.sh` |
-| Full gate (OKF + pytest + demo) | `harness/e2e.sh` / `make e2e` |
+Full proof matrix: [docs/FOUNDATIONS.md](../../docs/FOUNDATIONS.md)
+
+| Assertion | Defends | Test / script |
+|---|---|---|
+| Graph completes, critic passes | Graph orchestration [3] | `tests/test_gov_graph.py` |
+| PII not in redacted output | PII fail-closed [5] | `tests/test_pii.py` |
+| Hallucinated numbers rejected | Critic faithfulness [7] | `tests/test_critic.py` |
+| MCP allowlist deny/permit | MCP allowlist [4, 10] | `tests/test_mcp_tools.py` |
+| Idempotent ingest | Idempotent consumers [2] | `tests/test_pipeline.py` |
+| Quality gate blocks bad KPIs | Goodhart / fail-closed [6] | `tests/test_quality.py` |
+| Fresh warehouse E2E smoke | FOIA domain [9] | `scripts/demo_mvp.sh` |
+| Full gate (OKF + pytest + demo) | All invariants | `harness/e2e.sh` / `make e2e` |
 
 **CI:** GitHub Actions runs the same gate on every push — see README CI badge.
 

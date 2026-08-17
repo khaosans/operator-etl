@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-08-17 (foundations)
+
+- Added docs/FOUNDATIONS.md — proof matrix linking sources → invariants → tests
+- okf/references/design-foundations.md for agents; Appendix C in white paper
+- Cross-linked STANDARDS, HOW-IT-WORKS, WALKTHROUGH, README, mvp-demo
+
 ## 2026-08-17 (usage docs)
 
 - Added docs/HOW-IT-WORKS.md, WALKTHROUGH.md, SCALING.md with Mermaid diagrams

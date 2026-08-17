@@ -18,6 +18,8 @@ flowchart LR
 
 Or run the helper: `./scripts/walkthrough.sh`
 
+**What each test defends:** See the [proof matrix in FOUNDATIONS.md](FOUNDATIONS.md#proof-matrix) — each invariant links to a source, code path, and verify command.
+
 ---
 
 ## Step 1 — Run the proof gate
