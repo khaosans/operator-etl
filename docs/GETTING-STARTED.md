@@ -57,6 +57,15 @@ Run the full proof gate:
 make e2e
 ```
 
+```mermaid
+flowchart LR
+  OKF[OKF validate] --> pytest[24 pytest tests]
+  pytest --> demo[FOIA demo fresh warehouse]
+  demo --> pass[MVP PASS]
+```
+
+Step-by-step walkthrough with SQL and dashboard checks: **[WALKTHROUGH.md](WALKTHROUGH.md)**
+
 This runs three steps in order:
 
 | Step | What it does |
@@ -76,6 +85,16 @@ Public comment intake summary: 10 comments across 2 dockets and 2 agencies. ...
 ```
 
 Quick demo without OKF validate: `make demo`
+
+**CI:** Green badge on [README.md](../README.md) = same gate on GitHub Actions (Ubuntu runner + Docker build).
+
+| Assertion | Test file |
+|---|---|
+| Graph completes | `tests/test_gov_graph.py` |
+| PII not leaked | `tests/test_pii.py` |
+| Critic faithfulness | `tests/test_critic.py` |
+| MCP allowlist | `tests/test_mcp_tools.py` |
+| E2E smoke | `scripts/demo_mvp.sh` |
 
 ---
 
@@ -217,6 +236,9 @@ Quarantine rate exceeded 35% or data is stale. Inspect quarantine table and [okf
 
 | Goal | Link |
 |---|---|
+| Understand the system | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) |
+| See test case work | [WALKTHROUGH.md](WALKTHROUGH.md) |
+| Scale to GCP | [SCALING.md](SCALING.md) |
 | Extend with new data source | [okf/playbooks/extend-new-source.md](../okf/playbooks/extend-new-source.md) |
 | Agency FOIA workflow | [docs/FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) |
 | Deploy to GCP | [okf/playbooks/deploy-gcp-staging.md](../okf/playbooks/deploy-gcp-staging.md) |

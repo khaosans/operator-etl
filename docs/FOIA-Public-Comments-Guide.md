@@ -20,32 +20,23 @@ A chatbot with database access fails on PII, hallucinated counts, and non-replay
 
 ## Architecture for this use case
 
-```
-Public comment CSV / portal export
-        │
-        ▼
-   [ingest] ──▶ bronze_raw (immutable)
-        │
-        ▼
-   [PII gate] ──▶ scan body/subject · token vault · redacted previews
-        │
-        ▼
-   [validate] ──▶ silver_comments │ quarantine_comments
-        │
-        ▼
-   [quality agent] ──▶ allowlisted SQL only
-        │
-        ▼
-   [gold marts] ──▶ KPIs by agency, docket, PII rate
-        │
-        ▼
-   [insight agent] ──▶ narrative from gold only
-        │
-        ▼
-   [critic] ──▶ every number must exist in gold_metrics
-        │
-        ▼
-   [persist] ──▶ insights table (FOIA officer review)
+Full usage model: [HOW-IT-WORKS.md](HOW-IT-WORKS.md)
+
+```mermaid
+flowchart TB
+  Source[Public comment CSV / portal export]
+  Source --> ingest[ingest]
+  ingest --> bronze[bronze_raw immutable]
+  bronze --> pii[PII gate]
+  pii --> validate[validate]
+  validate --> silver[silver_comments]
+  validate --> quarantine[quarantine_comments]
+  silver --> quality[quality agent]
+  quality --> gold[gold marts]
+  gold --> insight[insight agent]
+  insight --> critic[critic]
+  critic --> persist[insights table]
+  persist --> officer[FOIA officer review]
 ```
 
 ---

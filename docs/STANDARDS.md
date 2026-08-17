@@ -68,8 +68,8 @@ Documented in [docs/Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) §
 |---|---|---|
 | **src layout** | [PyPA src layout](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/) | Packages under `src/` |
 | **uv** | [Astral uv](https://docs.astral.sh/uv/) | `pyproject.toml` + `uv.lock` |
-| **Proof gate** | Internal harness | `./harness/e2e.sh` before share/deploy claims |
-| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — e2e + Docker build |
+| **Proof gate** | Internal harness | `make e2e` before share, deploy, or scale claims — see [WALKTHROUGH.md](WALKTHROUGH.md) |
+| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — same gate as local e2e + Docker build |
 
 ---
 

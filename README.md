@@ -32,6 +32,8 @@ make e2e
 
 Full setup (MCP, dashboard, env vars, troubleshooting): **[docs/GETTING-STARTED.md](docs/GETTING-STARTED.md)**
 
+**How it works →** [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · **See it work →** [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) · **Scale out →** [docs/SCALING.md](docs/SCALING.md)
+
 ---
 
 ## What you just proved
@@ -87,7 +89,7 @@ Full table: [docs/GETTING-STARTED.md#environment-variables](docs/GETTING-STARTED
 | **0 — Prove** | `make e2e` |
 | **1 — Run locally** | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) |
 | **2 — Extend** | [okf/playbooks/extend-new-source.md](okf/playbooks/extend-new-source.md) |
-| **3 — GCP staging** | [okf/playbooks/deploy-gcp-staging.md](okf/playbooks/deploy-gcp-staging.md) + [infra/README.md](infra/README.md) |
+| **3 — GCP staging** | [docs/SCALING.md](docs/SCALING.md) + [infra/README.md](infra/README.md) |
 | **4 — Production** | White paper §12, HITL dashboard (PARTIAL) |
 
 ---
@@ -111,6 +113,9 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 | Doc | Audience |
 |---|---|
 | [docs/README.md](docs/README.md) | Documentation index (start here for depth) |
+| [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) | Usage model and three planes |
+| [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step test case verification |
+| [docs/SCALING.md](docs/SCALING.md) | Local MVP → GCP scale ladder |
 | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, verify, MCP, troubleshooting |
 | [docs/STANDARDS.md](docs/STANDARDS.md) | Standards and best practices we follow |
 | [AGENTS.md](AGENTS.md) | AI agents — load order |

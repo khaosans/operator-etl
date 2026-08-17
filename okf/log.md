@@ -1,5 +1,12 @@
 # OKF changelog
 
+## 2026-08-17 (usage docs)
+
+- Added docs/HOW-IT-WORKS.md, WALKTHROUGH.md, SCALING.md with Mermaid diagrams
+- scripts/walkthrough.sh — post-demo warehouse inspection helper
+- Mermaid in FOIA guide, GETTING-STARTED, infra/README, three-planes.md
+- Test file mapping in mvp-demo.md; proof gate in STANDARDS.md
+
 ## 2026-08-17
 
 - Initial Operator ETL OKF bundle: models, decisions, playbooks, MVP gate

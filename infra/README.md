@@ -4,18 +4,19 @@ Terraform and CI/CD scaffolding to deploy the FOIA / public comments agentic pip
 
 ## Architecture
 
-```
-Agency uploads CSV
-        │
-        ▼
-GCS inbox bucket ──OBJECT_FINALIZE──▶ Pub/Sub ──push──▶ Cloud Run (graph-runner)
-        │                                                      │
-        │                                                      ├──▶ BigQuery (bronze/silver/gold)
-        │                                                      └──▶ Cloud SQL (LangGraph checkpoints)
-        │
-Cloud Scheduler (nightly) ──POST /run──▶ graph-runner
+Scale ladder and local→GCP checklist: [docs/SCALING.md](../docs/SCALING.md)
 
-Remote agents ──HTTP──▶ Cloud Run (operator-etl-mcp) ──read──▶ BigQuery gold only
+```mermaid
+flowchart TB
+  Upload[Agency uploads CSV] --> GCS[GCS inbox bucket]
+  GCS -->|OBJECT_FINALIZE| PubSub[Pub/Sub topic]
+  PubSub -->|push| GraphRunner[Cloud Run graph-runner]
+  Scheduler[Cloud Scheduler nightly] -->|POST /run| GraphRunner
+  GraphRunner --> BQ[BigQuery etl datasets]
+  GraphRunner --> CloudSQL[Cloud SQL checkpoints]
+  Agent[Remote agent] -->|HTTP| MCP[Cloud Run MCP]
+  MCP -->|read gold only| BQ
+  Secrets[Secret Manager] --> GraphRunner
 ```
 
 ## Prerequisites

@@ -10,9 +10,16 @@ Start here after cloning:
 
 1. [README.md](../README.md) — overview and quick start
 2. [GETTING-STARTED.md](GETTING-STARTED.md) — install, verify, MCP, env vars, troubleshooting
-3. [STANDARDS.md](STANDARDS.md) — patterns and best practices we follow
+3. [WALKTHROUGH.md](WALKTHROUGH.md) — step-by-step: see the test case work
+4. [STANDARDS.md](STANDARDS.md) — patterns and best practices we follow
 
 Proof gate: `make e2e` from repo root.
+
+| Goal | Doc |
+|---|---|
+| **Understand the system** | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) |
+| **See test case work** | [WALKTHROUGH.md](WALKTHROUGH.md) |
+| **Scale to GCP** | [SCALING.md](SCALING.md) |
 
 ---
 
