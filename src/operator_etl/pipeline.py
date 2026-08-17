@@ -7,9 +7,9 @@ from operator_etl.config import Settings, get_settings
 from operator_etl.extract.csv import ExtractResult, extract_csv, extract_csv_dir
 from operator_etl.extract.http import extract_http
 from operator_etl.insights.metrics import build_marts, render_insights
+from operator_etl.load.connection import connect
 from operator_etl.load.duckdb import (
     already_ingested,
-    connect,
     finish_run,
     load_bronze,
     start_run,
@@ -44,6 +44,14 @@ def collect_extracts(source: Source, settings: Settings) -> list[ExtractResult]:
         if not source.url:
             raise ValueError(f"Source {source.name} is http but has no url")
         return [extract_http(source.url, root=settings.root)]
+    if source.kind == "gcs":
+        from operator_etl_gcp.extract.gcs import extract_gcs_inbox
+
+        bucket = settings.gcs_inbox_bucket
+        if not bucket:
+            raise ValueError("OPERATOR_ETL_GCS_INBOX_BUCKET required for gcs source")
+        prefix = str(source.path) if source.path else ""
+        return extract_gcs_inbox(bucket, prefix, settings)
     raise ValueError(f"Unsupported source kind {source.kind}")
 
 

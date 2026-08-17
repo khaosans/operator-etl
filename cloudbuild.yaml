@@ -1,0 +1,63 @@
+substitutions:
+  _REGION: us-central1
+  _ENVIRONMENT: staging
+  _AR_REPO: operator-etl-staging-images
+
+steps:
+  - id: test
+    name: python:3.12-slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        pip install uv
+        uv sync --frozen --extra dev
+        uv run pytest -q
+
+  - id: build
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/operator-etl:$SHORT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/operator-etl:latest
+      - .
+
+  - id: push
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - --all-tags
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/operator-etl
+
+  - id: deploy-graph-runner
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - operator-etl-${_ENVIRONMENT}-graph-runner
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/operator-etl:$SHORT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+
+  - id: deploy-mcp
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - operator-etl-${_ENVIRONMENT}-mcp
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/operator-etl:$SHORT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --command=uvicorn
+      - --args=operator_etl_gcp.http.mcp_app:app,--host,0.0.0.0,--port,8080
+
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/operator-etl:$SHORT_SHA
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/operator-etl:latest
+
+options:
+  logging: CLOUD_LOGGING_ONLY

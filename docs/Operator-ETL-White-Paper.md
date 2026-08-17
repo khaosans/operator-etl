@@ -13,7 +13,7 @@
 | **Document ID** | OP-ETL-WP-002 |
 | **Version** | 2.1 (Engineering depth) |
 | **Date** | August 17, 2026 |
-| **Status** | v1 data plane **IMPLEMENTED**; v2 agentic layer **SPECIFIED** |
+| **Status** | v1 data plane **IMPLEMENTED**; v2 agentic layer **IMPLEMENTED** (local); GCP **PARTIAL** |
 | **Repository** | `operator-etl` |
 | **Audience** | Engineers, architects, interview reviewers |
 | **Review cycle** | Update on major schema or ADR changes |
@@ -44,7 +44,13 @@
 | Quality gate | `src/operator_etl/insights/metrics.py` |
 | Gold SQL marts | `sql/marts/*.sql` |
 | Source registry | `pipelines/demo.yaml` |
-| Tests (9 passing) | `tests/test_pipeline.py`, `tests/test_quality.py`, `tests/test_http.py` |
+| Tests (24 passing) | `tests/test_pipeline.py`, `tests/test_quality.py`, `tests/test_http.py`, `tests/test_pii.py`, `tests/test_critic.py`, `tests/test_gov_graph.py`, `tests/test_mcp_tools.py`, `tests/test_infra.py` |
+| FOIA graph pipeline | `src/operator_etl_graph/graph.py` |
+| PII policy | `src/operator_etl_policy/pii.py` |
+| MCP tools | `src/operator_etl_mcp/tools.py` |
+| Gov gold SQL | `sql/marts/gov/*.sql` |
+| MVP gate | `harness/e2e.sh`, `scripts/demo_mvp.sh` |
+| OKF bundle | `okf/index.md` |
 
 ---
 
@@ -75,7 +81,7 @@ Agents do not replace ETL. They call **allowlisted MCP tools** that wrap the dat
 
 ## 1. Introduction
 
-**Status:** IMPLEMENTED (data plane) · SPECIFIED (agentic layers)
+**Status:** IMPLEMENTED (data plane + agentic layers local) · PARTIAL (GCP lift)
 
 ### 1.1 The problem
 
@@ -91,13 +97,13 @@ Teams want to “drop data in and get insights.” The naive approach — a chat
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  CONTROL PLANE — LangGraph                          SPECIFIED│
+│  CONTROL PLANE — LangGraph                          IMPLEMENTED│
 │  Graph state · checkpoints · HITL interrupts · critic       │
 └──────────────────────────────┬──────────────────────────────┘
                                │ MCP tools (allowlisted)
 ┌──────────────────────────────▼──────────────────────────────┐
-│  POLICY PLANE — PII · budgets · redaction           SPECIFIED│
-│  Presidio scan · token vault · trace filter · spend caps     │
+│  POLICY PLANE — PII · budgets · redaction           IMPLEMENTED│
+│  Regex scan · token vault · trace filter · spend caps        │
 └──────────────────────────────┬──────────────────────────────┘
                                │
 ┌──────────────────────────────▼──────────────────────────────┐
@@ -903,13 +909,18 @@ steps:
 | Eval | Quality gate threshold test | PII leak golden set, faithfulness set |
 | E2E | CLI + Streamlit manual | GCS upload → Pub/Sub → Cloud Run |
 
-**Current: 9/9 pytest passing.**
+**Current: 24/24 pytest passing.** MVP gate: `./harness/e2e.sh`
 
 | Test file | Validates |
 |---|---|
-| `test_pipeline.py` | Idempotency, quarantine (17/4), gold KPIs (17 orders, 10 customers) |
-| `test_quality.py` | Gate blocks when quarantine rate > 5% threshold |
-| `test_http.py` | JSON extract, source registry, HTTP pipeline |
+| `test_pipeline.py` | Idempotency, quarantine, gold KPIs |
+| `test_quality.py` | Gate blocks when quarantine rate high |
+| `test_http.py` | JSON extract, source registry |
+| `test_pii.py` | PII redaction, no leak in output |
+| `test_critic.py` | Faithfulness — rejects hallucinated numbers |
+| `test_gov_graph.py` | FOIA graph E2E — status=complete |
+| `test_mcp_tools.py` | Allowlist permit/deny |
+| `test_infra.py` | GCP config, Pub/Sub decode, BQ SQL rewrite |
 
 ---
 
@@ -948,9 +959,11 @@ steps:
 
 Operator ETL is an **agentic system that works** because agents have a narrow, enforced job: orchestrate decisions over a deterministic, tested data plane. MCP tools are the boundary. GCP provides durable storage, event-driven intake, and managed execution. PII and quality gates fail closed.
 
-**Ship now:** v1 data plane — `etl run --source demo` — 21 rows, 17 silver, 4 quarantined, gate pass at 19.1%.
+**Ship now:** FOIA MVP — `./scripts/demo_mvp.sh` — 12 comments, 10 silver, 2 quarantined, critic-verified insight.
 
-**Build next:** MCP server (v1.1) + LangGraph skeleton (v1.2) against existing DuckDB; lift to GCP when graph evals pass locally.
+**Share externally:** PDFs in `docs/share/` (repo private).
+
+**Build next:** BigQuery gold dialect lift, HITL gov dashboard polish, Regulations.gov adapter.
 
 ---
 

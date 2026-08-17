@@ -11,3 +11,6 @@ sources:
   comment_inbox:
     kind: csv_dir
     path: drops/inbox
+  gcs_inbox:
+    kind: gcs
+    path: incoming/

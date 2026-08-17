@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -8,6 +9,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 def _default_root() -> Path:
     return Path(__file__).resolve().parents[2]
+
+
+BackendKind = Literal["duckdb", "bigquery"]
+CheckpointBackend = Literal["sqlite", "postgres"]
 
 
 class Settings(BaseSettings):
@@ -20,6 +25,24 @@ class Settings(BaseSettings):
 
     pipeline_name: str = "demo"
     domain: str = "orders"
+
+    # Runtime backend — duckdb (local) or bigquery (GCP)
+    backend: BackendKind = "duckdb"
+    checkpoint_backend: CheckpointBackend = "sqlite"
+    checkpoint_database_url: str | None = None
+
+    # GCP (used when backend=bigquery)
+    gcp_project: str | None = None
+    gcs_inbox_bucket: str | None = None
+    bq_dataset_bronze: str = "etl_bronze"
+    bq_dataset_silver: str = "etl_silver"
+    bq_dataset_quarantine: str = "etl_quarantine"
+    bq_dataset_gold: str = "etl_gold"
+    gcp_region: str = "us-central1"
+
+    @property
+    def is_gcp(self) -> bool:
+        return self.backend == "bigquery"
 
     @property
     def warehouse_path(self) -> Path:
@@ -50,6 +73,17 @@ class Settings(BaseSettings):
     @property
     def dashboard_path(self) -> Path:
         return self.root / "dashboard" / "app.py"
+
+    def table_ref(self, layer: Literal["bronze", "silver", "quarantine", "gold"], table: str) -> str:
+        """BigQuery table reference: project.dataset.table"""
+        datasets = {
+            "bronze": self.bq_dataset_bronze,
+            "silver": self.bq_dataset_silver,
+            "quarantine": self.bq_dataset_quarantine,
+            "gold": self.bq_dataset_gold,
+        }
+        project = self.gcp_project or "local"
+        return f"{project}.{datasets[layer]}.{table}"
 
 
 _settings: Settings | None = None

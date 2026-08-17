@@ -1,0 +1,48 @@
+---
+type: Playbook
+title: Run local MVP
+description: Prove FOIA pipeline in under 2 minutes on a fresh warehouse
+tags: [mvp, demo]
+timestamp: 2026-08-17T00:00:00Z
+---
+
+# Run local MVP
+
+## Prerequisites
+
+```bash
+uv sync --extra dev
+```
+
+## Full proof gate
+
+```bash
+./harness/e2e.sh
+```
+
+Runs: OKF validate → pytest (24) → FOIA demo with fresh warehouse.
+
+## Demo only (skip OKF validate)
+
+```bash
+./scripts/demo_mvp.sh
+```
+
+## Expected output
+
+- `status=complete`
+- `silver=10`, `quarantined=2`
+- Insight mentioning comments and FOIA redaction
+
+## Visual check
+
+```bash
+OPERATOR_ETL_WAREHOUSE=.tmp/mvp-demo/operator.duckdb \
+OPERATOR_ETL_PIPELINE_NAME=public_comments \
+OPERATOR_ETL_DOMAIN=gov \
+uv run streamlit run dashboard/app.py
+```
+
+Open **Gov / FOIA** tab.
+
+See [MVP demo numbers](/models/mvp-demo.md).

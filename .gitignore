@@ -5,10 +5,13 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 *.egg-info/
+src/*.egg-info/
 dist/
 build/
 .DS_Store
 .env
+.env.*
+!.env.example
 warehouse/*.duckdb
 warehouse/*.duckdb.wal
 warehouse/checkpoints.db
@@ -17,3 +20,23 @@ warehouse/.vault_key
 drops/inbox/*.csv
 drops/inbox/*.json
 !drops/inbox/.gitkeep
+.tmp/
+features.json
+claude-progress.txt
+init.sh
+e2e-local.sh
+
+# Terraform
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.*
+infra/terraform/.terraform.lock.hcl
+infra/terraform/terraform.tfvars
+
+# Share pack dated archives (latest/ is committed)
+docs/share/releases/
+
+# Editor
+.idea/
+.vscode/
+*.swp

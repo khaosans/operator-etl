@@ -2,17 +2,20 @@ from __future__ import annotations
 
 import typer
 
-from operator_etl.config import Settings, get_settings, set_settings
+from operator_etl.config import Settings, set_settings
 from operator_etl_graph.graph import run_graph
 
 app = typer.Typer(no_args_is_help=True, help="Run the agentic FOIA / public comments graph pipeline.")
 
 
-@app.command("run")
+@app.callback(invoke_without_command=True)
 def run_cmd(
+    ctx: typer.Context,
     source: str = typer.Option("public_comments", "--source", "-s"),
     pipeline: str = typer.Option("public_comments", "--pipeline", "-p"),
 ) -> None:
+    if ctx.invoked_subcommand is not None:
+        return
     settings = Settings(pipeline_name=pipeline, domain="gov")
     set_settings(settings)
     result = run_graph(source=source, settings=settings)

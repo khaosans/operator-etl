@@ -6,7 +6,8 @@ from operator_etl.config import Settings, get_settings
 from operator_etl_graph.critic import critic_check
 from operator_etl_graph.state import PipelineState
 from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
-from operator_etl.load.duckdb import already_ingested, connect, finish_run, load_bronze, start_run
+from operator_etl.load.connection import connect
+from operator_etl.load.duckdb import already_ingested, finish_run, load_bronze, start_run
 from operator_etl.pipeline import collect_extracts
 from operator_etl.sources import get_source
 from operator_etl.transform.gov_clean import init_gov_schema, transform_comments_bronze

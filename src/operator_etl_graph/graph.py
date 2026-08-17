@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-import sqlite3
-from typing import Literal
+from typing import Any, Literal
 
-from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, StateGraph
 
 from operator_etl.config import Settings, get_settings
+from operator_etl_gcp.checkpoints import build_checkpointer
 from operator_etl_graph.nodes import (
     build_gold_node,
     critic_node,
@@ -48,7 +47,7 @@ def needs_human_node(state: PipelineState) -> dict:
     return {"status": "needs_human"}
 
 
-def build_graph(settings: Settings | None = None, *, checkpointer: SqliteSaver | None = None):
+def build_graph(settings: Settings | None = None, *, checkpointer: Any | None = None):
     settings = settings or get_settings()
     graph = StateGraph(PipelineState)
 
@@ -76,9 +75,7 @@ def build_graph(settings: Settings | None = None, *, checkpointer: SqliteSaver |
     graph.add_edge("needs_human", END)
 
     if checkpointer is None:
-        settings.checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
-        conn = sqlite3.connect(str(settings.checkpoint_path), check_same_thread=False)
-        checkpointer = SqliteSaver(conn)
+        checkpointer = build_checkpointer(settings)
     return graph.compile(checkpointer=checkpointer)
 
 

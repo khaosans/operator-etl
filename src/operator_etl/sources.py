@@ -8,7 +8,7 @@ import yaml
 
 from operator_etl.config import Settings, get_settings
 
-SourceKind = Literal["csv", "csv_dir", "http"]
+SourceKind = Literal["csv", "csv_dir", "http", "gcs"]
 
 
 @dataclass(frozen=True)
