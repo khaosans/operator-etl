@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-08-17 (readme polish)
+
+- README rewrite: problem, three planes, trust/proof, engineering trade-offs, scope boundaries
+- Stale 29-test counts in operator-run skill and one-pager
+
 ## 2026-08-17 (final review)
 
 - docs/FINAL-REVIEW.md — proof inventory, scale, security, trade-offs

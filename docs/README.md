@@ -1,6 +1,6 @@
 # Documentation index
 
-All Operator ETL documentation, organized by audience.
+All Operator ETL documentation, organized by audience. **Start at [README.md](../README.md)** — problem, design, trade-offs, and quick start — then use this index for depth.
 
 ---
 
@@ -8,7 +8,7 @@ All Operator ETL documentation, organized by audience.
 
 Start here after cloning:
 
-1. [README.md](../README.md) — overview and quick start
+1. [README.md](../README.md) — primary entry: problem, design, trust, trade-offs, quick start
 2. [GETTING-STARTED.md](GETTING-STARTED.md) — install, verify, MCP, env vars, troubleshooting
 3. [WALKTHROUGH.md](WALKTHROUGH.md) — step-by-step: see the test case work
 4. [STANDARDS.md](STANDARDS.md) — patterns and best practices we follow
