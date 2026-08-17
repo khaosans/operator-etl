@@ -1,0 +1,224 @@
+# Getting started with Operator ETL
+
+Complete setup guide for developers and operators with repo access.
+
+**Repository (private):** https://github.com/khaosans/operator-etl
+
+---
+
+## 1. Access and clone
+
+This repository is **private**. Request access from the repository owner, then:
+
+```bash
+git clone https://github.com/khaosans/operator-etl.git
+cd operator-etl
+```
+
+---
+
+## 2. Install toolchain
+
+### Python 3.12+
+
+```bash
+python3 --version   # must be 3.12 or newer
+```
+
+### uv (recommended)
+
+Install from [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/):
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### Install project dependencies
+
+**Local MVP (FOIA demo, tests, dashboard):**
+
+```bash
+uv sync --extra dev
+```
+
+**GCP / Cloud Run work (adds BigQuery, FastAPI, Postgres checkpoints):**
+
+```bash
+uv sync --extra dev --extra gcp
+```
+
+---
+
+## 3. Verify installation
+
+Run the full proof gate:
+
+```bash
+make e2e
+```
+
+This runs three steps in order:
+
+| Step | What it does |
+|---|---|
+| OKF validate | Checks `okf/` frontmatter and structure |
+| pytest | 24 unit and integration tests |
+| FOIA demo | Fresh warehouse, graph pipeline, output assertions |
+
+**Expected FOIA demo output:**
+
+```
+status=complete  run_id=...
+rows_in=12  silver=10  quarantined=2
+pii_findings=3
+
+Public comment intake summary: 10 comments across 2 dockets and 2 agencies. ...
+```
+
+Quick demo without OKF validate: `make demo`
+
+---
+
+## 4. Run the FOIA pipeline manually
+
+Use a **fresh warehouse** to avoid stale counts from prior runs:
+
+```bash
+export OPERATOR_ETL_WAREHOUSE=".tmp/mvp-demo/operator.duckdb"
+export OPERATOR_ETL_PIPELINE_NAME=public_comments
+export OPERATOR_ETL_DOMAIN=gov
+
+uv run etl-graph --source public_comments --pipeline public_comments
+```
+
+Or use the scripted demo: `./scripts/demo_mvp.sh`
+
+Expected numbers: [okf/models/mvp-demo.md](../okf/models/mvp-demo.md)
+
+---
+
+## 5. Run the orders demo
+
+Commerce pipeline (deterministic ETL, no graph):
+
+```bash
+uv run etl run --source demo
+```
+
+See [okf/playbooks/run-orders-demo.md](../okf/playbooks/run-orders-demo.md).
+
+---
+
+## 6. Dashboard (Streamlit)
+
+After running the FOIA demo (so a gov warehouse exists):
+
+```bash
+export OPERATOR_ETL_WAREHOUSE=".tmp/mvp-demo/operator.duckdb"
+export OPERATOR_ETL_PIPELINE_NAME=public_comments
+export OPERATOR_ETL_DOMAIN=gov
+uv run streamlit run dashboard/app.py
+```
+
+Open the **Gov / FOIA** tab for comment KPIs, quarantine, and insights. The **Orders demo** tab uses the default orders pipeline.
+
+---
+
+## 7. MCP setup (Cursor)
+
+Copy the example config and set your repo path:
+
+```bash
+cp .cursor/mcp.json.example .cursor/mcp.json
+```
+
+Edit `.cursor/mcp.json` — set `cwd` to your clone path:
+
+```json
+{
+  "mcpServers": {
+    "operator-etl": {
+      "command": "uv",
+      "args": ["run", "operator-etl-mcp"],
+      "cwd": "/path/to/operator-etl"
+    }
+  }
+}
+```
+
+Restart Cursor. Available tools: `get_gold_metrics`, `run_quality_sql`, `get_run_status`.
+
+Policy: [okf/decisions/mcp-allowlist-only.md](../okf/decisions/mcp-allowlist-only.md)
+
+---
+
+## Environment variables
+
+All settings use prefix `OPERATOR_ETL_` (see [src/operator_etl/config.py](../src/operator_etl/config.py)).
+
+### Local (DuckDB)
+
+| Variable | Default | Description |
+|---|---|---|
+| `OPERATOR_ETL_WAREHOUSE` | `warehouse/operator.duckdb` | DuckDB file path |
+| `OPERATOR_ETL_PIPELINE_NAME` | `demo` | Pipeline YAML (`demo`, `public_comments`) |
+| `OPERATOR_ETL_DOMAIN` | `orders` | `orders` or `gov` |
+| `OPERATOR_ETL_MAX_QUARANTINE_RATE` | `0.35` | Quality gate threshold |
+| `OPERATOR_ETL_MAX_FRESHNESS_HOURS` | `168` | Staleness threshold |
+
+### Checkpoints (LangGraph)
+
+| Variable | Default | Description |
+|---|---|---|
+| `OPERATOR_ETL_CHECKPOINT_BACKEND` | `sqlite` | `sqlite` or `postgres` |
+| `OPERATOR_ETL_CHECKPOINT_DATABASE_URL` | — | Postgres URL (GCP) |
+
+### GCP (BigQuery backend)
+
+| Variable | Description |
+|---|---|
+| `OPERATOR_ETL_BACKEND` | Set to `bigquery` |
+| `OPERATOR_ETL_GCP_PROJECT` | GCP project ID |
+| `OPERATOR_ETL_GCS_INBOX_BUCKET` | GCS inbox bucket |
+| `OPERATOR_ETL_BQ_DATASET_*` | Bronze/silver/quarantine/gold datasets |
+
+Full GCP example: [infra/env.example](../infra/env.example)
+
+---
+
+## Troubleshooting
+
+### Stale row counts from `etl-graph`
+
+The default warehouse accumulates data across runs. Use a fresh path:
+
+```bash
+./scripts/demo_mvp.sh
+```
+
+### pytest fails after exporting gov env vars
+
+Gov env vars (`OPERATOR_ETL_PIPELINE_NAME=public_comments`) affect global settings. Either:
+
+- Run pytest in a clean shell without those exports, or
+- Use `make e2e` which scopes gov env to the demo step only
+
+### `make docker-build` fails
+
+Docker daemon must be running locally. CI builds the image on GitHub Actions if local Docker is unavailable.
+
+### Quality gate blocks KPIs
+
+Quarantine rate exceeded 35% or data is stale. Inspect quarantine table and [okf/playbooks/agency-foia-workflow.md](../okf/playbooks/agency-foia-workflow.md).
+
+---
+
+## Next steps
+
+| Goal | Link |
+|---|---|
+| Extend with new data source | [okf/playbooks/extend-new-source.md](../okf/playbooks/extend-new-source.md) |
+| Agency FOIA workflow | [docs/FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) |
+| Deploy to GCP | [okf/playbooks/deploy-gcp-staging.md](../okf/playbooks/deploy-gcp-staging.md) |
+| Standards we follow | [docs/STANDARDS.md](STANDARDS.md) |
+| Share PDFs externally | [docs/share/README.md](share/README.md) |

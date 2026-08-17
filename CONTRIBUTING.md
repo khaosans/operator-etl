@@ -1,5 +1,9 @@
 # Contributing to Operator ETL
 
+## First-time setup
+
+New to the repo? Start with [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) — clone, install, verify with `make e2e`.
+
 ## Before you open a PR
 
 1. Run the full proof gate:

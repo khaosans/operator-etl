@@ -2,6 +2,8 @@
 
 You are operating on **Operator ETL** — agentic data intake for FOIA and public comments.
 
+**Human adopters:** start at [README.md](README.md) → [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md).
+
 ## Load order (required)
 
 1. Read this file fully.

@@ -8,6 +8,8 @@ timestamp: 2026-08-17T00:00:00Z
 
 # Run local MVP
 
+**Full setup guide:** [docs/GETTING-STARTED.md](../../docs/GETTING-STARTED.md)
+
 ## Prerequisites
 
 ```bash

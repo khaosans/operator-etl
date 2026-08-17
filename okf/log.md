@@ -8,3 +8,4 @@
 - Added harness/e2e.sh, scripts/demo_mvp.sh, scripts/share_pack.sh
 - AGENTS.md + 4 skills + docs/LEVERAGE.md + CONTRIBUTING.md
 - Gov/FOIA Streamlit tab; white paper status sync (24 tests, IMPLEMENTED agentic layers)
+- README restructure: GETTING-STARTED, STANDARDS, docs index, LICENSE, CI badge

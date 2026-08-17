@@ -37,3 +37,5 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 
 * [OKF spec](references/okf-spec.md) — Spec pointer
 * [Repo map](references/repo-map.md) — Code layout
+* [Standards](../docs/STANDARDS.md) — Best practices and external standards index
+* [Getting started](../docs/GETTING-STARTED.md) — Full install and setup guide
