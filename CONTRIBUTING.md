@@ -4,11 +4,13 @@
 
 New to the repo? Start with [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) — clone, install, verify with `make e2e`.
 
+**Safe updates:** [docs/RELEASING.md](docs/RELEASING.md) · **Going public:** [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md)
+
 ## Before you open a PR
 
 1. Run the full proof gate:
    ```bash
-   ./harness/e2e.sh
+   make e2e
    ```
 2. If you changed OKF concepts:
    ```bash
@@ -16,6 +18,8 @@ New to the repo? Start with [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) �
    ```
 3. Update [okf/models/implementation-status.md](okf/models/implementation-status.md) if component status changed
 4. Append a line to [okf/log.md](okf/log.md) for significant doc/architecture changes
+
+CI must pass: **e2e**, **docker**, and **Secret scan** (gitleaks). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
 
 ## OKF conventions
 
@@ -63,3 +67,7 @@ Follow [okf/playbooks/qa-before-share.md](okf/playbooks/qa-before-share.md).
 ## Agent contributors
 
 Read [AGENTS.md](AGENTS.md) and load the matching skill under `skills/` before making changes.
+
+## Code of Conduct
+
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).

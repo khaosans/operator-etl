@@ -1,0 +1,4 @@
+# Default reviewers for all changes. Enable "Require review from Code Owners"
+# in branch protection before going public — see docs/PUBLIC-READINESS.md.
+
+* @khaosans

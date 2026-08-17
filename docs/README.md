@@ -91,6 +91,9 @@ Regenerate: `make share`
 | Doc | Description |
 |---|---|
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | PR checklist |
+| [RELEASING.md](RELEASING.md) | Safe updates, Dependabot, version bumps |
+| [PUBLIC-READINESS.md](PUBLIC-READINESS.md) | Checklist before making repo public |
 | [SECURITY.md](../SECURITY.md) | Secrets and PII policy |
 | [CHANGELOG.md](../CHANGELOG.md) | Release history |
+| [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) | Community standards |
 | [okf/playbooks/qa-before-share.md](../okf/playbooks/qa-before-share.md) | Pre-share checklist |

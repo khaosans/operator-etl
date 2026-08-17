@@ -10,7 +10,7 @@
 | **Version** | 1.0 |
 | **Date** | August 17, 2026 |
 | **Status** | Proposed / Ready for review |
-| **Repository** | `/Users/Sour/operator-etl` |
+| **Repository** | https://github.com/khaosans/operator-etl |
 
 ---
 

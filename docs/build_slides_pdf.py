@@ -428,7 +428,7 @@ def build():
         [
             "Version 1.0  ·  August 2026",
             "Local-first medallion pipeline: intake → warehouse → insights",
-            "Repository: /Users/Sour/operator-etl",
+            "Repository: https://github.com/khaosans/operator-etl",
         ],
     )
 

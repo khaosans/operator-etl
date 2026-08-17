@@ -2,7 +2,19 @@
 
 ## Reporting
 
-If you discover a security issue (PII handling, vault exposure, MCP bypass), report it privately to the repository owner. Do not open public issues for sensitive findings.
+If you discover a security issue (PII handling, vault exposure, MCP bypass):
+
+1. **Preferred:** [GitHub Security Advisories](https://github.com/khaosans/operator-etl/security/advisories/new) (private report while repo is private; works when public)
+2. Do **not** open a public issue for exploitable findings
+
+Include: affected component, reproduction steps, impact on PII/MCP boundary, and suggested fix if known.
+
+## Supported versions
+
+| Version | Supported |
+|---|---|
+| 0.3.x (current) | Yes — `make e2e` gate |
+| < 0.3 | No |
 
 ## Secrets
 

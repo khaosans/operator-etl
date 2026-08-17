@@ -1,0 +1,26 @@
+# Dependabot — review and merge only after CI (e2e + secret-scan) passes.
+# See docs/RELEASING.md for update workflow.
+
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        patterns:
+          - pytest
+          - reportlab
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3

@@ -1,0 +1,36 @@
+name: Bug report
+description: Something broken in the MVP proof gate, pipeline, or docs
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Run `make e2e` first and paste the output if the proof gate fails.
+        Do **not** attach real FOIA data or production PII.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      placeholder: Expected vs actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. uv sync --extra dev
+        2. make e2e
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "OS, Python 3.12.x, uv version"
+    validations:
+      required: false

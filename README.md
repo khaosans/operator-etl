@@ -261,7 +261,10 @@ make share   # regenerates docs/share/latest/ after e2e
 ## Contributing · Security · Changelog
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) — PR checklist and OKF conventions
+- [docs/RELEASING.md](docs/RELEASING.md) — safe dependency and release workflow
+- [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md) — checklist before making repo public
 - [SECURITY.md](SECURITY.md) — reporting, secrets policy, production readiness
 - [CHANGELOG.md](CHANGELOG.md) — release history
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
-Private repository — government / operator use. See [LICENSE](LICENSE).
+Private repository — government / operator use. See [LICENSE](LICENSE). Apache-2.0 prepared at [LICENSE.apache-2.0.txt](LICENSE.apache-2.0.txt) for public flip.

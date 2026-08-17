@@ -17,7 +17,7 @@ All notable changes to this project are documented here and in [okf/log.md](okf/
 
 ### Changed
 
-- White paper status sync: agentic layers IMPLEMENTED, 24 tests
+- White paper status sync: agentic layers IMPLEMENTED, 29 tests
 - Primary demo: FOIA public comments (orders demo retained)
 
 ## [0.2.0] — 2026-08-17

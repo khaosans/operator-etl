@@ -1,5 +1,13 @@
 # OKF changelog
 
+## 2026-08-17 (public readiness + safety automation)
+
+- docs/PUBLIC-READINESS.md, docs/RELEASING.md — go-public gate and update workflow
+- GitHub: Dependabot, gitleaks secret scan, PR/issue templates, CODEOWNERS
+- CODE_OF_CONDUCT.md; SECURITY.md advisory link; CI `uv sync --frozen`
+- LICENSE.apache-2.0.txt prepared; local paths scrubbed from share PDF sources
+- CHANGELOG 29-test count fix
+
 ## 2026-08-17 (doc cleanup + repo hygiene)
 
 - docs/README reading paths by persona; Tier-2 When to read / See also headers
