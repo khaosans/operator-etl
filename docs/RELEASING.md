@@ -74,8 +74,9 @@ make share    # runs e2e first, then rebuilds PDFs
 
 Checklist: [FINAL-REVIEW.md](FINAL-REVIEW.md) pre-scale · [okf/playbooks/qa-before-share.md](../okf/playbooks/qa-before-share.md)
 
-While repo is **private**: attach PDFs only.  
-When **public** (see [PUBLIC-READINESS.md](PUBLIC-READINESS.md)): link repo + optional PDFs.
+While preparing external posts: link repo + optional PDFs from [share/README.md](share/README.md).
+
+When repo is **public**: link https://github.com/khaosans/operator-etl and invite `make e2e`.
 
 ---
 

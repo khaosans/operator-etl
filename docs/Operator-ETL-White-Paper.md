@@ -963,7 +963,7 @@ Operator ETL is an **agentic system that works** because agents have a narrow, e
 
 **Ship now:** FOIA MVP — `./scripts/demo_mvp.sh` — 12 comments, 10 silver, 2 quarantined, critic-verified insight.
 
-**Share externally:** PDFs in `docs/share/` (repo private).
+**Share externally:** Clone https://github.com/khaosans/operator-etl and run `make e2e`. PDFs for decks: `docs/share/`.
 
 **Build next:** BigQuery gold dialect lift, HITL gov dashboard polish, Regulations.gov adapter.
 

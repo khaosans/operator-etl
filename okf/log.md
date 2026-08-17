@@ -1,5 +1,13 @@
 # OKF changelog
 
+## 2026-08-17 (open source + educational docs)
+
+- LICENSE → Apache-2.0; pyproject license metadata
+- docs/WHY.md — marketing/education with Mermaid (chatbot trap, medallion, critic, MCP)
+- README rewrite: badges, diagrams, public share messaging
+- Diagrams added to HOW-IT-WORKS, WALKTHROUGH, FOUNDATIONS, GETTING-STARTED
+- Public messaging sweep; share/README links repo; implementation-status Public GitHub IMPLEMENTED
+
 ## 2026-08-17 (public readiness + safety automation)
 
 - docs/PUBLIC-READINESS.md, docs/RELEASING.md — go-public gate and update workflow

@@ -136,11 +136,28 @@ Same graph nodes, PII policy, critic, and MCP allowlist in both environments.
 
 Policy: [okf/decisions/mcp-allowlist-only.md](../okf/decisions/mcp-allowlist-only.md)
 
+```mermaid
+flowchart LR
+  Agent[AI agent] --> MCP[operator-etl-mcp]
+  MCP --> Allow[get_gold_metrics<br/>run_quality_sql<br/>get_run_status]
+  MCP -.->|blocked| Deny[vault_decrypt<br/>raw SQL<br/>auto-publish]
+```
+
 ---
 
 ## Why this design
 
-Operator ETL separates **deterministic ETL** (medallion warehouse, SQL marts) from **bounded agents** (LangGraph orchestration, MCP allowlist). PII never reaches unconstrained tools; the critic rejects insight numbers that do not exist in gold. Each invariant maps to an authoritative source and a pytest — see [FOUNDATIONS.md](FOUNDATIONS.md).
+Operator ETL separates **deterministic ETL** (medallion warehouse, SQL marts) from **bounded agents** (LangGraph orchestration, MCP allowlist). PII never reaches unconstrained tools; the critic rejects insight numbers that do not exist in gold.
+
+```mermaid
+flowchart LR
+  Draft[insight draft] --> Critic{critic}
+  Gold[(gold marts)] --> Critic
+  Critic -->|numbers match| OK[persist]
+  Critic -->|999 not in gold| HITL[retry or needs_human]
+```
+
+Each invariant maps to an authoritative source and a pytest — see [FOUNDATIONS.md](FOUNDATIONS.md).
 
 ---
 

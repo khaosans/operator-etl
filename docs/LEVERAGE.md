@@ -53,4 +53,4 @@ Point agent at this repo
 
 ## Sharing externally
 
-Repo is **private**. Share PDFs from `docs/share/` only. See [QA before share](/okf/playbooks/qa-before-share.md).
+Repo is **public** ([Apache-2.0](https://github.com/khaosans/operator-etl)). Share PDFs from `docs/share/` for slides; link the repo for proof. See [QA before share](/okf/playbooks/qa-before-share.md).

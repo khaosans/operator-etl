@@ -1,21 +1,40 @@
 # Getting started with Operator ETL
 
-Complete setup guide for developers and operators with repo access.
+Complete setup guide for developers, operators, and reviewers.
 
 **When to read:** After [README.md](../README.md) quick start — you need install steps, MCP, env vars, or troubleshooting.
 
-**Repository (private):** https://github.com/khaosans/operator-etl
+**Repository:** https://github.com/khaosans/operator-etl (Apache-2.0)
 
 ---
 
-## 1. Access and clone
+## Learning path
 
-This repository is **private**. Request access from the repository owner, then:
+```mermaid
+flowchart LR
+  Clone[Clone repo] --> Install[uv sync]
+  Install --> E2E[make e2e]
+  E2E --> Walk[WALKTHROUGH]
+  Walk --> Deep[HOW-IT-WORKS or WHY]
+```
+
+| Step | Doc | Time |
+|---|---|---|
+| Understand the problem | [WHY.md](WHY.md) | ~5 min |
+| Install and verify | This guide §1–3 | ~10 min |
+| See the test case work | [WALKTHROUGH.md](WALKTHROUGH.md) | ~15 min |
+| Runtime model | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | ~10 min |
+
+---
+
+## 1. Clone
 
 ```bash
 git clone https://github.com/khaosans/operator-etl.git
 cd operator-etl
 ```
+
+Forks welcome — run `make e2e` before opening a PR. See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 ---
 

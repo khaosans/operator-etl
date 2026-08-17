@@ -30,7 +30,7 @@ timestamp: 2026-08-17T00:00:00Z
 | Presidio PII | **SPECIFIED** | — | regex scanner shipped |
 | Regulations.gov API | **SPECIFIED** | — | — |
 | BQ gold mart dialect | **PARTIAL** | — | DuckDB SQL; BQ lift pending |
-| Public GitHub | **SPECIFIED** | — | repo stays private |
+| Public GitHub | **IMPLEMENTED** | — | https://github.com/khaosans/operator-etl (Apache-2.0) |
 
 Audit: [docs/FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md)
 

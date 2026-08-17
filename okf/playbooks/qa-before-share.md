@@ -1,14 +1,14 @@
 ---
 type: Playbook
 title: QA before share
-description: Checklist before posting PDFs externally (repo stays private)
+description: Checklist before posting PDFs or social copy externally
 tags: [share, qa]
 timestamp: 2026-08-17T00:00:00Z
 ---
 
 # QA before share
 
-External posts use **PDFs only** — never link the private repo.
+External posts should link the **public repo** and attach PDFs when useful.
 
 ## Checklist
 
@@ -17,12 +17,11 @@ External posts use **PDFs only** — never link the private repo.
 - [ ] White paper badges match [implementation status](/models/implementation-status.md)
 - [ ] One-pager PDF opens cleanly
 - [ ] No secrets, warehouse files, or vault keys in share folder
-- [ ] LinkedIn/post copy reviewed — attach PDFs from `docs/share/latest/`
+- [ ] Post copy includes https://github.com/khaosans/operator-etl and `make e2e` invite
 
 ## Do not share
 
-- Repository URL
 - `warehouse/*.duckdb`, `pii_vault.json`
-- Unredacted sample rows with real PII (sample CSV uses synthetic data)
+- Unredacted production FOIA data (sample CSV uses synthetic patterns only)
 
 See [`docs/share/README.md`](/docs/share/README.md).

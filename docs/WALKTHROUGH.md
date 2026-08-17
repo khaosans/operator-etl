@@ -20,7 +20,29 @@ flowchart LR
 
 Or run the helper: `./scripts/walkthrough.sh`
 
-**What each test defends:** See the [proof matrix in FOUNDATIONS.md](FOUNDATIONS.md#proof-matrix) — each invariant links to a source, code path, and verify command.
+**What each test defends:** See the [proof matrix in FOUNDATIONS.md](FOUNDATIONS.md#proof-matrix).
+
+### Pipeline sequence (FOIA demo)
+
+```mermaid
+sequenceDiagram
+  participant CSV as public_comments.csv
+  participant ETL as operator_etl
+  participant PII as PII gate
+  participant Graph as LangGraph
+  participant Critic as critic
+  participant WH as DuckDB warehouse
+
+  CSV->>ETL: ingest 12 rows
+  ETL->>WH: bronze_raw
+  ETL->>PII: scan bodies
+  PII->>WH: silver 10 + quarantine 2
+  ETL->>WH: gold KPIs
+  Graph->>WH: quality + insight via MCP
+  Graph->>Critic: verify numbers
+  Critic->>WH: persist insight
+  Note over Graph,Critic: status=complete
+```
 
 ---
 

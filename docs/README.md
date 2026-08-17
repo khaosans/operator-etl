@@ -8,12 +8,12 @@ All Operator ETL documentation, organized by audience. **Start at [README.md](..
 
 | Persona | Path |
 |---|---|
-| **New engineer (30 min)** | README → GETTING-STARTED → `make e2e` → WALKTHROUGH |
+| **New engineer (30 min)** | README → [WHY.md](WHY.md) → GETTING-STARTED → `make e2e` → WALKTHROUGH |
 | **Architect evaluating design** | README trade-offs → FOUNDATIONS → FINAL-REVIEW → white paper §3 ADRs |
 | **FOIA / agency operator** | FOIA guide → WALKTHROUGH dashboard step → HOW-IT-WORKS lifecycle |
 | **Scaling to GCP** | FINAL-REVIEW pre-scale → SCALING → [infra/README.md](../infra/README.md) |
 | **AI agent** | AGENTS.md → okf/index → skills |
-| **External share** | FINAL-REVIEW scope → share/README → `make share` |
+| **External share** | WHY.md → FINAL-REVIEW scope → share/README → repo link + `make share` |
 
 **Doc tiers:** Tier 1 = README · Tier 2 = GETTING-STARTED, WALKTHROUGH, HOW-IT-WORKS · Tier 3 = FOUNDATIONS, FINAL-REVIEW, SCALING, white paper
 
@@ -32,7 +32,8 @@ Proof gate: `make e2e` from repo root.
 
 | Goal | Doc |
 |---|---|
-| **Why this design** | [FOUNDATIONS.md](FOUNDATIONS.md) |
+| **Why this exists** | [WHY.md](WHY.md) |
+| **Why this design (citations)** | [FOUNDATIONS.md](FOUNDATIONS.md) |
 | **Understand the system** | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) |
 | **See test case work** | [WALKTHROUGH.md](WALKTHROUGH.md) |
 | **Scale to GCP** | [SCALING.md](SCALING.md) |
@@ -75,14 +76,15 @@ Proof gate: `make e2e` from repo root.
 
 ## Share / post externally
 
-Repo is **private**. Attach PDFs only — not the GitHub URL.
+**Public repo:** https://github.com/khaosans/operator-etl (Apache-2.0)
 
 | Doc | Description |
 |---|---|
-| [share/README.md](share/README.md) | What to attach, suggested post copy |
+| [WHY.md](WHY.md) | Educational overview for posts and interviews |
+| [share/README.md](share/README.md) | PDF bundle + suggested post copy |
 | [share/latest/](share/latest/) | Current PDF bundle |
 
-Regenerate: `make share`
+Attach PDFs when useful; always invite reviewers to run `make e2e`. Regenerate: `make share`
 
 ---
 
@@ -92,7 +94,7 @@ Regenerate: `make share`
 |---|---|
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | PR checklist |
 | [RELEASING.md](RELEASING.md) | Safe updates, Dependabot, version bumps |
-| [PUBLIC-READINESS.md](PUBLIC-READINESS.md) | Checklist before making repo public |
+| [PUBLIC-READINESS.md](PUBLIC-READINESS.md) | OSS checklist and GitHub settings |
 | [SECURITY.md](../SECURITY.md) | Secrets and PII policy |
 | [CHANGELOG.md](../CHANGELOG.md) | Release history |
 | [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) | Community standards |

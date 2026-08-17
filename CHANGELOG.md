@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented here and in [okf/log.md](okf/log.md).
 
+## [0.4.0] — 2026-08-17
+
+### Added
+
+- Apache License 2.0 — open source release
+- [docs/WHY.md](docs/WHY.md) — educational overview with Mermaid diagrams
+- Expanded README, HOW-IT-WORKS, WALKTHROUGH, FOUNDATIONS with diagrams
+
+### Changed
+
+- Public messaging across docs (repo link + `make e2e` invite)
+- Share pack copy links GitHub; implementation-status Public GitHub IMPLEMENTED
+- [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md) — post-OSS maintenance checklist
+
 ## [0.3.0] — 2026-08-17
 
 ### Added

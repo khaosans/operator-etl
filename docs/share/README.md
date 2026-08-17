@@ -1,6 +1,8 @@
 # External share pack
 
-**Repository is private.** When posting on LinkedIn, interviews, or proposals, attach PDFs from this folder — not the repo URL.
+PDFs for interviews, LinkedIn, proposals, and conference talks. The **source of truth is the public repo** — always invite reviewers to clone and run `make e2e`.
+
+**Repo:** https://github.com/khaosans/operator-etl
 
 ## What to attach
 
@@ -13,24 +15,22 @@
 ## Regenerate before sharing
 
 ```bash
-./harness/e2e.sh          # must pass first
-./scripts/share_pack.sh   # rebuilds PDFs → docs/share/latest/
+make share   # runs e2e first, then rebuilds PDFs → docs/share/latest/
 ```
 
-**Pre-share checklist:** Run the [FINAL-REVIEW.md](../FINAL-REVIEW.md) pre-scale checklist and [okf/playbooks/qa-before-share.md](/okf/playbooks/qa-before-share.md).
+**Pre-share checklist:** [FINAL-REVIEW.md](../FINAL-REVIEW.md) · [okf/playbooks/qa-before-share.md](/okf/playbooks/qa-before-share.md)
 
-## Suggested post copy (edit freely)
+## Suggested post copy
 
-> Most "AI ETL" demos leak PII and hallucinate KPIs. Operator ETL separates deterministic medallion ETL from LangGraph orchestration — with a critic that rejects any insight number not in the warehouse. We built it for FOIA / public comment intake: 12 sample comments → 10 validated, 2 quarantined, PII flagged before release. Attached: one-pager + white paper.
+> Most "AI ETL" demos leak PII and hallucinate KPIs. [Operator ETL](https://github.com/khaosans/operator-etl) separates deterministic medallion ETL from LangGraph orchestration — with a critic that rejects any insight number not in the warehouse. Built for FOIA / public comment intake: clone it, run `make e2e`, and watch 12 sample comments → 10 validated, 2 quarantined, PII flagged before release. Attached: one-pager + white paper.
 
 ## Do not share
 
-- GitHub repository link (private)
-- Raw sample CSV with synthetic PII patterns in public contexts without context
-- `warehouse/` files or vault keys
+- Raw sample CSV without noting **synthetic PII** (emails/phones are fake test patterns)
+- `warehouse/` files, vault keys, or `.env` from local runs
 
 ## Latest bundle
 
-After running `share_pack.sh`, files appear in `docs/share/latest/`.
+After `make share`, files appear in `docs/share/latest/`.
 
-Dated archives: `docs/share/releases/YYYYMMDD/`
+Dated archives (gitignored): `docs/share/releases/YYYYMMDD/`

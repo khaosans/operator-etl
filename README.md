@@ -3,35 +3,64 @@
 **Agentic data intake for FOIA and public comments** — deterministic medallion warehouse, LangGraph orchestration, MCP tool surface, PII policy plane.
 
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
-**Thesis:** Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Tests prove the invariants — no LLM API key required for the MVP demo.
+> **Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Tests prove the invariants** — no LLM API key required for the MVP demo.
 
 Built for government agencies and regulated bodies that must intake public comments, detect PII before release, quarantine bad rows, and produce **defensible insights** (every number verified against the warehouse).
 
----
-
-## The problem
-
-Regulatory agencies cannot safely give a chatbot direct warehouse access for FOIA and public-comment workflows:
-
-- **PII leaks** before redaction review — emails and phones in bodies must never reach unconstrained agent context
-- **Hallucinated counts** in leadership memos — numbers that do not exist in the warehouse cannot be defended under audit
-- **Non-replayable runs** — without checkpoints and immutable bronze, you cannot answer "what ran when" in court or oversight
-
-Operator ETL separates **deterministic ETL** from **bounded agent orchestration**. Agency workflow detail: [docs/FOIA-Public-Comments-Guide.md](docs/FOIA-Public-Comments-Guide.md)
+**New here?** Read [docs/WHY.md](docs/WHY.md) (5 min, diagrams) → run `make e2e` → follow [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md).
 
 ---
 
-## How we solve it
-
-Three planes — each with a narrow job:
+## Why not give the chatbot your warehouse?
 
 ```mermaid
 flowchart LR
-  CSV[CSV intake] --> Data[Data plane SQL]
-  Data --> Policy[Policy plane PII]
-  Policy --> Control[Control plane LangGraph]
-  Control --> Insight[critic verified insight]
+  subgraph problem [The usual demo]
+    A[Chatbot + SQL] --> W[(Warehouse)]
+    A --> M[Memo with KPIs]
+  end
+
+  subgraph fail [Three failures]
+    F1[PII in context]
+    F2[Hallucinated counts]
+    F3[No replay audit]
+  end
+
+  M --> fail
+```
+
+Operator ETL **separates** deterministic ETL from bounded agents. PII never reaches unconstrained tools; the **critic** rejects insight numbers that are not in gold; **bronze** gives you an immutable audit trail.
+
+Deep dive: [docs/WHY.md](docs/WHY.md) · Agency workflow: [docs/FOIA-Public-Comments-Guide.md](docs/FOIA-Public-Comments-Guide.md)
+
+---
+
+## How it works — three planes
+
+```mermaid
+flowchart TB
+  subgraph data [Data plane]
+    direction TB
+    CSV[CSV intake] --> Bronze[bronze_raw]
+    Bronze --> Silver[silver validated]
+    Bronze --> Quarantine[quarantine]
+    Silver --> Gold[gold SQL marts]
+  end
+
+  subgraph policy [Policy plane]
+    PII[PII scan + vault]
+    Bronze --> PII
+  end
+
+  subgraph control [Control plane]
+    Graph[LangGraph]
+    MCP[MCP allowlist]
+    Critic[critic]
+    Graph --> MCP --> Gold
+    Graph --> Critic --> Insight[verified insight]
+  end
 ```
 
 | Plane | Role |
@@ -40,7 +69,30 @@ flowchart LR
 | **Policy** | PII scan, encrypted vault, fail-closed before insight. Vault never exposed via MCP. |
 | **Control** | LangGraph pipeline, MCP allowlisted tools, critic verifies every number in the insight draft. |
 
-Details: [okf/models/three-planes.md](okf/models/three-planes.md) · [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md)
+Details: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · [okf/models/three-planes.md](okf/models/three-planes.md)
+
+---
+
+## Prove it in 60 seconds
+
+```bash
+git clone https://github.com/khaosans/operator-etl.git
+cd operator-etl
+uv sync --extra dev
+make e2e
+```
+
+**Expected:** OKF validation passes, **29 pytest** pass, FOIA demo prints `status=complete` and `silver=10`.
+
+```mermaid
+flowchart LR
+  E2E[make e2e] --> OKF[OKF validate]
+  E2E --> Tests[29 pytest]
+  E2E --> Demo[FOIA demo]
+  Demo --> Result[10 silver · 2 quarantined · critic pass]
+```
+
+Full setup: [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) · Step-by-step: [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)
 
 ---
 
@@ -50,35 +102,9 @@ Details: [okf/models/three-planes.md](okf/models/three-planes.md) · [docs/HOW-I
 |---|---|
 | Does it work locally? | `make e2e` — OKF validate, **29 pytest**, FOIA demo on fresh warehouse |
 | What does CI prove? | Same gate on every push ([badge above](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)) |
-| What is **not** proven in CI? | Live GCP deploy, Presidio PII, LLM-generated insights — see honest audit below |
+| What is **not** proven in CI? | Live GCP deploy, Presidio PII, LLM-generated insights — see honest audit |
 
-**Step-by-step:** [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) · **Full audit:** [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md)
-
----
-
-## Quick start
-
-```bash
-git clone https://github.com/khaosans/operator-etl.git
-cd operator-etl
-uv sync --extra dev
-make e2e
-```
-
-**Expected:** OKF validation passes, 29 tests pass, FOIA demo prints `status=complete` and `silver=10`.
-
-Full setup (MCP, dashboard, env vars, troubleshooting): **[docs/GETTING-STARTED.md](docs/GETTING-STARTED.md)**
-
-**How it works →** [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · **See it work →** [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) · **Scale out →** [docs/SCALING.md](docs/SCALING.md)
-
-### Prerequisites
-
-| Requirement | Version | Notes |
-|---|---|---|
-| Python | 3.12+ | Required by `pyproject.toml` |
-| [uv](https://docs.astral.sh/uv/) | latest | Package manager (recommended) |
-| git | any | Clone and contribute |
-| Docker | optional | Only for `make docker-build` / GCP |
+**Proof matrix:** [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) · **Full audit:** [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md)
 
 ---
 
@@ -98,61 +124,50 @@ Details: [okf/models/mvp-demo.md](okf/models/mvp-demo.md)
 
 ## Engineering trade-offs
 
-Decisions we made for this demo — and when you might choose differently:
-
 | Decision | We chose | Benefit | Cost | When to change |
 |---|---|---|---|---|
 | Local warehouse | DuckDB | Zero-infra proof on a laptop | Not multi-tenant | Stage L3 BigQuery — [SCALING.md](docs/SCALING.md) |
-| PII detection | Regex MVP | Simple, testable, no ML deps | Misses names, addresses; no gray-zone HITL | Presidio for production |
+| PII detection | Regex MVP | Simple, testable, no ML deps | Misses names, addresses | Presidio for production |
 | Insight generation | Template + critic | No API key; deterministic | Less narrative flexibility | LLM node when agency approves |
-| Agent data access | MCP allowlist (3 tools) | Least privilege ([MCP spec](https://modelcontextprotocol.io/)) | No ad-hoc SQL exploration | Do not relax for prod FOIA |
-| Quality failures | Fail-closed ([Goodhart](docs/FOUNDATIONS.md#references)) | Trustworthy KPIs | Blocks insights until upstream fixed | Avoid warn-and-show banners |
-| Scale trigger | CLI → GCS/Pub/Sub | Same graph, different warehouse | Manual Terraform step | [infra/README.md](infra/README.md) |
+| Agent data access | MCP allowlist (3 tools) | Least privilege | No ad-hoc SQL exploration | Do not relax for prod FOIA |
+| Quality failures | Fail-closed | Trustworthy KPIs | Blocks insights until fixed | Avoid warn-and-show banners |
 
-Full proof matrix and bibliography: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)**
-
----
-
-## Standards we cite
-
-We ground design choices in established patterns — each linked to a test in FOUNDATIONS:
-
-- **[1] Medallion architecture** — bronze/silver/gold audit trail ([Databricks](https://www.databricks.com/glossary/medallion-architecture))
-- **[4] Model Context Protocol** — typed agent tools, not raw warehouse access
-- **[5] NIST SP 800-122** — PII confidentiality before release
-- **[8] NIST AI RMF** — human oversight; agents orchestrate, humans publish
-- **[10] OWASP LLM Top 10** — excessive agency mitigated by MCP allowlist
-
-Full references (10 sources): [docs/FOUNDATIONS.md#references](docs/FOUNDATIONS.md#references) · Standards index: [docs/STANDARDS.md](docs/STANDARDS.md)
+Full proof matrix: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)**
 
 ---
 
 ## Who this is for
 
-| Role | What you need | Start here |
-|---|---|---|
-| **FOIA officer** | PII flags, redaction queue, defensible summary | Gov dashboard tab after demo |
-| **Data engineer** | Extend sources, deploy infra, lift to BigQuery | [GETTING-STARTED.md](docs/GETTING-STARTED.md) → [SCALING.md](docs/SCALING.md) |
-| **AI agent (MCP)** | Gold KPIs and allowlisted quality SQL only | [AGENTS.md](AGENTS.md), `operator-etl-mcp` |
-| **Reviewer / adopter** | Proof the build works before trusting claims | `make e2e` → [WALKTHROUGH.md](docs/WALKTHROUGH.md) |
+| Role | Start here |
+|---|---|
+| **FOIA officer** | [FOIA guide](docs/FOIA-Public-Comments-Guide.md) → Gov dashboard tab |
+| **Data engineer** | [GETTING-STARTED](docs/GETTING-STARTED.md) → [SCALING](docs/SCALING.md) |
+| **Architect / reviewer** | [WHY](docs/WHY.md) → [FOUNDATIONS](docs/FOUNDATIONS.md) → `make e2e` |
+| **AI agent (MCP)** | [AGENTS.md](AGENTS.md) · `operator-etl-mcp` |
 
 ---
 
 ## Adopter ladder
 
-| Level | Action | Outcome |
+```mermaid
+flowchart LR
+  L0[L0 Prove make e2e] --> L1[L1 Run locally]
+  L1 --> L2[L2 Extend source]
+  L2 --> L3[L3 GCP staging]
+  L3 --> L4[L4 Production HITL]
+```
+
+| Level | Action | Doc |
 |---|---|---|
-| **0 — Prove** | `make e2e` | 29 tests + FOIA demo pass |
-| **1 — Run locally** | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | MCP, dashboard, manual pipeline |
-| **2 — Extend** | [okf/playbooks/extend-new-source.md](okf/playbooks/extend-new-source.md) | New CSV source in registry |
-| **3 — GCP staging** | [docs/SCALING.md](docs/SCALING.md) + [infra/README.md](infra/README.md) | Terraform + Cloud Run scaffold |
-| **4 — Production** | [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md) pre-scale checklist | Presidio, HITL, live BQ proof |
+| **0 — Prove** | `make e2e` | [WALKTHROUGH](docs/WALKTHROUGH.md) |
+| **1 — Run locally** | MCP, dashboard | [GETTING-STARTED](docs/GETTING-STARTED.md) |
+| **2 — Extend** | New CSV source | [extend-new-source](okf/playbooks/extend-new-source.md) |
+| **3 — GCP staging** | Terraform + Cloud Run | [SCALING](docs/SCALING.md) |
+| **4 — Production** | Presidio, HITL, live BQ | [FINAL-REVIEW](docs/FINAL-REVIEW.md) |
 
 ---
 
 ## Common commands
-
-Run `make help` for all targets.
 
 | Command | Action |
 |---|---|
@@ -160,25 +175,11 @@ Run `make help` for all targets.
 | `make demo` | FOIA demo only |
 | `make test` | pytest (29 tests) |
 | `uv run etl-graph --source public_comments` | FOIA agentic pipeline |
-| `uv run etl run --source demo` | Orders demo (interviews) |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
 | `uv run operator-etl-mcp` | MCP server for Cursor agents |
-| `make share` | Regenerate PDF share pack (runs e2e first) |
+| `make share` | Regenerate PDF share pack |
 
----
-
-## Configuration
-
-All settings use the `OPERATOR_ETL_` prefix:
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `OPERATOR_ETL_WAREHOUSE` | `warehouse/operator.duckdb` | DuckDB file path |
-| `OPERATOR_ETL_PIPELINE_NAME` | `demo` | Pipeline YAML name |
-| `OPERATOR_ETL_DOMAIN` | `orders` | `orders` or `gov` |
-| `OPERATOR_ETL_BACKEND` | `duckdb` | `duckdb` or `bigquery` |
-
-Full table: [docs/GETTING-STARTED.md#environment-variables](docs/GETTING-STARTED.md#environment-variables)
+Run `make help` for all targets.
 
 ---
 
@@ -192,24 +193,17 @@ Full table: [docs/GETTING-STARTED.md#environment-variables](docs/GETTING-STARTED
 | **MCP** | `operator_etl_mcp/` | IMPLEMENTED |
 | **GCP** | `operator_etl_gcp/` + `infra/` | PARTIAL |
 
-**PARTIAL** = scaffold and unit tests exist; live deploy not proven in CI. Living matrix: [okf/models/implementation-status.md](okf/models/implementation-status.md)
+Living matrix: [okf/models/implementation-status.md](okf/models/implementation-status.md)
 
 ---
 
 ## Scope boundaries
 
-**This demo proves:**
+**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · 29 tests + CI
 
-- Local FOIA pipeline on DuckDB (ingest → PII → silver/quarantine → gold → insight → critic)
-- PII scan and redact, MCP allowlist boundary, fail-closed quality gate
-- 29 automated tests + CI on every push
+**Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E
 
-**Not included in this MVP:**
-
-- Production Presidio PII, Regulations.gov adapter, officer approval workflow
-- Live GCP / BigQuery end-to-end proof (Terraform scaffold only)
-
-**Before production or external scale claims:** [docs/FINAL-REVIEW.md — pre-scale checklist](docs/FINAL-REVIEW.md#pre-scale-checklist)
+Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.md#pre-scale-checklist)
 
 ---
 
@@ -217,40 +211,21 @@ Full table: [docs/GETTING-STARTED.md#environment-variables](docs/GETTING-STARTED
 
 | Doc | Why open it |
 |---|---|
-| [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars, troubleshooting |
-| [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof after `make e2e` |
-| [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations, proof matrix, bibliography |
-| [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md) | Honest audit before share or scale |
-| [docs/README.md](docs/README.md) | Full index and reading paths by persona |
+| [docs/WHY.md](docs/WHY.md) | **Start here** — problem, diagrams, pattern |
+| [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars |
+| [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof |
+| [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations + proof matrix |
+| [docs/README.md](docs/README.md) | Full index by persona |
 
-Also: [HOW-IT-WORKS](docs/HOW-IT-WORKS.md) · [SCALING](docs/SCALING.md) · [white paper](docs/Operator-ETL-White-Paper.md) · [AGENTS.md](AGENTS.md)
-
----
-
-## Repository layout
-
-```
-operator-etl/
-├── okf/              OKF v0.1 knowledge bundle
-├── skills/           Agent skills (Cursor / Claude)
-├── harness/          e2e proof gate (make e2e)
-├── src/              Python packages (data, graph, policy, MCP, GCP)
-├── infra/            GCP Terraform + deploy docs
-├── docs/             Guides, white paper, share PDFs
-├── scripts/          demo_mvp.sh, share_pack.sh, okf_validate.py
-├── pipelines/        Source registry YAML
-├── sql/              Gold marts + MCP allowlist
-├── samples/          Demo CSV data
-└── tests/            pytest (29)
-```
-
-Detailed map: [okf/references/repo-map.md](okf/references/repo-map.md)
+Also: [HOW-IT-WORKS](docs/HOW-IT-WORKS.md) · [SCALING](docs/SCALING.md) · [white paper](docs/Operator-ETL-White-Paper.md)
 
 ---
 
-## Sharing externally
+## Share and present
 
-**Repo is private.** Post PDFs from [docs/share/](docs/share/README.md) only — not the GitHub URL.
+**Open source:** https://github.com/khaosans/operator-etl — clone and run `make e2e`.
+
+For interviews, LinkedIn, or proposals, attach PDFs from [docs/share/](docs/share/README.md) (one-pager, white paper, slides):
 
 ```bash
 make share   # regenerates docs/share/latest/ after e2e
@@ -258,13 +233,12 @@ make share   # regenerates docs/share/latest/ after e2e
 
 ---
 
-## Contributing · Security · Changelog
+## Contributing · License · Security
 
-- [CONTRIBUTING.md](CONTRIBUTING.md) — PR checklist and OKF conventions
-- [docs/RELEASING.md](docs/RELEASING.md) — safe dependency and release workflow
-- [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md) — checklist before making repo public
-- [SECURITY.md](SECURITY.md) — reporting, secrets policy, production readiness
-- [CHANGELOG.md](CHANGELOG.md) — release history
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+Licensed under **[Apache License 2.0](LICENSE)**. Sample data is synthetic — do not commit real FOIA records.
 
-Private repository — government / operator use. See [LICENSE](LICENSE). Apache-2.0 prepared at [LICENSE.apache-2.0.txt](LICENSE.apache-2.0.txt) for public flip.
+- [CONTRIBUTING.md](CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [SECURITY.md](SECURITY.md) · [CHANGELOG.md](CHANGELOG.md)
+- [docs/RELEASING.md](docs/RELEASING.md) — safe updates and dependency workflow
+
+Issues and PRs welcome.

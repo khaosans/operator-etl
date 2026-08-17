@@ -10,7 +10,14 @@ Operator ETL keeps the hard parts deterministic: Python and SQL decide what data
 
 ## Thesis
 
-Government FOIA workflows need an audit trail, PII protection before release, and numbers leadership can defend. The simplest architecture that satisfies all three: **medallion warehouse** (deterministic ETL) + **bounded agents** (LangGraph + MCP allowlist) + **rule-based critic** (every insight number must exist in gold). No LLM is required for the MVP proof — templates and SQL do the work; tests validate the invariants.
+Government FOIA workflows need an audit trail, PII protection before release, and numbers leadership can defend. The simplest architecture that satisfies all three: **medallion warehouse** (deterministic ETL) + **bounded agents** (LangGraph + MCP allowlist) + **rule-based critic** (every insight number must exist in gold).
+
+```mermaid
+flowchart LR
+  Source[Authoritative source] --> Invariant[Design invariant]
+  Invariant --> Code[Code path]
+  Code --> Test[pytest / make e2e]
+```
 
 ---
 
