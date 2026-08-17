@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented here and in [okf/log.md](okf/log.md).
 
+## [0.4.1] — 2026-08-17
+
+### Added
+
+- Five integration tests: gov idempotency, quarantine errors, insight grounding, persist row, MCP gold KPIs
+- [docs/TESTING.md](docs/TESTING.md) — proof map and test inventory
+- Git commit hygiene section in CONTRIBUTING
+- Stricter `demo_mvp.sh` assertions (`quarantined=2`, `pii_findings`)
+
+### Changed
+
+- Test count 29 → 34 across docs and skills
+
 ## [0.4.0] — 2026-08-17
 
 ### Added

@@ -71,3 +71,17 @@ Read [AGENTS.md](AGENTS.md) and load the matching skill under `skills/` before m
 ## Code of Conduct
 
 See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+## Git commit hygiene
+
+**History today:** 10 linear commits from initial implementation → OSS release. No force-push needed — each commit is a coherent milestone (MVP, docs, audit, hygiene, open source).
+
+Going forward:
+
+- **One logical change per commit** — docs-only vs code+tests separate when possible
+- **Message format:** imperative subject (~72 chars), body explains *why* if non-obvious
+- **Before push:** `make e2e` green
+- **Do not** rewrite published `master` history (no `git push --force`) without explicit maintainer agreement
+- **Releases:** tag semver after CHANGELOG + `pyproject.toml` bump (`git tag v0.4.0`)
+
+Full release workflow: [docs/RELEASING.md](docs/RELEASING.md)

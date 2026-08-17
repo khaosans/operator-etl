@@ -14,7 +14,7 @@ echo "warehouse: ${WAREHOUSE}"
 echo ""
 
 echo "== pytest =="
-uv run pytest -q
+PYTEST_SUMMARY="$(uv run pytest -q 2>&1 | tee /dev/stderr | tail -1)"
 
 echo ""
 echo "== FOIA graph pipeline =="
@@ -33,6 +33,8 @@ echo ""
 echo "== assertions =="
 echo "${OUTPUT}" | grep -q "status=complete" || { echo "FAIL: expected status=complete"; exit 1; }
 echo "${OUTPUT}" | grep -q "silver=10" || { echo "FAIL: expected silver=10"; exit 1; }
+echo "${OUTPUT}" | grep -q "quarantined=2" || { echo "FAIL: expected quarantined=2"; exit 1; }
+echo "${OUTPUT}" | grep -q "pii_findings=" || { echo "FAIL: expected pii_findings count"; exit 1; }
 echo "${OUTPUT}" | grep -q -i "comment" || { echo "FAIL: expected insight mentioning comments"; exit 1; }
 
 echo ""
@@ -42,6 +44,6 @@ echo "=========================================="
 echo "  Sample: 12 public comments (EPA/FCC dockets)"
 echo "  Silver: 10 valid | Quarantine: 2"
 echo "  PII gate → gold KPIs → critic-verified insight"
-echo "  Tests:  $(uv run pytest -q 2>&1 | tail -1)"
+echo "  Tests:  ${PYTEST_SUMMARY}"
 echo "  Full gate: ./harness/e2e.sh"
 echo "=========================================="

@@ -911,7 +911,7 @@ steps:
 | Eval | Quality gate threshold test | PII leak golden set, faithfulness set |
 | E2E | CLI + Streamlit manual | GCS upload → Pub/Sub → Cloud Run |
 
-**Current: 29/29 pytest passing.** MVP gate: `./harness/e2e.sh`
+**Current: 29/34 pytest passing.** MVP gate: `./harness/e2e.sh`
 
 | Test file | Validates |
 |---|---|

@@ -82,12 +82,12 @@ uv sync --extra dev
 make e2e
 ```
 
-**Expected:** OKF validation passes, **29 pytest** pass, FOIA demo prints `status=complete` and `silver=10`.
+**Expected:** OKF validation passes, **34 pytest** pass, FOIA demo prints `status=complete` and `silver=10`.
 
 ```mermaid
 flowchart LR
   E2E[make e2e] --> OKF[OKF validate]
-  E2E --> Tests[29 pytest]
+  E2E --> Tests[34 pytest]
   E2E --> Demo[FOIA demo]
   Demo --> Result[10 silver · 2 quarantined · critic pass]
 ```
@@ -100,7 +100,7 @@ Full setup: [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) · Step-by-step: 
 
 | Question | Answer |
 |---|---|
-| Does it work locally? | `make e2e` — OKF validate, **29 pytest**, FOIA demo on fresh warehouse |
+| Does it work locally? | `make e2e` — OKF validate, **34 pytest**, FOIA demo on fresh warehouse |
 | What does CI prove? | Same gate on every push ([badge above](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)) |
 | What is **not** proven in CI? | Live GCP deploy, Presidio PII, LLM-generated insights — see honest audit |
 
@@ -173,7 +173,7 @@ flowchart LR
 |---|---|
 | `make e2e` | Full MVP proof gate (OKF + tests + FOIA demo) |
 | `make demo` | FOIA demo only |
-| `make test` | pytest (29 tests) |
+| `make test` | pytest (34 tests) |
 | `uv run etl-graph --source public_comments` | FOIA agentic pipeline |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
 | `uv run operator-etl-mcp` | MCP server for Cursor agents |
@@ -199,7 +199,7 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 
 ## Scope boundaries
 
-**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · 29 tests + CI
+**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **34 tests** + CI
 
 **Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E
 
@@ -215,6 +215,7 @@ Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.m
 | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars |
 | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof |
 | [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations + proof matrix |
+| [docs/TESTING.md](docs/TESTING.md) | What each test proves |
 | [docs/README.md](docs/README.md) | Full index by persona |
 
 Also: [HOW-IT-WORKS](docs/HOW-IT-WORKS.md) · [SCALING](docs/SCALING.md) · [white paper](docs/Operator-ETL-White-Paper.md)

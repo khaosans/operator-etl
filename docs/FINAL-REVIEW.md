@@ -10,7 +10,7 @@ Honest audit of Operator ETL as of the latest `make e2e` gate. Use this before s
 
 ## Executive summary
 
-Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **29 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
+Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **34 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
 
 What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, Presidio PII, or LLM-generated insights. Those are documented as PARTIAL or SPECIFIED with explicit scale steps.
 
@@ -21,13 +21,17 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 | Capability | Status | How to verify |
 |---|---|---|
 | FOIA end-to-end (DuckDB) | **Proven** | `make e2e`, `tests/test_gov_graph.py` |
-| Medallion + idempotency + quarantine | **Proven** | `tests/test_pipeline.py` |
+| Medallion + idempotency + quarantine | **Proven** | `tests/test_pipeline.py`, `test_gov_ingest_is_idempotent` |
+| Quarantine preserves error reasons | **Proven** | `test_quarantine_preserves_bad_rows_with_errors` |
 | Quality gate fail-closed | **Proven** | `tests/test_quality.py`, `test_graph_needs_human_when_quality_fails` |
 | PII scan + redact | **Proven** | `tests/test_pii.py` |
 | Insight output has no PII leak | **Proven** | `test_graph_insight_contains_no_pii` |
+| Insight numbers grounded in gold | **Proven** | `test_graph_insight_numbers_match_gold_metrics` |
+| Insight persisted to warehouse | **Proven** | `test_graph_persists_insight_row` |
 | Critic rejects hallucinated numbers | **Proven** | `tests/test_critic.py` |
 | Critic exhausted → HITL | **Proven** | `test_critic_exhausted_routes_needs_human` |
 | MCP allowlist permit/deny | **Proven** | `tests/test_mcp_tools.py` |
+| MCP gold KPI read | **Proven** | `test_get_gold_metrics_returns_expected_kpis` |
 | No vault/decrypt in MCP surface | **Proven** | `test_allowlist_has_no_vault_tools` |
 | GCP adapter (unit, no live cloud) | **Proven** | `tests/test_infra.py` |
 | PII ambiguous gray-zone HITL | **Partial** | Regex confidences 0.90–0.95 only; Presidio SPECIFIED — `test_ambiguous_confidence_flags_needs_human` |
@@ -42,7 +46,7 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 flowchart TB
   subgraph proven [Proven in CI]
     E2E[make e2e]
-    Pytest[29 pytest]
+    Pytest[34 pytest]
   end
 
   subgraph partial [Partial]

@@ -93,6 +93,7 @@ Attach PDFs when useful; always invite reviewers to run `make e2e`. Regenerate: 
 | Doc | Description |
 |---|---|
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | PR checklist |
+| [TESTING.md](TESTING.md) | Test proof map and inventory |
 | [RELEASING.md](RELEASING.md) | Safe updates, Dependabot, version bumps |
 | [PUBLIC-READINESS.md](PUBLIC-READINESS.md) | OSS checklist and GitHub settings |
 | [SECURITY.md](../SECURITY.md) | Secrets and PII policy |

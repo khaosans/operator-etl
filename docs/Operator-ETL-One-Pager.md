@@ -23,7 +23,7 @@ Government agencies intake public comments and FOIA requests. Chatbots with data
 ## FOIA MVP (proven)
 
 ```bash
-./harness/e2e.sh    # OKF + 29 tests + FOIA demo
+./harness/e2e.sh    # OKF + 34 tests + FOIA demo
 ```
 
 | Metric | Result |

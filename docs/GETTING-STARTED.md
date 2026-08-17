@@ -80,7 +80,7 @@ make e2e
 
 ```mermaid
 flowchart LR
-  OKF[OKF validate] --> pytest[29 pytest tests]
+  OKF[OKF validate] --> pytest[34 pytest tests]
   pytest --> demo[FOIA demo fresh warehouse]
   demo --> pass[MVP PASS]
 ```

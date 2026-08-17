@@ -10,7 +10,7 @@ How to change Operator ETL without breaking trust signals (CI, tests, share PDFs
 make e2e
 ```
 
-This runs OKF validate, 29 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
+This runs OKF validate, 34 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
 
 For OKF-only doc changes:
 

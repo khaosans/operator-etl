@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-08-17 (test hardening + commit hygiene)
+
+- 5 new integration tests (34 total): gov idempotency, quarantine errors, insight grounding, persist, MCP gold KPIs
+- docs/TESTING.md proof map; demo_mvp.sh stricter assertions
+- CONTRIBUTING git commit hygiene; tag v0.4.1
+
 ## 2026-08-17 (open source + educational docs)
 
 - LICENSE → Apache-2.0; pyproject license metadata
