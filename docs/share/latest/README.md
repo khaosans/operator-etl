@@ -17,7 +17,7 @@
 ./scripts/share_pack.sh   # rebuilds PDFs → docs/share/latest/
 ```
 
-See [okf/playbooks/qa-before-share.md](/okf/playbooks/qa-before-share.md).
+**Pre-share checklist:** Run the [FINAL-REVIEW.md](../FINAL-REVIEW.md) pre-scale checklist and [okf/playbooks/qa-before-share.md](/okf/playbooks/qa-before-share.md).
 
 ## Suggested post copy (edit freely)
 

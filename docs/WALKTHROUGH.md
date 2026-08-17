@@ -2,7 +2,9 @@
 
 Step-by-step guide to verify Operator ETL on your machine after clone. Same proof CI runs on every push.
 
-**Prerequisites:** [GETTING-STARTED.md](GETTING-STARTED.md) §1–2 complete.
+**When to read:** After install — you want to *see* the test case work (SQL, dashboard, CI).
+
+**Prerequisites:** [GETTING-STARTED.md](GETTING-STARTED.md) §1–2 complete · **Start here:** [README.md](../README.md)
 
 ---
 
@@ -161,3 +163,9 @@ Canonical numbers: [okf/models/mvp-demo.md](../okf/models/mvp-demo.md)
 - **Understand architecture:** [HOW-IT-WORKS.md](HOW-IT-WORKS.md)
 - **Scale to GCP:** [SCALING.md](SCALING.md)
 - **Agency workflow:** [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md)
+
+## See also
+
+- [GETTING-STARTED.md](GETTING-STARTED.md) — install, MCP, env vars
+- [FOUNDATIONS.md](FOUNDATIONS.md) — proof matrix and citations
+- [FINAL-REVIEW.md](FINAL-REVIEW.md) — audit before share or scale

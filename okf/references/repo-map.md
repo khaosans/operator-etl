@@ -19,7 +19,7 @@ sql/marts/                  Gold SQL (orders)
 sql/marts/gov/              Gold SQL (FOIA)
 sql/allowlist.yaml          MCP SQL whitelist
 samples/                    Demo CSV + HTTP JSON
-tests/                      pytest (24)
+tests/                      pytest (29)
 evals/                      Golden eval definitions
 infra/terraform/            GCP Terraform
 docs/                       White paper, FOIA guide, share pack

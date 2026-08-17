@@ -25,9 +25,29 @@ New to the repo? Start with [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) �
 
 ## Do not commit
 
-- `warehouse/*.duckdb`, `warehouse/pii_vault.json`, `warehouse/.vault_key`
-- `.env`, secrets, API keys
+See **Repository conventions** below. In short:
+
+- `warehouse/*` runtime files (`.duckdb`, vault, checkpoints) — placeholders only
+- `.env`, secrets, API keys — use `.env.example` as template
+- `.cursor/mcp.json` — local paths; commit `.cursor/mcp.json.example` only
+- `infra/terraform/terraform.tfvars` — use `terraform.tfvars.example`
 - `.tmp/` demo artifacts
+
+## Repository conventions
+
+| Artifact | Commit? | Why |
+|---|---|---|
+| `uv.lock` | Yes | Reproducible installs |
+| `.terraform.lock.hcl` | Yes | Provider version pins (HashiCorp best practice) |
+| `warehouse/.gitkeep`, `drops/inbox/.gitkeep` | Yes | Preserve directory layout |
+| `.env.example`, `infra/env.example` | Yes | Safe env var documentation |
+| `.cursor/mcp.json.example` | Yes | MCP template without local `cwd` |
+| `warehouse/*.duckdb`, vault, checkpoints | No | Runtime PII and local state |
+| `.env`, `terraform.tfvars` | No | Secrets and local config |
+| `.cursor/mcp.json` | No | Machine-specific MCP paths |
+| `docs/share/releases/` | No | Dated share archives; `latest/` is committed |
+
+After `terraform init`, commit any changes to `infra/terraform/.terraform.lock.hcl`.
 
 ## Share / release docs
 

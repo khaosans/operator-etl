@@ -48,8 +48,8 @@ Point agent at this repo
 | 0 | `./harness/e2e.sh` — prove MVP |
 | 1 | [Run local MVP](/okf/playbooks/run-local-mvp.md) |
 | 2 | [Extend new source](/okf/playbooks/extend-new-source.md) |
-| 3 | [Deploy GCP staging](/okf/playbooks/deploy-gcp-staging.md) |
-| 4 | Production HITL + BQ dialect (SPECIFIED) |
+| 3 | [SCALING.md](/docs/SCALING.md) — local → GCP ladder |
+| 4 | [FINAL-REVIEW.md](/docs/FINAL-REVIEW.md) pre-scale checklist + production HITL |
 
 ## Sharing externally
 

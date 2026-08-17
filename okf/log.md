@@ -1,5 +1,15 @@
 # OKF changelog
 
+## 2026-08-17 (doc cleanup + repo hygiene)
+
+- docs/README reading paths by persona; Tier-2 When to read / See also headers
+- Slim README doc section; GETTING-STARTED §3 deduped to WALKTHROUGH
+- Stale test counts (24/17 → 29) in run-local-mvp, repo-map, FOIA guide
+- LEVERAGE adopter L3→SCALING, L4→FINAL-REVIEW; share/README pre-share checklist
+- White paper §5 status badges synced to implementation-status; living-status callout
+- `.gitignore` / `.dockerignore` hygiene; root `.env.example`, `.python-version`
+- CONTRIBUTING repository conventions; SECURITY cross-link
+
 ## 2026-08-17 (readme polish)
 
 - README rewrite: problem, three planes, trust/proof, engineering trade-offs, scope boundaries

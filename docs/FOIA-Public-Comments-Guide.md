@@ -2,6 +2,10 @@
 
 How a government agency (or regulated body) uses **Operator ETL** to intake public comments, prepare FOIA releases, and produce auditable insights — without leaking PII to AI systems.
 
+**When to read:** You run FOIA / public comment intake and need the agency workflow and data model.
+
+**Start here:** [README.md](../README.md) · **See it work:** [WALKTHROUGH.md](WALKTHROUGH.md) dashboard step
+
 ---
 
 ## The problem agencies face
@@ -144,7 +148,7 @@ Gray-zone confidence → `needs_human` (fail closed).
 
 | Eval | Command | Pass condition |
 |---|---|---|
-| Unit + integration | `uv run pytest` | 17/17 pass |
+| Unit + integration | `uv run pytest` | 29/29 pass |
 | PII redaction | `tests/test_pii.py` | No email/phone in redacted text |
 | Critic faithfulness | `tests/test_critic.py` | Hallucinated 999 rejected |
 | Gov graph E2E | `tests/test_gov_graph.py` | status=complete, critic_passed |
@@ -168,3 +172,9 @@ See [`Operator-ETL-White-Paper.md`](Operator-ETL-White-Paper.md) for full GCP, I
 > Public comment intake summary: 10 comments across 2 dockets and 2 agencies. 4 comments flagged for FOIA redaction review (PII rate 0.4). FOIA officers should prioritize redaction queue before release.
 
 Every number in this text is verified against `gold_comment_kpis` by the critic node before persist.
+
+## See also
+
+- [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — lifecycle and three planes
+- [WALKTHROUGH.md](WALKTHROUGH.md) — dashboard and SQL proof steps
+- [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) — full GCP and MCP spec

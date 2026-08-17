@@ -2,6 +2,8 @@
 
 Complete setup guide for developers and operators with repo access.
 
+**When to read:** After [README.md](../README.md) quick start — you need install steps, MCP, env vars, or troubleshooting.
+
 **Repository (private):** https://github.com/khaosans/operator-etl
 
 ---
@@ -71,7 +73,7 @@ This runs three steps in order:
 | Step | What it does |
 |---|---|
 | OKF validate | Checks `okf/` frontmatter and structure |
-| pytest | 24 unit and integration tests |
+| pytest | 29 unit and integration tests |
 | FOIA demo | Fresh warehouse, graph pipeline, output assertions |
 
 **Expected FOIA demo output:**
@@ -88,13 +90,7 @@ Quick demo without OKF validate: `make demo`
 
 **CI:** Green badge on [README.md](../README.md) = same gate on GitHub Actions (Ubuntu runner + Docker build).
 
-| Assertion | Test file |
-|---|---|
-| Graph completes | `tests/test_gov_graph.py` |
-| PII not leaked | `tests/test_pii.py` |
-| Critic faithfulness | `tests/test_critic.py` |
-| MCP allowlist | `tests/test_mcp_tools.py` |
-| E2E smoke | `scripts/demo_mvp.sh` |
+Detailed steps, SQL, dashboard, and test mapping: **[WALKTHROUGH.md](WALKTHROUGH.md)**
 
 ---
 
@@ -177,6 +173,8 @@ All settings use prefix `OPERATOR_ETL_` (see [src/operator_etl/config.py](../src
 
 ### Local (DuckDB)
 
+Copy [.env.example](../.env.example) to `.env` and adjust paths. All variables use prefix `OPERATOR_ETL_`.
+
 | Variable | Default | Description |
 |---|---|---|
 | `OPERATOR_ETL_WAREHOUSE` | `warehouse/operator.duckdb` | DuckDB file path |
@@ -244,3 +242,9 @@ Quarantine rate exceeded 35% or data is stale. Inspect quarantine table and [okf
 | Deploy to GCP | [okf/playbooks/deploy-gcp-staging.md](../okf/playbooks/deploy-gcp-staging.md) |
 | Standards we follow | [docs/STANDARDS.md](STANDARDS.md) |
 | Share PDFs externally | [docs/share/README.md](share/README.md) |
+
+## See also
+
+- [README.md](../README.md) — problem, design, quick start
+- [WALKTHROUGH.md](WALKTHROUGH.md) — step-by-step proof after install
+- [docs/README.md](README.md) — full index and reading paths

@@ -215,20 +215,15 @@ Full table: [docs/GETTING-STARTED.md#environment-variables](docs/GETTING-STARTED
 
 ## Documentation
 
-| Doc | Audience |
+| Doc | Why open it |
 |---|---|
-| [docs/README.md](docs/README.md) | Documentation index (depth after README) |
-| [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Why this design — sources, invariants, tests |
-| [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md) | Proof, scale, security, trade-offs audit |
-| [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) | Usage model and three planes |
-| [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step test case verification |
-| [docs/SCALING.md](docs/SCALING.md) | Local MVP → GCP scale ladder |
-| [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, verify, MCP, troubleshooting |
-| [docs/STANDARDS.md](docs/STANDARDS.md) | Standards and best practices |
-| [AGENTS.md](AGENTS.md) | AI agents — load order |
-| [okf/index.md](okf/index.md) | OKF knowledge bundle |
-| [docs/FOIA-Public-Comments-Guide.md](docs/FOIA-Public-Comments-Guide.md) | Agency workflow |
-| [docs/Operator-ETL-White-Paper.md](docs/Operator-ETL-White-Paper.md) | Full engineering spec |
+| [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars, troubleshooting |
+| [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof after `make e2e` |
+| [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations, proof matrix, bibliography |
+| [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md) | Honest audit before share or scale |
+| [docs/README.md](docs/README.md) | Full index and reading paths by persona |
+
+Also: [HOW-IT-WORKS](docs/HOW-IT-WORKS.md) · [SCALING](docs/SCALING.md) · [white paper](docs/Operator-ETL-White-Paper.md) · [AGENTS.md](AGENTS.md)
 
 ---
 

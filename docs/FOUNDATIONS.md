@@ -2,7 +2,9 @@
 
 Operator ETL keeps the hard parts deterministic: Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Every important invariant has a test you can run locally with `make e2e`.
 
-**Usage:** [HOW-IT-WORKS.md](HOW-IT-WORKS.md) · **See it work:** [WALKTHROUGH.md](WALKTHROUGH.md)
+**When to read:** You need citations, the proof matrix, or bibliography backing design choices.
+
+**Usage:** [HOW-IT-WORKS.md](HOW-IT-WORKS.md) · **See it work:** [WALKTHROUGH.md](WALKTHROUGH.md) · **Start here:** [README.md](../README.md)
 
 ---
 
@@ -55,3 +57,9 @@ Full standards index: [STANDARDS.md](STANDARDS.md)
 8. NIST. (2023). AI Risk Management Framework (AI RMF 1.0). https://www.nist.gov/itl/ai-risk-management-framework — Govern and Map functions; human oversight before production release.
 9. U.S. Congress. 5 U.S.C. § 552 — Freedom of Information Act. https://www.foia.gov/ — public disclosure workflow framing.
 10. OWASP. Top 10 for Large Language Model Applications. https://owasp.org/www-project-top-10-for-large-language-model-applications/ — LLM06 excessive agency mitigated by MCP allowlist.
+
+## See also
+
+- [FINAL-REVIEW.md](FINAL-REVIEW.md) — honest proven/partial/specified audit
+- [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — runtime model and planes
+- [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) — deep engineering spec

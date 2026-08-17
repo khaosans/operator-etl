@@ -4,6 +4,8 @@
 
 ### White Paper — Architecture, MCP Tool Surface, and GCP Implementation
 
+> **Living status:** [implementation-status.md](../okf/models/implementation-status.md) and [FINAL-REVIEW.md](FINAL-REVIEW.md) are authoritative for what is proven today. This document is the engineering deep spec.
+
 ---
 
 ## Document control
@@ -234,7 +236,7 @@ Teams want to “drop data in and get insights.” The naive approach — a chat
 
 ## 5. System architecture
 
-**Status:** IMPLEMENTED (data flow) · SPECIFIED (agent nodes)
+**Status:** IMPLEMENTED (v1 graph) · PARTIAL (GCP lift, Presidio, LLM nodes)
 
 ### 5.1 End-to-end flow
 
@@ -247,8 +249,8 @@ Teams want to “drop data in and get insights.” The naive approach — a chat
          └────┬────┘
               ▼
          ┌─────────┐
-         │ PII gate│  Presidio → tokenize → redact    SPECIFIED
-         └────┬────┘
+         │ PII gate│  regex scan → tokenize → redact IMPLEMENTED
+         └────┬────┘  (Presidio upgrade               SPECIFIED)
               │
      ┌────────┴────────┐
      │ ambiguous PII? │──yes──▶ HITL interrupt
@@ -257,7 +259,7 @@ Teams want to “drop data in and get insights.” The naive approach — a chat
               ▼
     ┌──────────────────┐
     │ schema_map_agent │  MCP: get_canonical_schema   SPECIFIED
-    └────────┬─────────┘
+    └────────┬─────────┘  (not in v1 graph)
               ▼
          ┌─────────┐
          │ validate│  Pydantic → silver / quarantine IMPLEMENTED
@@ -265,8 +267,8 @@ Teams want to “drop data in and get insights.” The naive approach — a chat
          └────┬────┘
               ▼
     ┌──────────────────┐
-    │  quality_agent   │  MCP: run_quality_sql        SPECIFIED
-    └────────┬─────────┘
+    │  quality_agent   │  MCP: run_quality_sql        IMPLEMENTED
+    └────────┬─────────┘  (template + MCP in graph)
               │
      ┌────────┴────────┐
      │ gate pass?      │──no──▶ block KPIs / HITL      IMPLEMENTED
@@ -278,15 +280,15 @@ Teams want to “drop data in and get insights.” The naive approach — a chat
          └────┬────┘
               ▼
     ┌──────────────────┐
-    │  insight_agent   │  MCP: get_gold_metrics       SPECIFIED
-    └────────┬─────────┘
+    │  insight_agent   │  MCP: get_gold_metrics       IMPLEMENTED
+    └────────┬─────────┘  (template + MCP in graph)
               ▼
          ┌─────────┐
-         │ critic  │  faithfulness check              SPECIFIED
+         │ critic  │  faithfulness check              IMPLEMENTED
          └────┬────┘
               ▼
          ┌─────────┐
-         │ persist │  MCP: persist_insight            SPECIFIED
+         │ persist │  MCP: persist_insight            IMPLEMENTED
          └─────────┘
 ```
 
@@ -296,13 +298,13 @@ Teams want to “drop data in and get insights.” The naive approach — a chat
 |---|---|---|
 | File/API extract | Deterministic | IMPLEMENTED |
 | Bronze load | Deterministic | IMPLEMENTED |
-| PII scan/tokenize | Deterministic (+ HITL if ambiguous) | SPECIFIED |
-| Schema mapping | Agent | SPECIFIED |
+| PII scan/tokenize | Deterministic (+ HITL if ambiguous) | IMPLEMENTED (regex); Presidio **SPECIFIED** |
+| Schema mapping | Agent | **SPECIFIED** (not in v1 graph) |
 | Validate/load silver | Deterministic | IMPLEMENTED |
-| Quality diagnosis | Agent | SPECIFIED |
+| Quality diagnosis | Agent | IMPLEMENTED (template + MCP) |
 | Gold SQL | Deterministic | IMPLEMENTED |
-| Insight narrative | Agent | SPECIFIED |
-| Critic | Deterministic rules | SPECIFIED |
+| Insight narrative | Agent | IMPLEMENTED (template + MCP); LLM **SPECIFIED** |
+| Critic | Deterministic rules | IMPLEMENTED |
 
 ---
 

@@ -2,7 +2,9 @@
 
 Honest audit of Operator ETL as of the latest `make e2e` gate. Use this before sharing externally or claiming production readiness.
 
-**Prove it:** `make e2e` · **Walkthrough:** [WALKTHROUGH.md](WALKTHROUGH.md) · **Why:** [FOUNDATIONS.md](FOUNDATIONS.md)
+**When to read:** Before share, scale, or any production-readiness claim.
+
+**Prove it:** `make e2e` · **Walkthrough:** [WALKTHROUGH.md](WALKTHROUGH.md) · **Why:** [FOUNDATIONS.md](FOUNDATIONS.md) · **Start here:** [README.md](../README.md)
 
 ---
 
@@ -145,3 +147,9 @@ Before promoting to GCP staging or external production claims:
 - [SCALING.md](SCALING.md) — local → GCP ladder
 - [FOUNDATIONS.md](FOUNDATIONS.md) — authoritative sources + proof matrix
 - [okf/models/implementation-status.md](../okf/models/implementation-status.md) — IMPLEMENTED vs SPECIFIED
+
+## See also
+
+- [README.md](../README.md) — problem, design, quick start
+- [docs/share/README.md](share/README.md) — external PDF share pack
+- [SECURITY.md](../SECURITY.md) — production readiness controls

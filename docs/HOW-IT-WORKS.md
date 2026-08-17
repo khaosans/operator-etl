@@ -2,7 +2,9 @@
 
 End-to-end usage model for FOIA / public comment intake — local MVP and scaled GCP deployment.
 
-**See it work:** [WALKTHROUGH.md](WALKTHROUGH.md) · **Scale out:** [SCALING.md](SCALING.md)
+**When to read:** You need the runtime flow, three planes, lifecycle, or MCP policy.
+
+**See it work:** [WALKTHROUGH.md](WALKTHROUGH.md) · **Scale out:** [SCALING.md](SCALING.md) · **Start here:** [README.md](../README.md)
 
 ---
 
@@ -155,3 +157,9 @@ This runs OKF validation, 29 pytest tests, and a fresh-warehouse FOIA demo with 
 **CI:** Every push to `master` runs the same gate on GitHub Actions — see the CI badge in [README.md](../README.md).
 
 Step-by-step: [WALKTHROUGH.md](WALKTHROUGH.md)
+
+## See also
+
+- [FOUNDATIONS.md](FOUNDATIONS.md) — why this design; proof matrix
+- [GETTING-STARTED.md](GETTING-STARTED.md) — install and env vars
+- [FINAL-REVIEW.md](FINAL-REVIEW.md) — proven vs specified audit

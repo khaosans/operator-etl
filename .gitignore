@@ -1,3 +1,4 @@
+# Python / uv
 .venv/
 __pycache__/
 *.py[cod]
@@ -8,35 +9,49 @@ __pycache__/
 src/*.egg-info/
 dist/
 build/
-.DS_Store
+
+# Local secrets and env
 .env
 .env.*
 !.env.example
-warehouse/*.duckdb
-warehouse/*.duckdb.wal
-warehouse/checkpoints.db
-warehouse/pii_vault.json
-warehouse/.vault_key
-drops/inbox/*.csv
-drops/inbox/*.json
+
+# Runtime data (warehouse, drops, demo)
+warehouse/*
+!warehouse/.gitkeep
+drops/inbox/*
 !drops/inbox/.gitkeep
 .tmp/
+
+# Harness / agent session artifacts
 features.json
 claude-progress.txt
 init.sh
 e2e-local.sh
 
-# Terraform
+# Terraform — state and secrets (commit .terraform.lock.hcl after terraform init)
 infra/terraform/.terraform/
 infra/terraform/*.tfstate
 infra/terraform/*.tfstate.*
-infra/terraform/.terraform.lock.hcl
 infra/terraform/terraform.tfvars
+infra/terraform/crash.log
+infra/terraform/override.tf
+infra/terraform/*_override.tf
 
-# Share pack dated archives (latest/ is committed)
-docs/share/releases/
-
-# Editor
+# IDE / OS
+.DS_Store
 .idea/
 .vscode/
 *.swp
+Thumbs.db
+
+# Cursor — local MCP config (commit .example only)
+.cursor/mcp.json
+
+# Test / coverage
+.coverage
+.coverage.*
+htmlcov/
+*.log
+
+# Share pack dated archives (latest/ is committed)
+docs/share/releases/

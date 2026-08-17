@@ -2,6 +2,10 @@
 
 From local MVP on a laptop to GCP staging and production. **Prove local first:** `make e2e`.
 
+**When to read:** You are ready to lift beyond DuckDB on a laptop.
+
+**Pre-scale:** [FINAL-REVIEW.md](FINAL-REVIEW.md) pre-scale checklist · **Start here:** [README.md](../README.md)
+
 ---
 
 ## Scale ladder
@@ -150,3 +154,9 @@ Track progress: [okf/models/implementation-status.md](../okf/models/implementati
 - [WALKTHROUGH.md](WALKTHROUGH.md) — local proof
 - [okf/playbooks/deploy-gcp-staging.md](../okf/playbooks/deploy-gcp-staging.md) — deploy playbook
 - [docs/STANDARDS.md](STANDARDS.md) — proof gate required before deploy claims
+
+## See also
+
+- [FINAL-REVIEW.md](FINAL-REVIEW.md) — pre-scale checklist
+- [infra/README.md](../infra/README.md) — Terraform and GCP layout
+- [FOUNDATIONS.md](FOUNDATIONS.md) — proof matrix

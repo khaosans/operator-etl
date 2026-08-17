@@ -4,6 +4,21 @@ All Operator ETL documentation, organized by audience. **Start at [README.md](..
 
 ---
 
+## Reading paths by persona
+
+| Persona | Path |
+|---|---|
+| **New engineer (30 min)** | README → GETTING-STARTED → `make e2e` → WALKTHROUGH |
+| **Architect evaluating design** | README trade-offs → FOUNDATIONS → FINAL-REVIEW → white paper §3 ADRs |
+| **FOIA / agency operator** | FOIA guide → WALKTHROUGH dashboard step → HOW-IT-WORKS lifecycle |
+| **Scaling to GCP** | FINAL-REVIEW pre-scale → SCALING → [infra/README.md](../infra/README.md) |
+| **AI agent** | AGENTS.md → okf/index → skills |
+| **External share** | FINAL-REVIEW scope → share/README → `make share` |
+
+**Doc tiers:** Tier 1 = README · Tier 2 = GETTING-STARTED, WALKTHROUGH, HOW-IT-WORKS · Tier 3 = FOUNDATIONS, FINAL-REVIEW, SCALING, white paper
+
+---
+
 ## New developer or operator
 
 Start here after cloning:
