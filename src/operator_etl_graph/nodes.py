@@ -125,6 +125,8 @@ def critic_node(state: PipelineState) -> dict:
 
 
 def persist_node(state: PipelineState, settings: Settings | None = None) -> dict:
+    if not state.get("quality_passes"):
+        return {"status": "needs_human"}
     if not state.get("critic_passed"):
         return {"status": "needs_human"}
     settings = settings or get_settings()

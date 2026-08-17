@@ -28,7 +28,7 @@ uv sync --extra dev
 make e2e
 ```
 
-**Expected:** OKF validation passes, 24 tests pass, FOIA demo prints `status=complete` and `silver=10`.
+**Expected:** OKF validation passes, 29 tests pass, FOIA demo prints `status=complete` and `silver=10`.
 
 Full setup (MCP, dashboard, env vars, troubleshooting): **[docs/GETTING-STARTED.md](docs/GETTING-STARTED.md)**
 
@@ -58,7 +58,7 @@ Run `make help` for all targets.
 |---|---|
 | `make e2e` | Full MVP proof gate (OKF + tests + FOIA demo) |
 | `make demo` | FOIA demo only |
-| `make test` | pytest (24 tests) |
+| `make test` | pytest (29 tests) |
 | `uv run etl-graph --source public_comments` | FOIA agentic pipeline |
 | `uv run etl run --source demo` | Orders demo (interviews) |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
@@ -114,6 +114,7 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 |---|---|
 | [docs/README.md](docs/README.md) | Documentation index (start here for depth) |
 | [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Why this design — sources, invariants, tests |
+| [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md) | Proof, scale, security, trade-offs audit |
 | [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) | Usage model and three planes |
 | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step test case verification |
 | [docs/SCALING.md](docs/SCALING.md) | Local MVP → GCP scale ladder |
@@ -146,7 +147,7 @@ operator-etl/
 ├── pipelines/        Source registry YAML
 ├── sql/              Gold marts + MCP allowlist
 ├── samples/          Demo CSV data
-└── tests/            pytest (24)
+└── tests/            pytest (29)
 ```
 
 Detailed map: [okf/references/repo-map.md](okf/references/repo-map.md)

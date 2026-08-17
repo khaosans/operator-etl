@@ -4,7 +4,7 @@ import pytest
 
 from operator_etl.config import Settings
 from operator_etl.load.duckdb import connect
-from operator_etl_mcp.tools import ToolDenied, run_allowlisted_sql
+from operator_etl_mcp.tools import ToolDenied, load_allowlist, run_allowlisted_sql
 
 
 def test_allowlist_denies_unknown_query(gov_settings: Settings) -> None:
@@ -26,3 +26,11 @@ def test_allowlist_permits_comment_quality(gov_settings: Settings) -> None:
     result = run_allowlisted_sql(con, "comment_quality", settings=gov_settings)
     con.close()
     assert "quarantine_rate" in result["columns"]
+
+
+def test_allowlist_has_no_vault_tools(gov_settings: Settings) -> None:
+    spec = load_allowlist(gov_settings)
+    for entry in spec.get("queries", []):
+        query_id = entry["id"].lower()
+        assert "vault" not in query_id
+        assert "decrypt" not in query_id

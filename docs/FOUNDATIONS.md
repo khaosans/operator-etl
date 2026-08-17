@@ -25,7 +25,7 @@ Each row links an invariant to an authoritative source, where it lives in code, 
 | No PII in agent context | [5] NIST SP 800-122 | FOIA redaction before release | `operator_etl_policy/pii.py` | `tests/test_pii.py` |
 | Withhold bad KPIs, don't warn-and-show | [6] Goodhart's Law | Metrics that become targets get gamed | `quality_gate` in insights | `tests/test_quality.py` |
 | Insight numbers must match warehouse | [7] Grounded generation (RAG) — simplified to deterministic critic | Defensible memos for leadership | `operator_etl_graph/critic.py` | `tests/test_critic.py` |
-| Human sign-off on release | [8] NIST AI RMF | Agents orchestrate, humans publish | `okf/decisions/agents-never-publish-prod.md`, graph `needs_human` | policy + `tests/test_gov_graph.py` |
+| Human sign-off on release | [8] NIST AI RMF | Agents orchestrate, humans publish | `okf/decisions/agents-never-publish-prod.md`, graph `needs_human` | `tests/test_gov_graph.py` (quality fail), `test_critic_exhausted_routes_needs_human`; PII gray-zone HITL needs Presidio |
 | Public release workflow | [9] FOIA statute | Domain framing for gov tab and marts | FOIA guide, `sql/marts/gov/` | `scripts/demo_mvp.sh` |
 | Limit LLM agency | [10] OWASP LLM Top 10 | Excessive agency → allowlist + no vault MCP | MCP deny paths | `tests/test_mcp_tools.py` |
 
@@ -39,7 +39,7 @@ Full standards index: [STANDARDS.md](STANDARDS.md)
 - **Template insight + rule-based critic** — no LLM API key required for MVP; critic rejects hallucinated numbers deterministically
 - **Regex PII scanner** — covers email, phone, SSN patterns; Presidio optional upgrade (SPECIFIED)
 - **Three MCP tools only** — `get_gold_metrics`, `run_quality_sql`, `get_run_status`
-- **One command proof** — `make e2e` runs OKF validate, 24 pytest tests, and FOIA demo assertions
+- **One command proof** — `make e2e` runs OKF validate, 29 pytest tests, and FOIA demo assertions
 
 ---
 

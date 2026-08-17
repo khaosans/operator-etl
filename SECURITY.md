@@ -20,4 +20,19 @@ Never commit:
 
 ## CI
 
-GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak and critic faithfulness tests.
+GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak, critic faithfulness, MCP allowlist, and HITL routing tests (29 pytest total).
+
+## Production readiness
+
+Before claiming production or staging readiness:
+
+| Control | MVP status | Production requirement |
+|---|---|---|
+| PII detection | Regex (email, phone, SSN) | Presidio or agency-approved scanner |
+| PII gray-zone HITL | Unit-tested path; regex confidences skip gray zone | Presidio confidence thresholds |
+| MCP boundary | 3 allowlisted tools; no vault | Same + HTTP auth on Cloud Run |
+| Auto-publish | Blocked by policy and `persist` gate | Officer sign-off workflow |
+| Warehouse | DuckDB local proof | BigQuery + IAM verified in staging |
+| Secrets | Gitignored locally | Secret Manager in GCP |
+
+Full audit: [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md)

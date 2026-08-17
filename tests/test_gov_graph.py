@@ -6,6 +6,7 @@ from operator_etl.pipeline import ingest_source
 from operator_etl.transform.gov_clean import transform_comments_bronze
 from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
 from operator_etl_graph.graph import run_graph
+from helpers import assert_no_pii_leak
 
 
 def test_public_comments_ingest_and_transform(gov_settings: Settings) -> None:
@@ -38,3 +39,23 @@ def test_graph_pipeline_completes(gov_settings: Settings) -> None:
     assert result["rows_silver"] == 10
     assert result["critic_passed"] is True
     assert "comment" in result["insight_draft"].lower()
+
+
+def test_graph_insight_contains_no_pii(gov_settings: Settings) -> None:
+    set_settings(gov_settings)
+    result = run_graph(source="public_comments", settings=gov_settings)
+    assert_no_pii_leak(result["insight_draft"])
+
+
+def test_graph_needs_human_when_quality_fails(gov_settings: Settings, tmp_path) -> None:
+    strict = Settings(
+        root=gov_settings.root,
+        warehouse=tmp_path / "strict.duckdb",
+        pipeline_name="public_comments",
+        domain="gov",
+        max_quarantine_rate=0.01,
+    )
+    set_settings(strict)
+    result = run_graph(source="public_comments", settings=strict)
+    assert result["quality_passes"] is False
+    assert result["status"] == "needs_human"

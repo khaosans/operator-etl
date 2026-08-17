@@ -21,6 +21,7 @@ Proof gate: `make e2e` from repo root.
 | **Understand the system** | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) |
 | **See test case work** | [WALKTHROUGH.md](WALKTHROUGH.md) |
 | **Scale to GCP** | [SCALING.md](SCALING.md) |
+| **Final audit** | [FINAL-REVIEW.md](FINAL-REVIEW.md) |
 
 ---
 

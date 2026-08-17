@@ -33,7 +33,7 @@ make e2e
 | Step | Tool | Proves |
 |---|---|---|
 | OKF validate | `scripts/okf_validate.py` | Documentation structure |
-| pytest | 24 tests | PII, critic, graph, idempotency, MCP |
+| pytest | 29 tests | PII, critic, graph, idempotency, MCP, HITL |
 | FOIA demo | `scripts/demo_mvp.sh` | End-to-end on fresh warehouse |
 
 **Expected terminal output (FOIA demo section):**

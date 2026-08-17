@@ -35,6 +35,7 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 
 # References
 
+* [Final review](references/final-review.md) — Proven vs partial vs specified audit
 * [Design foundations](references/design-foundations.md) — Sources → invariants → tests
 * [OKF spec](references/okf-spec.md) — Spec pointer
 * [Repo map](references/repo-map.md) — Code layout

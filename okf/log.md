@@ -1,5 +1,12 @@
 # OKF changelog
 
+## 2026-08-17 (final review)
+
+- docs/FINAL-REVIEW.md — proof inventory, scale, security, trade-offs
+- Security tests: needs_human, insight PII leak, MCP no-vault, ambiguous PII
+- persist_node blocks complete when quality gate fails
+- 29 pytest; share PDF regen
+
 ## 2026-08-17 (foundations)
 
 - Added docs/FOUNDATIONS.md — proof matrix linking sources → invariants → tests
