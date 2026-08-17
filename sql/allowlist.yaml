@@ -1,0 +1,25 @@
+queries:
+  - id: quarantine_summary
+    sql: |
+      SELECT error, COUNT(*) AS n
+      FROM quarantine_comments
+      GROUP BY 1 ORDER BY 2 DESC
+    allowed_nodes: [quality_agent]
+
+  - id: comment_quality
+    sql: |
+      SELECT bronze_rows, silver_rows, quarantined_rows, quarantine_rate, last_ingest_at
+      FROM gold_comment_quality
+    allowed_nodes: [quality_agent]
+
+  - id: pii_by_agency
+    sql: |
+      SELECT agency, comments, pii_flagged
+      FROM gold_comments_by_agency
+    allowed_nodes: [quality_agent, insight_agent]
+
+  - id: docket_volume
+    sql: |
+      SELECT docket_id, agency, comments, pii_flagged
+      FROM gold_comments_by_docket
+    allowed_nodes: [quality_agent, insight_agent]

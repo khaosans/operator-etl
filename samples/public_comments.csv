@@ -1,0 +1,13 @@
+comment_id,docket_id,agency,submitted_at,commenter_type,subject,body,pii_detected
+CMT-001,EPA-HQ-OAR-2026-001,EPA,2026-07-01T09:00:00,individual,Support stronger air rule,"I support the proposed rule. Contact me at jane.doe@example.com with questions.",true
+CMT-002,EPA-HQ-OAR-2026-001,EPA,2026-07-01T10:15:00,organization,Oppose timeline,"Our coalition opposes the accelerated timeline without adequate review.",false
+CMT-003,EPA-HQ-OAR-2026-001,EPA,2026-07-02T14:30:00,individual,Personal impact,"This rule affects my family in Ohio. My phone is 614-555-0199.",true
+CMT-004,FCC-24-10,FCC,2026-07-03T11:00:00,individual,Net neutrality,"Restore net neutrality protections for consumers.",false
+CMT-005,FCC-24-10,FCC,2026-07-03T16:45:00,organization,Industry view,"We support flexible framework for ISPs.",false
+CMT-006,EPA-HQ-OAR-2026-001,EPA,2026-07-04T08:20:00,individual,SSN mistake,"Please redact my SSN 123-45-6789 from any release.",true
+CMT-007,EPA-HQ-OAR-2026-001,EPA,2026-07-05T13:10:00,individual,Duplicate test,CMT-007 duplicate will fail on re-ingest same id in file.,false
+CMT-008,EPA-HQ-OAR-2026-001,EPA,2026-07-06T09:00:00,individual,Empty body fail,"",false
+CMT-009,FCC-24-10,FCC,not-a-date,individual,Bad date,Comment with invalid timestamp.,false
+CMT-010,EPA-HQ-OAR-2026-001,EPA,2026-07-07T10:00:00,individual,General support,Strong support for environmental protections.,false
+CMT-011,EPA-HQ-OAR-2026-001,EPA,2026-07-08T11:30:00,individual,Email in body,"Reach me at public.commenter@agency-test.gov for follow up.",true
+CMT-012,FCC-24-10,FCC,2026-07-09T15:00:00,anonymous,Anonymous concern,Concerned about rural broadband access.,false

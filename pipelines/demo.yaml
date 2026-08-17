@@ -1,0 +1,15 @@
+name: demo
+description: Sample orders pipeline — CSV drop, demo file, and HTTP JSON list
+bronze_table: bronze_raw
+silver_table: silver_orders
+quarantine_table: quarantine_orders
+sources:
+  demo:
+    kind: csv
+    path: samples/orders.csv
+  inbox:
+    kind: csv_dir
+    path: drops/inbox
+  http:
+    kind: http
+    url: file:samples/http_orders.json

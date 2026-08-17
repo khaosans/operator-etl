@@ -1,0 +1,28 @@
+{
+  "orders": [
+    {
+      "order_id": "ORD-2001",
+      "customer_id": "CUS-11",
+      "ordered_at": "2026-08-12T09:00:00",
+      "amount": "45.00",
+      "sku": "SKU-WIDGET",
+      "status": "paid"
+    },
+    {
+      "order_id": "ORD-2002",
+      "customer_id": "CUS-12",
+      "ordered_at": "2026-08-12T13:45:00",
+      "amount": "210.00",
+      "sku": "SKU-PRO",
+      "status": "shipped"
+    },
+    {
+      "order_id": "ORD-2003",
+      "customer_id": "CUS-11",
+      "ordered_at": "2026-08-13T08:20:00",
+      "amount": "19.99",
+      "sku": "SKU-GADGET",
+      "status": "paid"
+    }
+  ]
+}

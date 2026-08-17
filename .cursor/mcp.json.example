@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "operator-etl": {
+      "command": "uv",
+      "args": ["run", "operator-etl-mcp"],
+      "cwd": "."
+    }
+  }
+}

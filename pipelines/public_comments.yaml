@@ -1,0 +1,13 @@
+name: public_comments
+description: FOIA / regulatory public comment intake — EPA-style docket comments
+bronze_table: bronze_raw
+silver_table: silver_comments
+quarantine_table: quarantine_comments
+domain: gov
+sources:
+  public_comments:
+    kind: csv
+    path: samples/public_comments.csv
+  comment_inbox:
+    kind: csv_dir
+    path: drops/inbox
