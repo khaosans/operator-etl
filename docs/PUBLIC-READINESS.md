@@ -30,6 +30,8 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 | **Branch protection** on `master` | Require `e2e`, `docker`, `gitleaks` before merge |
 | **Dependabot alerts** | Settings → Code security → enable alerts + security updates |
 | **Repository visibility** | Settings → General → Public (if still private on GitHub) |
+| **Packages tag immutability** | After first GHCR publish: package settings → make tags immutable |
+| **Do not force-push `master` or `v*` tags** | Releases are snapshots; next freeze is a new tag |
 
 ---
 
@@ -57,6 +59,7 @@ Suggested copy: [share/README.md](share/README.md)
 
 ## See also
 
+- [VERSIONING.md](VERSIONING.md) — tags publish; Packages / GHCR
 - [RELEASING.md](RELEASING.md) — safe updates
 - [WHY.md](WHY.md) — educational overview
 - [CONTRIBUTING.md](../CONTRIBUTING.md)

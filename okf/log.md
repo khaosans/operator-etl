@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-08-18 (versioning: tags publish)
+
+- Releases are immutable `v*` tags (GitHub Release + GHCR + GitHub Packages). Merges to master do not publish.
+- Daily PRs use CHANGELOG [Unreleased]; pyproject version only changes on a release PR. See docs/VERSIONING.md.
+
 ## 2026-08-18 (patterns + citations)
 
 - docs/PATTERNS.md teaches medallion, planes, critic, HITL with one reputable source each

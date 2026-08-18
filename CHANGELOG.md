@@ -1,4 +1,24 @@
+# Changelog
+
+All notable changes to this project are documented here.
+
+The format is [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+Versions follow [Semantic Versioning](https://semver.org/). Daily work lands under **[Unreleased]**; a git tag is what publishes. Tags are never moved. Process: [docs/VERSIONING.md](docs/VERSIONING.md).
+
+## [Unreleased]
+
+### Added
+
+- Immutable `v*` tags publish a GitHub Release, GHCR image, and GitHub Packages wheel ([`.github/workflows/release.yml`](.github/workflows/release.yml))
+- [docs/VERSIONING.md](docs/VERSIONING.md) — SemVer, beta vs stable, what not to overwrite
+
+### Changed
+
+- `pyproject.toml` version changes only on a **release PR**. Feature and docs PRs append here and leave the package version alone.
+
 ## [0.4.9] — 2026-08-18
+
+0.4.9 is the last version bumped on every docs PR. Versions 0.4.2–0.4.9 were not git-tagged. Existing tag `v0.4.1` stays; do not backfill. Tagged history starts at `v0.5.0-beta.1` after this process is merged.
 
 ### Added
 

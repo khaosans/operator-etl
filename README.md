@@ -3,6 +3,7 @@
 **Agentic data intake for FOIA and public comments** — deterministic medallion warehouse, LangGraph orchestration, MCP tool surface, PII policy plane.
 
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/khaosans/operator-etl?include_prereleases)](https://github.com/khaosans/operator-etl/releases)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 > **Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Tests prove the invariants** — no LLM API key required for the MVP demo.
@@ -51,6 +52,8 @@ flowchart LR
 ```
 
 Already have uv? `make e2e` · Details: [docs/QUICKSTART.md](docs/QUICKSTART.md) · Step-by-step: [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)
+
+**Published snapshots** are git tags (not every merge). After a release exists: GitHub Releases (wheels), `ghcr.io/khaosans/operator-etl:<version>`, GitHub Packages `operator-etl`. Process: [docs/VERSIONING.md](docs/VERSIONING.md). The wiki always tracks `master`.
 
 ```mermaid
 flowchart LR
@@ -273,6 +276,7 @@ Licensed under **[Apache License 2.0](LICENSE)**. Sample data is synthetic — d
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - [SECURITY.md](SECURITY.md) · [CHANGELOG.md](CHANGELOG.md)
-- [docs/RELEASING.md](docs/RELEASING.md) — safe updates and dependency workflow
+- [docs/VERSIONING.md](docs/VERSIONING.md) — tags publish; do not overwrite a version
+- [docs/RELEASING.md](docs/RELEASING.md) — PR workflow, cut a release, Dependabot
 
 Issues and PRs welcome.

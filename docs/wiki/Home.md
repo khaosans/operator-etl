@@ -28,4 +28,4 @@ Local demo + tests are proven. Live GCP, Presidio, and a **live** LLM API are no
 
 This GitHub Wiki tab is a **pointer** (Home + sidebar only). Articles live in `docs/` so they stay in PRs and CI.
 
-Paste this page from [`docs/wiki/Home.md`](https://github.com/khaosans/operator-etl/blob/master/docs/wiki/Home.md) after enabling Pages. See [RELEASING](https://github.com/khaosans/operator-etl/blob/master/docs/RELEASING.md#github-wiki-tab).
+Paste this page from [`docs/wiki/Home.md`](https://github.com/khaosans/operator-etl/blob/master/docs/wiki/Home.md) after enabling Pages. See [RELEASING](https://github.com/khaosans/operator-etl/blob/master/docs/RELEASING.md#github-wiki-tab). Versions: [VERSIONING](https://khaosans.github.io/operator-etl/VERSIONING/).

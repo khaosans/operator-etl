@@ -22,6 +22,13 @@ dependencies = [
     "typer>=0.15.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/khaosans/operator-etl"
+Documentation = "https://khaosans.github.io/operator-etl/"
+Repository = "https://github.com/khaosans/operator-etl"
+Changelog = "https://github.com/khaosans/operator-etl/blob/master/CHANGELOG.md"
+Releases = "https://github.com/khaosans/operator-etl/releases"
+
 [project.optional-dependencies]
 dev = ["pytest>=8.3.0", "reportlab>=4.2.0"]
 llm = ["langchain-openai>=0.3.0"]

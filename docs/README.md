@@ -106,7 +106,8 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 | Doc | Description |
 |---|---|
 | [CONTRIBUTING.md](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) | PR checklist |
-| [RELEASING.md](RELEASING.md) | Updates, Pages, Wiki paste |
+| [VERSIONING.md](VERSIONING.md) | SemVer, tags, GitHub Packages — do not overwrite |
+| [RELEASING.md](RELEASING.md) | PR workflow, cut a release, Pages, Wiki paste |
 | [PUBLIC-READINESS.md](PUBLIC-READINESS.md) | OSS checklist |
 | [SECURITY.md](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md) | Secrets and PII |
 | [CHANGELOG.md](https://github.com/khaosans/operator-etl/blob/master/CHANGELOG.md) | Release history |
