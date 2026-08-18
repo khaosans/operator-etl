@@ -2,7 +2,7 @@
 
 ## First-time setup
 
-New to the repo? Start with [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) — clone, install, verify with `make e2e`.
+New to the repo? Run **`./scripts/verify.sh`** — or see [docs/QUICKSTART.md](docs/QUICKSTART.md).
 
 **Safe updates:** [docs/RELEASING.md](docs/RELEASING.md) · **Going public:** [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md)
 

@@ -3,10 +3,13 @@
 Every test maps to a claim we make publicly. Run the full gate:
 
 ```bash
-make e2e   # OKF validate + pytest + FOIA demo assertions
+./scripts/verify.sh   # first-time: installs uv, syncs, runs e2e
+make e2e              # if uv already installed
 ```
 
 **34 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+
+[`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
 ---
 

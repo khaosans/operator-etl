@@ -6,9 +6,30 @@ cd "$ROOT"
 
 WAREHOUSE="${ROOT}/.tmp/mvp-demo/operator.duckdb"
 
+inspect_warehouse() {
+  uv run python - <<PY
+import duckdb
+con = duckdb.connect("${WAREHOUSE}")
+print("== layer counts ==")
+print(con.execute("""
+  SELECT 'silver' AS layer, COUNT(*) AS n FROM silver_comments
+  UNION ALL SELECT 'quarantine', COUNT(*) FROM quarantine_comments
+  UNION ALL SELECT 'pii_flagged', COUNT(*) FROM silver_comments WHERE pii_detected
+""").fetchdf().to_string(index=False))
+print("")
+print("== gold_comment_kpis ==")
+print(con.execute("SELECT * FROM gold_comment_kpis").fetchdf().to_string(index=False))
+print("")
+print("== latest insight ==")
+row = con.execute("SELECT text FROM insights ORDER BY created_at DESC LIMIT 1").fetchone()
+print(row[0] if row else "(none)")
+con.close()
+PY
+}
+
 if [[ "${1:-}" == "--inspect-only" ]]; then
   if [[ ! -f "${WAREHOUSE}" ]]; then
-    echo "No demo warehouse at ${WAREHOUSE}. Run: make e2e" >&2
+    echo "No demo warehouse at ${WAREHOUSE}. Run: ./scripts/verify.sh" >&2
     exit 1
   fi
 else
@@ -18,19 +39,7 @@ fi
 
 echo ""
 echo "== Warehouse inspection: ${WAREHOUSE} =="
-duckdb "${WAREHOUSE}" -c "
-  SELECT 'silver' AS layer, COUNT(*) AS n FROM silver_comments
-  UNION ALL SELECT 'quarantine', COUNT(*) FROM quarantine_comments
-  UNION ALL SELECT 'pii_flagged', COUNT(*) FROM silver_comments WHERE pii_detected;
-"
-
-echo ""
-echo "== gold_comment_kpis =="
-duckdb "${WAREHOUSE}" -c "SELECT * FROM gold_comment_kpis;"
-
-echo ""
-echo "== Latest insight =="
-duckdb "${WAREHOUSE}" -c "SELECT text FROM insights ORDER BY created_at DESC LIMIT 1;"
+inspect_warehouse
 
 echo ""
 echo "== Dashboard =="

@@ -72,11 +72,13 @@ uv sync --extra dev --extra gcp
 
 ## 3. Verify installation
 
-Run the full proof gate:
+Run the full proof gate (recommended first run):
 
 ```bash
-make e2e
+./scripts/verify.sh
 ```
+
+Or if uv is already installed: `make e2e`
 
 ```mermaid
 flowchart LR
@@ -92,7 +94,7 @@ This runs three steps in order:
 | Step | What it does |
 |---|---|
 | OKF validate | Checks `okf/` frontmatter and structure |
-| pytest | 29 unit and integration tests |
+| pytest | 34 unit and integration tests |
 | FOIA demo | Fresh warehouse, graph pipeline, output assertions |
 
 **Expected FOIA demo output:**

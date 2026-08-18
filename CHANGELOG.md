@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here and in [okf/log.md](okf/log.md).
 
+## [0.4.2] — 2026-08-17
+
+### Added
+
+- `scripts/verify.sh` — one-command bootstrap (auto uv) + `OPERATOR_ETL_VERIFY=PASS`
+- [docs/QUICKSTART.md](docs/QUICKSTART.md) and [skills/operator-verify](skills/operator-verify/SKILL.md)
+- `make verify`, `make walkthrough`; walkthrough uses Python duckdb
+
 ## [0.4.1] — 2026-08-17
 
 ### Added

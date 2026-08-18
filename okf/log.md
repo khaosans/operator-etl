@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-08-17 (quick verify onboarding)
+
+- scripts/verify.sh — auto uv install, frozen sync, e2e gate, OPERATOR_ETL_VERIFY=PASS
+- docs/QUICKSTART.md; skills/operator-verify/SKILL.md; AGENTS.md fast-verify first
+- make verify / make walkthrough; walkthrough.sh uses Python duckdb (no CLI)
+
 ## 2026-08-17 (test hardening + commit hygiene)
 
 - 5 new integration tests (34 total): gov idempotency, quarantine errors, insight grounding, persist, MCP gold KPIs

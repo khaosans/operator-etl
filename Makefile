@@ -1,14 +1,22 @@
-.PHONY: install sync test e2e demo share docker-build docker-run clean help
+.PHONY: install sync test e2e demo share docker-build docker-run clean help verify walkthrough
 
 help:
 	@echo "Operator ETL — common targets"
+	@echo "  make verify    — bootstrap uv + full proof gate (first-time setup)"
 	@echo "  make install   — uv sync --extra dev"
 	@echo "  make test      — pytest"
 	@echo "  make e2e       — full proof gate (OKF + tests + FOIA demo)"
 	@echo "  make demo      — FOIA MVP demo only"
+	@echo "  make walkthrough — demo + warehouse inspection"
 	@echo "  make share     — regenerate share PDF pack (run e2e first)"
 	@echo "  make docker-build — build Cloud Run image"
 	@echo "  make okf       — validate OKF bundle"
+
+verify:
+	./scripts/verify.sh
+
+walkthrough:
+	./scripts/walkthrough.sh
 
 install sync:
 	uv sync --extra dev

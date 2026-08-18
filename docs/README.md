@@ -8,14 +8,14 @@ All Operator ETL documentation, organized by audience. **Start at [README.md](..
 
 | Persona | Path |
 |---|---|
-| **New engineer (30 min)** | README → [WHY.md](WHY.md) → GETTING-STARTED → `make e2e` → WALKTHROUGH |
+| **New engineer (30 min)** | [QUICKSTART.md](QUICKSTART.md) `./scripts/verify.sh` → WALKTHROUGH |
 | **Architect evaluating design** | README trade-offs → FOUNDATIONS → FINAL-REVIEW → white paper §3 ADRs |
 | **FOIA / agency operator** | FOIA guide → WALKTHROUGH dashboard step → HOW-IT-WORKS lifecycle |
 | **Scaling to GCP** | FINAL-REVIEW pre-scale → SCALING → [infra/README.md](../infra/README.md) |
-| **AI agent** | AGENTS.md → okf/index → skills |
+| **AI agent** | AGENTS.md → [operator-verify](../skills/operator-verify/SKILL.md) → QUICKSTART |
 | **External share** | WHY.md → FINAL-REVIEW scope → share/README → repo link + `make share` |
 
-**Doc tiers:** Tier 1 = README · Tier 2 = GETTING-STARTED, WALKTHROUGH, HOW-IT-WORKS · Tier 3 = FOUNDATIONS, FINAL-REVIEW, SCALING, white paper
+**Doc tiers:** Tier 0 = QUICKSTART · Tier 1 = README · Tier 2 = GETTING-STARTED, WALKTHROUGH, HOW-IT-WORKS · Tier 3 = FOUNDATIONS, FINAL-REVIEW, SCALING, white paper
 
 ---
 
@@ -23,12 +23,13 @@ All Operator ETL documentation, organized by audience. **Start at [README.md](..
 
 Start here after cloning:
 
-1. [README.md](../README.md) — primary entry: problem, design, trust, trade-offs, quick start
-2. [GETTING-STARTED.md](GETTING-STARTED.md) — install, verify, MCP, env vars, troubleshooting
-3. [WALKTHROUGH.md](WALKTHROUGH.md) — step-by-step: see the test case work
-4. [STANDARDS.md](STANDARDS.md) — patterns and best practices we follow
+1. **[QUICKSTART.md](QUICKSTART.md)** — `./scripts/verify.sh` (one command, first run)
+2. [README.md](../README.md) — primary entry: problem, design, trust, trade-offs
+3. [GETTING-STARTED.md](GETTING-STARTED.md) — install, MCP, env vars, troubleshooting
+4. [WALKTHROUGH.md](WALKTHROUGH.md) — step-by-step: see the test case work
+5. [STANDARDS.md](STANDARDS.md) — patterns and best practices we follow
 
-Proof gate: `make e2e` from repo root.
+Proof gate: `./scripts/verify.sh` or `make e2e` from repo root.
 
 | Goal | Doc |
 |---|---|
@@ -67,7 +68,9 @@ Proof gate: `make e2e` from repo root.
 
 | Doc | Description |
 |---|---|
+| [QUICKSTART.md](QUICKSTART.md) | One-command verify + agent prompt |
 | [AGENTS.md](../AGENTS.md) | Required load order |
+| [skills/operator-verify/](../skills/operator-verify/SKILL.md) | Bootstrap + verify skill |
 | [okf/index.md](../okf/index.md) | OKF knowledge bundle |
 | [docs/LEVERAGE.md](LEVERAGE.md) | OKF + skills + harness mental model |
 | [skills/](../skills/) | Task-specific agent skills |

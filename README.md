@@ -9,11 +9,30 @@
 
 Built for government agencies and regulated bodies that must intake public comments, detect PII before release, quarantine bad rows, and produce **defensible insights** (every number verified against the warehouse).
 
-**New here?** Read [docs/WHY.md](docs/WHY.md) (5 min, diagrams) → run `make e2e` → follow [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md).
+**New here?** Run `./scripts/verify.sh` — or read [docs/QUICKSTART.md](docs/QUICKSTART.md) · [docs/WHY.md](docs/WHY.md) → [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md).
 
 ---
 
-## Why not give the chatbot your warehouse?
+## Verify in one command
+
+```bash
+git clone https://github.com/khaosans/operator-etl.git
+cd operator-etl
+./scripts/verify.sh
+```
+
+Installs **uv** if missing, syncs deps, runs the full proof gate. Success ends with **`OPERATOR_ETL_VERIFY=PASS`**.
+
+**Expected:** 34 pytest pass, FOIA demo prints `status=complete` and `silver=10`.
+
+```mermaid
+flowchart LR
+  Verify[verify.sh] --> UV[uv sync]
+  UV --> E2E[e2e gate]
+  E2E --> Pass[OPERATOR_ETL_VERIFY=PASS]
+```
+
+Already have uv? `make e2e` · Details: [docs/QUICKSTART.md](docs/QUICKSTART.md) · Step-by-step: [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)
 
 ```mermaid
 flowchart LR
@@ -73,28 +92,7 @@ Details: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · [okf/models/three-plane
 
 ---
 
-## Prove it in 60 seconds
-
-```bash
-git clone https://github.com/khaosans/operator-etl.git
-cd operator-etl
-uv sync --extra dev
-make e2e
-```
-
-**Expected:** OKF validation passes, **34 pytest** pass, FOIA demo prints `status=complete` and `silver=10`.
-
-```mermaid
-flowchart LR
-  E2E[make e2e] --> OKF[OKF validate]
-  E2E --> Tests[34 pytest]
-  E2E --> Demo[FOIA demo]
-  Demo --> Result[10 silver · 2 quarantined · critic pass]
-```
-
-Full setup: [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) · Step-by-step: [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)
-
----
+## Why not give the chatbot your warehouse?
 
 ## Trust and proof
 
@@ -171,6 +169,8 @@ flowchart LR
 
 | Command | Action |
 |---|---|
+| `./scripts/verify.sh` | **First run** — install uv if needed + full proof gate |
+| `make verify` | Same as verify.sh |
 | `make e2e` | Full MVP proof gate (OKF + tests + FOIA demo) |
 | `make demo` | FOIA demo only |
 | `make test` | pytest (34 tests) |
@@ -211,7 +211,8 @@ Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.m
 
 | Doc | Why open it |
 |---|---|
-| [docs/WHY.md](docs/WHY.md) | **Start here** — problem, diagrams, pattern |
+| [docs/QUICKSTART.md](docs/QUICKSTART.md) | **First run** — `./scripts/verify.sh` |
+| [docs/WHY.md](docs/WHY.md) | Problem, diagrams, pattern |
 | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars |
 | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof |
 | [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations + proof matrix |
