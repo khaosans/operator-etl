@@ -2,7 +2,7 @@
 
 End-to-end usage model for FOIA / public comment intake — local MVP and scaled GCP deployment.
 
-**When to read:** You need the runtime flow, three planes, lifecycle, or MCP policy.
+**When to read:** You need the runtime flow, three planes, lifecycle, or MCP policy. If you do not know what medallion means: [PATTERNS.md](PATTERNS.md).
 
 **See it work:** [TOUR.md](TOUR.md) · [WALKTHROUGH.md](WALKTHROUGH.md) · **Scale out:** [SCALING.md](SCALING.md) · **Start here:** [README.md](../README.md)
 

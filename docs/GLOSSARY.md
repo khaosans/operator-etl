@@ -10,6 +10,7 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 
 | Term | Meaning |
 |---|---|
+| **Plane** | A job that must not be mixed with the others (compute vs protect vs orchestrate). [PATTERNS](PATTERNS.md#three-planes) |
 | **Data plane** | Python and SQL that ingest, validate, and aggregate. No LLM on raw rows. [HOW-IT-WORKS](HOW-IT-WORKS.md) |
 | **Policy plane** | PII scan, encrypted vault, fail-closed quality gate. Agents never get vault decrypt. |
 | **Control plane** | LangGraph pipeline, MCP tools, critic. Orchestration only. |
@@ -18,12 +19,15 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 
 ## Medallion layers
 
+**Medallion** is a three-layer warehouse: keep the raw drop, keep only valid rows, publish only aggregates (KPIs). The medal names are labels for **trust**, not metal. Lesson: [PATTERNS.md](PATTERNS.md#medallion-bronze--silver--gold).
+
 | Term | Meaning |
 |---|---|
-| **Bronze** | Immutable raw intake (`bronze_raw`). Content-hashed so the same file is not loaded twice. |
-| **Silver** | Validated rows (`silver_comments` or `silver_orders`). Pydantic/schema passed. |
-| **Gold** | Trusted SQL aggregates (`gold_comment_kpis`, `gold_kpis`). What insights may cite. |
-| **Quarantine** | Invalid rows kept with an **error reason** — never silently dropped. Demo: 2 of 12 comments. |
+| **Medallion** | Pattern: raw → valid → trusted aggregates. Databricks name; we add quarantine. |
+| **Bronze** | The original file, kept forever (`bronze_raw`). Hashed so the same drop is not loaded twice. |
+| **Silver** | Rows that passed the schema (`silver_comments` or `silver_orders`). |
+| **Gold** | Counts and rates leadership may cite (`gold_comment_kpis`). Insights may use **only** these numbers. |
+| **Quarantine** | Invalid rows **kept** with an error reason — not deleted. Demo: 2 of 12 comments. |
 
 ---
 
@@ -31,10 +35,10 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 
 | Term | Meaning |
 |---|---|
-| **LangGraph** | Explicit graph of nodes (ingest → PII → validate → quality → gold → insight → critic → persist). |
-| **Critic** | Deterministic check: every number in an insight draft must exist in gold metrics. Hallucinated `999` fails. [TESTING](TESTING.md) |
+| **LangGraph** | A checklist of steps in order (ingest → PII → … → critic → persist), implemented as a graph library. |
+| **Critic** | A **rule**, not another model: every digit in the insight must already exist in gold. Hallucinated `999` fails. [PATTERNS](PATTERNS.md#critic-faithfulness) |
 | **Insight** | Short narrative persisted to the `insights` table after the critic passes. Default is a gold-KPI **template**; optional LLM wording is [LLM.md](LLM.md). Cards and when-to-use: [MODELS.md](MODELS.md). |
-| **HITL** | Human-in-the-loop. Graph status `needs_human` when quality fails, critic retries exhaust, or PII is ambiguous. |
+| **HITL** | A human still decides. Graph status `needs_human` is **not** success. [PATTERNS](PATTERNS.md#hitl-human-in-the-loop) |
 | **`needs_human`** | Terminal graph status: do not treat as success; an officer must review. |
 | **MCP** | Model Context Protocol. Agents call **typed tools**, not ad-hoc SQL. [MCP](MCP.md) |
 | **Allowlist** | YAML of permitted SQL IDs (`sql/allowlist.yaml`). Unknown query IDs raise `ToolDenied`. |
@@ -60,7 +64,7 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 | **Proof gate** | `./scripts/verify.sh` or `make e2e`: OKF validate + pytest + FOIA demo on a **fresh** warehouse. |
 | **`OPERATOR_ETL_VERIFY=PASS`** | Banner from `verify.sh` when the gate succeeds. |
 | **OKF** | Open Knowledge Format — agent wiki under `okf/`. Humans use this docs wiki. [LEVERAGE](LEVERAGE.md) |
-| **Fail-closed** | Quality gate **withholds** KPIs/insights when quarantine is too high or data is stale — no warn-and-show. |
+| **Fail-closed** | When the gate is unhappy, **hide** the KPIs rather than show them with a warning. [PATTERNS](PATTERNS.md#fail-closed-quality) |
 | **IMPLEMENTED / PARTIAL / SPECIFIED** | Status labels. Only **IMPLEMENTED** is proven in CI. [implementation-status](https://github.com/khaosans/operator-etl/blob/master/okf/models/implementation-status.md) |
 
 ---
@@ -82,6 +86,7 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 ## See also
 
 - [CONCEPTS.md](CONCEPTS.md)
+- [PATTERNS.md](PATTERNS.md)
 - [APPLY.md](APPLY.md)
 - [RISKS.md](RISKS.md)
 - [NIST.md](NIST.md)

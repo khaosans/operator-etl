@@ -988,7 +988,7 @@ Operator ETL is an **agentic system that works** because agents have a narrow, e
 
 ## Appendix C — References
 
-Proof matrix with test mapping: [FOUNDATIONS.md](FOUNDATIONS.md)
+Proof matrix with test mapping: [FOUNDATIONS.md](FOUNDATIONS.md). Terms and patterns in plain English: [PATTERNS.md](PATTERNS.md).
 
 1. Databricks. (2020). Medallion Architecture. https://www.databricks.com/glossary/medallion-architecture
 2. Kleppmann, M. (2017). *Designing Data-Intensive Applications*. O'Reilly. Ch. 11 — stream processing and idempotent consumers.

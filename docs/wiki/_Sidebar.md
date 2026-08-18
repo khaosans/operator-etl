@@ -10,6 +10,7 @@
 **Understand**
 - [Why](https://khaosans.github.io/operator-etl/WHY/)
 - [Concepts](https://khaosans.github.io/operator-etl/CONCEPTS/)
+- [Patterns](https://khaosans.github.io/operator-etl/PATTERNS/)
 - [How it works](https://khaosans.github.io/operator-etl/HOW-IT-WORKS/)
 - [Other data sources](https://khaosans.github.io/operator-etl/APPLY/)
 - [Risks](https://khaosans.github.io/operator-etl/RISKS/)

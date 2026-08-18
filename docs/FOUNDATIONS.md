@@ -2,7 +2,7 @@
 
 Operator ETL keeps the hard parts deterministic: Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Every important invariant has a test you can run locally with `make e2e`.
 
-**When to read:** You need citations, the proof matrix, or bibliography backing design choices.
+**When to read:** You need citations, the proof matrix, or bibliography backing design choices. Plain English for each word: [PATTERNS.md](PATTERNS.md).
 
 **Usage:** [HOW-IT-WORKS.md](HOW-IT-WORKS.md) · **See it work:** [WALKTHROUGH.md](WALKTHROUGH.md) · **Start here:** [README.md](../README.md)
 
@@ -66,10 +66,16 @@ Full standards index: [STANDARDS.md](STANDARDS.md)
 10. OWASP. Top 10 for Large Language Model Applications. https://owasp.org/www-project-top-10-for-large-language-model-applications/ — LLM06 excessive agency mitigated by MCP allowlist.
 11. NIST. (2024). AI 600-1 — Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile. https://doi.org/10.6028/NIST.AI.600-1 — confabulation and GAI risks we actually mitigate; we do not claim the full profile.
 12. NIST. (2020). Privacy Framework 1.0. https://www.nist.gov/privacy-framework — identify/protect PII in the comment pipeline (not a full privacy program).
+13. Saltzer, J. H., & Schroeder, M. D. (1975). The Protection of Information in Computer Systems. *Proceedings of the IEEE*. https://doi.org/10.1109/PROC.1975.9939 — least privilege and fail-safe defaults (planes, MCP, fail-closed).
+14. Hohpe, G., & Woolf, B. (2003). *Enterprise Integration Patterns*. Addison-Wesley. Dead Letter Channel — quarantine keeps failed rows.
+15. Raasveldt, M., & Mühleisen, H. (2019). DuckDB: an Embeddable Analytical Database. *SIGMOD*. https://doi.org/10.1145/3299869.3320212 — local warehouse file.
+16. Armbrust, M., Ghodsi, A., Xin, R., & Zaharia, M. (2021). Lakehouse: A New Generation of Open Platforms that Unify Data Warehousing and Advanced Analytics. *CIDR*. https://www.cidrdb.org/cidr2021/papers/cidr2021_paper17.pdf — lakehouse context for medallion layers.
+17. Parasuraman, R., Sheridan, T. B., & Wickens, C. D. (2000). A model for types and levels of human interaction with automation. *IEEE Transactions on Systems, Man, and Cybernetics*. https://doi.org/10.1109/3468.844354 — HITL: computer suggests, human publishes.
 
 ## See also
 
 - [CONCEPTS.md](CONCEPTS.md) — narrative tour
+- [PATTERNS.md](PATTERNS.md) — components in English + citations
 - [APPLY.md](APPLY.md) — other data sources
 - [RISKS.md](RISKS.md) — residual risks
 - [NIST.md](NIST.md) — AI RMF / 600-1 / SP 800-122 alignment (not certification)

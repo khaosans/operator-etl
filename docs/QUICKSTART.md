@@ -88,6 +88,7 @@ After `./scripts/verify.sh`, confirm:
 |---|---|
 | Inspect warehouse SQL + dashboard | [WALKTHROUGH.md](WALKTHROUGH.md) · `./scripts/walkthrough.sh` |
 | Learn the project | [CONCEPTS.md](CONCEPTS.md) |
+| What the words mean | [PATTERNS.md](PATTERNS.md) |
 | Other data sources | [APPLY.md](APPLY.md) |
 | Residual risks | [RISKS.md](RISKS.md) |
 | Understand the design | [WHY.md](WHY.md) · [NIST.md](NIST.md) |

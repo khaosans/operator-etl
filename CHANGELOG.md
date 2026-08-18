@@ -1,3 +1,14 @@
+## [0.4.9] — 2026-08-18
+
+### Added
+
+- [docs/PATTERNS.md](docs/PATTERNS.md) — plain-English components (medallion first), pattern names, citations
+- Glossary headword **Medallion**; FAQ “What is medallion?”
+
+### Changed
+
+- FOUNDATIONS bibliography: Saltzer & Schroeder, EIP dead letter, DuckDB, CIDR lakehouse, Parasuraman HITL
+
 ## [0.4.8] — 2026-08-18
 
 ### Added

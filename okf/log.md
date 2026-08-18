@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-08-18 (patterns + citations)
+
+- docs/PATTERNS.md teaches medallion, planes, critic, HITL with one reputable source each
+- FOUNDATIONS / design-foundations refs 13–17 (Saltzer, EIP, DuckDB, CIDR lakehouse, Parasuraman)
+
 ## 2026-08-18 (apply pattern + residual risks)
 
 - docs/APPLY.md other data sources; docs/RISKS.md briefing; CONCEPTS/index Diátaxis learning wiki
