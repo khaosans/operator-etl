@@ -78,5 +78,6 @@ If the quality gate **blocks**, the UI shows **BLOCKED** and reasons (high quara
 ## See also
 
 - [TOUR.md](TOUR.md) — screenshots
+- [PRODUCT-UX.md](PRODUCT-UX.md) — production UI backlog (SPECIFIED)
 - `make walkthrough` (`scripts/walkthrough.sh`)
 - [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md)

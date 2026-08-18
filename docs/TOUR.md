@@ -46,6 +46,8 @@ The two quarantined rows are intentional (empty body, bad timestamp). Details: [
 
 Orders demo (fresh warehouse): **21** in → **17** silver, **4** quarantined, quality **PASS**.
 
+![Orders CLI](assets/screenshots/cli-orders.png)
+
 ![Orders demo tab](assets/screenshots/dashboard-orders.png)
 
 Optional: same FOIA graph with local Ollama. Critic still has to pass.

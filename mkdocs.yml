@@ -92,6 +92,7 @@ nav:
       - Standards: STANDARDS.md
   - Scale:
       - Scaling: SCALING.md
+      - Product UX: PRODUCT-UX.md
   - Contribute:
       - Releasing: RELEASING.md
       - Public readiness: PUBLIC-READINESS.md

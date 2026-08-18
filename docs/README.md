@@ -14,7 +14,7 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 |---|---|
 | **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
 | **Architect evaluating design** | [WHY](WHY.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
-| **FOIA / agency operator** | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) |
+| **FOIA / agency operator** | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · later [PRODUCT-UX](PRODUCT-UX.md) |
 | **Scaling to GCP** | [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
 | **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) → QUICKSTART |
 | **External share** | [WHY](WHY.md) → [FINAL-REVIEW](FINAL-REVIEW.md) → [share](share/README.md) |
@@ -87,6 +87,7 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 | Doc | Description |
 |---|---|
 | [SCALING.md](SCALING.md) | Local → GCP ladder |
+| [PRODUCT-UX.md](PRODUCT-UX.md) | Product officer UI backlog (SPECIFIED) |
 | [infra/README](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) | Terraform |
 
 ---

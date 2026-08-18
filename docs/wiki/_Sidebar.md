@@ -33,6 +33,7 @@
 
 **Scale**
 - [Scaling](https://khaosans.github.io/operator-etl/SCALING/)
+- [Product UX](https://khaosans.github.io/operator-etl/PRODUCT-UX/)
 - [Infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
 
 **Contribute**

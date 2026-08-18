@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-08-17 (README wiki hub + product UX backlog)
+
+- README docs table leads with GitHub Pages wiki; TOUR/PERSONAS/PRODUCT-UX linked
+- docs/PRODUCT-UX.md SPECIFIED (responsive, streaming, gen UI) — not this demo
+
 ## 2026-08-17 (screenshot tour + local Ollama)
 
 - PERSONAS + TOUR wiki pages; Streamlit dual warehouse; docs/assets/screenshots
