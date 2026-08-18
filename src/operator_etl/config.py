@@ -13,6 +13,7 @@ def _default_root() -> Path:
 
 BackendKind = Literal["duckdb", "bigquery"]
 CheckpointBackend = Literal["sqlite", "postgres"]
+InsightBackend = Literal["template", "llm"]
 
 
 class Settings(BaseSettings):
@@ -30,6 +31,12 @@ class Settings(BaseSettings):
     backend: BackendKind = "duckdb"
     checkpoint_backend: CheckpointBackend = "sqlite"
     checkpoint_database_url: str | None = None
+
+    # Optional LLM insights — default template so CI needs no API key
+    insight_backend: InsightBackend = "template"
+    llm_model: str = "gpt-4o-mini"
+    llm_base_url: str | None = None
+    max_llm_calls: int = 12
 
     # GCP (used when backend=bigquery)
     gcp_project: str | None = None

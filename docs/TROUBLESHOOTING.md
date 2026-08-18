@@ -102,6 +102,16 @@ Concept files need YAML frontmatter (`type`, `title`, `description`). New files 
 
 ---
 
+## LLM insight fell back to the template
+
+**Symptom:** Graph completes, insight looks like the usual KPI sentence, and `errors` mentions `OPENAI_API_KEY`, `langchain-openai`, or `LLM insight failed`.
+
+**Cause:** `OPERATOR_ETL_INSIGHT_BACKEND=llm` is set but the extra, key, or API call is missing/failing. That is intentional — the critic still runs on the template.
+
+**Fix:** See [LLM.md](LLM.md). For Cloud Run, do not flip the backend to `llm` until the Secret Manager OpenAI secret is a real key.
+
+---
+
 ## See also
 
 - [QUICKSTART.md](QUICKSTART.md#if-it-fails)

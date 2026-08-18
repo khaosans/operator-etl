@@ -20,6 +20,7 @@
 - [Dashboard](https://khaosans.github.io/operator-etl/DASHBOARD/)
 - [MCP](https://khaosans.github.io/operator-etl/MCP/)
 - [Add a source](https://khaosans.github.io/operator-etl/ADD-A-SOURCE/)
+- [Optional LLM](https://khaosans.github.io/operator-etl/LLM/)
 - [FOIA guide](https://khaosans.github.io/operator-etl/FOIA-Public-Comments-Guide/)
 
 **Reference**

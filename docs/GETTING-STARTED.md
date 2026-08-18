@@ -82,7 +82,7 @@ Or if uv is already installed: `make e2e`
 
 ```mermaid
 flowchart LR
-  OKF[OKF validate] --> pytest[34 pytest tests]
+  OKF[OKF validate] --> pytest[38 pytest tests]
   pytest --> demo[FOIA demo fresh warehouse]
   demo --> pass[MVP PASS]
 ```
@@ -203,6 +203,10 @@ Copy [.env.example](../.env.example) to `.env` and adjust paths. All variables u
 | `OPERATOR_ETL_DOMAIN` | `orders` | `orders` or `gov` |
 | `OPERATOR_ETL_MAX_QUARANTINE_RATE` | `0.35` | Quality gate threshold |
 | `OPERATOR_ETL_MAX_FRESHNESS_HOURS` | `168` | Staleness threshold |
+| `OPERATOR_ETL_INSIGHT_BACKEND` | `template` | `template` or `llm` — [LLM.md](LLM.md) |
+| `OPERATOR_ETL_LLM_MODEL` | `gpt-4o-mini` | Chat model id when backend is `llm` |
+| `OPERATOR_ETL_LLM_BASE_URL` | — | OpenAI-compatible base URL (localhost) |
+| `OPERATOR_ETL_MAX_LLM_CALLS` | `12` | Per-run LLM budget |
 
 ### Checkpoints (LangGraph)
 

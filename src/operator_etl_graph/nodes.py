@@ -4,7 +4,9 @@ from datetime import UTC, datetime
 
 from operator_etl.config import Settings, get_settings
 from operator_etl_graph.critic import critic_check
+from operator_etl_graph.insights import render_llm_insight, render_template_insight
 from operator_etl_graph.state import PipelineState
+from operator_etl_policy.budgets import RunBudget
 from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
 from operator_etl.load.connection import connect
 from operator_etl.load.duckdb import already_ingested, finish_run, load_bronze, start_run
@@ -95,18 +97,22 @@ def build_gold_node(state: PipelineState, settings: Settings | None = None) -> d
     return {"gold_metrics": serializable}
 
 
-def insight_node(state: PipelineState) -> dict:
+def insight_node(state: PipelineState, settings: Settings | None = None) -> dict:
+    settings = settings or get_settings()
     m = state.get("gold_metrics") or {}
     if not state.get("quality_passes"):
         return {"insight_draft": "Insights withheld — quality gate did not pass.", "status": "needs_human"}
-    draft = (
-        f"Public comment intake summary: {int(m.get('comment_count', 0))} comments across "
-        f"{int(m.get('docket_count', 0))} dockets and {int(m.get('agency_count', 0))} agencies. "
-        f"{int(m.get('pii_flagged_count', 0))} comments flagged for FOIA redaction review "
-        f"(PII rate {float(m.get('pii_rate', 0))}). "
-        f"FOIA officers should prioritize redaction queue before release."
+    if settings.insight_backend != "llm":
+        return {"insight_draft": render_template_insight(m)}
+    budget = RunBudget(
+        max_llm_calls=settings.max_llm_calls,
+        llm_calls=int(state.get("_llm_calls") or 0),
     )
-    return {"insight_draft": draft}
+    draft, note = render_llm_insight(m, settings, budget)
+    result: dict = {"insight_draft": draft, "_llm_calls": budget.llm_calls}
+    if note:
+        result["errors"] = [note]
+    return result
 
 
 def critic_node(state: PipelineState) -> dict:

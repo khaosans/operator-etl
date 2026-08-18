@@ -56,7 +56,7 @@ def build_graph(settings: Settings | None = None, *, checkpointer: Any | None = 
     graph.add_node("validate_load", lambda s: validate_load_node(s, settings))
     graph.add_node("quality", lambda s: quality_node(s, settings))
     graph.add_node("build_gold", lambda s: build_gold_node(s, settings))
-    graph.add_node("insight", insight_node)
+    graph.add_node("insight", lambda s: insight_node(s, settings))
     graph.add_node("insight_blocked", insight_blocked_node)
     graph.add_node("critic", critic_node)
     graph.add_node("persist", lambda s: persist_node(s, settings))
@@ -103,6 +103,7 @@ def run_graph(source: str = "public_comments", settings: Settings | None = None)
         "insight_id": "",
         "status": "running",
         "errors": [],
+        "_llm_calls": 0,
     }
     result = app.invoke(initial, config)
     return result

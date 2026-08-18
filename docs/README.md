@@ -64,6 +64,7 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 | [DASHBOARD.md](DASHBOARD.md) | Streamlit Gov / Orders tabs |
 | [MCP.md](MCP.md) | Cursor MCP allowlist |
 | [ADD-A-SOURCE.md](ADD-A-SOURCE.md) | Register a new CSV / HTTP source |
+| [LLM.md](LLM.md) | Optional OpenAI-compatible insight wording |
 | [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) | Agency workflow |
 
 ---

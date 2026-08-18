@@ -16,7 +16,7 @@ cd operator-etl
 ./scripts/verify.sh
 ```
 
-Success: **`OPERATOR_ETL_VERIFY=PASS`**, 34 tests, FOIA demo `silver=10` `quarantined=2`.
+Success: **`OPERATOR_ETL_VERIFY=PASS`**, 38 tests, FOIA demo `silver=10` `quarantined=2`.
 
 Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QUICKSTART.md)
 
@@ -24,7 +24,7 @@ Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QU
 
 ## Honest scope
 
-Local demo + tests are proven. Live GCP, Presidio, and LLM insights are not. See [FINAL-REVIEW](https://github.com/khaosans/operator-etl/blob/master/docs/FINAL-REVIEW.md).
+Local demo + tests are proven. Live GCP, Presidio, and a **live** LLM API are not. Optional LLM insights are mocked in CI. See [FINAL-REVIEW](https://github.com/khaosans/operator-etl/blob/master/docs/FINAL-REVIEW.md).
 
 This GitHub Wiki tab is a **pointer** (Home + sidebar only). Articles live in `docs/` so they stay in PRs and CI.
 

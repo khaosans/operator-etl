@@ -16,6 +16,7 @@ def settings(tmp_path: Path) -> Settings:
         warehouse=tmp_path / "operator.duckdb",
         pipeline_name="demo",
         domain="orders",
+        insight_backend="template",
     )
     set_settings(configured)
     yield configured
@@ -29,6 +30,7 @@ def gov_settings(tmp_path: Path) -> Settings:
         warehouse=tmp_path / "operator.duckdb",
         pipeline_name="public_comments",
         domain="gov",
+        insight_backend="template",
     )
     set_settings(configured)
     yield configured

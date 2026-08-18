@@ -141,10 +141,11 @@ Source: [Model Context Protocol](https://modelcontextprotocol.io/) · Proof: `te
 | Claim | Status | Verify |
 |---|---|---|
 | FOIA pipeline on laptop | **Proven** | `make e2e` |
-| PII not in insight output | **Proven** | 34 pytest |
+| PII not in insight output | **Proven** | 38 pytest |
 | Critic rejects bad numbers | **Proven** | `tests/test_critic.py` |
 | Live GCP / BigQuery E2E | **Partial** | Terraform scaffold only |
-| Presidio PII, LLM insights | **Specified** | Regex + templates today |
+| Optional LLM insights | **Partial** | Mocked in CI; template default — [LLM.md](LLM.md) |
+| Presidio PII | **Specified** | Regex scanner today |
 
 Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
 

@@ -10,9 +10,9 @@ Honest audit of Operator ETL as of the latest `make e2e` gate. Use this before s
 
 ## Executive summary
 
-Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **34 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
+Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **38 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
 
-What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, Presidio PII, or LLM-generated insights. Those are documented as PARTIAL or SPECIFIED with explicit scale steps.
+What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, Presidio PII, or a **live** LLM API. Optional LLM wording is PARTIAL (mocked). Those are documented with explicit scale steps.
 
 ---
 
@@ -39,25 +39,25 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 | Cloud Run live path | **Partial** | Terraform scaffold; post-deploy checklist — [infra/README.md](../infra/README.md) |
 | HITL officer dashboard | **Partial** | Gov Streamlit tab; no approval workflow test |
 | Presidio PII | **Specified** | `--extra presidio` |
-| LLM insight nodes | **Specified** | Templates used in MVP |
+| LLM insight nodes | **Partial** | Optional `insight_backend=llm`; mocked in CI — [LLM.md](LLM.md) |
 | Regulations.gov adapter | **Specified** | — |
 
 ```mermaid
 flowchart TB
   subgraph proven [Proven in CI]
     E2E[make e2e]
-    Pytest[34 pytest]
+    Pytest[38 pytest]
   end
 
   subgraph partial [Partial]
     TF[Terraform scaffold]
     BQ[BigQuery adapter]
     HITL[HITL dashboard]
+    LLM[LLM insight optional]
   end
 
   subgraph specified [Specified]
     Presidio[Presidio PII]
-    LLM[LLM insight]
     RegGov[Regulations.gov]
   end
 

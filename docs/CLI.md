@@ -13,7 +13,7 @@ All commands assume the repo root and `uv sync --extra dev` (or a green `./scrip
 | `make verify` | `scripts/verify.sh` — uv bootstrap + full proof gate |
 | `make e2e` | `harness/e2e.sh` — OKF + pytest + FOIA demo |
 | `make demo` | FOIA demo only (`scripts/demo_mvp.sh`) |
-| `make test` | `uv run pytest -q` (34 tests) |
+| `make test` | `uv run pytest -q` (38 tests) |
 | `make walkthrough` | Demo + warehouse inspection |
 | `make okf` | Strict OKF validate |
 | `make share` | e2e then regenerate PDFs |
@@ -83,6 +83,7 @@ Prefix **`OPERATOR_ETL_`**. Copy [`.env.example`](https://github.com/khaosans/op
 | `OPERATOR_ETL_PIPELINE_NAME` | `demo` or `public_comments` |
 | `OPERATOR_ETL_DOMAIN` | `orders` or `gov` |
 | `OPERATOR_ETL_BACKEND` | `duckdb` (default) |
+| `OPERATOR_ETL_INSIGHT_BACKEND` | `template` (default) or `llm` — [LLM.md](LLM.md) |
 
 Gov env vars leak into pytest if you export them in the same shell — use `make e2e` or a clean terminal. [TROUBLESHOOTING](TROUBLESHOOTING.md).
 

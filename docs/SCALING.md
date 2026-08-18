@@ -117,7 +117,7 @@ Full example: [infra/env.example](../infra/env.example)
 | Regulations.gov adapter | SPECIFIED | New source kind |
 | BQ gold mart dialect | PARTIAL | Port `sql/marts/gov/*.sql` |
 | Presidio PII | SPECIFIED | Optional `--extra presidio` |
-| Real LLM insight nodes | SPECIFIED | Templates today |
+| Real LLM insight nodes | PARTIAL | Optional `insight_backend=llm`; template default; not live in CI |
 
 Track progress: [okf/models/implementation-status.md](../okf/models/implementation-status.md)
 

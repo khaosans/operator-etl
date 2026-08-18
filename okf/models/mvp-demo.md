@@ -28,7 +28,7 @@ timestamp: 2026-08-17T00:00:00Z
 | Critic | passed |
 | Quality gate | pass (quarantine rate ≤ 35%) |
 
-**Insight template cites:** comment count, docket count, agency count, PII flagged count, PII rate — all from `gold_comment_kpis`.
+**Insight cites:** comment count, docket count, agency count, PII flagged count, PII rate — all from `gold_comment_kpis`. Default wording is a template; optional LLM uses the same gold JSON ([docs/LLM.md](../../docs/LLM.md)).
 
 ## Test file mapping
 
