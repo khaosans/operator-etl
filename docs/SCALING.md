@@ -113,6 +113,7 @@ Full example: [infra/env.example](../infra/env.example)
 
 | Item | Status | Notes |
 |---|---|---|
+| Product officer UX | SPECIFIED | Responsive, streaming, gen UI — [PRODUCT-UX.md](PRODUCT-UX.md) |
 | HITL officer dashboard | PARTIAL | Gov Streamlit tab exists; approval workflow SPECIFIED |
 | Regulations.gov adapter | SPECIFIED | New source kind |
 | BQ gold mart dialect | PARTIAL | Port `sql/marts/gov/*.sql` |

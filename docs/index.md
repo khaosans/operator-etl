@@ -55,7 +55,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
 3. **Prove** — [WALKTHROUGH](WALKTHROUGH.md) · [TESTING](TESTING.md) · [FINAL-REVIEW](FINAL-REVIEW.md)
 4. **Use** — [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)
 5. **Reference** — [GLOSSARY](GLOSSARY.md) · [FAQ](FAQ.md) · [TROUBLESHOOTING](TROUBLESHOOTING.md) · [STANDARDS](STANDARDS.md)
-6. **Scale** — [SCALING](SCALING.md) · [infra/README](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
+6. **Scale** — [SCALING](SCALING.md) · [PRODUCT-UX](PRODUCT-UX.md) · [infra/README](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
 7. **Contribute** — [CONTRIBUTING](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) · [RELEASING](RELEASING.md) · [SECURITY](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md)
 
 **Deep spec:** [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) (not duplicated here).

@@ -1,3 +1,15 @@
+## [0.4.6] — 2026-08-17
+
+### Added
+
+- README docs hub: live [wiki](https://khaosans.github.io/operator-etl/), visual tour, personas, product UX
+- [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md) — SPECIFIED product UI backlog (responsive, streaming, gen UI)
+- README proof gallery (Gov, Orders, CLI)
+
+### Changed
+
+- Implementation status: Product officer UX **SPECIFIED**
+
 ## [0.4.5] — 2026-08-17
 
 ### Added

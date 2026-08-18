@@ -9,7 +9,18 @@
 
 Built for government agencies and regulated bodies that must intake public comments, detect PII before release, quarantine bad rows, and produce **defensible insights** (every number verified against the warehouse).
 
-**New here?** Run `./scripts/verify.sh` — or read [docs/QUICKSTART.md](docs/QUICKSTART.md). **Wiki:** [docs/index.md](docs/index.md) · [GitHub Pages](https://khaosans.github.io/operator-etl/).
+---
+
+## Docs
+
+**Wiki (searchable):** [https://khaosans.github.io/operator-etl/](https://khaosans.github.io/operator-etl/)
+
+| Start here | Link |
+|---|---|
+| See it working | [Visual tour](docs/TOUR.md) (screenshots) |
+| First run | [QUICKSTART](docs/QUICKSTART.md) — `./scripts/verify.sh` |
+| Who it is for | [Personas](docs/PERSONAS.md) |
+| Product UI (later) | [PRODUCT-UX](docs/PRODUCT-UX.md) — SPECIFIED, not this demo |
 
 ---
 
@@ -23,9 +34,13 @@ cd operator-etl
 
 Installs **uv** if missing, syncs deps, runs the full proof gate. Success ends with **`OPERATOR_ETL_VERIFY=PASS`**.
 
-**Expected:** 41 pytest pass, FOIA demo prints `status=complete` and `silver=10`. Visual proof: [docs/TOUR.md](docs/TOUR.md).
+**Expected:** 41 pytest pass, FOIA demo prints `status=complete` and `silver=10`. Full screenshot set: [docs/TOUR.md](docs/TOUR.md).
 
 ![Gov / FOIA dashboard](docs/assets/screenshots/dashboard-gov-kpis.png)
+
+![Orders demo tab](docs/assets/screenshots/dashboard-orders.png)
+
+![Template etl-graph insight](docs/assets/screenshots/cli-foia-insight.png)
 
 ```mermaid
 flowchart LR
@@ -140,7 +155,7 @@ Full proof matrix: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)**
 
 | Role | Start here |
 |---|---|
-| **FOIA officer** | [FOIA guide](docs/FOIA-Public-Comments-Guide.md) → Gov dashboard tab |
+| **FOIA officer** | [FOIA guide](docs/FOIA-Public-Comments-Guide.md) → [TOUR](docs/TOUR.md) · [PERSONAS](docs/PERSONAS.md) |
 | **Data engineer** | [GETTING-STARTED](docs/GETTING-STARTED.md) → [SCALING](docs/SCALING.md) |
 | **Architect / reviewer** | [WHY](docs/WHY.md) → [FOUNDATIONS](docs/FOUNDATIONS.md) → `make e2e` |
 | **AI agent (MCP)** | [AGENTS.md](AGENTS.md) · `operator-etl-mcp` |
@@ -163,7 +178,7 @@ flowchart LR
 | **1 — Run locally** | MCP, dashboard | [GETTING-STARTED](docs/GETTING-STARTED.md) |
 | **2 — Extend** | New CSV source | [extend-new-source](okf/playbooks/extend-new-source.md) |
 | **3 — GCP staging** | Terraform + Cloud Run | [SCALING](docs/SCALING.md) |
-| **4 — Production** | Presidio, HITL, live BQ | [FINAL-REVIEW](docs/FINAL-REVIEW.md) |
+| **4 — Production** | Presidio, HITL, live BQ, product UX | [FINAL-REVIEW](docs/FINAL-REVIEW.md) · [PRODUCT-UX](docs/PRODUCT-UX.md) |
 
 ---
 
@@ -203,7 +218,9 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 
 **This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **41 tests** + CI
 
-**Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E
+**Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E · production officer UX (responsive, streaming, gen UI) — [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md)
+
+The demo UI is **Streamlit**. Product UX is SPECIFIED, not this MVP.
 
 Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.md#pre-scale-checklist)
 
@@ -213,16 +230,21 @@ Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.m
 
 | Doc | Why open it |
 |---|---|
+| **[Wiki (GitHub Pages)](https://khaosans.github.io/operator-etl/)** | Searchable human wiki — start here |
+| [docs/TOUR.md](docs/TOUR.md) | Screenshots of verify, CLI, Streamlit |
+| [docs/PERSONAS.md](docs/PERSONAS.md) | Who the demo is for |
+| [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md) | Product UI backlog (SPECIFIED) |
 | [docs/QUICKSTART.md](docs/QUICKSTART.md) | **First run** — `./scripts/verify.sh` |
-| [docs/index.md](docs/index.md) | Wiki home — personas, scope, map |
-| [docs/WHY.md](docs/WHY.md) | Problem, diagrams, pattern |
 | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars |
 | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof |
+| [docs/DASHBOARD.md](docs/DASHBOARD.md) | Streamlit Gov / Orders |
+| [docs/LLM.md](docs/LLM.md) | Optional local Ollama / OpenAI-compatible insights |
+| [docs/SCALING.md](docs/SCALING.md) | DuckDB → GCP |
 | [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations + proof matrix |
 | [docs/TESTING.md](docs/TESTING.md) | What each test proves |
 | [docs/README.md](docs/README.md) | Full index by persona |
 
-Also: [HOW-IT-WORKS](docs/HOW-IT-WORKS.md) · [SCALING](docs/SCALING.md) · [white paper](docs/Operator-ETL-White-Paper.md)
+Also: [HOW-IT-WORKS](docs/HOW-IT-WORKS.md) · [WHY](docs/WHY.md) · [white paper](docs/Operator-ETL-White-Paper.md)
 
 ---
 

@@ -26,6 +26,7 @@ timestamp: 2026-08-17T00:00:00Z
 | Cloud Run HTTP entry | **IMPLEMENTED** | Unit only | `src/operator_etl_gcp/http/` |
 | Postgres checkpoints | **IMPLEMENTED** | Env config | optional via env |
 | HITL dashboard | **PARTIAL** | No | gov tab in Streamlit |
+| Product officer UX | **SPECIFIED** | — | responsive, streaming, gen UI — [docs/PRODUCT-UX.md](../../docs/PRODUCT-UX.md) |
 | LLM insight nodes | **PARTIAL** | Mocked in CI | optional `llm`; laptop Ollama `llama3.2:3b` critic-passed; not CI |
 | Presidio PII | **SPECIFIED** | — | regex scanner shipped |
 | Regulations.gov API | **SPECIFIED** | — | — |
