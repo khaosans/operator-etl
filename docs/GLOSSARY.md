@@ -82,6 +82,8 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 ## See also
 
 - [CONCEPTS.md](CONCEPTS.md)
+- [APPLY.md](APPLY.md)
+- [RISKS.md](RISKS.md)
 - [NIST.md](NIST.md)
 - [FAQ.md](FAQ.md)
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md)

@@ -70,6 +70,8 @@ Full standards index: [STANDARDS.md](STANDARDS.md)
 ## See also
 
 - [CONCEPTS.md](CONCEPTS.md) — narrative tour
+- [APPLY.md](APPLY.md) — other data sources
+- [RISKS.md](RISKS.md) — residual risks
 - [NIST.md](NIST.md) — AI RMF / 600-1 / SP 800-122 alignment (not certification)
 - [FINAL-REVIEW.md](FINAL-REVIEW.md) — honest proven/partial/specified audit
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — runtime model and planes

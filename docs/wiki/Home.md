@@ -18,7 +18,7 @@ cd operator-etl
 
 Success: **`OPERATOR_ETL_VERIFY=PASS`**, 41 tests, FOIA demo `silver=10` `quarantined=2`.
 
-Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QUICKSTART.md) · Learn: [CONCEPTS](https://khaosans.github.io/operator-etl/CONCEPTS/) · Screenshots: [TOUR](https://khaosans.github.io/operator-etl/TOUR/)
+Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QUICKSTART.md) · Learn: [CONCEPTS](https://khaosans.github.io/operator-etl/CONCEPTS/) · Apply: [APPLY](https://khaosans.github.io/operator-etl/APPLY/) · Screenshots: [TOUR](https://khaosans.github.io/operator-etl/TOUR/)
 
 ---
 

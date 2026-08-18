@@ -1,5 +1,9 @@
 # OKF changelog
 
+## 2026-08-18 (apply pattern + residual risks)
+
+- docs/APPLY.md other data sources; docs/RISKS.md briefing; CONCEPTS/index Diátaxis learning wiki
+
 ## 2026-08-18 (concepts, NIST, models)
 
 - docs/CONCEPTS.md narrative tour; docs/NIST.md AI RMF / 600-1 / SP 800-122 (alignment, not ATO)

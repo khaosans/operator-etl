@@ -180,6 +180,9 @@ Step-by-step: [WALKTHROUGH.md](WALKTHROUGH.md)
 
 ## See also
 
+- [CONCEPTS.md](CONCEPTS.md) — what we built
+- [APPLY.md](APPLY.md) — other data sources
+- [RISKS.md](RISKS.md) — residual risks
 - [FOUNDATIONS.md](FOUNDATIONS.md) — why this design; proof matrix
 - [GETTING-STARTED.md](GETTING-STARTED.md) — install and env vars
 - [FINAL-REVIEW.md](FINAL-REVIEW.md) — proven vs specified audit

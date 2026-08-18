@@ -88,6 +88,8 @@ After `./scripts/verify.sh`, confirm:
 |---|---|
 | Inspect warehouse SQL + dashboard | [WALKTHROUGH.md](WALKTHROUGH.md) · `./scripts/walkthrough.sh` |
 | Learn the project | [CONCEPTS.md](CONCEPTS.md) |
+| Other data sources | [APPLY.md](APPLY.md) |
+| Residual risks | [RISKS.md](RISKS.md) |
 | Understand the design | [WHY.md](WHY.md) · [NIST.md](NIST.md) |
 | Optional local/cloud model | [MODELS.md](MODELS.md) · [LLM.md](LLM.md) |
 | MCP, env vars, Streamlit | [GETTING-STARTED.md](GETTING-STARTED.md) |

@@ -34,7 +34,19 @@ Install [Ollama](https://ollama.com/download), pull `llama3.2:3b`, then point Op
 
 **No.** It is a **reproducible demo / reference architecture**. Proven locally: ingest, regex PII, quarantine, gold, LangGraph, critic, MCP allowlist. Not proven in CI: live GCP, Presidio, officer approval UI, Regulations.gov.
 
-See [FINAL-REVIEW.md](FINAL-REVIEW.md). Safe public claim: *clone and run `./scripts/verify.sh`*.
+See [FINAL-REVIEW.md](FINAL-REVIEW.md) · [RISKS.md](RISKS.md). Safe public claim: *clone and run `./scripts/verify.sh`*.
+
+---
+
+## Can I use this for data that is not FOIA?
+
+**Yes, as a pattern.** The repo already runs a second domain (**orders**) on the same critic and policy plane. You change schema, gold SQL, and the insight template — you do **not** remove bronze, quarantine, the critic, or the MCP allowlist. Sketches for 311, grants, inspections: [APPLY.md](APPLY.md). YAML how-to: [ADD-A-SOURCE.md](ADD-A-SOURCE.md).
+
+---
+
+## What should I know about residual risk?
+
+Green `verify.sh` does not mean production FOIA software. Regex PII misses names/addresses; the critic matches **digits** not meaning; LLM fallback can still look `complete`; cloud `llm` sends gold KPI JSON off-box; HITL is a graph status, not an approval product. Briefing: [RISKS.md](RISKS.md).
 
 ---
 

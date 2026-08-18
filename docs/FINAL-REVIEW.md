@@ -146,6 +146,9 @@ Before promoting to GCP staging or external production claims:
 
 ## Related docs
 
+- [CONCEPTS.md](CONCEPTS.md) — what we built
+- [APPLY.md](APPLY.md) — other data sources
+- [RISKS.md](RISKS.md) — residual risks after a green verify
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — usage model
 - [WALKTHROUGH.md](WALKTHROUGH.md) — step-by-step verification
 - [SCALING.md](SCALING.md) — local → GCP ladder
