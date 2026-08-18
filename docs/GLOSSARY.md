@@ -2,7 +2,7 @@
 
 Short definitions for terms used across Operator ETL. Each entry links to the page that owns the concept.
 
-**When to read:** A word on another page is unclear. This is not a tutorial — start at [QUICKSTART](QUICKSTART.md) or [WHY](WHY.md).
+**When to read:** A word on another page is unclear. This is not a tutorial — start at [QUICKSTART](QUICKSTART.md) or [CONCEPTS](CONCEPTS.md).
 
 ---
 
@@ -33,7 +33,7 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 |---|---|
 | **LangGraph** | Explicit graph of nodes (ingest → PII → validate → quality → gold → insight → critic → persist). |
 | **Critic** | Deterministic check: every number in an insight draft must exist in gold metrics. Hallucinated `999` fails. [TESTING](TESTING.md) |
-| **Insight** | Short narrative persisted to the `insights` table after the critic passes. Default is a gold-KPI **template**; optional LLM wording is [LLM.md](LLM.md). |
+| **Insight** | Short narrative persisted to the `insights` table after the critic passes. Default is a gold-KPI **template**; optional LLM wording is [LLM.md](LLM.md). Cards and when-to-use: [MODELS.md](MODELS.md). |
 | **HITL** | Human-in-the-loop. Graph status `needs_human` when quality fails, critic retries exhaust, or PII is ambiguous. |
 | **`needs_human`** | Terminal graph status: do not treat as success; an officer must review. |
 | **MCP** | Model Context Protocol. Agents call **typed tools**, not ad-hoc SQL. [MCP](MCP.md) |
@@ -65,8 +65,24 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 
 ---
 
+## Models and NIST
+
+| Term | Meaning |
+|---|---|
+| **Ollama** | Local model runtime. OpenAI-compatible API at `http://127.0.0.1:11434/v1`. Gold JSON stays on-box. [LLM.md](LLM.md) |
+| **OpenAI-compatible** | Chat Completions `/v1` API. `ChatOpenAI` talks to OpenAI, Ollama, or another host via `OPERATOR_ETL_LLM_BASE_URL`. |
+| **Model card** | Vendor’s intended-use, eval, and license page. We **summarize and link** — we do not copy cards. [MODELS.md](MODELS.md) |
+| **NIST AI RMF** | AI Risk Management Framework 1.0 — functions **Govern, Map, Measure, Manage**. We align selected practices; not certified. [NIST.md](NIST.md) |
+| **Govern / Map / Measure / Manage** | RMF functions: policy & no auto-publish; know data boundary; test with critic/`verify.sh`; fallback and HITL. |
+| **SP 800-122** | NIST guide to PII confidentiality. Here: scan, vault, no PII in agent/model context. |
+| **AI 600-1** | Generative AI Profile companion to the RMF. We map only risks this KPI demo mitigates. |
+
+---
+
 ## See also
 
+- [CONCEPTS.md](CONCEPTS.md)
+- [NIST.md](NIST.md)
 - [FAQ.md](FAQ.md)
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md)
 - [FOUNDATIONS.md](FOUNDATIONS.md)

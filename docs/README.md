@@ -12,8 +12,8 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 
 | Persona | Path |
 |---|---|
-| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
-| **Architect evaluating design** | [WHY](WHY.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
+| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [CONCEPTS](CONCEPTS.md) → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
+| **Architect evaluating design** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
 | **FOIA / agency operator** | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · later [PRODUCT-UX](PRODUCT-UX.md) |
 | **Scaling to GCP** | [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
 | **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) → QUICKSTART |
@@ -42,7 +42,10 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 | Doc | Description |
 |---|---|
 | [WHY.md](WHY.md) | Problem, diagrams, pattern |
+| [CONCEPTS.md](CONCEPTS.md) | Narrative tour — learn the project |
 | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | Planes, lifecycle, MCP policy |
+| [NIST.md](NIST.md) | AI RMF / 600-1 / SP 800-122 alignment (not certification) |
+| [MODELS.md](MODELS.md) | Local vs cloud models, cards, when-to-use |
 | [FOUNDATIONS.md](FOUNDATIONS.md) | Citations + proof matrix |
 | [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) | Deep engineering spec |
 
@@ -66,7 +69,7 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 | [DASHBOARD.md](DASHBOARD.md) | Streamlit Gov / Orders tabs |
 | [MCP.md](MCP.md) | Cursor MCP allowlist |
 | [ADD-A-SOURCE.md](ADD-A-SOURCE.md) | Register a new CSV / HTTP source |
-| [LLM.md](LLM.md) | Optional OpenAI-compatible insight wording |
+| [LLM.md](LLM.md) | Optional Ollama / OpenAI-compatible insight wording — install |
 | [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) | Agency workflow |
 
 ---
@@ -75,10 +78,10 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 
 | Doc | Description |
 |---|---|
-| [GLOSSARY.md](GLOSSARY.md) | Bronze, critic, HITL, MCP, … |
-| [FAQ.md](FAQ.md) | API keys, production claims, quarantine |
-| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | uv, stale warehouse, pytest env |
-| [STANDARDS.md](STANDARDS.md) | Standards index |
+| [GLOSSARY.md](GLOSSARY.md) | Bronze, critic, HITL, MCP, AI RMF, … |
+| [FAQ.md](FAQ.md) | API keys, NIST certified?, quarantine |
+| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | uv, stale warehouse, Ollama 11434 |
+| [STANDARDS.md](STANDARDS.md) | Standards index including NIST |
 
 ---
 

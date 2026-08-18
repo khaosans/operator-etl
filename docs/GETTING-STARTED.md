@@ -20,10 +20,11 @@ flowchart LR
 
 | Step | Doc | Time |
 |---|---|---|
-| Understand the problem | [WHY.md](WHY.md) | ~5 min |
+| Understand the problem | [WHY.md](WHY.md) · [CONCEPTS.md](CONCEPTS.md) | ~10 min |
 | Install and verify | This guide §1–3 | ~10 min |
 | See the test case work | [WALKTHROUGH.md](WALKTHROUGH.md) | ~15 min |
 | Runtime model | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | ~10 min |
+| Optional LLM | [MODELS.md](MODELS.md) then [LLM.md](LLM.md) | after verify |
 
 ---
 
@@ -204,7 +205,7 @@ Copy [.env.example](../.env.example) to `.env` and adjust paths. All variables u
 | `OPERATOR_ETL_DOMAIN` | `orders` | `orders` or `gov` |
 | `OPERATOR_ETL_MAX_QUARANTINE_RATE` | `0.35` | Quality gate threshold |
 | `OPERATOR_ETL_MAX_FRESHNESS_HOURS` | `168` | Staleness threshold |
-| `OPERATOR_ETL_INSIGHT_BACKEND` | `template` | `template` or `llm` — [LLM.md](LLM.md) |
+| `OPERATOR_ETL_INSIGHT_BACKEND` | `template` | `template` or `llm` — [LLM.md](LLM.md) · [MODELS.md](MODELS.md) |
 | `OPERATOR_ETL_LLM_MODEL` | `gpt-4o-mini` | Chat model id when backend is `llm` (`llama3.2:3b` for Ollama) |
 | `OPERATOR_ETL_LLM_BASE_URL` | — | OpenAI-compatible base URL (`http://127.0.0.1:11434/v1` for Ollama) |
 | `OPERATOR_ETL_MAX_LLM_CALLS` | `12` | Per-run LLM budget |

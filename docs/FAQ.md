@@ -8,7 +8,25 @@
 
 **No.** The default insight is a **template** filled from gold KPIs. The critic checks numbers against the warehouse. `make e2e` / `./scripts/verify.sh` run with no cloud LLM.
 
-Optional LLM wording is **PARTIAL**: set `OPERATOR_ETL_INSIGHT_BACKEND=llm` after `uv sync --extra llm`. Local Ollama: `OPERATOR_ETL_LLM_BASE_URL=http://127.0.0.1:11434/v1` and `OPERATOR_ETL_LLM_MODEL=llama3.2:3b`. Missing extra, missing key, or a failed call falls back to the template. Not proven with a live API in CI. Setup: [LLM.md](LLM.md). Screenshots: [TOUR.md](TOUR.md).
+Optional LLM wording is **PARTIAL**: set `OPERATOR_ETL_INSIGHT_BACKEND=llm` after `uv sync --extra llm`. Local Ollama: `OPERATOR_ETL_LLM_BASE_URL=http://127.0.0.1:11434/v1` and `OPERATOR_ETL_LLM_MODEL=llama3.2:3b`. Missing extra, missing key, or a failed call falls back to the template. Not proven with a live API in CI. Install: [LLM.md](LLM.md). Cards: [MODELS.md](MODELS.md). Screenshots: [TOUR.md](TOUR.md).
+
+---
+
+## How do I install a local model?
+
+Install [Ollama](https://ollama.com/download), pull `llama3.2:3b`, then point Operator ETL at `http://127.0.0.1:11434/v1`. Full recipe: [LLM.md](LLM.md#local-ollama-from-zero). You do **not** need a discrete GPU (Apple Silicon Metal or CPU). Which tag and RAM: [MODELS.md](MODELS.md).
+
+---
+
+## Does gold JSON leave my machine?
+
+**Template:** no. **Ollama on localhost:** no — JSON stays on-box. **OpenAI API / Cloud Run with `insight_backend=llm`:** yes — numeric gold KPIs go to the host. Comment bodies still never go. That boundary is NIST **Map**: [NIST.md](NIST.md) · [MODELS.md](MODELS.md#data-boundary-nist-map).
+
+---
+
+## Are you NIST certified?
+
+**No.** We **align** selected practices from AI RMF 1.0, AI 600-1 (only the generative risks this demo mitigates), and SP 800-122. We do not claim NIST certification, FedRAMP, or an ATO. [NIST.md](NIST.md).
 
 ---
 

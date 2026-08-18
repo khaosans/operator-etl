@@ -235,10 +235,13 @@ Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.m
 | [docs/PERSONAS.md](docs/PERSONAS.md) | Who the demo is for |
 | [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md) | Product UI backlog (SPECIFIED) |
 | [docs/QUICKSTART.md](docs/QUICKSTART.md) | **First run** — `./scripts/verify.sh` |
+| [docs/CONCEPTS.md](docs/CONCEPTS.md) | Learn the project — planes, medallion, insight, HITL |
+| [docs/NIST.md](docs/NIST.md) | AI RMF / 600-1 / SP 800-122 — alignment, not certification |
+| [docs/MODELS.md](docs/MODELS.md) | Model cards and when-to-use (Ollama vs OpenAI) |
 | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars |
 | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof |
 | [docs/DASHBOARD.md](docs/DASHBOARD.md) | Streamlit Gov / Orders |
-| [docs/LLM.md](docs/LLM.md) | Optional local Ollama / OpenAI-compatible insights |
+| [docs/LLM.md](docs/LLM.md) | Install Ollama / OpenAI-compatible insights |
 | [docs/SCALING.md](docs/SCALING.md) | DuckDB → GCP |
 | [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations + proof matrix |
 | [docs/TESTING.md](docs/TESTING.md) | What each test proves |

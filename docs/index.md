@@ -4,7 +4,7 @@
 
 Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Tests prove the invariants. **No LLM API key** is required for the MVP demo.
 
-**When to read:** First page after you find the repo or this site. Then run verify.
+**When to read:** First page after you find the repo or this site. Then run verify. To **learn** the project: [CONCEPTS](CONCEPTS.md) · [NIST](NIST.md) · [MODELS](MODELS.md).
 
 ---
 
@@ -28,9 +28,10 @@ Full card: [QUICKSTART.md](QUICKSTART.md) · Screenshots: [TOUR.md](TOUR.md)
 
 | You are… | Start here |
 |---|---|
-| **New engineer** | [QUICKSTART](QUICKSTART.md) → [WALKTHROUGH](WALKTHROUGH.md) · [TOUR](TOUR.md) |
+| **New engineer** | [QUICKSTART](QUICKSTART.md) → [CONCEPTS](CONCEPTS.md) → [WALKTHROUGH](WALKTHROUGH.md) · [TOUR](TOUR.md) |
 | **FOIA / program officer** | [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · [TOUR](TOUR.md) |
-| **Architect / reviewer** | [WHY](WHY.md) → [FOUNDATIONS](FOUNDATIONS.md) → `./scripts/verify.sh` |
+| **Architect / reviewer** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → `./scripts/verify.sh` |
+| **Learn the project** | [CONCEPTS](CONCEPTS.md) → [NIST](NIST.md) → [MODELS](MODELS.md) → [LLM](LLM.md) |
 | **Data engineer extending sources** | [ADD-A-SOURCE](ADD-A-SOURCE.md) → [CLI](CLI.md) |
 | **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) |
 
@@ -51,7 +52,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
 ## Wiki map
 
 1. **Start** — [QUICKSTART](QUICKSTART.md) · [GETTING-STARTED](GETTING-STARTED.md) · [PERSONAS](PERSONAS.md) · [TOUR](TOUR.md)
-2. **Understand** — [WHY](WHY.md) · [HOW-IT-WORKS](HOW-IT-WORKS.md) · [FOUNDATIONS](FOUNDATIONS.md)
+2. **Understand** — [WHY](WHY.md) · [CONCEPTS](CONCEPTS.md) · [HOW-IT-WORKS](HOW-IT-WORKS.md) · [NIST](NIST.md) · [MODELS](MODELS.md) · [FOUNDATIONS](FOUNDATIONS.md)
 3. **Prove** — [WALKTHROUGH](WALKTHROUGH.md) · [TESTING](TESTING.md) · [FINAL-REVIEW](FINAL-REVIEW.md)
 4. **Use** — [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)
 5. **Reference** — [GLOSSARY](GLOSSARY.md) · [FAQ](FAQ.md) · [TROUBLESHOOTING](TROUBLESHOOTING.md) · [STANDARDS](STANDARDS.md)
@@ -67,5 +68,6 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
 ## See also
 
 - [QUICKSTART.md](QUICKSTART.md) — one-command verify
+- [CONCEPTS.md](CONCEPTS.md) — learn the project
 - [GLOSSARY.md](GLOSSARY.md) — terms used on every page
 - [FAQ.md](FAQ.md) — common questions
