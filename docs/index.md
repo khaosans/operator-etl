@@ -16,9 +16,11 @@ cd operator-etl
 ./scripts/verify.sh
 ```
 
-Success ends with **`OPERATOR_ETL_VERIFY=PASS`**, 38 pytest, and a FOIA demo of `status=complete`, `silver=10`, `quarantined=2`.
+Success ends with **`OPERATOR_ETL_VERIFY=PASS`**, 41 pytest, and a FOIA demo of `status=complete`, `silver=10`, `quarantined=2`.
 
-Full card: [QUICKSTART.md](QUICKSTART.md)
+Full card: [QUICKSTART.md](QUICKSTART.md) · Screenshots: [TOUR.md](TOUR.md)
+
+![Gov / FOIA dashboard after a local FOIA run](assets/screenshots/dashboard-gov-kpis.png)
 
 ---
 
@@ -26,8 +28,8 @@ Full card: [QUICKSTART.md](QUICKSTART.md)
 
 | You are… | Start here |
 |---|---|
-| **New engineer** | [QUICKSTART](QUICKSTART.md) → [WALKTHROUGH](WALKTHROUGH.md) |
-| **FOIA / program officer** | [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) |
+| **New engineer** | [QUICKSTART](QUICKSTART.md) → [WALKTHROUGH](WALKTHROUGH.md) · [TOUR](TOUR.md) |
+| **FOIA / program officer** | [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · [TOUR](TOUR.md) |
 | **Architect / reviewer** | [WHY](WHY.md) → [FOUNDATIONS](FOUNDATIONS.md) → `./scripts/verify.sh` |
 | **Data engineer extending sources** | [ADD-A-SOURCE](ADD-A-SOURCE.md) → [CLI](CLI.md) |
 | **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) |
@@ -39,7 +41,7 @@ Full card: [QUICKSTART.md](QUICKSTART.md)
 | Proven locally (`make e2e`) | Not this MVP |
 |---|---|
 | FOIA CSV → PII → silver/quarantine → gold → critic-verified insight | Production Presidio PII |
-| 38 pytest + CI on every push | Live GCP / BigQuery end-to-end |
+| 41 pytest + CI on every push | Live GCP / BigQuery end-to-end |
 | MCP allowlist (3 tools, no vault) | Live LLM API (optional path mocked; template default) |
 
 Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
@@ -48,7 +50,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
 
 ## Wiki map
 
-1. **Start** — [QUICKSTART](QUICKSTART.md) · [GETTING-STARTED](GETTING-STARTED.md)
+1. **Start** — [QUICKSTART](QUICKSTART.md) · [GETTING-STARTED](GETTING-STARTED.md) · [PERSONAS](PERSONAS.md) · [TOUR](TOUR.md)
 2. **Understand** — [WHY](WHY.md) · [HOW-IT-WORKS](HOW-IT-WORKS.md) · [FOUNDATIONS](FOUNDATIONS.md)
 3. **Prove** — [WALKTHROUGH](WALKTHROUGH.md) · [TESTING](TESTING.md) · [FINAL-REVIEW](FINAL-REVIEW.md)
 4. **Use** — [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)

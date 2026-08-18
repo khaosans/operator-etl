@@ -82,7 +82,7 @@ Or if uv is already installed: `make e2e`
 
 ```mermaid
 flowchart LR
-  OKF[OKF validate] --> pytest[38 pytest tests]
+  OKF[OKF validate] --> pytest[41 pytest tests]
   pytest --> demo[FOIA demo fresh warehouse]
   demo --> pass[MVP PASS]
 ```
@@ -151,12 +151,13 @@ After running the FOIA demo (so a gov warehouse exists):
 
 ```bash
 export OPERATOR_ETL_WAREHOUSE=".tmp/mvp-demo/operator.duckdb"
+export OPERATOR_ETL_ORDERS_WAREHOUSE=".tmp/orders-demo/operator.duckdb"
 export OPERATOR_ETL_PIPELINE_NAME=public_comments
 export OPERATOR_ETL_DOMAIN=gov
 uv run streamlit run dashboard/app.py
 ```
 
-Open the **Gov / FOIA** tab for comment KPIs, quarantine, and insights. The **Orders demo** tab uses the default orders pipeline.
+Open the **Gov / FOIA** tab for comment KPIs, quarantine, and insights. Seed orders first (`OPERATOR_ETL_WAREHOUSE=.tmp/orders-demo/operator.duckdb uv run etl run --source demo`) so the **Orders demo** tab is not empty. Screenshots: [TOUR.md](TOUR.md).
 
 ---
 
@@ -204,9 +205,10 @@ Copy [.env.example](../.env.example) to `.env` and adjust paths. All variables u
 | `OPERATOR_ETL_MAX_QUARANTINE_RATE` | `0.35` | Quality gate threshold |
 | `OPERATOR_ETL_MAX_FRESHNESS_HOURS` | `168` | Staleness threshold |
 | `OPERATOR_ETL_INSIGHT_BACKEND` | `template` | `template` or `llm` — [LLM.md](LLM.md) |
-| `OPERATOR_ETL_LLM_MODEL` | `gpt-4o-mini` | Chat model id when backend is `llm` |
-| `OPERATOR_ETL_LLM_BASE_URL` | — | OpenAI-compatible base URL (localhost) |
+| `OPERATOR_ETL_LLM_MODEL` | `gpt-4o-mini` | Chat model id when backend is `llm` (`llama3.2:3b` for Ollama) |
+| `OPERATOR_ETL_LLM_BASE_URL` | — | OpenAI-compatible base URL (`http://127.0.0.1:11434/v1` for Ollama) |
 | `OPERATOR_ETL_MAX_LLM_CALLS` | `12` | Per-run LLM budget |
+| `OPERATOR_ETL_ORDERS_WAREHOUSE` | `warehouse/operator.duckdb` | Streamlit Orders tab warehouse |
 
 ### Checkpoints (LangGraph)
 

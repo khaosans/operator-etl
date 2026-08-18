@@ -57,7 +57,7 @@ make e2e
 | Step | Tool | Proves |
 |---|---|---|
 | OKF validate | `scripts/okf_validate.py` | Documentation structure |
-| pytest | 38 tests | PII, critic, graph, idempotency, MCP, HITL, mocked LLM |
+| pytest | 41 tests | PII, critic, graph, idempotency, MCP, HITL, mocked LLM |
 | FOIA demo | `scripts/demo_mvp.sh` | End-to-end on fresh warehouse |
 
 **Expected terminal output (FOIA demo section):**
@@ -139,7 +139,9 @@ export OPERATOR_ETL_DOMAIN=gov
 uv run streamlit run dashboard/app.py
 ```
 
-Open **Gov / FOIA** tab — comment count, PII flagged, quarantine expander, latest insight text should match Step 1 output.
+Open **Gov / FOIA** tab — comment count, PII flagged, quarantine expander, latest insight text should match Step 1 output. Full screenshot set: [TOUR.md](TOUR.md).
+
+![Gov / FOIA dashboard](assets/screenshots/dashboard-gov-kpis.png)
 
 ---
 

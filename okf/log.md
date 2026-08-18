@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-08-17 (screenshot tour + local Ollama)
+
+- PERSONAS + TOUR wiki pages; Streamlit dual warehouse; docs/assets/screenshots
+- Laptop Ollama llama3.2:3b critic-passed; CI still template; LLM payload numeric KPIs only
+
 ## 2026-08-17 (optional LLM insights)
 
 - Optional OpenAI-compatible insight node; default remains template (no API key)

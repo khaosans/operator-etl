@@ -7,7 +7,7 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**38 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**41 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
@@ -87,6 +87,14 @@ flowchart TB
 | `test_llm_backend_uses_mocked_grounded_draft` | LLM path gets gold JSON only; critic would pass |
 | `test_llm_invented_number_fails_critic` | Invented counts still fail the critic |
 | `test_llm_backend_falls_back_to_template_without_key` | No key / missing extra → template, no crash |
+| `test_llm_payload_strips_timestamps` | LLM JSON is numeric KPIs only |
+
+### `test_config.py` — Settings
+
+| Test | Proves |
+|---|---|
+| `test_orders_warehouse_is_independent_of_gov` | Gov and Orders warehouses can differ |
+| `test_orders_warehouse_defaults_to_repo_warehouse` | Default orders path is `warehouse/operator.duckdb` |
 
 No live API key in CI.
 

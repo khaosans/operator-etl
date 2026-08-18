@@ -46,6 +46,7 @@ def test_llm_backend_uses_mocked_grounded_draft(monkeypatch):
         human = messages[1][1]
         assert "Gold metrics (JSON):" in human
         assert "comment_count" in human
+        assert "2026" not in human
         assert "jane.doe" not in human
         assert "body" not in human.lower()
         return GROUNDED
@@ -100,3 +101,19 @@ def test_llm_backend_falls_back_to_template_without_key(monkeypatch):
     assert draft2 == render_template_insight(METRICS)
     assert note2 is not None
     assert "langchain-openai" in note2
+
+
+def test_llm_payload_strips_timestamps(monkeypatch):
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-test-not-real")
+    captured: dict = {}
+
+    def fake_invoke(settings, messages):
+        captured["human"] = messages[1][1]
+        return GROUNDED
+
+    monkeypatch.setattr("operator_etl_graph.insights._invoke_chat", fake_invoke)
+    metrics = {**METRICS, "as_of": "2026-08-18T00:51:51.647651"}
+    insight_node({"gold_metrics": metrics, "quality_passes": True, "_llm_calls": 0}, _llm_settings())
+    assert "comment_count" in captured["human"]
+    assert "2026" not in captured["human"]
+    assert "as_of" not in captured["human"]

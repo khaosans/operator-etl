@@ -8,7 +8,7 @@
 
 **No.** The default insight is a **template** filled from gold KPIs. The critic checks numbers against the warehouse. `make e2e` / `./scripts/verify.sh` run with no cloud LLM.
 
-Optional LLM wording is **PARTIAL**: set `OPERATOR_ETL_INSIGHT_BACKEND=llm` after `uv sync --extra llm`. Missing extra, missing key, or a failed call falls back to the template. Not proven with a live API in CI. Setup: [LLM.md](LLM.md).
+Optional LLM wording is **PARTIAL**: set `OPERATOR_ETL_INSIGHT_BACKEND=llm` after `uv sync --extra llm`. Local Ollama: `OPERATOR_ETL_LLM_BASE_URL=http://127.0.0.1:11434/v1` and `OPERATOR_ETL_LLM_MODEL=llama3.2:3b`. Missing extra, missing key, or a failed call falls back to the template. Not proven with a live API in CI. Setup: [LLM.md](LLM.md). Screenshots: [TOUR.md](TOUR.md).
 
 ---
 

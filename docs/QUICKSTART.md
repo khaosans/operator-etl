@@ -38,11 +38,15 @@ Final banner:
 ==========================================
   OPERATOR_ETL_VERIFY=PASS
 ==========================================
-  tests=34
+  tests=41
   demo=silver=10 quarantined=2 status=complete
   next=docs/WALKTHROUGH.md
 ==========================================
 ```
+
+![verify.sh PASS](assets/screenshots/verify-pass.png)
+
+Screenshots of Streamlit and CLI: [TOUR.md](TOUR.md).
 
 **Machine-readable (agents):**
 

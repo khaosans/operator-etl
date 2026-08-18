@@ -1,6 +1,15 @@
-# Changelog
+## [0.4.5] — 2026-08-17
 
-All notable changes to this project are documented here and in [okf/log.md](okf/log.md).
+### Added
+
+- Persona screenshot tour: [docs/TOUR.md](docs/TOUR.md), [docs/PERSONAS.md](docs/PERSONAS.md)
+- Streamlit Gov vs Orders warehouses (`OPERATOR_ETL_ORDERS_WAREHOUSE`) so both tabs can show real data
+- Local Ollama recipe in [docs/LLM.md](docs/LLM.md); laptop run `llama3.2:3b` critic-passed (not CI)
+
+### Changed
+
+- LLM payload is numeric gold KPIs only (no timestamps)
+- 41 pytest; dashboard screenshots committed under `docs/assets/screenshots/`
 
 ## [0.4.4] — 2026-08-17
 

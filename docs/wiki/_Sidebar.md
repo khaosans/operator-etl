@@ -4,6 +4,8 @@
 - [Home](https://khaosans.github.io/operator-etl/)
 - [Quickstart](https://khaosans.github.io/operator-etl/QUICKSTART/)
 - [Getting started](https://khaosans.github.io/operator-etl/GETTING-STARTED/)
+- [Personas](https://khaosans.github.io/operator-etl/PERSONAS/)
+- [Visual tour](https://khaosans.github.io/operator-etl/TOUR/)
 
 **Understand**
 - [Why](https://khaosans.github.io/operator-etl/WHY/)
