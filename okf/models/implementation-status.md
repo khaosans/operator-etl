@@ -8,7 +8,7 @@ timestamp: 2026-08-17T00:00:00Z
 
 # Implementation status
 
-**Tests:** 41 pytest passing · **MVP gate:** `./harness/e2e.sh`
+**Tests:** 51 pytest passing · **MVP gate:** `./harness/e2e.sh`
 
 | Component | Status | Proven in CI | Path |
 |---|---|---|---|

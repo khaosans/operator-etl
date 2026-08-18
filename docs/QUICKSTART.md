@@ -38,7 +38,7 @@ Final banner:
 ==========================================
   OPERATOR_ETL_VERIFY=PASS
 ==========================================
-  tests=41
+  tests=51
   demo=silver=10 quarantined=2 status=complete
   next=docs/WALKTHROUGH.md
 ==========================================

@@ -1,6 +1,6 @@
 # Operator ETL — Strategic Roadmap
 
-**Last updated:** 2026-08-18 · **Status:** MVP proven locally · **Gate:** `make e2e` (41 pytest)
+**Last updated:** 2026-08-18 · **Status:** MVP proven locally · **Gate:** `make e2e` (51 pytest)
 
 ---
 
@@ -65,7 +65,7 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 **Goal:** Prove the invariant: *deterministic ETL enforces data quality; agents orchestrate; critic gates publish.*
 
 **Exit criteria:**
-- ✅ `make e2e` passes locally (41 pytest + FOIA demo)
+- ✅ `make e2e` passes locally (51 pytest + FOIA demo)
 - ✅ All PII found, redacted, never in insight
 - ✅ Quality gate rejects bad rows
 - ✅ Critic rejects hallucinated numbers
@@ -258,7 +258,7 @@ gantt
 
 ### L0 (shipped)
 - [x] Exit code 0 from `make e2e`
-- [x] 41 pytest passing
+- [x] 51 pytest passing
 - [x] FOIA demo: `silver=10, quarantined=2, status=complete`
 - [x] CI green on every commit (GitHub Actions)
 - [x] Zero PII in insight text

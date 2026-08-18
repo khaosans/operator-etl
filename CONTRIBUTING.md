@@ -4,7 +4,7 @@
 
 New to the repo? Run **`./scripts/verify.sh`** — or see [docs/QUICKSTART.md](docs/QUICKSTART.md).
 
-**Safe updates:** [docs/RELEASING.md](docs/RELEASING.md) · **Going public:** [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md)
+**Safe updates:** [docs/RELEASING.md](docs/RELEASING.md) · **Versions / tags:** [docs/VERSIONING.md](docs/VERSIONING.md) · **Going public:** [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md)
 
 ## Before you open a PR
 
@@ -18,6 +18,7 @@ New to the repo? Run **`./scripts/verify.sh`** — or see [docs/QUICKSTART.md](d
    ```
 3. Update [okf/models/implementation-status.md](okf/models/implementation-status.md) if component status changed
 4. Append a line to [okf/log.md](okf/log.md) for significant doc/architecture changes
+5. If the change is user-visible, add a bullet under `## [Unreleased]` in [CHANGELOG.md](CHANGELOG.md). **Do not** bump `version` in `pyproject.toml` unless this PR is a release ([docs/VERSIONING.md](docs/VERSIONING.md)).
 
 CI must pass: **e2e**, **docker**, and **Secret scan** (gitleaks). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
 
@@ -82,6 +83,6 @@ Going forward:
 - **Message format:** imperative subject (~72 chars), body explains *why* if non-obvious
 - **Before push:** `make e2e` green
 - **Do not** rewrite published `master` history (no `git push --force`) without explicit maintainer agreement
-- **Releases:** tag semver after CHANGELOG + `pyproject.toml` bump (`git tag v0.4.0`)
+- **Releases:** only after a dedicated release PR. Then annotated tag (`git tag -a v0.5.0-beta.1`). Never move a published tag. Merging to `master` does not publish packages.
 
-Full release workflow: [docs/RELEASING.md](docs/RELEASING.md)
+Full process: [docs/VERSIONING.md](docs/VERSIONING.md) · [docs/RELEASING.md](docs/RELEASING.md)

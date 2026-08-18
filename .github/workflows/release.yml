@@ -1,0 +1,119 @@
+# Publish only when an immutable v* tag is pushed.
+# Pull requests and pushes to master do not publish packages.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+# contents: GitHub Release + assets
+# packages: GHCR + GitHub Packages (PyPI-compatible)
+# No id-token: this job authenticates with GITHUB_TOKEN, not OIDC.
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: ghcr.io/${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Lowercase image name
+        run: echo "IMAGE=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+
+      - name: Validate tag vs pyproject + CHANGELOG
+        id: meta
+        run: python3 scripts/release_meta.py "${{ github.ref_name }}"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --frozen --extra dev
+
+      - name: Proof gate
+        run: ./harness/e2e.sh
+
+      - name: Build sdist and wheel
+        run: uv build
+
+      # GITHUB_TOKEN is enough for this repo. If an org policy blocks GHCR
+      # pushes, add a PAT with write:packages as repository secret GHCR_TOKEN.
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker metadata
+        id: docker
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=raw,value=${{ steps.meta.outputs.docker_tag }}
+            type=sha,format=long,prefix=sha-
+            type=raw,value=latest,enable=${{ steps.meta.outputs.prerelease == 'false' }}
+          labels: |
+            org.opencontainers.image.title=operator-etl
+            org.opencontainers.image.description=Agentic ETL for FOIA and public comments
+            org.opencontainers.image.version=${{ steps.meta.outputs.docker_tag }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.licenses=Apache-2.0
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.docker.outputs.tags }}
+          labels: ${{ steps.docker.outputs.labels }}
+
+      # gh has --prerelease but no --latest. A non-prerelease is GitHub's Latest
+      # unless a newer non-prerelease exists. Do not pass unknown flags.
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          notes="$(mktemp)"
+          python3 scripts/release_meta.py "${{ github.ref_name }}" --notes-file "$notes"
+          extra=()
+          if [[ "${{ steps.meta.outputs.prerelease }}" == "true" ]]; then
+            extra+=(--prerelease)
+          fi
+          gh release create "${{ github.ref_name }}" dist/* \
+            --title "Operator ETL ${{ steps.meta.outputs.display_version }}" \
+            --notes-file "$notes" \
+            "${extra[@]}"
+
+      - name: Publish wheel to GitHub Packages
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          uvx twine upload \
+            --non-interactive \
+            --repository-url "https://pypi.pkg.github.com/${{ github.repository_owner }}" \
+            dist/*

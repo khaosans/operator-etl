@@ -111,6 +111,12 @@ Always invite `./scripts/verify.sh` in posts.
 
 ---
 
+## How do versions work? Will docs PRs keep bumping the package?
+
+**No.** Merging to `master` updates the wiki only. A **git tag** (`v0.5.0-beta.1`, then `v0.5.0`) publishes the GitHub Release, GHCR image, and GitHub Packages wheel. Daily PRs append to CHANGELOG **[Unreleased]** and do not change `pyproject.toml`. Tags are never moved; a bad beta is followed by `-beta.2`. [VERSIONING.md](VERSIONING.md).
+
+---
+
 ## How do I add my own CSV?
 
 See [ADD-A-SOURCE.md](ADD-A-SOURCE.md). Register it in `pipelines/*.yaml`, add a sample, add a test.
@@ -122,3 +128,4 @@ See [ADD-A-SOURCE.md](ADD-A-SOURCE.md). Register it in `pipelines/*.yaml`, add a
 - [GLOSSARY.md](GLOSSARY.md)
 - [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 - [QUICKSTART.md](QUICKSTART.md)
+- [VERSIONING.md](VERSIONING.md)

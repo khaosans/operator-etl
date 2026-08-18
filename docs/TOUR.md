@@ -16,7 +16,7 @@ Quarantine payloads may show **synthetic** emails/phones from `samples/public_co
 
 ![verify.sh PASS banner](assets/screenshots/verify-pass.png)
 
-Expected: `OPERATOR_ETL_VERIFY=PASS`, 41 pytest, FOIA demo `silver=10` `quarantined=2`.
+Expected: `OPERATOR_ETL_VERIFY=PASS`, 51 pytest, FOIA demo `silver=10` `quarantined=2`.
 
 ![Template etl-graph insight](assets/screenshots/cli-foia-insight.png)
 

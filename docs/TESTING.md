@@ -7,7 +7,7 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**41 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**51 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
@@ -89,14 +89,26 @@ flowchart TB
 | `test_llm_backend_falls_back_to_template_without_key` | No key / missing extra → template, no crash |
 | `test_llm_payload_strips_timestamps` | LLM JSON is numeric KPIs only |
 
+No live API key in CI.
+
+### `test_release_meta.py` — Tag publish gate
+
+| Test | Proves |
+|---|---|
+| `test_parse_tag_stable` / `_beta` / `_rc_and_refs_prefix` | SemVer tags map to PEP 440 and Docker tags |
+| `test_parse_tag_rejects_incomplete` | `v1.2` cannot publish |
+| `test_pyproject_version_pep621` / `_poetry` | Version is read from TOML, not a regex |
+| `test_changelog_section_extracts_body` | Release notes come from the matching CHANGELOG heading |
+| `test_changelog_missing_heading_shows_snippet` | Missing heading fails with the top of the file |
+
+Used by [`.github/workflows/release.yml`](../.github/workflows/release.yml). Process: [VERSIONING.md](VERSIONING.md).
+
 ### `test_config.py` — Settings
 
 | Test | Proves |
 |---|---|
 | `test_orders_warehouse_is_independent_of_gov` | Gov and Orders warehouses can differ |
 | `test_orders_warehouse_defaults_to_repo_warehouse` | Default orders path is `warehouse/operator.duckdb` |
-
-No live API key in CI.
 
 ### `test_pii.py` — Policy plane
 

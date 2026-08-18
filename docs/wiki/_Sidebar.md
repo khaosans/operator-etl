@@ -44,6 +44,7 @@
 
 **Contribute**
 - [Contributing](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md)
+- [Versioning](https://khaosans.github.io/operator-etl/VERSIONING/)
 - [Releasing](https://khaosans.github.io/operator-etl/RELEASING/)
 - [Security](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md)
 

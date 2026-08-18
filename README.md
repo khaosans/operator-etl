@@ -3,6 +3,7 @@
 **Agentic data intake for FOIA and public comments** — deterministic medallion warehouse, LangGraph orchestration, MCP tool surface, PII policy plane.
 
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/khaosans/operator-etl?include_prereleases)](https://github.com/khaosans/operator-etl/releases)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 > **Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Tests prove the invariants** — no LLM API key required for the MVP demo.
@@ -35,7 +36,7 @@ cd operator-etl
 
 Installs **uv** if missing, syncs deps, runs the full proof gate. Success ends with **`OPERATOR_ETL_VERIFY=PASS`**.
 
-**Expected:** 41 pytest pass, FOIA demo prints `status=complete` and `silver=10`. Full screenshot set: [docs/TOUR.md](docs/TOUR.md).
+**Expected:** 51 pytest pass, FOIA demo prints `status=complete` and `silver=10`. Full screenshot set: [docs/TOUR.md](docs/TOUR.md).
 
 ![Gov / FOIA dashboard](docs/assets/screenshots/dashboard-gov-kpis.png)
 
@@ -51,6 +52,8 @@ flowchart LR
 ```
 
 Already have uv? `make e2e` · Details: [docs/QUICKSTART.md](docs/QUICKSTART.md) · Step-by-step: [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)
+
+**Published snapshots** are git tags (not every merge). After a release exists: GitHub Releases (wheels), `ghcr.io/khaosans/operator-etl:<version>`, GitHub Packages `operator-etl`. Process: [docs/VERSIONING.md](docs/VERSIONING.md). The wiki always tracks `master`.
 
 ```mermaid
 flowchart LR
@@ -116,7 +119,7 @@ Details: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · [okf/models/three-plane
 
 | Question | Answer |
 |---|---|
-| Does it work locally? | `make e2e` — OKF validate, **41 pytest**, FOIA demo on fresh warehouse |
+| Does it work locally? | `make e2e` — OKF validate, **51 pytest**, FOIA demo on fresh warehouse |
 | What does CI prove? | Same gate on every push ([badge above](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)) |
 | What is **not** proven in CI? | Live GCP deploy, Presidio PII, LLM-generated insights — see honest audit |
 
@@ -191,7 +194,7 @@ flowchart LR
 | `make verify` | Same as verify.sh |
 | `make e2e` | Full MVP proof gate (OKF + tests + FOIA demo) |
 | `make demo` | FOIA demo only |
-| `make test` | pytest (41 tests) |
+| `make test` | pytest (51 tests) |
 | `uv run etl-graph --source public_comments` | FOIA agentic pipeline |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
 | `uv run operator-etl-mcp` | MCP server for Cursor agents |
@@ -217,7 +220,7 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 
 ## Scope boundaries
 
-**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **41 tests** + CI
+**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **51 tests** + CI
 
 **Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E · production officer UX (responsive, streaming, gen UI) — [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md)
 
@@ -273,6 +276,7 @@ Licensed under **[Apache License 2.0](LICENSE)**. Sample data is synthetic — d
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - [SECURITY.md](SECURITY.md) · [CHANGELOG.md](CHANGELOG.md)
-- [docs/RELEASING.md](docs/RELEASING.md) — safe updates and dependency workflow
+- [docs/VERSIONING.md](docs/VERSIONING.md) — tags publish; do not overwrite a version
+- [docs/RELEASING.md](docs/RELEASING.md) — PR workflow, cut a release, Dependabot
 
 Issues and PRs welcome.

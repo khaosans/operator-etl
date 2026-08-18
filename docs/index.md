@@ -32,7 +32,7 @@ cd operator-etl
 ./scripts/verify.sh
 ```
 
-Success ends with **`OPERATOR_ETL_VERIFY=PASS`**, 41 pytest, and a FOIA demo of `status=complete`, `silver=10`, `quarantined=2`.
+Success ends with **`OPERATOR_ETL_VERIFY=PASS`**, 51 pytest, and a FOIA demo of `status=complete`, `silver=10`, `quarantined=2`.
 
 Full card: [QUICKSTART.md](QUICKSTART.md) · Screenshots: [TOUR.md](TOUR.md)
 
@@ -73,7 +73,7 @@ Docs follow a [Diátaxis](https://diataxis.fr/) split so tutorials, explanation,
 | **Tutorials** | Do the happy path | Start + Prove: Quickstart, Getting started, Tour, Walkthrough |
 | **Explanation** | Understand problem, design, words, transfer, risk | Understand: Why, Concepts, Patterns, How it works, Apply, Risks, NIST, Models, Foundations |
 | **How-to** | Achieve a task | Use + Scale: CLI, sources, LLM, dashboard, GCP |
-| **Reference** | Look up a fact | Glossary, FAQ, Troubleshooting, Standards, Testing, Final review |
+| **Reference** | Look up a fact | Glossary, FAQ, Troubleshooting, Standards, Testing, Final review, [Versioning](VERSIONING.md) |
 
 Personas: [PERSONAS.md](PERSONAS.md).
 
@@ -84,7 +84,7 @@ Personas: [PERSONAS.md](PERSONAS.md).
 | Proven locally (`make e2e`) | Not this MVP |
 |---|---|
 | FOIA CSV → PII → silver/quarantine → gold → critic-verified insight | Production Presidio PII |
-| 41 pytest + CI on every push | Live GCP / BigQuery end-to-end |
+| 51 pytest + CI on every push | Live GCP / BigQuery end-to-end |
 | MCP allowlist (3 tools, no vault) | Live LLM API (optional path mocked; template default) |
 
 Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md) · Residual risks: [RISKS.md](RISKS.md)
@@ -99,7 +99,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md) · Residual risks: [RISKS.md](RIS
 4. **Use** — [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)
 5. **Reference** — [GLOSSARY](GLOSSARY.md) · [FAQ](FAQ.md) · [TROUBLESHOOTING](TROUBLESHOOTING.md) · [STANDARDS](STANDARDS.md)
 6. **Scale** — [SCALING](SCALING.md) · [PRODUCT-UX](PRODUCT-UX.md) · [infra/README](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
-7. **Contribute** — [CONTRIBUTING](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) · [RELEASING](RELEASING.md) · [SECURITY](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md)
+7. **Contribute** — [CONTRIBUTING](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) · [VERSIONING](VERSIONING.md) · [RELEASING](RELEASING.md) · [SECURITY](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md)
 
 **Deep spec:** [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) (not duplicated here).
 

@@ -13,7 +13,7 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 | Item | Status |
 |---|---|
 | Apache-2.0 license | ✅ |
-| CI proof gate (41 pytest + FOIA demo) | ✅ |
+| CI proof gate (51 pytest + FOIA demo) | ✅ |
 | Secret scan (gitleaks) | ✅ |
 | Dependabot (pip + Actions) | ✅ |
 | PR / issue templates, CODE_OF_CONDUCT | ✅ |
@@ -30,6 +30,8 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 | **Branch protection** on `master` | Require `e2e`, `docker`, `gitleaks` before merge |
 | **Dependabot alerts** | Settings → Code security → enable alerts + security updates |
 | **Repository visibility** | Settings → General → Public (if still private on GitHub) |
+| **Packages tag immutability** | After first GHCR publish: package settings → make tags immutable |
+| **Do not force-push `master` or `v*` tags** | Releases are snapshots; next freeze is a new tag |
 
 ---
 
@@ -50,13 +52,14 @@ Suggested copy: [share/README.md](share/README.md)
 | Safe to claim | Do not claim |
 |---|---|
 | `make e2e` reproduces FOIA demo locally | Production FOIA deployment |
-| 41 pytest + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
+| 51 pytest + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
 | Medallion + LangGraph + MCP architecture | Live GCP/BQ E2E (PARTIAL) |
 
 ---
 
 ## See also
 
+- [VERSIONING.md](VERSIONING.md) — tags publish; Packages / GHCR
 - [RELEASING.md](RELEASING.md) — safe updates
 - [WHY.md](WHY.md) — educational overview
 - [CONTRIBUTING.md](../CONTRIBUTING.md)
