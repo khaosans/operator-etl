@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-08-18 (concepts, NIST, models)
+
+- docs/CONCEPTS.md narrative tour; docs/NIST.md AI RMF / 600-1 / SP 800-122 (alignment, not ATO)
+- docs/MODELS.md cards + when-to-use; LLM.md from-zero Ollama install
+
 ## 2026-08-17 (README wiki hub + product UX backlog)
 
 - README docs table leads with GitHub Pages wiki; TOUR/PERSONAS/PRODUCT-UX linked

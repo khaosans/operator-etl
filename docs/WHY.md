@@ -173,5 +173,7 @@ Apache License 2.0 — clone, fork, and run the proof gate. Sample data is **syn
 ## See also
 
 - [README.md](../README.md) — quick start and trade-offs
+- [CONCEPTS.md](CONCEPTS.md) — narrative tour
+- [NIST.md](NIST.md) — standards alignment (not certification)
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — runtime model
 - [FOUNDATIONS.md](FOUNDATIONS.md) — citations and proof matrix

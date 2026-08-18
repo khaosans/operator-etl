@@ -15,7 +15,7 @@ Named composites: [PERSONAS.md](PERSONAS.md).
 | Role | What they do | Entry point |
 |---|---|---|
 | **FOIA officer (Priya)** | Review PII flags, quarantine, critic-checked insight | Dashboard Gov tab |
-| **Data engineer (Riley)** | Add sources, run pipelines, optional local Ollama | [GETTING-STARTED.md](GETTING-STARTED.md), [LLM.md](LLM.md) |
+| **Data engineer (Riley)** | Add sources, run pipelines, optional local Ollama | [GETTING-STARTED.md](GETTING-STARTED.md), [LLM.md](LLM.md), [MODELS.md](MODELS.md) |
 | **New engineer (Sam)** | Prove the clone | `./scripts/verify.sh` |
 | **Reviewer (Jordan)** | Honest scope | [FINAL-REVIEW.md](FINAL-REVIEW.md) |
 | **AI agent (MCP)** | Query gold KPIs, allowlisted SQL | `operator-etl-mcp` |

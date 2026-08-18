@@ -87,7 +87,9 @@ After `./scripts/verify.sh`, confirm:
 | Goal | Doc |
 |---|---|
 | Inspect warehouse SQL + dashboard | [WALKTHROUGH.md](WALKTHROUGH.md) · `./scripts/walkthrough.sh` |
-| Understand the design | [WHY.md](WHY.md) |
+| Learn the project | [CONCEPTS.md](CONCEPTS.md) |
+| Understand the design | [WHY.md](WHY.md) · [NIST.md](NIST.md) |
+| Optional local/cloud model | [MODELS.md](MODELS.md) · [LLM.md](LLM.md) |
 | MCP, env vars, Streamlit | [GETTING-STARTED.md](GETTING-STARTED.md) |
 | What each test proves | [TESTING.md](TESTING.md) |
 

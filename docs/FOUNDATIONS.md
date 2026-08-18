@@ -31,10 +31,10 @@ Each row links an invariant to an authoritative source, where it lives in code, 
 | Safe replay on duplicate drops | [2] Idempotent consumers (DDIA) | GCS/Pub/Sub delivery is at-least-once | `ingest_files` content hash | `tests/test_pipeline.py` |
 | Explicit orchestration, resumable runs | [3] LangGraph | Replace ad-hoc agent loops; HITL interrupts | `operator_etl_graph/` | `tests/test_gov_graph.py` |
 | Least-privilege agent data access | [4] MCP spec | Agents get typed tools, not the warehouse | `operator_etl_mcp/`, `sql/allowlist.yaml` | `tests/test_mcp_tools.py` |
-| No PII in agent context | [5] NIST SP 800-122 | FOIA redaction before release | `operator_etl_policy/pii.py` | `tests/test_pii.py` |
+| No PII in agent context | [5] NIST SP 800-122 | FOIA redaction before release — [NIST.md](NIST.md) | `operator_etl_policy/pii.py` | `tests/test_pii.py` |
 | Withhold bad KPIs, don't warn-and-show | [6] Goodhart's Law | Metrics that become targets get gamed | `quality_gate` in insights | `tests/test_quality.py` |
-| Insight numbers must match warehouse | [7] Grounded generation (RAG) — simplified to deterministic critic | Defensible memos for leadership | `operator_etl_graph/critic.py` | `tests/test_critic.py` |
-| Human sign-off on release | [8] NIST AI RMF | Agents orchestrate, humans publish | `okf/decisions/agents-never-publish-prod.md`, graph `needs_human` | `tests/test_gov_graph.py` (quality fail), `test_critic_exhausted_routes_needs_human`; PII gray-zone HITL needs Presidio |
+| Insight numbers must match warehouse | [7] Grounded generation + [11] NIST AI 600-1 confabulation | Defensible memos; GAI wording still critic-gated — [NIST.md](NIST.md) | `operator_etl_graph/critic.py` | `tests/test_critic.py` |
+| Human sign-off on release | [8] NIST AI RMF | Agents orchestrate, humans publish — [NIST.md](NIST.md) | `okf/decisions/agents-never-publish-prod.md`, graph `needs_human` | `tests/test_gov_graph.py` (quality fail), `test_critic_exhausted_routes_needs_human`; PII gray-zone HITL needs Presidio |
 | Public release workflow | [9] FOIA statute | Domain framing for gov tab and marts | FOIA guide, `sql/marts/gov/` | `scripts/demo_mvp.sh` |
 | Limit LLM agency | [10] OWASP LLM Top 10 | Excessive agency → allowlist + no vault MCP | MCP deny paths | `tests/test_mcp_tools.py` |
 
@@ -58,15 +58,19 @@ Full standards index: [STANDARDS.md](STANDARDS.md)
 2. Kleppmann, M. (2017). *Designing Data-Intensive Applications*. O'Reilly. Ch. 11 — stream processing and idempotent consumers.
 3. LangChain. LangGraph documentation. https://langchain-ai.github.io/langgraph/
 4. Anthropic. Model Context Protocol specification. https://modelcontextprotocol.io/
-5. NIST. (2010). SP 800-122 — Guide to Protecting the Confidentiality of Personally Identifiable Information. https://csrc.nist.gov/publications/detail/sp/800-122/final
+5. NIST. (2010). SP 800-122 — Guide to Protecting the Confidentiality of Personally Identifiable Information. https://csrc.nist.gov/publications/detail/sp/800-122/final — scan before insight; vault; no PII in model payload. [NIST.md](NIST.md).
 6. Goodhart, C. A. E. (1975). Problems of Monetary Management: The U.K. Experience. In *Papers in Monetary Economics*. Reserve Bank of Australia. See also Strathern: "When a measure becomes a target, it ceases to be a good measure."
 7. Lewis, P. et al. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. *NeurIPS*. https://arxiv.org/abs/2005.11401 — Operator ETL applies the grounding principle via deterministic critic, not retrieval.
-8. NIST. (2023). AI Risk Management Framework (AI RMF 1.0). https://www.nist.gov/itl/ai-risk-management-framework — Govern and Map functions; human oversight before production release.
+8. NIST. (2023). AI Risk Management Framework (AI RMF 1.0). https://www.nist.gov/itl/ai-risk-management-framework — Govern, Map, Measure, Manage; human oversight before production release. Plain-language map: [NIST.md](NIST.md).
 9. U.S. Congress. 5 U.S.C. § 552 — Freedom of Information Act. https://www.foia.gov/ — public disclosure workflow framing.
 10. OWASP. Top 10 for Large Language Model Applications. https://owasp.org/www-project-top-10-for-large-language-model-applications/ — LLM06 excessive agency mitigated by MCP allowlist.
+11. NIST. (2024). AI 600-1 — Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile. https://doi.org/10.6028/NIST.AI.600-1 — confabulation and GAI risks we actually mitigate; we do not claim the full profile.
+12. NIST. (2020). Privacy Framework 1.0. https://www.nist.gov/privacy-framework — identify/protect PII in the comment pipeline (not a full privacy program).
 
 ## See also
 
+- [CONCEPTS.md](CONCEPTS.md) — narrative tour
+- [NIST.md](NIST.md) — AI RMF / 600-1 / SP 800-122 alignment (not certification)
 - [FINAL-REVIEW.md](FINAL-REVIEW.md) — honest proven/partial/specified audit
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — runtime model and planes
 - [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) — deep engineering spec

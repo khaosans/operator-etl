@@ -108,7 +108,25 @@ Concept files need YAML frontmatter (`type`, `title`, `description`). New files 
 
 **Cause:** `OPERATOR_ETL_INSIGHT_BACKEND=llm` is set but the extra, key, or API call is missing/failing. That is intentional — the critic still runs on the template.
 
-**Fix:** See [LLM.md](LLM.md). For Cloud Run, do not flip the backend to `llm` until the Secret Manager OpenAI secret is a real key.
+**Fix:** See [LLM.md](LLM.md). For Cloud Run, do not flip the backend to `llm` until the Secret Manager OpenAI secret is a real key. Model choice: [MODELS.md](MODELS.md).
+
+---
+
+## Ollama connection refused on 11434
+
+**Symptom:** `curl http://127.0.0.1:11434/api/tags` fails, or the graph falls back to template with a connection error in `errors`.
+
+**Cause:** Ollama is not installed or the daemon is not running.
+
+**Fix:** Install from [ollama.com/download](https://ollama.com/download) (macOS: official app or `brew install --cask ollama-app`). Start the app / `ollama serve`. Then `ollama pull llama3.2:3b`. Recipe: [LLM.md](LLM.md#local-ollama-from-zero).
+
+---
+
+## Ollama: model tag missing
+
+**Symptom:** API error about an unknown model, or `ollama list` does not show `llama3.2:3b`.
+
+**Fix:** `ollama pull llama3.2:3b` and set `OPERATOR_ETL_LLM_MODEL=llama3.2:3b` (the tag must match `ollama list`).
 
 ---
 

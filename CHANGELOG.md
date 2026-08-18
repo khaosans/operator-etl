@@ -1,3 +1,16 @@
+## [0.4.7] — 2026-08-18
+
+### Added
+
+- [docs/CONCEPTS.md](docs/CONCEPTS.md) — narrative tour of the project
+- [docs/NIST.md](docs/NIST.md) — AI RMF, AI 600-1, SP 800-122 alignment (not certification)
+- [docs/MODELS.md](docs/MODELS.md) — model cards, when-to-use, local vs cloud data boundary
+- From-zero Ollama install in [docs/LLM.md](docs/LLM.md)
+
+### Changed
+
+- STANDARDS, FOUNDATIONS, FAQ, GLOSSARY, wiki nav wired to the new pages
+
 ## [0.4.6] — 2026-08-17
 
 ### Added
