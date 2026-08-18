@@ -18,6 +18,8 @@ Optional: `./scripts/verify.sh --json` for machine-readable result.
 
 Skill: [skills/operator-verify/SKILL.md](skills/operator-verify/SKILL.md) · Full guide: [docs/QUICKSTART.md](docs/QUICKSTART.md)
 
+**Human wiki (after verify):** [docs/index.md](docs/index.md) (published: https://khaosans.github.io/operator-etl/)
+
 Only after verify passes → continue below.
 
 ---

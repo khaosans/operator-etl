@@ -1,6 +1,10 @@
-# Documentation index
+# Documentation wiki
 
-All Operator ETL documentation, organized by audience. **Start at [README.md](../README.md)** — problem, design, trade-offs, and quick start — then use this index for depth.
+Canonical human docs for Operator ETL. **Published:** [https://khaosans.github.io/operator-etl/](https://khaosans.github.io/operator-etl/) (GitHub Pages). **In git:** this folder (PRs + CI).
+
+**Start here:** [index.md](index.md) (wiki home) · [QUICKSTART.md](QUICKSTART.md) (`./scripts/verify.sh`)
+
+Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl/blob/master/okf/index.md) — do not duplicate playbooks here.
 
 ---
 
@@ -8,59 +12,94 @@ All Operator ETL documentation, organized by audience. **Start at [README.md](..
 
 | Persona | Path |
 |---|---|
-| **New engineer (30 min)** | [QUICKSTART.md](QUICKSTART.md) `./scripts/verify.sh` → WALKTHROUGH |
-| **Architect evaluating design** | README trade-offs → FOUNDATIONS → FINAL-REVIEW → white paper §3 ADRs |
-| **FOIA / agency operator** | FOIA guide → WALKTHROUGH dashboard step → HOW-IT-WORKS lifecycle |
-| **Scaling to GCP** | FINAL-REVIEW pre-scale → SCALING → [infra/README.md](../infra/README.md) |
-| **AI agent** | AGENTS.md → [operator-verify](../skills/operator-verify/SKILL.md) → QUICKSTART |
-| **External share** | WHY.md → FINAL-REVIEW scope → share/README → repo link + `make share` |
+| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [WALKTHROUGH](WALKTHROUGH.md) |
+| **Architect evaluating design** | [WHY](WHY.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
+| **FOIA / agency operator** | [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) → [HOW-IT-WORKS](HOW-IT-WORKS.md) |
+| **Scaling to GCP** | [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
+| **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) → QUICKSTART |
+| **External share** | [WHY](WHY.md) → [FINAL-REVIEW](FINAL-REVIEW.md) → [share](share/README.md) |
 
-**Doc tiers:** Tier 0 = QUICKSTART · Tier 1 = README · Tier 2 = GETTING-STARTED, WALKTHROUGH, HOW-IT-WORKS · Tier 3 = FOUNDATIONS, FINAL-REVIEW, SCALING, white paper
-
----
-
-## New developer or operator
-
-Start here after cloning:
-
-1. **[QUICKSTART.md](QUICKSTART.md)** — `./scripts/verify.sh` (one command, first run)
-2. [README.md](../README.md) — primary entry: problem, design, trust, trade-offs
-3. [GETTING-STARTED.md](GETTING-STARTED.md) — install, MCP, env vars, troubleshooting
-4. [WALKTHROUGH.md](WALKTHROUGH.md) — step-by-step: see the test case work
-5. [STANDARDS.md](STANDARDS.md) — patterns and best practices we follow
-
-Proof gate: `./scripts/verify.sh` or `make e2e` from repo root.
-
-| Goal | Doc |
-|---|---|
-| **Why this exists** | [WHY.md](WHY.md) |
-| **Why this design (citations)** | [FOUNDATIONS.md](FOUNDATIONS.md) |
-| **Understand the system** | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) |
-| **See test case work** | [WALKTHROUGH.md](WALKTHROUGH.md) |
-| **Scale to GCP** | [SCALING.md](SCALING.md) |
-| **Final audit** | [FINAL-REVIEW.md](FINAL-REVIEW.md) |
+**Doc tiers:** Tier 0 = QUICKSTART · Tier 1 = wiki home / README · Tier 2 = GETTING-STARTED, WALKTHROUGH, HOW-IT-WORKS · Tier 3 = FOUNDATIONS, FINAL-REVIEW, SCALING, white paper
 
 ---
 
-## Agency / FOIA workflow
+## 1. Start
 
 | Doc | Description |
 |---|---|
-| [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) | Full agency workflow and data model |
-| [okf/playbooks/agency-foia-workflow.md](../okf/playbooks/agency-foia-workflow.md) | OKF playbook (links to guide) |
-| [okf/models/mvp-demo.md](../okf/models/mvp-demo.md) | Expected demo numbers |
+| [index.md](index.md) | Wiki landing — who, verify, honest scope |
+| [QUICKSTART.md](QUICKSTART.md) | One-command verify + agent prompt |
+| [GETTING-STARTED.md](GETTING-STARTED.md) | Install, MCP, env vars |
+
+Proof gate: `./scripts/verify.sh` or `make e2e`.
 
 ---
 
-## Architect / engineer
+## 2. Understand
 
 | Doc | Description |
 |---|---|
-| [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) | Full engineering spec, ADRs, GCP |
-| [Operator-ETL-White-Paper.pdf](Operator-ETL-White-Paper.pdf) | PDF version |
+| [WHY.md](WHY.md) | Problem, diagrams, pattern |
+| [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | Planes, lifecycle, MCP policy |
+| [FOUNDATIONS.md](FOUNDATIONS.md) | Citations + proof matrix |
+| [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) | Deep engineering spec |
+
+---
+
+## 3. Prove
+
+| Doc | Description |
+|---|---|
+| [WALKTHROUGH.md](WALKTHROUGH.md) | Step-by-step after verify |
+| [TESTING.md](TESTING.md) | What each test proves |
+| [FINAL-REVIEW.md](FINAL-REVIEW.md) | Proven / partial / specified |
+
+---
+
+## 4. Use
+
+| Doc | Description |
+|---|---|
+| [CLI.md](CLI.md) | `etl`, `etl-graph`, Make targets |
+| [DASHBOARD.md](DASHBOARD.md) | Streamlit Gov / Orders tabs |
+| [MCP.md](MCP.md) | Cursor MCP allowlist |
+| [ADD-A-SOURCE.md](ADD-A-SOURCE.md) | Register a new CSV / HTTP source |
+| [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) | Agency workflow |
+
+---
+
+## 5. Reference
+
+| Doc | Description |
+|---|---|
+| [GLOSSARY.md](GLOSSARY.md) | Bronze, critic, HITL, MCP, … |
+| [FAQ.md](FAQ.md) | API keys, production claims, quarantine |
+| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | uv, stale warehouse, pytest env |
 | [STANDARDS.md](STANDARDS.md) | Standards index |
-| [okf/models/implementation-status.md](../okf/models/implementation-status.md) | IMPLEMENTED vs SPECIFIED matrix |
-| [infra/README.md](../infra/README.md) | GCP Terraform deploy |
+
+---
+
+## 6. Scale
+
+| Doc | Description |
+|---|---|
+| [SCALING.md](SCALING.md) | Local → GCP ladder |
+| [infra/README](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) | Terraform |
+
+---
+
+## 7. Contribute
+
+| Doc | Description |
+|---|---|
+| [CONTRIBUTING.md](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) | PR checklist |
+| [RELEASING.md](RELEASING.md) | Updates, Pages, Wiki paste |
+| [PUBLIC-READINESS.md](PUBLIC-READINESS.md) | OSS checklist |
+| [SECURITY.md](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md) | Secrets and PII |
+| [CHANGELOG.md](https://github.com/khaosans/operator-etl/blob/master/CHANGELOG.md) | Release history |
+| [CODE_OF_CONDUCT.md](https://github.com/khaosans/operator-etl/blob/master/CODE_OF_CONDUCT.md) | Community standards |
+| [share/README.md](share/README.md) | PDF pack |
+| [wiki/Home.md](wiki/Home.md) | GitHub Wiki tab paste source |
 
 ---
 
@@ -68,38 +107,6 @@ Proof gate: `./scripts/verify.sh` or `make e2e` from repo root.
 
 | Doc | Description |
 |---|---|
-| [QUICKSTART.md](QUICKSTART.md) | One-command verify + agent prompt |
-| [AGENTS.md](../AGENTS.md) | Required load order |
-| [skills/operator-verify/](../skills/operator-verify/SKILL.md) | Bootstrap + verify skill |
-| [okf/index.md](../okf/index.md) | OKF knowledge bundle |
-| [docs/LEVERAGE.md](LEVERAGE.md) | OKF + skills + harness mental model |
-| [skills/](../skills/) | Task-specific agent skills |
-
----
-
-## Share / post externally
-
-**Public repo:** https://github.com/khaosans/operator-etl (Apache-2.0)
-
-| Doc | Description |
-|---|---|
-| [WHY.md](WHY.md) | Educational overview for posts and interviews |
-| [share/README.md](share/README.md) | PDF bundle + suggested post copy |
-| [share/latest/](share/latest/) | Current PDF bundle |
-
-Attach PDFs when useful; always invite reviewers to run `make e2e`. Regenerate: `make share`
-
----
-
-## Contributing and policy
-
-| Doc | Description |
-|---|---|
-| [CONTRIBUTING.md](../CONTRIBUTING.md) | PR checklist |
-| [TESTING.md](TESTING.md) | Test proof map and inventory |
-| [RELEASING.md](RELEASING.md) | Safe updates, Dependabot, version bumps |
-| [PUBLIC-READINESS.md](PUBLIC-READINESS.md) | OSS checklist and GitHub settings |
-| [SECURITY.md](../SECURITY.md) | Secrets and PII policy |
-| [CHANGELOG.md](../CHANGELOG.md) | Release history |
-| [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) | Community standards |
-| [okf/playbooks/qa-before-share.md](../okf/playbooks/qa-before-share.md) | Pre-share checklist |
+| [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) | Fast verify then skills |
+| [okf/index.md](https://github.com/khaosans/operator-etl/blob/master/okf/index.md) | OKF bundle |
+| [LEVERAGE.md](LEVERAGE.md) | OKF + skills + harness |

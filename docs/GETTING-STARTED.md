@@ -226,6 +226,8 @@ Full GCP example: [infra/env.example](../infra/env.example)
 
 ## Troubleshooting
 
+Common failures (uv, stale warehouse, pytest env, quality gate, dashboard): **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)**.
+
 ### Stale row counts from `etl-graph`
 
 The default warehouse accumulates data across runs. Use a fresh path:

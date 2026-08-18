@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-08-17 (user wiki)
+
+- Human wiki: docs/index.md, GLOSSARY, FAQ, CLI, DASHBOARD, MCP, ADD-A-SOURCE, TROUBLESHOOTING
+- MkDocs + GitHub Pages workflow; GitHub Wiki paste sources in docs/wiki/
+- docs/README.md matches wiki IA; AGENTS.md and okf/index link wiki home
+
 ## 2026-08-17 (quick verify onboarding)
 
 - scripts/verify.sh — auto uv install, frozen sync, e2e gate, OPERATOR_ETL_VERIFY=PASS

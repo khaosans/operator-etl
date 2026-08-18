@@ -9,7 +9,7 @@
 
 Built for government agencies and regulated bodies that must intake public comments, detect PII before release, quarantine bad rows, and produce **defensible insights** (every number verified against the warehouse).
 
-**New here?** Run `./scripts/verify.sh` — or read [docs/QUICKSTART.md](docs/QUICKSTART.md) · [docs/WHY.md](docs/WHY.md) → [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md).
+**New here?** Run `./scripts/verify.sh` — or read [docs/QUICKSTART.md](docs/QUICKSTART.md). **Wiki:** [docs/index.md](docs/index.md) · [GitHub Pages](https://khaosans.github.io/operator-etl/).
 
 ---
 
@@ -212,6 +212,7 @@ Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.m
 | Doc | Why open it |
 |---|---|
 | [docs/QUICKSTART.md](docs/QUICKSTART.md) | **First run** — `./scripts/verify.sh` |
+| [docs/index.md](docs/index.md) | Wiki home — personas, scope, map |
 | [docs/WHY.md](docs/WHY.md) | Problem, diagrams, pattern |
 | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars |
 | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof |

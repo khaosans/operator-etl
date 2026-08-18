@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here and in [okf/log.md](okf/log.md).
 
+## [0.4.3] — 2026-08-17
+
+### Added
+
+- Human wiki pages: glossary, FAQ, CLI, dashboard, MCP, add-a-source, troubleshooting
+- Wiki home (`docs/index.md`) and GitHub Wiki paste sources (`docs/wiki/`)
+- MkDocs Material + GitHub Pages workflow
+
 ## [0.4.2] — 2026-08-17
 
 ### Added

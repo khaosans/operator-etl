@@ -107,6 +107,30 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md#repository-conventions):
 
 ---
 
+## GitHub Pages wiki
+
+Docs in `docs/` publish via MkDocs ([`.github/workflows/pages.yml`](../.github/workflows/pages.yml)) to https://khaosans.github.io/operator-etl/
+
+Local check:
+
+```bash
+pip install mkdocs-material
+mkdocs build --strict
+```
+
+GitHub Settings → Pages → source **GitHub Actions** (one-time).
+
+## GitHub Wiki tab
+
+Do **not** copy every article into the GitHub Wiki (it drifts). Paste once from the repo:
+
+1. Wiki **Home** ← contents of [docs/wiki/Home.md](wiki/Home.md)
+2. Wiki **_Sidebar** ← contents of [docs/wiki/_Sidebar.md](wiki/_Sidebar.md)
+
+Update those files in git when nav changes; re-paste if the Wiki tab is in use.
+
+---
+
 ## Going public
 
 Complete every blocker in [PUBLIC-READINESS.md](PUBLIC-READINESS.md) before changing visibility.

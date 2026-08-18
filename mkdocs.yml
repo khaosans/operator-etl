@@ -1,0 +1,95 @@
+site_name: Operator ETL
+site_description: Agentic data intake for FOIA and public comments — wiki
+site_url: https://khaosans.github.io/operator-etl/
+repo_url: https://github.com/khaosans/operator-etl
+repo_name: khaosans/operator-etl
+edit_uri: blob/master/docs/
+
+docs_dir: docs
+site_dir: site
+
+# Repo-relative links (../okf, ../CONTRIBUTING) are valid in git; Pages cannot resolve them.
+validation:
+  links:
+    not_found: ignore
+    absolute_links: ignore
+    unrecognized_links: ignore
+  nav:
+    omitted_files: ignore
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - search.highlight
+    - content.action.edit
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+exclude_docs: |
+  share/**
+  wiki/**
+  *.pdf
+  Operator-ETL-Proposal.md
+  Operator-ETL-Slides.md
+  Operator-ETL-One-Pager.md
+  Operator-ETL-White-Paper.pdf
+  Operator-ETL-Slides.pdf
+  Operator-ETL-One-Pager.pdf
+  README.md
+
+nav:
+  - Home: index.md
+  - Start:
+      - Quickstart: QUICKSTART.md
+      - Getting started: GETTING-STARTED.md
+  - Understand:
+      - Why: WHY.md
+      - How it works: HOW-IT-WORKS.md
+      - Foundations: FOUNDATIONS.md
+      - White paper: Operator-ETL-White-Paper.md
+  - Prove:
+      - Walkthrough: WALKTHROUGH.md
+      - Testing: TESTING.md
+      - Final review: FINAL-REVIEW.md
+  - Use:
+      - CLI: CLI.md
+      - Dashboard: DASHBOARD.md
+      - MCP: MCP.md
+      - Add a source: ADD-A-SOURCE.md
+      - FOIA guide: FOIA-Public-Comments-Guide.md
+  - Reference:
+      - Glossary: GLOSSARY.md
+      - FAQ: FAQ.md
+      - Troubleshooting: TROUBLESHOOTING.md
+      - Standards: STANDARDS.md
+  - Scale:
+      - Scaling: SCALING.md
+  - Contribute:
+      - Releasing: RELEASING.md
+      - Public readiness: PUBLIC-READINESS.md
+      - Leverage (OKF): LEVERAGE.md

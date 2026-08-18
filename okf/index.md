@@ -6,6 +6,8 @@ okf_version: "0.1"
 
 Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agents: start here, then open a skill under `skills/`.
 
+**Humans:** [docs/QUICKSTART.md](../docs/QUICKSTART.md) (`./scripts/verify.sh`) then [docs/index.md](../docs/index.md) (wiki home).
+
 # Publication
 
 * [Operator ETL](publication/operator-etl.md) — Identity, audience, share policy

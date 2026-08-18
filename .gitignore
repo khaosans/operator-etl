@@ -53,5 +53,8 @@ Thumbs.db
 htmlcov/
 *.log
 
+# MkDocs build
+site/
+
 # Share pack dated archives (latest/ is committed)
 docs/share/releases/
