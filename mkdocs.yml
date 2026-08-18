@@ -67,6 +67,8 @@ nav:
   - Start:
       - Quickstart: QUICKSTART.md
       - Getting started: GETTING-STARTED.md
+      - Personas: PERSONAS.md
+      - Visual tour: TOUR.md
   - Understand:
       - Why: WHY.md
       - How it works: HOW-IT-WORKS.md

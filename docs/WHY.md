@@ -141,7 +141,7 @@ Source: [Model Context Protocol](https://modelcontextprotocol.io/) · Proof: `te
 | Claim | Status | Verify |
 |---|---|---|
 | FOIA pipeline on laptop | **Proven** | `make e2e` |
-| PII not in insight output | **Proven** | 38 pytest |
+| PII not in insight output | **Proven** | 41 pytest |
 | Critic rejects bad numbers | **Proven** | `tests/test_critic.py` |
 | Live GCP / BigQuery E2E | **Partial** | Terraform scaffold only |
 | Optional LLM insights | **Partial** | Mocked in CI; template default — [LLM.md](LLM.md) |

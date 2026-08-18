@@ -148,7 +148,7 @@ Gray-zone confidence → `needs_human` (fail closed).
 
 | Eval | Command | Pass condition |
 |---|---|---|
-| Unit + integration | `uv run pytest` | 34/34 pass |
+| Unit + integration | `uv run pytest` | 41/41 pass |
 | PII redaction | `tests/test_pii.py` | No email/phone in redacted text |
 | Critic faithfulness | `tests/test_critic.py` | Hallucinated 999 rejected |
 | Gov graph E2E | `tests/test_gov_graph.py` | status=complete, critic_passed |
@@ -173,8 +173,11 @@ See [`Operator-ETL-White-Paper.md`](Operator-ETL-White-Paper.md) for full GCP, I
 
 Every number in this text is verified against `gold_comment_kpis` by the critic node before persist.
 
+![FOIA officer dashboard](assets/screenshots/dashboard-gov-kpis.png)
+
 ## See also
 
+- [TOUR.md](TOUR.md) — screenshots
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — lifecycle and three planes
 - [WALKTHROUGH.md](WALKTHROUGH.md) — dashboard and SQL proof steps
 - [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) — full GCP and MCP spec

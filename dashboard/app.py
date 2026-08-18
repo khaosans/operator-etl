@@ -141,7 +141,7 @@ def main() -> None:
     with tab_gov:
         gov_settings = Settings(
             root=base.root,
-            warehouse=base.warehouse,
+            warehouse=base.warehouse_path,
             pipeline_name="public_comments",
             domain="gov",
         )
@@ -149,7 +149,7 @@ def main() -> None:
     with tab_orders:
         orders_settings = Settings(
             root=base.root,
-            warehouse=base.warehouse,
+            warehouse=base.orders_warehouse_path,
             pipeline_name="demo",
             domain="orders",
         )

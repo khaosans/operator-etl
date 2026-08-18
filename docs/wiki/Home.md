@@ -16,7 +16,9 @@ cd operator-etl
 ./scripts/verify.sh
 ```
 
-Success: **`OPERATOR_ETL_VERIFY=PASS`**, 38 tests, FOIA demo `silver=10` `quarantined=2`.
+Success: **`OPERATOR_ETL_VERIFY=PASS`**, 41 tests, FOIA demo `silver=10` `quarantined=2`.
+
+Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QUICKSTART.md) · Screenshots: [TOUR](https://khaosans.github.io/operator-etl/TOUR/)
 
 Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QUICKSTART.md)
 

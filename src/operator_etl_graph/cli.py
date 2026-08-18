@@ -21,6 +21,9 @@ def run_cmd(
     result = run_graph(source=source, settings=settings)
     typer.echo(f"status={result.get('status')}  run_id={result.get('run_id')}")
     typer.echo(f"rows_in={result.get('rows_in')}  silver={result.get('rows_silver')}  quarantined={result.get('rows_quarantined')}")
+    typer.echo(f"critic_passed={result.get('critic_passed')}  insight_backend={settings.insight_backend}")
+    if result.get("critic_violations"):
+        typer.echo(f"critic_violations={result['critic_violations']}")
     if result.get("pii_findings"):
         typer.echo(f"pii_findings={len(result['pii_findings'])}")
     if result.get("insight_draft"):

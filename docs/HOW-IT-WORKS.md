@@ -4,18 +4,21 @@ End-to-end usage model for FOIA / public comment intake — local MVP and scaled
 
 **When to read:** You need the runtime flow, three planes, lifecycle, or MCP policy.
 
-**See it work:** [WALKTHROUGH.md](WALKTHROUGH.md) · **Scale out:** [SCALING.md](SCALING.md) · **Start here:** [README.md](../README.md)
+**See it work:** [TOUR.md](TOUR.md) · [WALKTHROUGH.md](WALKTHROUGH.md) · **Scale out:** [SCALING.md](SCALING.md) · **Start here:** [README.md](../README.md)
 
 ---
 
 ## Who uses it
 
+Named composites: [PERSONAS.md](PERSONAS.md).
+
 | Role | What they do | Entry point |
 |---|---|---|
-| **FOIA officer** | Review PII flags, approve releases | Dashboard Gov tab, `insights` table |
-| **Data engineer** | Add sources, run pipelines, deploy infra | [GETTING-STARTED.md](GETTING-STARTED.md), [SCALING.md](SCALING.md) |
-| **AI agent (MCP)** | Query gold KPIs, run allowlisted quality SQL | `operator-etl-mcp` |
-| **Reviewer / adopter** | Prove the build works | `make e2e` → [WALKTHROUGH.md](WALKTHROUGH.md) |
+| **FOIA officer (Priya)** | Review PII flags, quarantine, critic-checked insight | Dashboard Gov tab |
+| **Data engineer (Riley)** | Add sources, run pipelines, optional local Ollama | [GETTING-STARTED.md](GETTING-STARTED.md), [LLM.md](LLM.md) |
+| **New engineer (Sam)** | Prove the clone | `./scripts/verify.sh` |
+| **Reviewer (Jordan)** | Honest scope | [FINAL-REVIEW.md](FINAL-REVIEW.md) |
+| **AI agent (MCP)** | Query gold KPIs, allowlisted SQL | `operator-etl-mcp` |
 
 ---
 
@@ -169,7 +172,7 @@ Before claiming the system works or scaling to staging:
 make e2e
 ```
 
-This runs OKF validation, 38 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
+This runs OKF validation, 41 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
 
 **CI:** Every push to `master` runs the same gate on GitHub Actions — see the CI badge in [README.md](../README.md).
 

@@ -8,7 +8,7 @@ timestamp: 2026-08-17T00:00:00Z
 
 # Implementation status
 
-**Tests:** 38 pytest passing · **MVP gate:** `./harness/e2e.sh`
+**Tests:** 41 pytest passing · **MVP gate:** `./harness/e2e.sh`
 
 | Component | Status | Proven in CI | Path |
 |---|---|---|---|
@@ -26,7 +26,7 @@ timestamp: 2026-08-17T00:00:00Z
 | Cloud Run HTTP entry | **IMPLEMENTED** | Unit only | `src/operator_etl_gcp/http/` |
 | Postgres checkpoints | **IMPLEMENTED** | Env config | optional via env |
 | HITL dashboard | **PARTIAL** | No | gov tab in Streamlit |
-| LLM insight nodes | **PARTIAL** | Mocked only | optional `insight_backend=llm`; template default |
+| LLM insight nodes | **PARTIAL** | Mocked in CI | optional `llm`; laptop Ollama `llama3.2:3b` critic-passed; not CI |
 | Presidio PII | **SPECIFIED** | — | regex scanner shipped |
 | Regulations.gov API | **SPECIFIED** | — | — |
 | BQ gold mart dialect | **PARTIAL** | — | DuckDB SQL; BQ lift pending |

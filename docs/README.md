@@ -12,9 +12,9 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 
 | Persona | Path |
 |---|---|
-| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [WALKTHROUGH](WALKTHROUGH.md) |
+| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
 | **Architect evaluating design** | [WHY](WHY.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
-| **FOIA / agency operator** | [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) → [HOW-IT-WORKS](HOW-IT-WORKS.md) |
+| **FOIA / agency operator** | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) |
 | **Scaling to GCP** | [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
 | **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) → QUICKSTART |
 | **External share** | [WHY](WHY.md) → [FINAL-REVIEW](FINAL-REVIEW.md) → [share](share/README.md) |
@@ -30,6 +30,8 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 | [index.md](index.md) | Wiki landing — who, verify, honest scope |
 | [QUICKSTART.md](QUICKSTART.md) | One-command verify + agent prompt |
 | [GETTING-STARTED.md](GETTING-STARTED.md) | Install, MCP, env vars |
+| [PERSONAS.md](PERSONAS.md) | Named user composites |
+| [TOUR.md](TOUR.md) | Screenshots of verify, CLI, Streamlit, wiki |
 
 Proof gate: `./scripts/verify.sh` or `make e2e`.
 

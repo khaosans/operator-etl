@@ -8,6 +8,8 @@ from operator_etl_policy.budgets import BudgetExceeded, RunBudget
 
 _SYSTEM_PROMPT = """You write a short FOIA public-comment intake summary for officers.
 Use ONLY numbers that appear in the JSON gold metrics provided.
+Cite every figure exactly as it appears in the JSON (for example 0.4, not 40% or 40).
+You must mention comment_count, docket_count, agency_count, pii_flagged_count, and pii_rate using those exact values.
 Do not invent counts, rates, dates, identifiers, or other figures.
 Do not mention individual comments, emails, names, phone numbers, or other PII.
 Do not quote comment bodies. Two to four sentences. Plain language."""
@@ -48,6 +50,17 @@ def _has_llm_credentials(settings: Settings) -> bool:
     return bool(settings.llm_base_url)
 
 
+def _llm_metric_payload(metrics: dict) -> dict:
+    """Numeric gold KPIs only — drop timestamps so the model cannot echo dates."""
+    out: dict = {}
+    for key, value in metrics.items():
+        if isinstance(value, bool):
+            continue
+        if isinstance(value, (int, float)):
+            out[key] = value
+    return out
+
+
 def render_llm_insight(
     metrics: dict,
     settings: Settings,
@@ -69,7 +82,7 @@ def render_llm_insight(
     except BudgetExceeded as exc:
         return render_template_insight(metrics), str(exc)
 
-    payload = json.dumps(metrics, default=str, sort_keys=True)
+    payload = json.dumps(_llm_metric_payload(metrics), default=str, sort_keys=True)
     messages = [
         ("system", _SYSTEM_PROMPT),
         ("human", f"Gold metrics (JSON):\n{payload}"),

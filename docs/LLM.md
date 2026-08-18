@@ -8,7 +8,7 @@
 
 The graph is still **gold metrics → insight → critic → persist**. The optional LLM replaces only the insight *wording*. It receives **gold KPI JSON only** — never bronze rows, comment bodies, or vault PII. The critic still rejects any number that is not in gold.
 
-This path is **PARTIAL**: implemented and unit-tested with a mocked client. It is **not** proven with a live API in CI. Do not call it production FOIA software.
+This path is **PARTIAL**: unit-tested with a mocked client in CI. A maintainer laptop run against local Ollama (`llama3.2:3b`) produced a critic-passing draft. That is **not** a CI proof. Do not call it production FOIA software.
 
 ```mermaid
 flowchart LR
@@ -36,7 +36,26 @@ uv run etl-graph --source public_comments --pipeline public_comments
 
 Use a **fresh warehouse** (same as the FOIA demo) so counts stay expected.
 
-### Local OpenAI-compatible server
+### Ollama on this laptop
+
+Ollama’s OpenAI-compatible API is `http://127.0.0.1:11434/v1`. Maintainer-laptop check: `llama3.2:3b`, critic **passed** (`status=complete`, gold numbers only in the payload). **Not** proven in CI.
+
+```bash
+uv sync --extra llm --extra dev
+export OPERATOR_ETL_INSIGHT_BACKEND=llm
+export OPERATOR_ETL_LLM_BASE_URL=http://127.0.0.1:11434/v1
+export OPERATOR_ETL_LLM_MODEL=llama3.2:3b
+# OPENAI_API_KEY not required when base URL is set
+OPERATOR_ETL_WAREHOUSE=.tmp/mvp-demo-ollama/operator.duckdb \
+OPERATOR_ETL_PIPELINE_NAME=public_comments OPERATOR_ETL_DOMAIN=gov \
+  uv run etl-graph --source public_comments --pipeline public_comments
+```
+
+![Local Ollama llama3.2:3b — critic passed](assets/screenshots/cli-foia-insight-ollama.png)
+
+The critic checks **digits**, not whether the sentence used the rate correctly. Small models may still misread `pii_rate` 0.4. If the critic fails (`needs_human`), try `mistral:latest` or keep the template. Do not loosen the critic. Do not send bronze/PII to Ollama.
+
+### Other OpenAI-compatible servers
 
 Any server that speaks the OpenAI `/v1` API (LM Studio, vLLM, a local proxy):
 
@@ -44,7 +63,6 @@ Any server that speaks the OpenAI `/v1` API (LM Studio, vLLM, a local proxy):
 export OPERATOR_ETL_INSIGHT_BACKEND=llm
 export OPERATOR_ETL_LLM_BASE_URL=http://127.0.0.1:1234/v1
 export OPERATOR_ETL_LLM_MODEL=your-local-model
-# OPENAI_API_KEY optional when base URL is set (a dummy value is sent)
 ```
 
 If the extra is missing, the key is unset (and no base URL), or the call fails, the node **falls back to the template** and records a short note in `errors`. The critic still runs. Staging with a placeholder Secret Manager value will complete instead of 401-looping.
@@ -85,6 +103,7 @@ Do not flip the backend to `llm` while the secret is still the placeholder. Deta
 
 ## See also
 
+- [TOUR.md](TOUR.md) — screenshots including the Ollama run
 - [FAQ.md](FAQ.md) — do I need an API key?
 - [CLI.md](CLI.md) — `etl-graph` flags
 - [TESTING.md](TESTING.md) — mocked LLM tests; no live key in CI

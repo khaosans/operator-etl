@@ -10,7 +10,7 @@ Honest audit of Operator ETL as of the latest `make e2e` gate. Use this before s
 
 ## Executive summary
 
-Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **38 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
+Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **41 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
 
 What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, Presidio PII, or a **live** LLM API. Optional LLM wording is PARTIAL (mocked). Those are documented with explicit scale steps.
 
@@ -46,7 +46,7 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 flowchart TB
   subgraph proven [Proven in CI]
     E2E[make e2e]
-    Pytest[38 pytest]
+    Pytest[41 pytest]
   end
 
   subgraph partial [Partial]

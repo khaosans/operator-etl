@@ -21,6 +21,7 @@ class Settings(BaseSettings):
 
     root: Path = Field(default_factory=_default_root)
     warehouse: Path | None = None
+    orders_warehouse: Path | None = None
     max_quarantine_rate: float = 0.35
     max_freshness_hours: float = 168.0
 
@@ -54,6 +55,12 @@ class Settings(BaseSettings):
     @property
     def warehouse_path(self) -> Path:
         return Path(self.warehouse) if self.warehouse else self.root / "warehouse" / "operator.duckdb"
+
+    @property
+    def orders_warehouse_path(self) -> Path:
+        if self.orders_warehouse:
+            return Path(self.orders_warehouse)
+        return self.root / "warehouse" / "operator.duckdb"
 
     @property
     def checkpoint_path(self) -> Path:
