@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate a git tag against pyproject.toml and emit GitHub Release notes.
 
-Used by .github/workflows/release.yml. Stdlib only.
+Used by .github/workflows/release.yml. Stdlib only (Python 3.12 / tomllib).
 
 Tag form (SemVer): v0.5.0 or v0.5.0-beta.1
 pyproject PEP 440:  0.5.0 or 0.5.0b1
@@ -14,6 +14,7 @@ import argparse
 import os
 import re
 import sys
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,14 +25,19 @@ PRE_RE = re.compile(
     r"^v?(?P<base>\d+\.\d+\.\d+)(?:-(?P<pre>alpha|beta|rc)\.(?P<n>\d+))?$",
     re.IGNORECASE,
 )
-VERSION_LINE_RE = re.compile(r'^version\s*=\s*"([^"]+)"\s*$', re.MULTILINE)
+
+
+def normalize_tag(raw: str | None) -> str:
+    """Accept v0.5.0, refs/tags/v0.5.0, or GITHUB_REF."""
+    tag = (raw or "").strip()
+    if tag.startswith("refs/tags/"):
+        tag = tag.removeprefix("refs/tags/")
+    return tag
 
 
 def parse_tag(raw: str) -> tuple[str, str, str, bool]:
     """Return (display_version, pep440, docker_tag, is_prerelease)."""
-    tag = raw.strip()
-    if tag.startswith("refs/tags/"):
-        tag = tag.removeprefix("refs/tags/")
+    tag = normalize_tag(raw)
     match = PRE_RE.fullmatch(tag)
     if not match:
         raise SystemExit(
@@ -48,16 +54,29 @@ def parse_tag(raw: str) -> tuple[str, str, str, bool]:
     return display, pep440, display, True
 
 
-def pyproject_version() -> str:
-    text = PYPROJECT.read_text(encoding="utf-8")
-    match = VERSION_LINE_RE.search(text)
-    if not match:
-        raise SystemExit(f"No version = \"...\" in {PYPROJECT}")
-    return match.group(1)
+def pyproject_version(path: Path | None = None) -> str:
+    """Read version from PEP 621 [project] or Poetry [tool.poetry]."""
+    target = path or PYPROJECT
+    with target.open("rb") as fh:
+        data = tomllib.load(fh)
+    version = data.get("project", {}).get("version")
+    if not version:
+        version = data.get("tool", {}).get("poetry", {}).get("version")
+    if not version:
+        raise SystemExit(
+            f"No version found in {target}. Expected [project].version "
+            "or [tool.poetry].version."
+        )
+    return str(version)
 
 
-def changelog_section(display_version: str, pep440: str) -> str:
-    text = CHANGELOG.read_text(encoding="utf-8")
+def changelog_section(
+    display_version: str,
+    pep440: str,
+    path: Path | None = None,
+) -> str:
+    target = path or CHANGELOG
+    text = target.read_text(encoding="utf-8")
     for heading in (display_version, pep440):
         pattern = rf"^## \[{re.escape(heading)}\][^\n]*\n"
         match = re.search(pattern, text, re.MULTILINE)
@@ -68,9 +87,11 @@ def changelog_section(display_version: str, pep440: str) -> str:
         body = text[start : start + nxt.start() if nxt else None].strip()
         heading_line = match.group(0).strip()
         return f"{heading_line}\n\n{body}\n".strip() + "\n"
+    snippet = text[:400].rstrip()
     raise SystemExit(
-        f"CHANGELOG.md has no ## [{display_version}] (or [{pep440}]) section. "
-        "Cut a release PR that moves [Unreleased] into that heading before tagging."
+        f"{target.name} has no ## [{display_version}] (or [{pep440}]) section. "
+        "Cut a release PR that moves [Unreleased] into that heading before tagging.\n"
+        f"Found top of file:\n\n{snippet}\n"
     )
 
 
@@ -86,13 +107,19 @@ def write_github_output(mapping: dict[str, str]) -> None:
                 fh.write(f"{key}={value}\n")
 
 
+def resolve_tag_arg(cli_tag: str | None) -> str:
+    return normalize_tag(
+        cli_tag or os.environ.get("GITHUB_REF_NAME") or os.environ.get("GITHUB_REF")
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "tag",
         nargs="?",
-        default=os.environ.get("GITHUB_REF_NAME") or os.environ.get("GITHUB_REF"),
-        help="Git tag (default: GITHUB_REF_NAME)",
+        default=None,
+        help="Git tag (default: GITHUB_REF_NAME, then GITHUB_REF)",
     )
     parser.add_argument(
         "--notes-file",
@@ -100,15 +127,16 @@ def main() -> int:
         help="Write CHANGELOG section here (default: stdout if not in Actions)",
     )
     args = parser.parse_args()
-    if not args.tag:
-        print("Pass a tag or set GITHUB_REF_NAME", file=sys.stderr)
+    tag = resolve_tag_arg(args.tag)
+    if not tag:
+        print("Pass a tag or set GITHUB_REF_NAME / GITHUB_REF", file=sys.stderr)
         return 2
 
-    display, pep440, docker_tag, is_prerelease = parse_tag(args.tag)
+    display, pep440, docker_tag, is_prerelease = parse_tag(tag)
     pkg = pyproject_version()
     if pkg != pep440:
         raise SystemExit(
-            f"Tag {args.tag} maps to PEP 440 {pep440!r} but pyproject.toml "
+            f"Tag {tag} maps to PEP 440 {pep440!r} but pyproject.toml "
             f"version is {pkg!r}. They must match before publish."
         )
     notes = changelog_section(display, pep440)
@@ -127,7 +155,7 @@ def main() -> int:
         }
     )
     print(
-        f"release_meta: tag={args.tag} pep440={pep440} "
+        f"release_meta: tag={tag} pep440={pep440} "
         f"prerelease={is_prerelease} docker={docker_tag}",
         file=sys.stderr,
     )

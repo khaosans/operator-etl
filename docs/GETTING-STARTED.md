@@ -86,7 +86,7 @@ Or if uv is already installed: `make e2e`
 
 ```mermaid
 flowchart LR
-  OKF[OKF validate] --> pytest[41 pytest tests]
+  OKF[OKF validate] --> pytest[51 pytest tests]
   pytest --> demo[FOIA demo fresh warehouse]
   demo --> pass[MVP PASS]
 ```

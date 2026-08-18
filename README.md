@@ -36,7 +36,7 @@ cd operator-etl
 
 Installs **uv** if missing, syncs deps, runs the full proof gate. Success ends with **`OPERATOR_ETL_VERIFY=PASS`**.
 
-**Expected:** 41 pytest pass, FOIA demo prints `status=complete` and `silver=10`. Full screenshot set: [docs/TOUR.md](docs/TOUR.md).
+**Expected:** 51 pytest pass, FOIA demo prints `status=complete` and `silver=10`. Full screenshot set: [docs/TOUR.md](docs/TOUR.md).
 
 ![Gov / FOIA dashboard](docs/assets/screenshots/dashboard-gov-kpis.png)
 
@@ -119,7 +119,7 @@ Details: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · [okf/models/three-plane
 
 | Question | Answer |
 |---|---|
-| Does it work locally? | `make e2e` — OKF validate, **41 pytest**, FOIA demo on fresh warehouse |
+| Does it work locally? | `make e2e` — OKF validate, **51 pytest**, FOIA demo on fresh warehouse |
 | What does CI prove? | Same gate on every push ([badge above](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)) |
 | What is **not** proven in CI? | Live GCP deploy, Presidio PII, LLM-generated insights — see honest audit |
 
@@ -194,7 +194,7 @@ flowchart LR
 | `make verify` | Same as verify.sh |
 | `make e2e` | Full MVP proof gate (OKF + tests + FOIA demo) |
 | `make demo` | FOIA demo only |
-| `make test` | pytest (41 tests) |
+| `make test` | pytest (51 tests) |
 | `uv run etl-graph --source public_comments` | FOIA agentic pipeline |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
 | `uv run operator-etl-mcp` | MCP server for Cursor agents |
@@ -220,7 +220,7 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 
 ## Scope boundaries
 
-**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **41 tests** + CI
+**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **51 tests** + CI
 
 **Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E · production officer UX (responsive, streaming, gen UI) — [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md)
 

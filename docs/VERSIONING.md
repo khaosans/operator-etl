@@ -134,11 +134,28 @@ pip install operator-etl \
   --index-url https://pypi.pkg.github.com/khaosans/simple/
 ```
 
-**Container** (immutable version tag; `:latest` only after a stable release):
+**Container** (immutable version tag; Docker `:latest` only after a stable release):
 
 ```bash
 docker pull ghcr.io/khaosans/operator-etl:0.5.0-beta.1
 ```
+
+The Python **wheel does not include** `sql/`, `pipelines/`, `samples/`, or `scripts/`. Clone a tag (or the GitHub source archive) to run the FOIA demo. The wheel is the library + CLI entry points only.
+
+---
+
+## Release workflow notes
+
+[`.github/workflows/release.yml`](../.github/workflows/release.yml) runs only on `v*` tags. [`scripts/release_meta.py`](../scripts/release_meta.py) must agree with `pyproject.toml` and `CHANGELOG.md` before anything is published. Tests: `tests/test_release_meta.py`.
+
+| Topic | What we do |
+|---|---|
+| **`gh release create`** | Pass `--prerelease` for beta/rc/alpha only. There is **no** `--latest` flag on `gh`; a normal (non-prerelease) release becomes GitHub’s Latest by default. |
+| **Python** | Job pins **3.12** (`actions/setup-python`, matches `.python-version`). Version is read with stdlib **tomllib** (PEP 621 `[project]`, else Poetry `[tool.poetry]`). No `tomli` extra. |
+| **Permissions** | `contents: write` (Release + assets) and `packages: write` (GHCR + GitHub Packages). No `id-token` — this job does not use OIDC. |
+| **GHCR login** | `GITHUB_TOKEN` is enough for this repository. If an org policy blocks the push, create a PAT with `write:packages` and set repository secret **`GHCR_TOKEN`**. The workflow uses `secrets.GHCR_TOKEN \|\| secrets.GITHUB_TOKEN`. |
+| **Docker `:latest`** | Applied only when the git tag is **not** a pre-release. Version and `sha-` tags stay immutable. |
+| **Failure** | Do not move the tag. Fix on `master`, cut `vX.Y.Z-beta.(N+1)`. |
 
 ---
 

@@ -108,7 +108,7 @@ def main() -> int:
                 "==========================================\n"
                 "  OPERATOR_ETL_VERIFY=PASS\n"
                 "==========================================\n"
-                "  tests=41\n"
+                "  tests=51\n"
                 "  demo=silver=10 quarantined=2 status=complete\n"
                 "  next=docs/WALKTHROUGH.md\n"
                 "=========================================="

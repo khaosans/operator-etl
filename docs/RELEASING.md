@@ -12,7 +12,7 @@ How to change Operator ETL without breaking trust signals (CI, tests, share PDFs
 make e2e
 ```
 
-This runs OKF validate, 41 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
+This runs OKF validate, 51 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
 
 For OKF-only doc changes:
 
@@ -58,7 +58,9 @@ Do this when you intend to ship a beta or stable, not on every docs PR.
 
 4. Confirm [Release](https://github.com/khaosans/operator-etl/actions/workflows/release.yml) is green: GitHub Release, `ghcr.io/khaosans/operator-etl:<version>`, GitHub Packages wheel
 
-**Never** move or retag `v0.5.0-beta.1`. Next drop is `v0.5.0-beta.2` or `v0.5.0`. Full rules: [VERSIONING.md](VERSIONING.md).
+If GHCR push fails with a permission error, add a PAT (`write:packages`) as repository secret **`GHCR_TOKEN`**. Details: [VERSIONING.md](VERSIONING.md#release-workflow-notes).
+
+**Never** move or retag `v0.5.0-beta.1`. Next drop is `v0.5.0-beta.2` or `v0.5.0`. Full rules: [VERSIONING.md](VERSIONING.md). GitHub Release creation uses `--prerelease` for betas only — not a `--latest` flag (`gh` does not have one).
 
 First tagged freeze after this process: **`v0.5.0-beta.1`** (separate release PR; do not invent tags for 0.4.2–0.4.9).
 

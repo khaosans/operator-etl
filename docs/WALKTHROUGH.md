@@ -57,7 +57,7 @@ make e2e
 | Step | Tool | Proves |
 |---|---|---|
 | OKF validate | `scripts/okf_validate.py` | Documentation structure |
-| pytest | 41 tests | PII, critic, graph, idempotency, MCP, HITL, mocked LLM |
+| pytest | 51 tests | PII, critic, graph, idempotency, MCP, HITL, mocked LLM, release-tag metadata |
 | FOIA demo | `scripts/demo_mvp.sh` | End-to-end on fresh warehouse |
 
 **Expected terminal output (FOIA demo section):**

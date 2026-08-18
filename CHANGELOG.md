@@ -11,10 +11,12 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 - Immutable `v*` tags publish a GitHub Release, GHCR image, and GitHub Packages wheel ([`.github/workflows/release.yml`](.github/workflows/release.yml))
 - [docs/VERSIONING.md](docs/VERSIONING.md) — SemVer, beta vs stable, what not to overwrite
+- `scripts/release_meta.py` + `tests/test_release_meta.py` — tag ↔ PEP 440 ↔ CHANGELOG gate (10 tests; suite **51**)
 
 ### Changed
 
 - `pyproject.toml` version changes only on a **release PR**. Feature and docs PRs append here and leave the package version alone.
+- Release workflow: no unsupported `gh --latest`; Python 3.12 + tomllib; optional `GHCR_TOKEN` if `GITHUB_TOKEN` cannot push to GHCR
 
 ## [0.4.9] — 2026-08-18
 
