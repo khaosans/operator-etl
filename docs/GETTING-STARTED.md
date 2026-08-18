@@ -24,6 +24,8 @@ flowchart LR
 | Install and verify | This guide §1–3 | ~10 min |
 | See the test case work | [WALKTHROUGH.md](WALKTHROUGH.md) | ~15 min |
 | Runtime model | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | ~10 min |
+| Other data sources | [APPLY.md](APPLY.md) | ~10 min |
+| Residual risks | [RISKS.md](RISKS.md) | ~10 min |
 | Optional LLM | [MODELS.md](MODELS.md) then [LLM.md](LLM.md) | after verify |
 
 ---

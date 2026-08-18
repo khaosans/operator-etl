@@ -1,3 +1,16 @@
+## [0.4.8] — 2026-08-18
+
+### Added
+
+- [docs/APPLY.md](docs/APPLY.md) — same architecture on other CSVs (orders proof, 311/grants sketches)
+- [docs/RISKS.md](docs/RISKS.md) — residual risks after a green verify
+- Wiki home: problem / what we built / usefulness; Diátaxis reading guide
+
+### Changed
+
+- [docs/CONCEPTS.md](docs/CONCEPTS.md) — implementation, usefulness, learning path
+- Nav, FAQ, README: Apply + Risks first-class
+
 ## [0.4.7] — 2026-08-18
 
 ### Added

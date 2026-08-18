@@ -84,5 +84,7 @@ Do not copy this table into a System Security Plan as if the demo satisfied the 
 
 - [CONCEPTS.md](CONCEPTS.md) — narrative tour
 - [MODELS.md](MODELS.md) — local vs cloud data boundary
+- [APPLY.md](APPLY.md) — other data sources
+- [RISKS.md](RISKS.md) — residual risks
 - [FOUNDATIONS.md](FOUNDATIONS.md) — proof matrix and bibliography
 - [FAQ.md](FAQ.md) — “Are you NIST certified?”

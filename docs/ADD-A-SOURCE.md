@@ -2,6 +2,8 @@
 
 **When to read:** Verify is green and you want a **new CSV (or HTTP file)** in the registry without rewriting the pipeline runner.
 
+**Why / what to keep:** The three planes and critic stay. You change schema, gold SQL, and tests — [APPLY.md](APPLY.md). This page is the **how-to**.
+
 Agent playbook (same steps, denser): [extend-new-source](https://github.com/khaosans/operator-etl/blob/master/okf/playbooks/extend-new-source.md)
 
 ---
@@ -72,5 +74,6 @@ Set `OPERATOR_ETL_DOMAIN` and `OPERATOR_ETL_PIPELINE_NAME` to match. Mixing gov 
 ## See also
 
 - [CLI.md](CLI.md)
+- [APPLY.md](APPLY.md) — pattern for other domains
 - [TESTING.md](TESTING.md)
 - [repo-map](https://github.com/khaosans/operator-etl/blob/master/okf/references/repo-map.md)

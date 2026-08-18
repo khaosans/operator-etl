@@ -2,7 +2,9 @@
 
 Canonical human docs for Operator ETL. **Published:** [https://khaosans.github.io/operator-etl/](https://khaosans.github.io/operator-etl/) (GitHub Pages). **In git:** this folder (PRs + CI).
 
-**Start here:** [index.md](index.md) (wiki home) · [QUICKSTART.md](QUICKSTART.md) (`./scripts/verify.sh`)
+**Start here:** [index.md](index.md) (wiki home) · [QUICKSTART.md](QUICKSTART.md) (`./scripts/verify.sh`) · learn: [CONCEPTS.md](CONCEPTS.md)
+
+This folder follows [Diátaxis](https://diataxis.fr/): **tutorials** (Start / Walkthrough), **explanation** (Understand), **how-to** (Use / Scale), **reference** (Glossary / FAQ / Testing). Do not mix a how-to into an explanation page.
 
 Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl/blob/master/okf/index.md) — do not duplicate playbooks here.
 
@@ -13,8 +15,9 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 | Persona | Path |
 |---|---|
 | **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [CONCEPTS](CONCEPTS.md) → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
-| **Architect evaluating design** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
+| **Architect evaluating design** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [RISKS](RISKS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
 | **FOIA / agency operator** | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · later [PRODUCT-UX](PRODUCT-UX.md) |
+| **New data source** | [APPLY](APPLY.md) → [ADD-A-SOURCE](ADD-A-SOURCE.md) |
 | **Scaling to GCP** | [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
 | **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) → QUICKSTART |
 | **External share** | [WHY](WHY.md) → [FINAL-REVIEW](FINAL-REVIEW.md) → [share](share/README.md) |
@@ -41,9 +44,11 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 
 | Doc | Description |
 |---|---|
-| [WHY.md](WHY.md) | Problem, diagrams, pattern |
-| [CONCEPTS.md](CONCEPTS.md) | Narrative tour — learn the project |
+| [WHY.md](WHY.md) | Problem — chatbot trap vs three planes |
+| [CONCEPTS.md](CONCEPTS.md) | What we built, why it is useful, learning path |
 | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | Planes, lifecycle, MCP policy |
+| [APPLY.md](APPLY.md) | Same pattern on other CSVs (orders, 311, grants, …) |
+| [RISKS.md](RISKS.md) | Residual risks after a green verify |
 | [NIST.md](NIST.md) | AI RMF / 600-1 / SP 800-122 alignment (not certification) |
 | [MODELS.md](MODELS.md) | Local vs cloud models, cards, when-to-use |
 | [FOUNDATIONS.md](FOUNDATIONS.md) | Citations + proof matrix |
@@ -68,7 +73,7 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 | [CLI.md](CLI.md) | `etl`, `etl-graph`, Make targets |
 | [DASHBOARD.md](DASHBOARD.md) | Streamlit Gov / Orders tabs |
 | [MCP.md](MCP.md) | Cursor MCP allowlist |
-| [ADD-A-SOURCE.md](ADD-A-SOURCE.md) | Register a new CSV / HTTP source |
+| [ADD-A-SOURCE.md](ADD-A-SOURCE.md) | Register a new CSV / HTTP source (how-to) |
 | [LLM.md](LLM.md) | Optional Ollama / OpenAI-compatible insight wording — install |
 | [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) | Agency workflow |
 

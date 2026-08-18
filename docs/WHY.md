@@ -156,9 +156,18 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
 | You are… | Start here |
 |---|---|
 | **FOIA / program officer** | [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) |
-| **Engineer evaluating architecture** | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) → [white paper](Operator-ETL-White-Paper.md) |
+| **Engineer evaluating architecture** | [CONCEPTS.md](CONCEPTS.md) → [HOW-IT-WORKS.md](HOW-IT-WORKS.md) → [white paper](Operator-ETL-White-Paper.md) |
 | **Skeptic who wants proof** | [WALKTHROUGH.md](WALKTHROUGH.md) |
-| **Hiring manager / reviewer** | README → `make e2e` → [FOUNDATIONS.md](FOUNDATIONS.md) proof matrix |
+| **Someone with a different CSV** | [APPLY.md](APPLY.md) |
+| **Hiring manager / reviewer** | README → `make e2e` → [FOUNDATIONS.md](FOUNDATIONS.md) proof matrix · [RISKS.md](RISKS.md) |
+
+---
+
+## Why it is useful
+
+Audited intake is not a chatbot problem. You need **replay**, **redaction before the model**, and **numbers that exist in gold**. That is as true for 311 and grant packets as for FOIA comments. The FOIA sample is the story that makes the tests concrete; the three planes are what you reuse.
+
+Other feeds, what to keep vs change: [APPLY.md](APPLY.md). Residual risk after a green verify: [RISKS.md](RISKS.md).
 
 ---
 
@@ -173,7 +182,9 @@ Apache License 2.0 — clone, fork, and run the proof gate. Sample data is **syn
 ## See also
 
 - [README.md](../README.md) — quick start and trade-offs
-- [CONCEPTS.md](CONCEPTS.md) — narrative tour
+- [CONCEPTS.md](CONCEPTS.md) — narrative tour (problem, implementation, usefulness)
+- [APPLY.md](APPLY.md) — other data sources
+- [RISKS.md](RISKS.md) — residual risks
 - [NIST.md](NIST.md) — standards alignment (not certification)
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — runtime model
 - [FOUNDATIONS.md](FOUNDATIONS.md) — citations and proof matrix

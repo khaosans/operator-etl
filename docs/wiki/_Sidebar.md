@@ -11,6 +11,8 @@
 - [Why](https://khaosans.github.io/operator-etl/WHY/)
 - [Concepts](https://khaosans.github.io/operator-etl/CONCEPTS/)
 - [How it works](https://khaosans.github.io/operator-etl/HOW-IT-WORKS/)
+- [Other data sources](https://khaosans.github.io/operator-etl/APPLY/)
+- [Risks](https://khaosans.github.io/operator-etl/RISKS/)
 - [NIST](https://khaosans.github.io/operator-etl/NIST/)
 - [Models](https://khaosans.github.io/operator-etl/MODELS/)
 - [Foundations](https://khaosans.github.io/operator-etl/FOUNDATIONS/)

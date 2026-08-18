@@ -1,74 +1,79 @@
-# Concepts — learn the project
+# Concepts — what we built and why it matters
 
-**When to read:** After a first `./scripts/verify.sh`, or before it if you want the story. This is a tour, not a spec.
+**When to read:** After (or instead of) a first `./scripts/verify.sh`. This is the learning tour: problem, implementation, usefulness, then where to go next.
 
-Operator ETL is a **demo of bounded agents on a FOIA-shaped warehouse**. Python and SQL decide what data exists. Agents only orchestrate. Tests prove the invariants. No API key is required for the default path.
+Operator ETL is a **reference architecture**: bounded agents on a medallion warehouse. Python and SQL decide what data exists. Agents only orchestrate. Tests prove the invariants. The default path needs **no API key**.
 
----
-
-## The job
-
-A FOIA officer (or anyone intake-ing public comments) needs three things that a chat-with-the-warehouse demo usually fails to give:
-
-1. **An audit trail** — what file arrived, when, and what happened to each row.
-2. **PII out of the model** — emails and phones in comment bodies must not ride along in a prompt.
-3. **Numbers they can defend** — if a summary says “10 comments,” that 10 has to live in a table.
-
-The sample drop is twelve synthetic comments. Ten pass validation. Two go to quarantine on purpose (empty body, bad timestamp). That 12 → 10 + 2 split is the whole point: bad rows are kept with a reason, not dropped on the floor.
+Wiki home: [index.md](index.md). Pitch with diagrams: [WHY.md](WHY.md). Runtime: [HOW-IT-WORKS.md](HOW-IT-WORKS.md).
 
 ---
 
-## Why not a warehouse chatbot
+## The problem
 
-Give a model SQL on the raw warehouse and three failures show up fast. Comment bodies (and the emails inside them) land in context. The model invents a count that is not in any table. Nobody can replay *which file, which run, which gate*. Operator ETL refuses that shape: the model never sees bronze, and it never gets to persist a number the critic cannot find in gold.
+A FOIA officer (or anyone intaking public comments, tickets, or case notes) needs three things a “chat with the warehouse” demo usually fails to give:
 
-Pitch version: [WHY.md](WHY.md). Screenshots: [TOUR.md](TOUR.md).
+1. **An audit trail** — which file arrived, when, and what happened to each row.
+2. **Sensitive text out of the model** — emails and phones in free-text bodies must not ride in a prompt.
+3. **Numbers they can defend** — if a summary says “10 comments,” that 10 must live in a table.
 
----
+Give a model SQL on raw tables and the failures are predictable: bodies (and PII inside them) land in context; the model invents a count; nobody can replay the run. Real-world consequence: an indefensible memo, a premature disclosure, or an oversight finding.
 
-## Three planes
-
-Think of three jobs that must not collapse into one chatbot:
-
-- **Data plane** — ingest, validate, aggregate. Python and SQL. This is where “10 comments” is *computed*, not guessed.
-- **Policy plane** — PII scan, encrypted vault, fail-closed quality gate. If quarantine is too high, KPIs are withheld. Agents never decrypt the vault.
-- **Control plane** — LangGraph runs the steps; MCP exposes three allowlisted tools; a **critic** checks that every digit in an insight exists in gold.
-
-Runtime diagrams: [HOW-IT-WORKS.md](HOW-IT-WORKS.md).
+The sample drop is **twelve synthetic comments**. Ten pass validation. Two go to quarantine on purpose (empty body, bad timestamp). That 12 → 10 + 2 split is the point: bad rows are kept with a **reason**, not dropped on the floor.
 
 ---
 
-## Medallion (plain language)
+## What we implemented
 
-- **Bronze** keeps the drop forever (content-hashed so the same file is not loaded twice).
-- **Silver** is rows that passed schema.
-- **Quarantine** is rows that failed, with an error reason.
-- **Gold** is trusted aggregates. It is the **only** set of numbers an insight may cite.
+Not a chatbot. Three **planes** that must not collapse into one process:
+
+| Plane | Job | Where it lives |
+|---|---|---|
+| **Data** | Ingest, validate, aggregate. “10 comments” is *computed*. | `src/operator_etl/` · DuckDB (BigQuery adapter PARTIAL) |
+| **Policy** | PII scan, encrypted vault, fail-closed quality gate. Agents never decrypt. | `src/operator_etl_policy/` |
+| **Control** | LangGraph orchestration, three MCP tools, **critic** on every digit in an insight. | `src/operator_etl_graph/`, `src/operator_etl_mcp/` |
+
+**Medallion:** bronze = immutable hashed drop; silver = schema-valid rows; quarantine = failures with error text; gold = trusted aggregates — the **only** numbers an insight may cite.
+
+**Graph (FOIA path):** ingest → PII → validate → quality → gold → insight → critic → persist. Insight default is a **template** filled from gold. Optional LLM rewrites *wording* from numeric gold JSON only. Persist only after critic pass. LLM failure falls back to the template.
+
+**Two domains ship in-tree** so the pattern is not a one-off: **gov** (public comments) and **orders**. Same critic and policy; different schema and gold SQL. Applying that to *your* CSV: [APPLY.md](APPLY.md).
+
+**HITL:** status `needs_human` is not success. Agents never auto-publish FOIA bundles or emails ([decision](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/agents-never-publish-prod.md)).
+
+**Proof:** `./scripts/verify.sh` → 41 pytest + FOIA demo `silver=10` `quarantined=2` `status=complete`. CI repeats that gate. Optional LLM is mocked in CI ([MODELS.md](MODELS.md), [LLM.md](LLM.md)).
+
+```mermaid
+flowchart LR
+  problem[PII invented counts no replay] --> planes[Data Policy Control]
+  planes --> gold[Gold KPIs]
+  gold --> insight[Template or LLM wording]
+  insight --> critic[Critic]
+  critic --> persist[Persist for humans]
+```
 
 ---
 
-## What an “insight” is
+## Why it is useful
 
-The default insight is a **template** filled from gold KPIs — the sentence you see after `verify.sh`. An optional LLM may rewrite the *wording*. It still receives numeric gold JSON only, never comment bodies. Nothing is persisted until the critic passes. If the model is missing or fails, the graph falls back to the template. That is intentional.
+- **Defensible summaries.** Leadership can ask “where is the 10?” and you point at gold, not at a chat log.
+- **Replay.** Bronze + content hash answers “what file, which run.”
+- **Fail-closed.** Too much quarantine withholds KPIs instead of warning-and-showing a pretty lie.
+- **Bounded agency.** The model is not the warehouse administrator. MCP cannot decrypt the vault or run ad-hoc SQL.
+- **Portable pattern.** Orders vs FOIA in one repo shows the same control plane on a second schema — [APPLY.md](APPLY.md).
+- **Honest default.** CI and first clone need no vendor key. You opt into Ollama or OpenAI after verify.
 
-Install a local or cloud model: [LLM.md](LLM.md). Which model, and where the JSON goes: [MODELS.md](MODELS.md).
-
----
-
-## Human in the loop
-
-Graph status `needs_human` is **not** success. An officer still has to review. Agents never auto-publish FOIA releases, insight emails, or public dumps. Decision: [agents never publish prod](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/agents-never-publish-prod.md).
-
----
-
-## Where standards fit
-
-[NIST.md](NIST.md) maps this demo onto NIST AI RMF (Govern / Map / Measure / Manage), the generative-AI profile for the risks we actually mitigate, and SP 800-122 for PII. We **align** selected practices. We do not claim certification, FedRAMP, or an ATO.
+It is **not** production FOIA software, FedRAMP, or an officer product UI. Residual risks: [RISKS.md](RISKS.md). Standards language: [NIST.md](NIST.md).
 
 ---
 
 ## Learning path
 
-[QUICKSTART](QUICKSTART.md) → **this page** → [TOUR](TOUR.md) → [NIST](NIST.md) → [MODELS](MODELS.md) → [LLM](LLM.md) → [FOUNDATIONS](FOUNDATIONS.md)
+1. Prove the clone — [QUICKSTART](QUICKSTART.md)
+2. **This page** and screenshots — [TOUR](TOUR.md)
+3. Other feeds and what you must not strip out — [APPLY](APPLY.md)
+4. What can still go wrong — [RISKS](RISKS.md)
+5. NIST alignment (not certification) — [NIST](NIST.md)
+6. Optional models — [MODELS](MODELS.md) → [LLM](LLM.md)
+7. Citations and tests — [FOUNDATIONS](FOUNDATIONS.md)
 
-Citations and the proof matrix live in FOUNDATIONS. The deep spec is the [white paper](Operator-ETL-White-Paper.md) — not duplicated here.
+Deep spec: [white paper](Operator-ETL-White-Paper.md). Glossary: [GLOSSARY](GLOSSARY.md).
