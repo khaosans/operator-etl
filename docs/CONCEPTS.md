@@ -2,7 +2,7 @@
 
 **When to read:** After (or instead of) a first `./scripts/verify.sh`. This is the learning tour: problem, implementation, usefulness, then where to go next.
 
-Operator ETL is a **reference architecture**: bounded agents on a medallion warehouse. Python and SQL decide what data exists. Agents only orchestrate. Tests prove the invariants. The default path needs **no API key**.
+Operator ETL is a **reference architecture**: bounded agents on a **medallion** warehouse (three trust layers: raw drop → valid rows → KPIs — [PATTERNS](PATTERNS.md)). Python and SQL decide what data exists. Agents only orchestrate. Tests prove the invariants. The default path needs **no API key**.
 
 Wiki home: [index.md](index.md). Pitch with diagrams: [WHY.md](WHY.md). Runtime: [HOW-IT-WORKS.md](HOW-IT-WORKS.md).
 
@@ -32,7 +32,7 @@ Not a chatbot. Three **planes** that must not collapse into one process:
 | **Policy** | PII scan, encrypted vault, fail-closed quality gate. Agents never decrypt. | `src/operator_etl_policy/` |
 | **Control** | LangGraph orchestration, three MCP tools, **critic** on every digit in an insight. | `src/operator_etl_graph/`, `src/operator_etl_mcp/` |
 
-**Medallion:** bronze = immutable hashed drop; silver = schema-valid rows; quarantine = failures with error text; gold = trusted aggregates — the **only** numbers an insight may cite.
+**Medallion** (three-layer warehouse: raw → valid → KPIs): bronze = hashed drop kept forever; silver = schema-valid rows; quarantine = failures with error text; gold = trusted aggregates — the **only** numbers an insight may cite. Full lesson: [PATTERNS.md](PATTERNS.md).
 
 **Graph (FOIA path):** ingest → PII → validate → quality → gold → insight → critic → persist. Insight default is a **template** filled from gold. Optional LLM rewrites *wording* from numeric gold JSON only. Persist only after critic pass. LLM failure falls back to the template.
 
@@ -70,10 +70,11 @@ It is **not** production FOIA software, FedRAMP, or an officer product UI. Resid
 
 1. Prove the clone — [QUICKSTART](QUICKSTART.md)
 2. **This page** and screenshots — [TOUR](TOUR.md)
-3. Other feeds and what you must not strip out — [APPLY](APPLY.md)
-4. What can still go wrong — [RISKS](RISKS.md)
-5. NIST alignment (not certification) — [NIST](NIST.md)
-6. Optional models — [MODELS](MODELS.md) → [LLM](LLM.md)
-7. Citations and tests — [FOUNDATIONS](FOUNDATIONS.md)
+3. What medallion, critic, planes mean — [PATTERNS](PATTERNS.md)
+4. Other feeds and what you must not strip out — [APPLY](APPLY.md)
+5. What can still go wrong — [RISKS](RISKS.md)
+6. NIST alignment (not certification) — [NIST](NIST.md)
+7. Optional models — [MODELS](MODELS.md) → [LLM](LLM.md)
+8. Citations and tests — [FOUNDATIONS](FOUNDATIONS.md)
 
 Deep spec: [white paper](Operator-ETL-White-Paper.md). Glossary: [GLOSSARY](GLOSSARY.md).

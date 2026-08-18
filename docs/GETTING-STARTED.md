@@ -21,6 +21,7 @@ flowchart LR
 | Step | Doc | Time |
 |---|---|---|
 | Understand the problem | [WHY.md](WHY.md) · [CONCEPTS.md](CONCEPTS.md) | ~10 min |
+| What medallion / critic mean | [PATTERNS.md](PATTERNS.md) | ~10 min |
 | Install and verify | This guide §1–3 | ~10 min |
 | See the test case work | [WALKTHROUGH.md](WALKTHROUGH.md) | ~15 min |
 | Runtime model | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | ~10 min |

@@ -8,7 +8,7 @@ timestamp: 2026-08-17T00:00:00Z
 
 # Design foundations
 
-Human-readable version: [docs/FOUNDATIONS.md](../../docs/FOUNDATIONS.md)
+Human-readable version: [docs/FOUNDATIONS.md](../../docs/FOUNDATIONS.md). Teach the words: [docs/PATTERNS.md](../../docs/PATTERNS.md).
 
 ## Proof matrix (agent quick reference)
 
@@ -39,3 +39,10 @@ Human-readable version: [docs/FOUNDATIONS.md](../../docs/FOUNDATIONS.md)
 8. NIST AI RMF 1.0 — human oversight
 9. FOIA / 5 U.S.C. § 552 — https://www.foia.gov/
 10. OWASP LLM Top 10 — excessive agency
+11. NIST AI 600-1 — GAI confabulation (critic)
+12. NIST Privacy Framework 1.0
+13. Saltzer & Schroeder (1975) — least privilege, fail-safe defaults
+14. Hohpe & Woolf EIP — Dead Letter Channel (quarantine)
+15. Raasveldt & Mühleisen (2019) — DuckDB
+16. Armbrust et al. CIDR 2021 — lakehouse / medallion context
+17. Parasuraman et al. (2000) — levels of automation (HITL)

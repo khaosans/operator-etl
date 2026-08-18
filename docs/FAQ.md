@@ -38,6 +38,12 @@ See [FINAL-REVIEW.md](FINAL-REVIEW.md) · [RISKS.md](RISKS.md). Safe public clai
 
 ---
 
+## What is medallion?
+
+A **three-layer warehouse**: keep the raw file, keep only valid rows, publish only counts and rates. The medal names (bronze / silver / gold) are labels for **trust**, not metal. We add **quarantine** for bad rows with a reason. Lesson: [PATTERNS.md](PATTERNS.md). One-liners: [GLOSSARY.md](GLOSSARY.md).
+
+---
+
 ## Can I use this for data that is not FOIA?
 
 **Yes, as a pattern.** The repo already runs a second domain (**orders**) on the same critic and policy plane. You change schema, gold SQL, and the insight template — you do **not** remove bronze, quarantine, the critic, or the MCP allowlist. Sketches for 311, grants, inspections: [APPLY.md](APPLY.md). YAML how-to: [ADD-A-SOURCE.md](ADD-A-SOURCE.md).

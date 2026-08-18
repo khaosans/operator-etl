@@ -80,6 +80,8 @@ flowchart TB
 
 ## Medallion = audit trail
 
+**Medallion** means a warehouse in three trust layers: keep the raw drop, keep only valid rows, publish only KPIs. (The name is Databricks branding for that layering — [PATTERNS.md](PATTERNS.md).)
+
 FOIA officers need to show *what arrived, what was rejected, and what was released*.
 
 ```mermaid
@@ -183,6 +185,7 @@ Apache License 2.0 — clone, fork, and run the proof gate. Sample data is **syn
 
 - [README.md](../README.md) — quick start and trade-offs
 - [CONCEPTS.md](CONCEPTS.md) — narrative tour (problem, implementation, usefulness)
+- [PATTERNS.md](PATTERNS.md) — components and citations
 - [APPLY.md](APPLY.md) — other data sources
 - [RISKS.md](RISKS.md) — residual risks
 - [NIST.md](NIST.md) — standards alignment (not certification)

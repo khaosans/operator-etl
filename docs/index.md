@@ -1,6 +1,6 @@
 # Operator ETL wiki
 
-**Agentic data intake for FOIA and public comments** — deterministic medallion warehouse, LangGraph orchestration, MCP allowlist, PII policy plane.
+**Agentic data intake for FOIA and public comments** — a **medallion** warehouse (raw → valid rows → KPIs; [PATTERNS](PATTERNS.md)), LangGraph orchestration, MCP allowlist, PII policy plane.
 
 Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Tests prove the invariants. **No LLM API key** is required for the MVP demo.
 
@@ -18,9 +18,9 @@ Full argument: [WHY.md](WHY.md).
 
 ## What we built
 
-A **reference architecture**, not a production FOIA product: bronze → silver/quarantine → gold, PII vault, LangGraph, a critic that rejects uncited numbers, and three MCP tools with no vault access. Default insight is a **template**. Optional LLM only rewrites wording from gold KPI JSON.
+A **reference architecture**, not a production FOIA product: **medallion** layers (bronze → silver/quarantine → gold), PII vault, LangGraph, a critic that rejects uncited numbers, and three MCP tools with no vault access. Default insight is a **template**. Optional LLM only rewrites wording from gold KPI JSON.
 
-Tour: [CONCEPTS.md](CONCEPTS.md) · Runtime: [HOW-IT-WORKS.md](HOW-IT-WORKS.md) · Audit: [FINAL-REVIEW.md](FINAL-REVIEW.md).
+Tour: [CONCEPTS.md](CONCEPTS.md) · Words: [PATTERNS.md](PATTERNS.md) · Runtime: [HOW-IT-WORKS.md](HOW-IT-WORKS.md) · Audit: [FINAL-REVIEW.md](FINAL-REVIEW.md).
 
 ---
 
@@ -44,7 +44,7 @@ Full card: [QUICKSTART.md](QUICKSTART.md) · Screenshots: [TOUR.md](TOUR.md)
 
 | Topic | Page |
 |---|---|
-| Why the pattern exists | [WHY](WHY.md) · [CONCEPTS](CONCEPTS.md) |
+| Why the pattern exists | [WHY](WHY.md) · [CONCEPTS](CONCEPTS.md) · [PATTERNS](PATTERNS.md) |
 | Same architecture on another CSV (311, grants, orders, …) | [APPLY](APPLY.md) |
 | Residual risks (regex PII, critic digits, cloud JSON, HITL) | [RISKS](RISKS.md) |
 | NIST alignment, not certification | [NIST](NIST.md) |
@@ -71,7 +71,7 @@ Docs follow a [Diátaxis](https://diataxis.fr/) split so tutorials, explanation,
 | Kind | What you want | Where |
 |---|---|---|
 | **Tutorials** | Do the happy path | Start + Prove: Quickstart, Getting started, Tour, Walkthrough |
-| **Explanation** | Understand problem, design, transfer, risk | Understand: Why, Concepts, How it works, Apply, Risks, NIST, Models, Foundations |
+| **Explanation** | Understand problem, design, words, transfer, risk | Understand: Why, Concepts, Patterns, How it works, Apply, Risks, NIST, Models, Foundations |
 | **How-to** | Achieve a task | Use + Scale: CLI, sources, LLM, dashboard, GCP |
 | **Reference** | Look up a fact | Glossary, FAQ, Troubleshooting, Standards, Testing, Final review |
 
@@ -94,7 +94,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md) · Residual risks: [RISKS.md](RIS
 ## Wiki map
 
 1. **Start** — [QUICKSTART](QUICKSTART.md) · [GETTING-STARTED](GETTING-STARTED.md) · [PERSONAS](PERSONAS.md) · [TOUR](TOUR.md)
-2. **Understand** — [WHY](WHY.md) · [CONCEPTS](CONCEPTS.md) · [HOW-IT-WORKS](HOW-IT-WORKS.md) · [APPLY](APPLY.md) · [RISKS](RISKS.md) · [NIST](NIST.md) · [MODELS](MODELS.md) · [FOUNDATIONS](FOUNDATIONS.md)
+2. **Understand** — [WHY](WHY.md) · [CONCEPTS](CONCEPTS.md) · [PATTERNS](PATTERNS.md) · [HOW-IT-WORKS](HOW-IT-WORKS.md) · [APPLY](APPLY.md) · [RISKS](RISKS.md) · [NIST](NIST.md) · [MODELS](MODELS.md) · [FOUNDATIONS](FOUNDATIONS.md)
 3. **Prove** — [WALKTHROUGH](WALKTHROUGH.md) · [TESTING](TESTING.md) · [FINAL-REVIEW](FINAL-REVIEW.md)
 4. **Use** — [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)
 5. **Reference** — [GLOSSARY](GLOSSARY.md) · [FAQ](FAQ.md) · [TROUBLESHOOTING](TROUBLESHOOTING.md) · [STANDARDS](STANDARDS.md)
@@ -111,6 +111,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md) · Residual risks: [RISKS.md](RIS
 
 - [QUICKSTART.md](QUICKSTART.md) — one-command verify
 - [CONCEPTS.md](CONCEPTS.md) — learn the project
+- [PATTERNS.md](PATTERNS.md) — medallion, critic, planes
 - [APPLY.md](APPLY.md) — other data sources
 - [RISKS.md](RISKS.md) — what to know before adopting
 - [GLOSSARY.md](GLOSSARY.md) — terms

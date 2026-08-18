@@ -14,8 +14,8 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 
 | Persona | Path |
 |---|---|
-| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [CONCEPTS](CONCEPTS.md) → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
-| **Architect evaluating design** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [RISKS](RISKS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
+| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [CONCEPTS](CONCEPTS.md) → [PATTERNS](PATTERNS.md) → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
+| **Architect evaluating design** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [PATTERNS](PATTERNS.md) → [RISKS](RISKS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
 | **FOIA / agency operator** | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · later [PRODUCT-UX](PRODUCT-UX.md) |
 | **New data source** | [APPLY](APPLY.md) → [ADD-A-SOURCE](ADD-A-SOURCE.md) |
 | **Scaling to GCP** | [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
@@ -46,6 +46,7 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 |---|---|
 | [WHY.md](WHY.md) | Problem — chatbot trap vs three planes |
 | [CONCEPTS.md](CONCEPTS.md) | What we built, why it is useful, learning path |
+| [PATTERNS.md](PATTERNS.md) | Medallion, planes, critic — English + citations |
 | [HOW-IT-WORKS.md](HOW-IT-WORKS.md) | Planes, lifecycle, MCP policy |
 | [APPLY.md](APPLY.md) | Same pattern on other CSVs (orders, 311, grants, …) |
 | [RISKS.md](RISKS.md) | Residual risks after a green verify |

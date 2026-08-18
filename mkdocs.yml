@@ -72,6 +72,7 @@ nav:
   - Understand:
       - Why: WHY.md
       - Concepts: CONCEPTS.md
+      - Patterns: PATTERNS.md
       - How it works: HOW-IT-WORKS.md
       - Other data sources: APPLY.md
       - Risks: RISKS.md

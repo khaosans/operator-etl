@@ -19,7 +19,7 @@ Built for government agencies and regulated bodies that must intake public comme
 |---|---|
 | See it working | [Visual tour](docs/TOUR.md) (screenshots) |
 | First run | [QUICKSTART](docs/QUICKSTART.md) — `./scripts/verify.sh` |
-| Learn what we built | [Concepts](docs/CONCEPTS.md) · [Apply](docs/APPLY.md) · [Risks](docs/RISKS.md) |
+| Learn what we built | [Concepts](docs/CONCEPTS.md) · [Patterns](docs/PATTERNS.md) · [Apply](docs/APPLY.md) · [Risks](docs/RISKS.md) |
 | Who it is for | [Personas](docs/PERSONAS.md) |
 | Product UI (later) | [PRODUCT-UX](docs/PRODUCT-UX.md) — SPECIFIED, not this demo |
 
@@ -237,6 +237,7 @@ Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.m
 | [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md) | Product UI backlog (SPECIFIED) |
 | [docs/QUICKSTART.md](docs/QUICKSTART.md) | **First run** — `./scripts/verify.sh` |
 | [docs/CONCEPTS.md](docs/CONCEPTS.md) | Problem, what we built, why it is useful |
+| [docs/PATTERNS.md](docs/PATTERNS.md) | Medallion, planes, critic — English + citations |
 | [docs/APPLY.md](docs/APPLY.md) | Other data sources — keep planes, change schema |
 | [docs/RISKS.md](docs/RISKS.md) | Residual risks after a green verify |
 | [docs/NIST.md](docs/NIST.md) | AI RMF / 600-1 / SP 800-122 — alignment, not certification |
