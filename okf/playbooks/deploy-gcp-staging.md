@@ -23,7 +23,7 @@ timestamp: 2026-08-17T00:00:00Z
    cp terraform.tfvars.example terraform.tfvars
    terraform init && terraform apply
    ```
-3. Replace Secret Manager placeholders (PII vault key, OpenAI key)
+3. Replace Secret Manager placeholders (PII vault key, OpenAI key). Keep `OPERATOR_ETL_INSIGHT_BACKEND=template` until the OpenAI secret is real, then flip to `llm`. See [docs/LLM.md](/docs/LLM.md).
 4. Build and deploy:
    ```bash
    gcloud builds submit --config cloudbuild.yaml

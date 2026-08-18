@@ -11,6 +11,10 @@ locals {
       { name = "OPERATOR_ETL_BQ_DATASET_QUARANTINE", value = google_bigquery_dataset.quarantine.dataset_id },
       { name = "OPERATOR_ETL_BQ_DATASET_GOLD", value = google_bigquery_dataset.gold.dataset_id },
       { name = "OPERATOR_ETL_CHECKPOINT_BACKEND", value = var.enable_cloud_sql ? "postgres" : "sqlite" },
+      # Default template so REPLACE_ME OpenAI secret does not 401 the graph.
+      # Flip to "llm" after replacing operator-etl-*-openai-api-key in Secret Manager.
+      { name = "OPERATOR_ETL_INSIGHT_BACKEND", value = "template" },
+      { name = "OPERATOR_ETL_LLM_MODEL", value = "gpt-4o-mini" },
     ],
     var.enable_cloud_sql ? [{
       name  = "OPERATOR_ETL_CHECKPOINT_DATABASE_URL"

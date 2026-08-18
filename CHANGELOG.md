@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented here and in [okf/log.md](okf/log.md).
 
+## [0.4.4] — 2026-08-17
+
+### Added
+
+- Optional OpenAI-compatible LLM insight node (`OPERATOR_ETL_INSIGHT_BACKEND=llm`)
+- [docs/LLM.md](docs/LLM.md) — localhost and Cloud Run setup; gold JSON only; critic still required
+- Mocked LLM tests (38 pytest); template remains the default so CI needs no API key
+
+### Changed
+
+- Cloud Run image installs `--extra llm`; Terraform keeps insight backend `template` until the OpenAI secret is real
+- Implementation status: LLM insight nodes **PARTIAL** (not proven live in CI)
+
 ## [0.4.3] — 2026-08-17
 
 ### Added

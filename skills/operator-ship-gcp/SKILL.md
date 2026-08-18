@@ -30,7 +30,7 @@ gcloud builds submit --config cloudbuild.yaml
 
 ## Env vars
 
-Copy [infra/env.example](../../infra/env.example) — set `OPERATOR_ETL_BACKEND=bigquery`, datasets, checkpoint URL.
+Copy [infra/env.example](../../infra/env.example) — set `OPERATOR_ETL_BACKEND=bigquery`, datasets, checkpoint URL. Optional LLM: [docs/LLM.md](../../docs/LLM.md) (`OPERATOR_ETL_INSIGHT_BACKEND` stays `template` until the OpenAI secret is real).
 
 ## Non-negotiables
 

@@ -30,6 +30,7 @@ class PipelineState(TypedDict, total=False):
     _records: list[dict]
     _quality_report: dict
     _critic_retries: int
+    _llm_calls: int
 
 
 def new_run_id() -> str:

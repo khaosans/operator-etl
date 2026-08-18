@@ -7,7 +7,7 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**34 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**38 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
@@ -79,6 +79,17 @@ flowchart TB
 | `test_critic_rejects_hallucinated_number` | `999` rejected when not in metrics |
 | `test_critic_exhausted_routes_needs_human` | Retry exhaustion → HITL route |
 
+### `test_llm_insight.py` — Optional OpenAI-compatible insights (mocked)
+
+| Test | Proves |
+|---|---|
+| `test_template_backend_uses_gold_metrics` | Default backend is still the gold template |
+| `test_llm_backend_uses_mocked_grounded_draft` | LLM path gets gold JSON only; critic would pass |
+| `test_llm_invented_number_fails_critic` | Invented counts still fail the critic |
+| `test_llm_backend_falls_back_to_template_without_key` | No key / missing extra → template, no crash |
+
+No live API key in CI.
+
 ### `test_pii.py` — Policy plane
 
 | Test | Proves |
@@ -135,7 +146,7 @@ This catches env pollution (stale warehouse) that isolated tests might miss when
 ## What tests do not prove
 
 - Live GCP / BigQuery deploy
-- Presidio PII or LLM-generated insights
+- Presidio PII or a **live** LLM API (optional path is mocked)
 - Production FOIA officer HITL UI workflow
 
 See [FINAL-REVIEW.md](FINAL-REVIEW.md).

@@ -15,9 +15,9 @@ Human-readable audit: [docs/FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md)
 | Tier | Examples |
 |---|---|
 | **Proven in CI** | FOIA e2e, PII, critic, MCP allowlist, idempotency |
-| **Partial** | BigQuery, Cloud Run live, HITL dashboard, PII gray-zone |
-| **Specified** | Presidio, LLM insight, Regulations.gov |
+| **Partial** | BigQuery, Cloud Run live, HITL dashboard, PII gray-zone, optional LLM insight |
+| **Specified** | Presidio, Regulations.gov |
 
-**Gate:** `make e2e` (34 pytest + FOIA demo)
+**Gate:** `make e2e` (38 pytest + FOIA demo)
 
 **Before scale claims:** read FINAL-REVIEW pre-scale checklist.

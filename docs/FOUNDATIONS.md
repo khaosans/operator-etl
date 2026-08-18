@@ -48,7 +48,7 @@ Full standards index: [STANDARDS.md](STANDARDS.md)
 - **Template insight + rule-based critic** — no LLM API key required for MVP; critic rejects hallucinated numbers deterministically
 - **Regex PII scanner** — covers email, phone, SSN patterns; Presidio optional upgrade (SPECIFIED)
 - **Three MCP tools only** — `get_gold_metrics`, `run_quality_sql`, `get_run_status`
-- **One command proof** — `make e2e` runs OKF validate, 34 pytest tests, and FOIA demo assertions
+- **One command proof** — `make e2e` runs OKF validate, 38 pytest tests, and FOIA demo assertions
 
 ---
 

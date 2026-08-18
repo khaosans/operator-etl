@@ -81,6 +81,7 @@ nav:
       - Dashboard: DASHBOARD.md
       - MCP: MCP.md
       - Add a source: ADD-A-SOURCE.md
+      - Optional LLM: LLM.md
       - FOIA guide: FOIA-Public-Comments-Guide.md
   - Reference:
       - Glossary: GLOSSARY.md

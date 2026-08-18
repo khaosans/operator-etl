@@ -23,7 +23,7 @@ cd operator-etl
 
 Installs **uv** if missing, syncs deps, runs the full proof gate. Success ends with **`OPERATOR_ETL_VERIFY=PASS`**.
 
-**Expected:** 34 pytest pass, FOIA demo prints `status=complete` and `silver=10`.
+**Expected:** 38 pytest pass, FOIA demo prints `status=complete` and `silver=10`.
 
 ```mermaid
 flowchart LR
@@ -98,7 +98,7 @@ Details: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · [okf/models/three-plane
 
 | Question | Answer |
 |---|---|
-| Does it work locally? | `make e2e` — OKF validate, **34 pytest**, FOIA demo on fresh warehouse |
+| Does it work locally? | `make e2e` — OKF validate, **38 pytest**, FOIA demo on fresh warehouse |
 | What does CI prove? | Same gate on every push ([badge above](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)) |
 | What is **not** proven in CI? | Live GCP deploy, Presidio PII, LLM-generated insights — see honest audit |
 
@@ -173,7 +173,7 @@ flowchart LR
 | `make verify` | Same as verify.sh |
 | `make e2e` | Full MVP proof gate (OKF + tests + FOIA demo) |
 | `make demo` | FOIA demo only |
-| `make test` | pytest (34 tests) |
+| `make test` | pytest (38 tests) |
 | `uv run etl-graph --source public_comments` | FOIA agentic pipeline |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
 | `uv run operator-etl-mcp` | MCP server for Cursor agents |
@@ -199,7 +199,7 @@ Living matrix: [okf/models/implementation-status.md](okf/models/implementation-s
 
 ## Scope boundaries
 
-**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **34 tests** + CI
+**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **38 tests** + CI
 
 **Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E
 

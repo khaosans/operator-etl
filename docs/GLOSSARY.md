@@ -33,7 +33,7 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 |---|---|
 | **LangGraph** | Explicit graph of nodes (ingest → PII → validate → quality → gold → insight → critic → persist). |
 | **Critic** | Deterministic check: every number in an insight draft must exist in gold metrics. Hallucinated `999` fails. [TESTING](TESTING.md) |
-| **Insight** | Short narrative persisted to the `insights` table after the critic passes. Template-based in the MVP. |
+| **Insight** | Short narrative persisted to the `insights` table after the critic passes. Default is a gold-KPI **template**; optional LLM wording is [LLM.md](LLM.md). |
 | **HITL** | Human-in-the-loop. Graph status `needs_human` when quality fails, critic retries exhaust, or PII is ambiguous. |
 | **`needs_human`** | Terminal graph status: do not treat as success; an officer must review. |
 | **MCP** | Model Context Protocol. Agents call **typed tools**, not ad-hoc SQL. [MCP](MCP.md) |

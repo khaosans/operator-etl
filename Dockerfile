@@ -19,7 +19,7 @@ COPY sql ./sql
 COPY pipelines ./pipelines
 COPY samples ./samples
 
-RUN uv sync --frozen --extra gcp --no-dev
+RUN uv sync --frozen --extra gcp --extra llm --no-dev
 
 ENV PATH="/app/.venv/bin:$PATH"
 

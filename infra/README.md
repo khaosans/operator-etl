@@ -81,7 +81,9 @@ gcloud builds submit --config cloudbuild.yaml
 1. **Replace secret placeholders:**
    ```bash
    echo -n "your-pii-vault-key" | gcloud secrets versions add operator-etl-staging-pii-vault-key --data-file=-
+   echo -n "sk-..." | gcloud secrets versions add operator-etl-staging-openai-api-key --data-file=-
    ```
+   Graph-runner keeps `OPERATOR_ETL_INSIGHT_BACKEND=template` until you flip it to `llm`. See [docs/LLM.md](../docs/LLM.md).
 
 2. **Upload a test comment file:**
    ```bash

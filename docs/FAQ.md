@@ -6,9 +6,9 @@
 
 ## Do I need an OpenAI (or other LLM) API key?
 
-**No.** The MVP insight is a **template** filled from gold KPIs. The critic checks numbers against the warehouse. `make e2e` / `./scripts/verify.sh` run with no cloud LLM.
+**No.** The default insight is a **template** filled from gold KPIs. The critic checks numbers against the warehouse. `make e2e` / `./scripts/verify.sh` run with no cloud LLM.
 
-LLM insight nodes are **SPECIFIED** (optional extra `llm` in `pyproject.toml`). Do not claim they are proven.
+Optional LLM wording is **PARTIAL**: set `OPERATOR_ETL_INSIGHT_BACKEND=llm` after `uv sync --extra llm`. Missing extra, missing key, or a failed call falls back to the template. Not proven with a live API in CI. Setup: [LLM.md](LLM.md).
 
 ---
 

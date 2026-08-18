@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-08-17 (optional LLM insights)
+
+- Optional OpenAI-compatible insight node; default remains template (no API key)
+- docs/LLM.md; mocked tests; status PARTIAL not proven live in CI
+- Cloud Run: --extra llm in image; OPERATOR_ETL_INSIGHT_BACKEND=template until secret is real
+
 ## 2026-08-17 (user wiki)
 
 - Human wiki: docs/index.md, GLOSSARY, FAQ, CLI, DASHBOARD, MCP, ADD-A-SOURCE, TROUBLESHOOTING
