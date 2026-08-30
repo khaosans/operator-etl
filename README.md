@@ -20,6 +20,7 @@ Built for government agencies and regulated bodies that must intake public comme
 |---|---|
 | See it working | [Visual tour](docs/TOUR.md) (screenshots) |
 | First run | [QUICKSTART](docs/QUICKSTART.md) — `./scripts/verify.sh` |
+| White Paper (v3.0) | [Engineering White Paper](docs/Operator-ETL-White-Paper.md) · [PDF](docs/Operator-ETL-White-Paper.pdf) |
 | Learn what we built | [Concepts](docs/CONCEPTS.md) · [Patterns](docs/PATTERNS.md) · [Apply](docs/APPLY.md) · [Risks](docs/RISKS.md) |
 | Who it is for | [Personas](docs/PERSONAS.md) |
 | Product UI (later) | [PRODUCT-UX](docs/PRODUCT-UX.md) — SPECIFIED, not this demo |

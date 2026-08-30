@@ -110,16 +110,50 @@ Agency mapping: [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md)
 
 ## What runs where
 
-| Component | Local MVP | GCP (scaled) |
-|---|---|---|
-| **Trigger** | `make e2e` / `etl-graph` CLI | GCS upload → Pub/Sub → Cloud Run |
-| **Warehouse** | DuckDB (`warehouse/operator.duckdb`) | BigQuery (`etl_*` datasets) |
-| **Graph runner** | `operator_etl_graph` on laptop | Cloud Run `graph-runner` |
-| **Checkpoints** | SQLite | Cloud SQL PostgreSQL |
-| **MCP** | stdio (`operator-etl-mcp`) | HTTP on Cloud Run |
-| **PII vault** | Local encrypted file | Secret Manager + env |
+| Component | Local MVP | GCP (scaled) | Enterprise Invariant |
+|---|---|---|---|
+| **Trigger** | `make e2e` / `etl-graph` CLI | GCS upload → Pub/Sub → Cloud Run | At-least-once event delivery |
+| **Warehouse** | DuckDB (`warehouse/operator.duckdb`) | BigQuery (`etl_*` datasets) | Bit-identical SQL aggregation |
+| **Graph runner** | `operator_etl_graph` on laptop | Cloud Run `graph-runner` | Deterministic LangGraph state machine |
+| **Checkpoints** | SQLite | Cloud SQL PostgreSQL | Resumable HITL interruption |
+| **MCP** | stdio (`operator-etl-mcp`) | HTTP/SSE on Cloud Run | Strict query allowlist enforcement |
+| **PII vault** | Local encrypted file | Secret Manager + Cloud KMS | Zero raw PII in model context |
 
 Same graph nodes, PII policy, critic, and MCP allowlist in both environments.
+
+---
+
+## Real-world Production Deployment Blueprint
+
+When graduating from local development to production agency infrastructure:
+
+```mermaid
+flowchart TD
+    subgraph Intake [1. Event Ingestion]
+        GCS["Inbound GCS Bucket<br/>gs://agency-intake-drop/"] -->|"Object Finalize"| PS["Pub/Sub Topic"]
+    end
+
+    subgraph Compute [2. Containerized Orchestration]
+        PS -->|"Push Subscription"| CR["Cloud Run: Graph Runner<br/>(operator-etl container)"]
+        SM["Cloud Secret Manager<br/>(PII AES Key + API Tokens)"] -.->|Injected| CR
+        SQL["Cloud SQL Postgres<br/>(LangGraph Checkpointer)"] <--> CR
+    end
+
+    subgraph Storage [3. Medallion Lakehouse]
+        CR --> BQ_B["BigQuery: etl_bronze<br/>(Raw Immutable Payloads)"]
+        CR --> BQ_S["BigQuery: etl_silver<br/>(Validated Entities)"]
+        CR --> BQ_Q["BigQuery: etl_quarantine<br/>(Audit Dead-Letter)"]
+        CR --> BQ_G["BigQuery: etl_gold<br/>(Audited KPI Marts)"]
+    end
+
+    subgraph Governance [4. Output & HITL Sign-off]
+        BQ_G --> MCP["Cloud Run MCP Server<br/>(SSE Transport)"]
+        MCP --> Agent["Analytical Agent<br/>(Briefing Generator)"]
+        Agent --> Critic["Critic Node"]
+        Critic --> Persist["Persist Verified Memo"]
+        Critic -->|"Violation"| Officer["FOIA Officer Review Dashboard"]
+    end
+```
 
 ---
 

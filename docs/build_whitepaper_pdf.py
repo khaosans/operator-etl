@@ -44,10 +44,10 @@ MARGIN = 0.72 * inch
 CONTENT_W = PAGE_W - 2 * MARGIN
 
 HERO_ANCHORS = {
-    "5. system architecture": "three-planes.png",
-    "5.1 end-to-end flow": "three-planes.png",
-    "11. mcp tool surface": "mcp-agent-flow.png",
-    "12. gcp implementation": "gcp-architecture.png",
+    "1. executive narrative": "three-planes.png",
+    "4. system architecture": "three-planes.png",
+    "6. model context protocol": "mcp-agent-flow.png",
+    "10. deployment & cloud architecture": "gcp-architecture.png",
 }
 
 STATUS_COLORS = {
@@ -186,12 +186,12 @@ def cover_page(c: canvas.Canvas, doc):
     c.drawString(MARGIN, PAGE_H * 0.38, "Operator ETL")
     c.setFont("Helvetica", 14)
     c.setFillColor(colors.HexColor("#CBD5E1"))
-    c.drawString(MARGIN, PAGE_H * 0.38 - 0.35 * inch, "Agentic Data Platform — Engineering White Paper")
+    c.drawString(MARGIN, PAGE_H * 0.38 - 0.35 * inch, "Agentic Data Platform — Enterprise White Paper")
     c.setFont("Helvetica", 10)
-    c.drawString(MARGIN, PAGE_H * 0.38 - 0.6 * inch, "v2.1  ·  Architecture · MCP · GCP · NFRs · ADRs")
+    c.drawString(MARGIN, PAGE_H * 0.38 - 0.6 * inch, "v3.0  ·  Architecture · MCP · Threat Model · FOIA Case Study")
     c.setFont("Helvetica", 8)
     c.setFillColor(SLATE)
-    c.drawString(MARGIN, 0.5 * inch, "IMPLEMENTED vs SPECIFIED clearly marked  ·  29/34 tests passing")
+    c.drawString(MARGIN, 0.5 * inch, "IMPLEMENTED vs SPECIFIED clearly marked  ·  51/51 pytest tests passing")
     c.restoreState()
 
 
@@ -203,7 +203,7 @@ def body_page(c: canvas.Canvas, doc):
     c.line(MARGIN, 0.5 * inch, PAGE_W - MARGIN, 0.5 * inch)
     c.setFillColor(SLATE)
     c.setFont("Helvetica", 7.5)
-    c.drawString(MARGIN, 0.35 * inch, "Operator ETL White Paper v2.1")
+    c.drawString(MARGIN, 0.35 * inch, "Operator ETL White Paper v3.0")
     c.drawRightString(PAGE_W - MARGIN, 0.35 * inch, f"Page {doc.page}")
     c.restoreState()
 
@@ -228,31 +228,25 @@ def md_to_story(md: str) -> list:
     story: list = []
     lines = md.splitlines()
     i = 0
-    skip_until_abstract = True
+    skip_header_block = True
 
     while i < len(lines):
         line = lines[i]
         s = line.strip()
 
-        if not s or s.startswith("> **PDF"):
+        if not s or s.startswith("> **PDF") or s.startswith("> **Living"):
             i += 1
             continue
 
-        if skip_until_abstract:
-            if s == "## Abstract":
-                skip_until_abstract = False
-                story.append(PageBreak())
-                story.extend(section_header("Abstract"))
+        if skip_header_block:
+            if s.startswith("# ") or s.startswith("## Agentic") or s.startswith("### White Paper"):
                 i += 1
-                abs_lines = []
-                while i < len(lines) and lines[i].strip() and not lines[i].strip().startswith("#") and lines[i].strip() != "---":
-                    abs_lines.append(lines[i].strip())
-                    i += 1
-                if abs_lines:
-                    story.append(Paragraph(fmt(" ".join(abs_lines)), ST["body"]))
                 continue
-            i += 1
-            continue
+            if s == "---":
+                i += 1
+                continue
+            if s == "## Document control" or s.startswith("## "):
+                skip_header_block = False
 
         if s == "---":
             i += 1
