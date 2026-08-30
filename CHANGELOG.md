@@ -7,16 +7,22 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+## [0.5.0-beta.1] — 2026-08-30
+
 ### Added
 
 - Immutable `v*` tags publish a GitHub Release, GHCR image, and GitHub Packages wheel ([`.github/workflows/release.yml`](.github/workflows/release.yml))
 - [docs/VERSIONING.md](docs/VERSIONING.md) — SemVer, beta vs stable, what not to overwrite
 - `scripts/release_meta.py` + `tests/test_release_meta.py` — tag ↔ PEP 440 ↔ CHANGELOG gate (10 tests; suite **51**)
+- Elevated White Paper v3.0 with enterprise FOIA public comments case study, formal STRIDE / NIST AI RMF threat model, and 300 DPI architecture diagrams ([`docs/Operator-ETL-White-Paper.md`](docs/Operator-ETL-White-Paper.md))
+- Programmatic diagram generator ([`scripts/generate_diagram_assets.py`](scripts/generate_diagram_assets.py)) for publication assets
+- Hands-on operational learning guide in [`docs/WALKTHROUGH.md`](docs/WALKTHROUGH.md) and serverless GCP production blueprint in [`docs/HOW-IT-WORKS.md`](docs/HOW-IT-WORKS.md)
 
 ### Changed
 
-- `pyproject.toml` version changes only on a **release PR**. Feature and docs PRs append here and leave the package version alone.
+- `pyproject.toml` version changes only on a **release PR**. Feature and docs PRs append under Unreleased and leave the package version alone.
 - Release workflow: no unsupported `gh --latest`; Python 3.12 + tomllib; optional `GHCR_TOKEN` if `GITHUB_TOKEN` cannot push to GHCR
+- GitHub Actions dependencies bumped to latest versions (docker/build-push-action v7, docker/metadata-action v6, upload-pages-artifact v5)
 
 ## [0.4.9] — 2026-08-18
 
