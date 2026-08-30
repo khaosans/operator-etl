@@ -155,14 +155,27 @@ Green CI on `master` = same OKF + pytest + FOIA demo passed on a clean Ubuntu ru
 
 ---
 
-## Step 6 — MCP smoke (optional)
+## Step 6 — MCP smoke & Agent Interaction
 
 ```bash
 cp .cursor/mcp.json.example .cursor/mcp.json
 # edit cwd to your clone path
 ```
 
-In Cursor, call `get_gold_metrics` with `domain: gov` after running the demo — counts should match gold marts.
+In Cursor or any MCP-compatible agent environment:
+1. Call `get_gold_metrics` with `domain: gov` — the agent receives aggregate counts (`total_comments: 10`, `pii_flagged_count: 4`) without touching raw citizen records.
+2. Call `run_quality_sql` with `query_id: comment_quality` — inspect quarantine rates and freshness.
+3. Observe tool denials: any attempt by an agent to execute arbitrary SQL or invoke `vault_decrypt` returns a clean `TOOL_DENIED` error.
+
+---
+
+## Step 7 — Operational Invariant Learning Tour
+
+For engineers, operators, and review teams looking to understand *why* the pipeline behaves this way in production:
+
+1. **Idempotency Invariant:** Re-running `./scripts/demo_mvp.sh` on an existing database will detect identical SHA-256 byte hashes in `ingest_files` and safely skip processing (`rows_in=0`), preventing double-counting.
+2. **Quarantine Invariant:** Examine `quarantine_comments` to see that corrupted submissions (`COM-004` invalid date, `COM-005` empty body) are preserved alongside explicit Pydantic validation error strings.
+3. **Critic Invariant:** The Critic node deterministically parses all numeric tokens in the generated briefing and cross-checks them against `gold_comment_kpis`. If an LLM hallucinates a count (e.g. citing 12 comments instead of 10), the draft is halted and rerouted to human review (`needs_human`).
 
 ---
 
