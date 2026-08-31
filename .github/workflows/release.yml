@@ -57,7 +57,7 @@ jobs:
       # GITHUB_TOKEN is enough for this repo. If an org policy blocks GHCR
       # pushes, add a PAT with write:packages as repository secret GHCR_TOKEN.
       - name: Log in to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
