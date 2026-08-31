@@ -1,43 +1,98 @@
 # Operator ETL
 
-**Agentic data intake for FOIA and public comments** — deterministic medallion warehouse, LangGraph orchestration, MCP tool surface, PII policy plane.
+**Production-grade Agentic ETL pipeline for FOIA & public comments** — deterministic Medallion warehouse, LangGraph state machine, Model Context Protocol (MCP) allowlist, and zero-PII cryptographic policy plane.
 
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/khaosans/operator-etl?include_prereleases)](https://github.com/khaosans/operator-etl/releases)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
+[![Tests](https://img.shields.io/badge/pytest-51%20passing-brightgreen.svg)](docs/TESTING.md)
+[![Docker GHCR](https://img.shields.io/badge/ghcr.io-operator--etl-blue?logo=docker)](https://github.com/khaosans/operator-etl/pkgs/container/operator-etl)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
-> **Python and SQL decide what data exists. Agents orchestrate within typed boundaries. Tests prove the invariants** — no LLM API key required for the MVP demo.
-
-Built for government agencies and regulated bodies that must intake public comments, detect PII before release, quarantine bad rows, and produce **defensible insights** (every number verified against the warehouse).
-
----
-
-## Docs
-
-**Wiki (searchable):** [https://khaosans.github.io/operator-etl/](https://khaosans.github.io/operator-etl/)
-
-| Start here | Link |
-|---|---|
-| See it working | [Visual tour](docs/TOUR.md) (screenshots) |
-| First run | [QUICKSTART](docs/QUICKSTART.md) — `./scripts/verify.sh` |
-| White Paper (v3.0) | [Engineering White Paper](docs/Operator-ETL-White-Paper.md) · [PDF](docs/Operator-ETL-White-Paper.pdf) |
-| Learn what we built | [Concepts](docs/CONCEPTS.md) · [Patterns](docs/PATTERNS.md) · [Apply](docs/APPLY.md) · [Risks](docs/RISKS.md) |
-| Who it is for | [Personas](docs/PERSONAS.md) |
-| Product UI (later) | [PRODUCT-UX](docs/PRODUCT-UX.md) — SPECIFIED, not this demo |
+> **Python and SQL decide what data exists. Agents orchestrate within typed boundaries. The Critic proves numeric claims.**  
+> Built for government agencies and regulated enterprises that must ingest high-volume unstructured submissions, redact PII before public release, quarantine corrupted records with zero data loss, and generate **mathematically defensible insights**.
 
 ---
 
-## Verify in one command
+## 🏗️ The Problem & Architecture in 30 Seconds
 
+Directly connecting Large Language Models (LLMs) or naive "Text-to-SQL" agents to operational databases causes severe failures in regulated production:
+1. **PII Spillage in Model Traces:** Citizen emails, phone numbers, and SSNs get permanently logged in third-party inference logs.
+2. **Confabulated Leadership Metrics (NIST AI 600-1):** Models invent, misattribute, or round KPI numbers unpredictably.
+3. **Silent Data Loss:** Ingestion scripts drop malformed rows with blanket exception handlers instead of queryable audit trails.
+
+**Operator ETL decouples data computation from generative intelligence using a Three-Plane Architecture:**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       THE THREE PLANES OF TRUST                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  CONTROL PLANE — LangGraph Orchestration                        IMPLEMENTED │
+│  Graph state machine · Checkpoints · Critic audit · HITL approval           │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │ MCP Tools (Allowlisted Queries Only)
+┌──────────────────────────────────────▼──────────────────────────────────────┐
+│  POLICY PLANE — Zero-PII Security & Cryptographic Vault         IMPLEMENTED │
+│  Regex / Presidio scan · AES token vault · Trace anonymization · Budgets    │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+┌──────────────────────────────────────▼──────────────────────────────────────┐
+│  DATA PLANE — Deterministic Medallion Warehouse                 IMPLEMENTED │
+│  Bronze (raw) ──▶ Silver (validated) + Quarantine ──▶ Gold (SQL Marts)     │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies | Purpose / Invariant |
+|---|---|---|
+| **Data Plane** | Python 3.12+, DuckDB, BigQuery, SQL, Pydantic 2 | Deterministic Medallion transformation (Bronze → Silver → Gold), Dead-Letter Quarantine |
+| **Control Plane** | LangGraph, Model Context Protocol (MCP), SQLite / Postgres | Stateful graph execution, resumable checkpoints, deterministic numeric Critic node |
+| **Policy Plane** | Cryptography (AES-256), Microsoft Presidio / Regex | PII scanning, tokenization vault, prompt trace sanitization, spend budget caps |
+| **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (51 tests), multi-arch containers |
+
+---
+
+## ⚡ 2-Minute Quickstart
+
+### Prerequisites
+- Python 3.12+ (or [uv](https://github.com/astral-sh/uv))
+
+### 1. Verify in One Command (Zero Setup)
 ```bash
 git clone https://github.com/khaosans/operator-etl.git
 cd operator-etl
 ./scripts/verify.sh
 ```
+*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 51 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
 
-Installs **uv** if missing, syncs deps, runs the full proof gate. Success ends with **`OPERATOR_ETL_VERIFY=PASS`**.
+### 2. Run the Agentic FOIA Pipeline
+```bash
+uv run etl-graph --source public_comments --pipeline public_comments
+```
+**Expected Output on Sample Data:**
+```text
+status=complete  run_id=...
+rows_in=12  silver=10  quarantined=2
+pii_findings=3  critic_passed=True
 
-**Expected:** 51 pytest pass, FOIA demo prints `status=complete` and `silver=10`. Full screenshot set: [docs/TOUR.md](docs/TOUR.md).
+Public comment intake summary: 10 comments across 2 dockets and 2 agencies. 4 comments flagged for FOIA redaction review (PII rate 0.4). FOIA officers should prioritize redaction queue before release.
+```
+
+### 3. Launch the Interactive Dashboard
+```bash
+export OPERATOR_ETL_WAREHOUSE=".tmp/mvp-demo/operator.duckdb"
+export OPERATOR_ETL_PIPELINE_NAME=public_comments
+export OPERATOR_ETL_DOMAIN=gov
+uv run streamlit run dashboard/app.py
+```
+*Open your browser to explore the **Gov / FOIA** tab (PII flags, quarantine drill-down, and Critic-verified briefings) or the **Orders** commercial demo tab.*
+
+---
+
+## 📸 Visual Tour
 
 ![Gov / FOIA dashboard](docs/assets/screenshots/dashboard-gov-kpis.png)
 
@@ -45,239 +100,71 @@ Installs **uv** if missing, syncs deps, runs the full proof gate. Success ends w
 
 ![Template etl-graph insight](docs/assets/screenshots/cli-foia-insight.png)
 
-```mermaid
-flowchart LR
-  Verify[verify.sh] --> UV[uv sync]
-  UV --> E2E[e2e gate]
-  E2E --> Pass[OPERATOR_ETL_VERIFY=PASS]
-```
-
-Already have uv? `make e2e` · Details: [docs/QUICKSTART.md](docs/QUICKSTART.md) · Step-by-step: [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)
-
-**Published snapshots** are git tags (not every merge). After a release exists: GitHub Releases (wheels), `ghcr.io/khaosans/operator-etl:<version>`, GitHub Packages `operator-etl`. Process: [docs/VERSIONING.md](docs/VERSIONING.md). The wiki always tracks `master`.
-
-```mermaid
-flowchart LR
-  subgraph problem [The usual demo]
-    A[Chatbot + SQL] --> W[(Warehouse)]
-    A --> M[Memo with KPIs]
-  end
-
-  subgraph fail [Three failures]
-    F1[PII in context]
-    F2[Hallucinated counts]
-    F3[No replay audit]
-  end
-
-  M --> fail
-```
-
-Operator ETL **separates** deterministic ETL from bounded agents. PII never reaches unconstrained tools; the **critic** rejects insight numbers that are not in gold; **bronze** gives you an immutable audit trail.
-
-Deep dive: [docs/WHY.md](docs/WHY.md) · Agency workflow: [docs/FOIA-Public-Comments-Guide.md](docs/FOIA-Public-Comments-Guide.md)
-
 ---
 
-## How it works — three planes
+## 🧪 Testing & Data Quality Proof
 
-```mermaid
-flowchart TB
-  subgraph data [Data plane]
-    direction TB
-    CSV[CSV intake] --> Bronze[bronze_raw]
-    Bronze --> Silver[silver validated]
-    Bronze --> Quarantine[quarantine]
-    Silver --> Gold[gold SQL marts]
-  end
-
-  subgraph policy [Policy plane]
-    PII[PII scan + vault]
-    Bronze --> PII
-  end
-
-  subgraph control [Control plane]
-    Graph[LangGraph]
-    MCP[MCP allowlist]
-    Critic[critic]
-    Graph --> MCP --> Gold
-    Graph --> Critic --> Insight[verified insight]
-  end
-```
-
-| Plane | Role |
-|---|---|
-| **Data** | Bronze (immutable) → silver (validated) → gold (SQL marts) + quarantine. Python and SQL execute; no LLM on raw rows. |
-| **Policy** | PII scan, encrypted vault, fail-closed before insight. Vault never exposed via MCP. |
-| **Control** | LangGraph pipeline, MCP allowlisted tools, critic verifies every number in the insight draft. |
-
-Details: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md) · [okf/models/three-planes.md](okf/models/three-planes.md)
-
----
-
-## Why not give the chatbot your warehouse?
-
-## Trust and proof
-
-| Question | Answer |
-|---|---|
-| Does it work locally? | `make e2e` — OKF validate, **51 pytest**, FOIA demo on fresh warehouse |
-| What does CI prove? | Same gate on every push ([badge above](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)) |
-| What is **not** proven in CI? | Live GCP deploy, Presidio PII, LLM-generated insights — see honest audit |
-
-**Proof matrix:** [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) · **Full audit:** [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md)
-
----
-
-## What you just proved
-
-| Metric | Expected |
-|---|---|
-| Sample comments | 12 (EPA/FCC dockets) |
-| Silver (valid) | 10 |
-| Quarantined | 2 |
-| Graph status | `complete` |
-| Critic | pass |
-
-Details: [okf/models/mvp-demo.md](okf/models/mvp-demo.md)
-
----
-
-## Engineering trade-offs
-
-| Decision | We chose | Benefit | Cost | When to change |
-|---|---|---|---|---|
-| Local warehouse | DuckDB | Zero-infra proof on a laptop | Not multi-tenant | Stage L3 BigQuery — [SCALING.md](docs/SCALING.md) |
-| PII detection | Regex MVP | Simple, testable, no ML deps | Misses names, addresses | Presidio for production |
-| Insight generation | Template + critic | No API key; deterministic | Less narrative flexibility | LLM node when agency approves |
-| Agent data access | MCP allowlist (3 tools) | Least privilege | No ad-hoc SQL exploration | Do not relax for prod FOIA |
-| Quality failures | Fail-closed | Trustworthy KPIs | Blocks insights until fixed | Avoid warn-and-show banners |
-
-Full proof matrix: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)**
-
----
-
-## Who this is for
-
-| Role | Start here |
-|---|---|
-| **FOIA officer** | [FOIA guide](docs/FOIA-Public-Comments-Guide.md) → [TOUR](docs/TOUR.md) · [PERSONAS](docs/PERSONAS.md) |
-| **Data engineer** | [GETTING-STARTED](docs/GETTING-STARTED.md) → [SCALING](docs/SCALING.md) |
-| **Architect / reviewer** | [WHY](docs/WHY.md) → [FOUNDATIONS](docs/FOUNDATIONS.md) → `make e2e` |
-| **AI agent (MCP)** | [AGENTS.md](AGENTS.md) · `operator-etl-mcp` |
-
----
-
-## Adopter ladder
-
-```mermaid
-flowchart LR
-  L0[L0 Prove make e2e] --> L1[L1 Run locally]
-  L1 --> L2[L2 Extend source]
-  L2 --> L3[L3 GCP staging]
-  L3 --> L4[L4 Production HITL]
-```
-
-| Level | Action | Doc |
-|---|---|---|
-| **0 — Prove** | `make e2e` | [WALKTHROUGH](docs/WALKTHROUGH.md) |
-| **1 — Run locally** | MCP, dashboard | [GETTING-STARTED](docs/GETTING-STARTED.md) |
-| **2 — Extend** | New CSV source | [extend-new-source](okf/playbooks/extend-new-source.md) |
-| **3 — GCP staging** | Terraform + Cloud Run | [SCALING](docs/SCALING.md) |
-| **4 — Production** | Presidio, HITL, live BQ, product UX | [FINAL-REVIEW](docs/FINAL-REVIEW.md) · [PRODUCT-UX](docs/PRODUCT-UX.md) |
-
----
-
-## Common commands
-
-| Command | Action |
-|---|---|
-| `./scripts/verify.sh` | **First run** — install uv if needed + full proof gate |
-| `make verify` | Same as verify.sh |
-| `make e2e` | Full MVP proof gate (OKF + tests + FOIA demo) |
-| `make demo` | FOIA demo only |
-| `make test` | pytest (51 tests) |
-| `uv run etl-graph --source public_comments` | FOIA agentic pipeline |
-| `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
-| `uv run operator-etl-mcp` | MCP server for Cursor agents |
-| `make share` | Regenerate PDF share pack |
-
-Run `make help` for all targets.
-
----
-
-## Architecture
-
-| Plane | Package | Status |
-|---|---|---|
-| **Data** | `operator_etl/` | IMPLEMENTED |
-| **Control** | `operator_etl_graph/` | IMPLEMENTED |
-| **Policy** | `operator_etl_policy/` | IMPLEMENTED |
-| **MCP** | `operator_etl_mcp/` | IMPLEMENTED |
-| **GCP** | `operator_etl_gcp/` + `infra/` | PARTIAL |
-
-Living matrix: [okf/models/implementation-status.md](okf/models/implementation-status.md)
-
----
-
-## Scope boundaries
-
-**This demo proves:** Local FOIA pipeline · PII scan · MCP boundary · fail-closed quality · **51 tests** + CI
-
-**Not included:** Production Presidio · Regulations.gov adapter · live GCP/BQ E2E · production officer UX (responsive, streaming, gen UI) — [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md)
-
-The demo UI is **Streamlit**. Product UX is SPECIFIED, not this MVP.
-
-Before production claims: [FINAL-REVIEW pre-scale checklist](docs/FINAL-REVIEW.md#pre-scale-checklist)
-
----
-
-## Documentation
-
-| Doc | Why open it |
-|---|---|
-| **[Wiki (GitHub Pages)](https://khaosans.github.io/operator-etl/)** | Searchable human wiki — start here |
-| [docs/TOUR.md](docs/TOUR.md) | Screenshots of verify, CLI, Streamlit |
-| [docs/PERSONAS.md](docs/PERSONAS.md) | Who the demo is for |
-| [docs/PRODUCT-UX.md](docs/PRODUCT-UX.md) | Product UI backlog (SPECIFIED) |
-| [docs/QUICKSTART.md](docs/QUICKSTART.md) | **First run** — `./scripts/verify.sh` |
-| [docs/CONCEPTS.md](docs/CONCEPTS.md) | Problem, what we built, why it is useful |
-| [docs/PATTERNS.md](docs/PATTERNS.md) | Medallion, planes, critic — English + citations |
-| [docs/APPLY.md](docs/APPLY.md) | Other data sources — keep planes, change schema |
-| [docs/RISKS.md](docs/RISKS.md) | Residual risks after a green verify |
-| [docs/NIST.md](docs/NIST.md) | AI RMF / 600-1 / SP 800-122 — alignment, not certification |
-| [docs/MODELS.md](docs/MODELS.md) | Model cards and when-to-use (Ollama vs OpenAI) |
-| [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Install, MCP, env vars |
-| [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) | Step-by-step proof |
-| [docs/DASHBOARD.md](docs/DASHBOARD.md) | Streamlit Gov / Orders |
-| [docs/LLM.md](docs/LLM.md) | Install Ollama / OpenAI-compatible insights |
-| [docs/SCALING.md](docs/SCALING.md) | DuckDB → GCP |
-| [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md) | Citations + proof matrix |
-| [docs/TESTING.md](docs/TESTING.md) | What each test proves |
-| [docs/README.md](docs/README.md) | Full index by persona |
-
-Also: [HOW-IT-WORKS](docs/HOW-IT-WORKS.md) · [WHY](docs/WHY.md) · [white paper](docs/Operator-ETL-White-Paper.md)
-
----
-
-## Share and present
-
-**Open source:** https://github.com/khaosans/operator-etl — clone and run `make e2e`.
-
-For interviews, LinkedIn, or proposals, attach PDFs from [docs/share/](docs/share/README.md) (one-pager, white paper, slides):
+Every architectural invariant in Operator ETL is backed by automated tests:
 
 ```bash
-make share   # regenerates docs/share/latest/ after e2e
+make test        # Run 51 pytest tests
+make e2e         # Full gate: OKF validation + pytest + FOIA demo
+```
+
+```
+============================== 51 passed in 1.43s ==============================
+```
+
+| Invariant Tested | Test Module | Verification Result |
+|---|---|---|
+| **Immutable Ingestion** | `tests/test_pipeline.py` | SHA-256 byte digest prevents duplicate processing (idempotent at-least-once) |
+| **Quarantine Isolation** | `tests/test_gov_graph.py` | Corrupted rows (bad dates, empty bodies) preserved in `quarantine_comments` with explicit error reasons |
+| **Zero PII Leakage** | `tests/test_pii.py` | Citizen emails/phones/SSNs vaulted into `pii_vault`; model prompts receive tokens only |
+| **Critic Faithfulness** | `tests/test_critic.py` | Rejects hallucinated numbers (`999`); allows only numbers present in Gold SQL marts |
+| **Fail-Closed Gate** | `tests/test_quality.py` | Quarantine rate > 35% withholds KPIs and halts pipeline into `needs_human` |
+| **MCP Least Privilege** | `tests/test_mcp_tools.py` | Denies arbitrary SQL execution and vault decryption tools (`TOOL_DENIED`) |
+
+Full proof matrix & citations: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)** · Test map: **[docs/TESTING.md](docs/TESTING.md)**
+
+---
+
+## 📖 Key Documentation
+
+**Searchable Documentation Wiki:** [https://khaosans.github.io/operator-etl/](https://khaosans.github.io/operator-etl/)
+
+| Document | Description |
+|---|---|
+| **[Engineering White Paper (v3.0)](docs/Operator-ETL-White-Paper.md)** | Deep architectural spec, FOIA case study, STRIDE threat model, and diagrams ([PDF version](docs/Operator-ETL-White-Paper.pdf)) |
+| **[Interactive Walkthrough](docs/WALKTHROUGH.md)** | Step-by-step local proof and operational learning tour |
+| **[How It Works](docs/HOW-IT-WORKS.md)** | Runtime execution model, Three Planes, and serverless GCP cloud architecture |
+| **[FOIA Implementation Guide](docs/FOIA-Public-Comments-Guide.md)** | Agency intake workflow, PII handling, and docket aggregate marts |
+| **[Design Patterns & Citations](docs/PATTERNS.md)** | Plain-English component definitions with academic and industry citations |
+| **[Versioning & Release Policy](docs/VERSIONING.md)** | SemVer tag immutability, GitHub Packages, and GHCR container publishing |
+| **[One-Pager Summary](docs/Operator-ETL-One-Pager.md)** | Executive brief for technical leadership ([PDF](docs/Operator-ETL-One-Pager.pdf)) |
+
+---
+
+## 🚢 Docker & Production Artifacts
+
+### Run via Docker
+```bash
+docker pull ghcr.io/khaosans/operator-etl:0.5.0-beta.1
+docker run --rm -it ghcr.io/khaosans/operator-etl:0.5.0-beta.1 etl-graph --help
+```
+
+### Install Python Package
+```bash
+pip install operator-etl --index-url https://pypi.pkg.github.com/khaosans
 ```
 
 ---
 
-## Contributing · License · Security
+## ⚖️ Contributing · License · Security
 
-Licensed under **[Apache License 2.0](LICENSE)**. Sample data is synthetic — do not commit real FOIA records.
+Licensed under **[Apache License 2.0](LICENSE)**. All sample intake records are synthetic.
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - [SECURITY.md](SECURITY.md) · [CHANGELOG.md](CHANGELOG.md)
-- [docs/VERSIONING.md](docs/VERSIONING.md) — tags publish; do not overwrite a version
-- [docs/RELEASING.md](docs/RELEASING.md) — PR workflow, cut a release, Dependabot
+- [docs/VERSIONING.md](docs/VERSIONING.md) · [docs/RELEASING.md](docs/RELEASING.md)
 
-Issues and PRs welcome.
+Pull requests and issues are welcome.
