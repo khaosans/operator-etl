@@ -5,21 +5,47 @@ import json
 
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
-from mcp.types import TextContent, Tool
+from mcp.types import TextContent, Tool, ToolAnnotations
 
 from operator_etl.config import Settings, get_settings, set_settings
 from operator_etl.load.connection import connect
-from operator_etl_mcp.tools import ToolDenied, get_gold_metrics, run_allowlisted_sql
+from operator_etl_mcp.tools import ToolDenied, get_gold_metrics, get_run_status, run_allowlisted_sql
 
 server = Server("operator-etl")
+
+READ_ONLY_LOCAL = ToolAnnotations(
+    readOnlyHint=True,
+    destructiveHint=False,
+    idempotentHint=True,
+    openWorldHint=False,
+)
 
 
 @server.list_tools()
 async def list_tools() -> list[Tool]:
     return [
-        Tool(name="get_gold_metrics", description="Return gold KPI aggregates (no row-level data).", inputSchema={"type": "object", "properties": {"domain": {"type": "string", "default": "gov"}}, "required": []}),
-        Tool(name="run_quality_sql", description="Run an allowlisted quality query by id.", inputSchema={"type": "object", "properties": {"query_id": {"type": "string"}, "node": {"type": "string", "default": "quality_agent"}}, "required": ["query_id"]}),
-        Tool(name="get_run_status", description="Return pipeline run audit row.", inputSchema={"type": "object", "properties": {"run_id": {"type": "string"}}, "required": ["run_id"]}),
+        Tool(
+            name="get_gold_metrics",
+            description="Return gold KPI aggregates (no row-level data).",
+            inputSchema={"type": "object", "properties": {"domain": {"type": "string", "default": "gov"}}, "required": []},
+            annotations=READ_ONLY_LOCAL,
+        ),
+        Tool(
+            name="run_quality_sql",
+            description="Run an allowlisted quality query by id.",
+            inputSchema={
+                "type": "object",
+                "properties": {"query_id": {"type": "string"}, "node": {"type": "string", "default": "quality_agent"}},
+                "required": ["query_id"],
+            },
+            annotations=READ_ONLY_LOCAL,
+        ),
+        Tool(
+            name="get_run_status",
+            description="Return pipeline run audit row.",
+            inputSchema={"type": "object", "properties": {"run_id": {"type": "string"}}, "required": ["run_id"]},
+            annotations=READ_ONLY_LOCAL,
+        ),
     ]
 
 
@@ -39,11 +65,8 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
                 return [TextContent(type="text", text=json.dumps({"error": "TOOL_DENIED", "reason": str(exc)}))]
             return [TextContent(type="text", text=json.dumps(data, default=str))]
         if name == "get_run_status":
-            row = con.execute("SELECT * FROM pipeline_runs WHERE run_id = ?", [arguments["run_id"]]).fetchone()
-            if not row:
-                return [TextContent(type="text", text=json.dumps({"error": "NOT_FOUND"}))]
-            cols = [d[0] for d in con.description]
-            return [TextContent(type="text", text=json.dumps(dict(zip(cols, row, strict=True)), default=str))]
+            data = get_run_status(con, arguments["run_id"])
+            return [TextContent(type="text", text=json.dumps(data, default=str))]
         return [TextContent(type="text", text=json.dumps({"error": "UNKNOWN_TOOL"}))]
     finally:
         con.close()

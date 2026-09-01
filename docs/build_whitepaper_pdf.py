@@ -191,7 +191,7 @@ def cover_page(c: canvas.Canvas, doc):
     c.drawString(MARGIN, PAGE_H * 0.38 - 0.6 * inch, "v3.0  ·  Architecture · MCP · Threat Model · FOIA Case Study")
     c.setFont("Helvetica", 8)
     c.setFillColor(SLATE)
-    c.drawString(MARGIN, 0.5 * inch, "IMPLEMENTED vs SPECIFIED clearly marked  ·  51/51 pytest tests passing")
+    c.drawString(MARGIN, 0.5 * inch, "IMPLEMENTED vs SPECIFIED clearly marked  ·  53/53 pytest tests passing")
     c.restoreState()
 
 

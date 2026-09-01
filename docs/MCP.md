@@ -57,6 +57,28 @@ flowchart LR
 
 Allowlisted IDs today: `quarantine_summary`, `comment_quality`, `pii_by_agency`, `docket_volume`.
 
+### Tool annotations
+
+Every tool declares all four MCP hints explicitly (required by OpenAI MCP directory and registry scanners):
+
+| Tool | readOnlyHint | destructiveHint | idempotentHint | openWorldHint |
+|---|---|---|---|---|
+| `get_gold_metrics` | true | false | true | false |
+| `run_quality_sql` | true | false | true | false |
+| `get_run_status` | true | false | true | false |
+
+All tools are read-only against the local warehouse; none mutate data or reach external networks.
+
+### Environment variables
+
+| Variable | Required for MCP? | Purpose |
+|---|---|---|
+| `OPERATOR_ETL_WAREHOUSE` | Yes (via Settings / `.env`) | DuckDB file path with gold marts |
+| `OPERATOR_ETL_DOMAIN` | Recommended (`gov` for FOIA demo) | Selects gov vs orders gold tables |
+| `OPENAI_API_KEY` | **No** | Optional — only for LLM insight backend in LangGraph (`etl-graph`), not the MCP stdio server |
+
+The default MCP path uses template insights and gold aggregates only; no API key is needed.
+
 ---
 
 ## Denied
@@ -65,7 +87,7 @@ Allowlisted IDs today: `quarantine_summary`, `comment_quality`, `pii_by_agency`,
 - `vault_decrypt` / row-level PII export
 - Auto-publish to external systems
 
-Tests: `tests/test_mcp_tools.py` (unknown ID denied, no vault in allowlist, gold KPIs match pipeline).
+Tests: `tests/test_mcp_tools.py` — `get_gold_metrics`, `run_quality_sql`, and `get_run_status` each have dedicated tests (allowlist deny, vault exclusion, audit row lookup).
 
 ---
 
