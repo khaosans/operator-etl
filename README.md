@@ -5,7 +5,7 @@
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/khaosans/operator-etl?include_prereleases)](https://github.com/khaosans/operator-etl/releases)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/pytest-51%20passing-brightgreen.svg)](docs/TESTING.md)
+[![Tests](https://img.shields.io/badge/pytest-53%20passing-brightgreen.svg)](docs/TESTING.md)
 [![Docker GHCR](https://img.shields.io/badge/ghcr.io-operator--etl-blue?logo=docker)](https://github.com/khaosans/operator-etl/pkgs/container/operator-etl)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
@@ -51,7 +51,7 @@ Directly connecting Large Language Models (LLMs) or naive "Text-to-SQL" agents t
 | **Data Plane** | Python 3.12+, DuckDB, BigQuery, SQL, Pydantic 2 | Deterministic Medallion transformation (Bronze → Silver → Gold), Dead-Letter Quarantine |
 | **Control Plane** | LangGraph, Model Context Protocol (MCP), SQLite / Postgres | Stateful graph execution, resumable checkpoints, deterministic numeric Critic node |
 | **Policy Plane** | Cryptography (AES-256), Microsoft Presidio / Regex | PII scanning, tokenization vault, prompt trace sanitization, spend budget caps |
-| **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (51 tests), multi-arch containers |
+| **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (53 tests), multi-arch containers |
 
 ---
 
@@ -66,7 +66,7 @@ git clone https://github.com/khaosans/operator-etl.git
 cd operator-etl
 ./scripts/verify.sh
 ```
-*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 51 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
+*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 53 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
 
 ### 2. Run the Agentic FOIA Pipeline
 ```bash
@@ -107,12 +107,12 @@ uv run streamlit run dashboard/app.py
 Every architectural invariant in Operator ETL is backed by automated tests:
 
 ```bash
-make test        # Run 51 pytest tests
+make test        # Run 53 pytest tests
 make e2e         # Full gate: OKF validation + pytest + FOIA demo
 ```
 
 ```
-============================== 51 passed in 1.43s ==============================
+============================== 53 passed in 1.43s ==============================
 ```
 
 | Invariant Tested | Test Module | Verification Result |

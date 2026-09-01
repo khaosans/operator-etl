@@ -45,3 +45,12 @@ def get_gold_metrics(con, domain: str = "gov") -> dict:
         return {}
     cols = [d[0] for d in con.description]
     return dict(zip(cols, row, strict=True))
+
+
+def get_run_status(con, run_id: str) -> dict:
+    """Return pipeline_runs audit row for get_run_status MCP tool."""
+    row = con.execute("SELECT * FROM pipeline_runs WHERE run_id = ?", [run_id]).fetchone()
+    if not row:
+        return {"error": "NOT_FOUND"}
+    cols = [d[0] for d in con.description]
+    return dict(zip(cols, row, strict=True))

@@ -7,7 +7,7 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**51 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**53 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
@@ -122,10 +122,12 @@ Used by [`.github/workflows/release.yml`](../.github/workflows/release.yml). Pro
 
 | Test | Proves |
 |---|---|
-| `test_allowlist_denies_unknown_query` | Unknown SQL IDs rejected |
-| `test_allowlist_permits_comment_quality` | Allowlisted query returns quarantine_rate |
+| `test_run_quality_sql_denies_unknown_query_id` | Unknown SQL IDs rejected |
+| `test_run_quality_sql_permits_comment_quality` | Allowlisted query returns quarantine_rate |
 | `test_allowlist_has_no_vault_tools` | No vault/decrypt in MCP surface |
 | `test_get_gold_metrics_returns_expected_kpis` | MCP gold read matches pipeline output |
+| `test_get_run_status_returns_audit_row` | Audit row lookup by run_id |
+| `test_get_run_status_not_found` | Unknown run_id returns NOT_FOUND |
 
 ### `test_quality.py` — Fail-closed KPIs
 

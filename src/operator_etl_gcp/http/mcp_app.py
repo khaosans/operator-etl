@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 from operator_etl.config import Settings, get_settings, set_settings
 from operator_etl.load.connection import connect
-from operator_etl_mcp.tools import ToolDenied, get_gold_metrics, run_allowlisted_sql
+from operator_etl_mcp.tools import ToolDenied, get_gold_metrics, get_run_status, run_allowlisted_sql
 
 app = FastAPI(title="Operator ETL MCP (HTTP)", version="0.2.0")
 
@@ -51,11 +51,10 @@ def run_status(run_id: str) -> dict:
     settings = get_settings()
     con = connect(settings)
     try:
-        row = con.execute("SELECT * FROM pipeline_runs WHERE run_id = ?", [run_id]).fetchone()
-        if not row:
+        result = get_run_status(con, run_id)
+        if result.get("error") == "NOT_FOUND":
             raise HTTPException(status_code=404, detail="NOT_FOUND")
-        cols = [d[0] for d in con.description]
-        return dict(zip(cols, row, strict=True))
+        return result
     finally:
         con.close()
 

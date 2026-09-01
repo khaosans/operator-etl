@@ -9,12 +9,15 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Added
 
-- Modernized root `README.md` with structured tech stack matrix across 4 planes, live status badges, invariant mapping, and 2-minute quickstart guide.
+- MCP tool annotations (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`) on all three stdio tools for OpenAI directory and MCP registry compliance.
+- `get_run_status` helper in `operator_etl_mcp.tools` with dedicated pytest coverage; all MCP tools now referenced in `tests/test_mcp_tools.py`.
 
 ### Changed
 
+- Modernized root `README.md` with structured tech stack matrix across 4 planes, live status badges, invariant mapping, and 2-minute quickstart guide.
 - Updated GitHub Actions CI/CD workflows to latest action versions (`actions/setup-python@v7`, `docker/login-action@v4`, `docker/setup-buildx-action@v4`).
 - Synchronized `mkdocs.yml` release version string to `0.5.0-beta.1`.
+- Expanded MCP documentation: tool annotation table and environment variable scope (`OPENAI_API_KEY` not required for MCP stdio server).
 
 ## [0.5.0-beta.1] — 2026-08-30
 
