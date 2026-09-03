@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import logging
 import os
 from dataclasses import dataclass
 from threading import Lock
 from typing import Any
+
+logger = logging.getLogger("operator_etl.telemetry")
 
 from opentelemetry import metrics, trace
 from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExporter
@@ -86,11 +89,11 @@ def _build_runtime(
     try:
         trace.set_tracer_provider(tracer_provider)
     except Exception:
-        pass
+        logger.debug("OpenTelemetry tracer provider already installed")
     try:
         metrics.set_meter_provider(meter_provider)
     except Exception:
-        pass
+        logger.debug("OpenTelemetry meter provider already installed")
     meter = meter_provider.get_meter("operator-etl")
     counters = TelemetryCounters(
         rows_processed=meter.create_counter("etl.rows.processed", unit="rows", description="Rows processed by stage"),
@@ -137,7 +140,7 @@ def _instrument_langchain(runtime: TelemetryRuntime) -> None:
         _LANGCHAIN_INSTRUMENTED = True
         return
     except Exception:
-        pass
+        logger.debug("OpenInference TraceConfig instrumentation unavailable")
 
     try:
         from openinference.instrumentation.langchain import LangChainInstrumentor

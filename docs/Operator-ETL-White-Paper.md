@@ -32,7 +32,7 @@
 
 | Badge | Meaning |
 |---|---|
-| **IMPLEMENTED** | Code exists in repository, covered by automated tests in CI (`make e2e` / 51 tests) |
+| **IMPLEMENTED** | Code exists in repository, covered by automated tests in CI (`make e2e` / 59 tests) |
 | **PARTIAL** | Core architecture implemented; live cloud deployment or external API mocked in local suite |
 | **SPECIFIED** | Complete technical specification and data contract designed; pending enterprise rollout |
 
@@ -269,7 +269,7 @@ The Critic extracts every numeric literal (`10`, `2`, `2`, `4`, `0.4`). It cross
 
 **Status:** IMPLEMENTED (Zero-PII boundaries & allowlists) · SPECIFIED (Enterprise IAM / Cloud KMS)
 
-To satisfy federal and enterprise cybersecurity standards (NIST AI RMF 1.0, NIST SP 800-122, OWASP Top 10 for LLMs), Operator ETL implements formal threat modeling across all three planes.
+To satisfy federal and enterprise cybersecurity standards (NIST AI RMF 1.0, NIST SP 800-122, OWASP Top 10 for LLMs), Operator ETL implements formal threat modeling across all three planes. HTTP-edge and CI controls (path traversal, rate limiting, SAST/SCA) are documented for operators in [docs/SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
 ### 3.1 STRIDE Threat Analysis & Mitigations
 
@@ -296,7 +296,7 @@ flowchart LR
     end
     subgraph MEASURE ["3. MEASURE (Rigorous Testing)"]
         ME1["Critic Faithfulness Audit"]
-        ME2["51 Passing Pytest Suite"]
+        ME2["59 Passing Pytest Suite"]
     end
     subgraph MANAGE ["4. MANAGE (Operations)"]
         MA1["Durable SQLite/Postgres Checkpoints"]
@@ -531,7 +531,7 @@ def critic_check(insight_draft: str, gold_metrics: dict) -> CriticResult:
 
 ---
 
-## 9. Testing & Verification Suite (51 Passing Pytest Tests)
+## 9. Testing & Verification Suite (59 Passing Pytest Tests)
 
 **Status:** IMPLEMENTED (`make e2e` / `pytest`)
 
@@ -581,7 +581,7 @@ Every claim made in this white paper is backed by automated, reproducible test s
 
 ```mermaid
 flowchart LR
-    L0["Level 0: Local Proof<br/>• DuckDB + SQLite<br/>• stdio MCP<br/>• 51 pytest passing"] --> L1["Level 1: Team Staging<br/>• GCS Inbox Trigger<br/>• Cloud Run Container<br/>• BigQuery SQL Marts"]
+    L0["Level 0: Local Proof<br/>• DuckDB + SQLite<br/>• stdio MCP<br/>• 59 pytest passing"] --> L1["Level 1: Team Staging<br/>• GCS Inbox Trigger<br/>• Cloud Run Container<br/>• BigQuery SQL Marts"]
     L1 --> L2["Level 2: Enterprise ATO<br/>• Presidio NLP PII<br/>• Cloud KMS Vault Key<br/>• HITL Officer Dashboard"]
 ```
 
@@ -592,7 +592,7 @@ flowchart LR
 Operator ETL proves that enterprise generative AI does not require sacrificing data engineering discipline, regulatory compliance, or mathematical precision. By enforcing a **deterministic Medallion Data Plane**, an isolated **Cryptographic Policy Plane**, and a **Bounded Control Plane with a Rule-Based Critic**, organizations can safely automate high-volume public comment intake and complex analytical workflows without legal or operational exposure.
 
 ### Summary of Proof Points:
-- **Reproducible Local Verification:** Clone the open-source repository and execute `./scripts/verify.sh` to run OKF validation, 51 pytest unit/integration tests, and a fresh-warehouse FOIA execution in under 10 seconds.
+- **Reproducible Local Verification:** Clone the open-source repository and execute `./scripts/verify.sh` to run OKF validation, 59 pytest unit/integration tests, and a fresh-warehouse FOIA execution in under 10 seconds.
 - **Fail-Closed Governance:** Unvalidated records are permanently audited in quarantine; ungrounded AI text is halted by the Critic; PII is vaulted before model synthesis.
 
 ---

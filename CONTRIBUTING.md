@@ -20,7 +20,7 @@ New to the repo? Run **`./scripts/verify.sh`** — or see [docs/QUICKSTART.md](d
 4. Append a line to [okf/log.md](okf/log.md) for significant doc/architecture changes
 5. If the change is user-visible, add a bullet under `## [Unreleased]` in [CHANGELOG.md](CHANGELOG.md). **Do not** bump `version` in `pyproject.toml` unless this PR is a release ([docs/VERSIONING.md](docs/VERSIONING.md)).
 
-CI must pass: **e2e**, **docker**, and **Secret scan** (gitleaks). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
+CI must pass: **e2e**, **docker**, **Secret scan** (gitleaks), and **Security** (bandit SAST + pip-audit SCA). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
 
 ## OKF conventions
 

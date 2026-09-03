@@ -64,6 +64,7 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 | [WALKTHROUGH.md](WALKTHROUGH.md) | Step-by-step after verify |
 | [TESTING.md](TESTING.md) | What each test proves |
 | [FINAL-REVIEW.md](FINAL-REVIEW.md) | Proven / partial / specified |
+| [SECURITY-HARDENING.md](SECURITY-HARDENING.md) | Defense in depth, HTTP guards, CI SAST/SCA |
 
 ---
 
@@ -71,9 +72,12 @@ Proof gate: `./scripts/verify.sh` or `make e2e`.
 
 | Doc | Description |
 |---|---|
+| [RUNNING.md](RUNNING.md) | CLI, dashboard, HTTP graph-runner, A2A, MCP |
 | [CLI.md](CLI.md) | `etl`, `etl-graph`, Make targets |
 | [DASHBOARD.md](DASHBOARD.md) | Streamlit Gov / Orders tabs |
 | [MCP.md](MCP.md) | Cursor MCP allowlist |
+| [A2A.md](A2A.md) | Bearer-protected agent-to-agent task surface |
+| [OBSERVABILITY.md](OBSERVABILITY.md) | Opt-in OpenTelemetry; no raw PII in spans |
 | [ADD-A-SOURCE.md](ADD-A-SOURCE.md) | Register a new CSV / HTTP source (how-to) |
 | [LLM.md](LLM.md) | Optional Ollama / OpenAI-compatible insight wording — install |
 | [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) | Agency workflow |

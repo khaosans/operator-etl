@@ -44,11 +44,14 @@ gcloud services enable \
 cd infra/terraform
 cp terraform.tfvars.example terraform.tfvars
 # Edit project_id, environment
+# Set pii_vault_key and openai_api_key (sensitive; REPLACE_ME* is rejected)
 
 terraform init
 terraform plan
 terraform apply
 ```
+
+Secrets how-to: [docs/SECURITY-HARDENING.md](../docs/SECURITY-HARDENING.md#terraform-secrets).
 
 ### What gets created
 
@@ -78,7 +81,7 @@ gcloud builds submit --config cloudbuild.yaml
 
 ## Post-deploy steps
 
-1. **Replace secret placeholders:**
+1. **Set Secret Manager values** (Terraform already created the secrets; `pii_vault_key` / `openai_api_key` in `terraform.tfvars` must not be `REPLACE_ME*`):
    ```bash
    echo -n "your-pii-vault-key" | gcloud secrets versions add operator-etl-staging-pii-vault-key --data-file=-
    echo -n "sk-..." | gcloud secrets versions add operator-etl-staging-openai-api-key --data-file=-

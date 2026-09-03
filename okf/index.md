@@ -45,3 +45,5 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 * [Patterns](../docs/PATTERNS.md) — Plain English for medallion, critic, planes
 * [Standards](../docs/STANDARDS.md) — Best practices and external standards index
 * [Getting started](../docs/GETTING-STARTED.md) — Full install and setup guide
+* [Security hardening](../docs/SECURITY-HARDENING.md) — HTTP guards, vault perms, CI SAST/SCA
+* [operator-security skill](../skills/operator-security/SKILL.md) — Agent checklist for security PRs

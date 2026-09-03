@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-import subprocess
+# Streamlit dashboard launcher — argv is constructed here, not from user input.
+import subprocess  # nosec B404
 import sys
 from typing import Optional
 
@@ -72,7 +73,7 @@ def dashboard() -> None:
     settings = get_settings()
     os.environ["OPERATOR_ETL_WAREHOUSE"] = str(settings.warehouse_path)
     cmd = [sys.executable, "-m", "streamlit", "run", str(settings.dashboard_path)]
-    raise typer.Exit(subprocess.call(cmd))
+    raise typer.Exit(subprocess.call(cmd, shell=False))  # nosec B603
 
 
 def main(argv: Optional[list[str]] = None) -> None:

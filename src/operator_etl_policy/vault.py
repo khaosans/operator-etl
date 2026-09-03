@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import json
+import logging
+import os
+import stat
 from pathlib import Path
 
 from cryptography.fernet import Fernet
 
 from operator_etl.config import get_settings
+
+logger = logging.getLogger(__name__)
 
 
 class PiiVault:
@@ -36,6 +41,7 @@ class PiiVault:
     def _save(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.path.write_text(json.dumps(self._tokens))
+        os.chmod(self.path, stat.S_IRUSR | stat.S_IWUSR)
 
     def count(self) -> int:
         return len(self._tokens)
@@ -43,8 +49,16 @@ class PiiVault:
 
 def _load_or_create_key(path: Path) -> bytes:
     if path.exists():
+        mode = path.stat().st_mode
+        if mode & (stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH):
+            logger.warning("Vault key %s has overly permissive permissions (%o), restricting to 0600", path, stat.S_IMODE(mode))
+            os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
         return path.read_bytes()
     key = Fernet.generate_key()
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(key)
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    try:
+        os.write(fd, key)
+    finally:
+        os.close(fd)
     return key

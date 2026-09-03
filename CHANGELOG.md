@@ -11,10 +11,21 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 - [docs/RUNNING.md](docs/RUNNING.md) — run-the-services guide covering every entry point (CLI, dashboard, the `operator-etl-gcp` HTTP graph-runner on `:8080` with `/health` + `/run`, the bearer-protected A2A task surface, and the HTTP/stdio MCP tools), noting FastAPI/uvicorn/OTel are now core deps and that the stdio MCP server needs the `mcp` 1.x decorator API.
 - [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md) — documents the opt-in OpenTelemetry tracing/metrics added in `0.5.1`: `OTEL_EXPORTER_OTLP_ENDPOINT` enablement, span/counter inventory, OpenInference LLM tracing, and the no-raw-PII safety boundary.
+- Security hardening: path traversal guard in HTTP extractor, bandit + pip-audit CI workflow, per-client rate limiting middleware, 10 MB body size limit, input field max_length constraints, sanitized exception logging.
+- [CODEOWNERS](CODEOWNERS) requiring review for `vault.py`, `pii.py`, `secrets.tf`, `iam.tf`.
+- [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md) — educational wiki page: defense-in-depth diagrams, HTTP middleware, vault perms, Terraform secrets, CI SAST/SCA, best-practice checklist.
+- `.bandit.yml` SAST config; `.github/workflows/security.yml` CI workflow.
+- Bandit CI is green: identifier-validated `fetch_table`, `# nosec` on documented false positives (Streamlit subprocess, Cloud Run `0.0.0.0`, `REDACTED` token), telemetry no longer uses `except: pass`.
 
 ### Changed
 
 - Surfaced the existing `docs/A2A.md` in the mkdocs `Use` nav and added `RUNNING.md` + `OBSERVABILITY.md` alongside it.
+- Terraform secrets use sensitive variables with validation instead of inline placeholders.
+- Vault key and PII JSON files created with `0o600` permissions; startup warns on overly permissive existing keys.
+- Exception logging in graph-runner no longer includes full tracebacks (type + message only).
+- Test suite expanded to **59** pytest (path traversal coverage).
+- Updated SECURITY.md production readiness matrix, FINAL-REVIEW.md proof inventory, RISKS.md, implementation-status.md, and wiki pages to reflect hardening.
+- Educational wiki completeness: [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md) plus mkdocs / GitHub-wiki nav, test-count sync to **59**, and security how-to coverage in TESTING, STANDARDS, HOW-IT-WORKS, RUNNING, FAQ, GLOSSARY, PATTERNS, NIST, PUBLIC-READINESS.
 
 ## [0.5.1] — 2026-09-03
 

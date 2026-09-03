@@ -42,8 +42,13 @@ def _local_path(url: str, root: Path | None) -> Path:
     elif raw.startswith("file:"):
         raw = raw[5:]
     path = Path(raw)
-    if not path.is_absolute() and root is not None:
-        path = root / path
+    if root is not None:
+        if path.is_absolute():
+            raise ValueError("Absolute paths are not allowed when a root is specified")
+        resolved = (root / path).resolve()
+        if not resolved.is_relative_to(root.resolve()):
+            raise ValueError("Path traversal outside root directory is not allowed")
+        return resolved
     return path
 
 

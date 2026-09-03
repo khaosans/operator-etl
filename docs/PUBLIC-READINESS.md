@@ -13,8 +13,9 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 | Item | Status |
 |---|---|
 | Apache-2.0 license | ✅ |
-| CI proof gate (51 pytest + FOIA demo) | ✅ |
+| CI proof gate (59 pytest + FOIA demo) | ✅ |
 | Secret scan (gitleaks) | ✅ |
+| SAST / SCA (bandit + pip-audit) | ✅ |
 | Dependabot (pip + Actions) | ✅ |
 | PR / issue templates, CODE_OF_CONDUCT | ✅ |
 | Educational docs + Mermaid diagrams | ✅ [WHY.md](WHY.md) |
@@ -27,7 +28,7 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 
 | Setting | Why |
 |---|---|
-| **Branch protection** on `master` | Require `e2e`, `docker`, `gitleaks` before merge |
+| **Branch protection** on `master` | Require `e2e`, `docker`, `gitleaks`, and **Security** (bandit + pip-audit) before merge |
 | **Dependabot alerts** | Settings → Code security → enable alerts + security updates |
 | **Repository visibility** | Settings → General → Public (if still private on GitHub) |
 | **Packages tag immutability** | After first GHCR publish: package settings → make tags immutable |
@@ -52,7 +53,7 @@ Suggested copy: [share/README.md](share/README.md)
 | Safe to claim | Do not claim |
 |---|---|
 | `make e2e` reproduces FOIA demo locally | Production FOIA deployment |
-| 51 pytest + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
+| 59 pytest + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
 | Medallion + LangGraph + MCP architecture | Live GCP/BQ E2E (PARTIAL) |
 
 ---
@@ -63,3 +64,4 @@ Suggested copy: [share/README.md](share/README.md)
 - [RELEASING.md](RELEASING.md) — safe updates
 - [WHY.md](WHY.md) — educational overview
 - [CONTRIBUTING.md](../CONTRIBUTING.md)
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — CI SAST/SCA and HTTP guards

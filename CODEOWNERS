@@ -1,0 +1,6 @@
+# Security-sensitive paths require review from security-reviewers
+src/operator_etl_policy/vault.py  @khaosans
+src/operator_etl_policy/pii.py    @khaosans
+infra/terraform/secrets.tf         @khaosans
+infra/terraform/iam.tf             @khaosans
+SECURITY.md                        @khaosans

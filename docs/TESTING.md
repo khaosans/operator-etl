@@ -7,11 +7,13 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**56 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**59 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
-The new observability and A2A tests are here to prove **safety boundaries**, not just feature presence: telemetry stays sanitized, and external agents only receive bounded task execution plus public-safe artifacts.
+The observability, A2A, and path-traversal tests prove **safety boundaries**, not just feature presence: telemetry stays sanitized, external agents only receive bounded task execution plus public-safe artifacts, and file extract URLs cannot leave the configured root.
+
+CI also runs **workflow-level** security jobs that are not pytest: bandit (SAST) and pip-audit (SCA) in [`.github/workflows/security.yml`](../.github/workflows/security.yml). See [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
 ---
 
@@ -38,6 +40,11 @@ flowchart TB
     T10[test_mcp allowlist]
   end
 
+  subgraph security [Security]
+    T11[test_http path traversal]
+    CI[bandit + pip-audit CI]
+  end
+
   subgraph e2e [Harness]
     Demo[demo_mvp.sh fresh warehouse]
   end
@@ -45,6 +52,7 @@ flowchart TB
   data --> Demo
   policy --> Demo
   control --> Demo
+  security --> Demo
 ```
 
 ---
@@ -150,11 +158,16 @@ Used by [`.github/workflows/release.yml`](../.github/workflows/release.yml). Pro
 |---|---|
 | `test_quality_gate_blocks_high_quarantine` | High quarantine rate blocks quality pass |
 
-### `test_http.py` — Source registry extensibility
+### `test_http.py` — Extract + path safety
 
 | Test | Proves |
 |---|---|
-| HTTP/file extract + warehouse load for orders JSON source |
+| HTTP/file extract + warehouse load for orders JSON source | Registry HTTP source lands in DuckDB |
+| `test_local_path_rejects_traversal` | `file:../../etc/passwd` raises `ValueError` |
+| `test_local_path_rejects_absolute_with_root` | Absolute paths rejected when an extract root is set |
+| `test_local_path_allows_valid_relative` | Relative `file:data.json` resolves under the root |
+
+Bandit and pip-audit are **not** pytest — they run as GitHub Actions jobs. A green `make e2e` does not replace [`.github/workflows/security.yml`](../.github/workflows/security.yml). Guide: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
 ### `test_infra.py` — GCP adapters (no live cloud)
 
@@ -200,3 +213,4 @@ See [FINAL-REVIEW.md](FINAL-REVIEW.md).
 
 - [FOUNDATIONS.md](FOUNDATIONS.md) — citations + matrix
 - [WALKTHROUGH.md](WALKTHROUGH.md) — manual verification steps
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — path traversal, CI SAST/SCA

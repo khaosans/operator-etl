@@ -27,9 +27,9 @@ class JsonRpcRequest(BaseModel):
 
 
 class CreateTaskParams(BaseModel):
-    source_type: str = "public_comments"
-    docket_id: str = "multi"
-    raw_records: list[dict[str, Any]]
+    source_type: str = Field(default="public_comments", max_length=128)
+    docket_id: str = Field(default="multi", max_length=256)
+    raw_records: list[dict[str, Any]] = Field(max_length=10_000)
 
 
 class GetStatusParams(BaseModel):

@@ -33,7 +33,7 @@ Never commit — see [CONTRIBUTING.md](CONTRIBUTING.md#repository-conventions) f
 
 ## CI
 
-GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak, critic faithfulness, MCP allowlist, and HITL routing tests (51 pytest total).
+GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak, critic faithfulness, MCP allowlist, HITL routing, and path-traversal tests (59 pytest total). Security workflow: bandit + pip-audit. Human guide: [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
 
 ## Production readiness
 
@@ -46,6 +46,12 @@ Before claiming production or staging readiness:
 | MCP boundary | 3 allowlisted tools; no vault | Same + HTTP auth on Cloud Run |
 | Auto-publish | Blocked by policy and `persist` gate | Officer sign-off workflow |
 | Warehouse | DuckDB local proof | BigQuery + IAM verified in staging |
-| Secrets | Gitignored locally | Secret Manager in GCP |
+| Secrets | Gitignored locally; Terraform uses sensitive vars | Secret Manager in GCP |
+| Path traversal | Resolved guard in HTTP extractor | Covered |
+| SAST / SCA | Bandit + pip-audit in CI | Covered |
+| Vault file perms | 0600 on key + vault JSON | Covered |
+| Rate limiting | In-process per-client middleware | Cloud Armor or API gateway |
+| Input limits | 10 MB body cap; field max_length | Covered |
+| Exception logging | Type + message only (no tracebacks) | Covered |
 
 Full audit: [docs/FINAL-REVIEW.md](docs/FINAL-REVIEW.md)

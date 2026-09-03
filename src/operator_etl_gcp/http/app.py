@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 from typing import Any
 
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 from starlette.responses import StreamingResponse
 
@@ -21,11 +22,42 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 app = FastAPI(title="Operator ETL Graph Runner", version="0.2.0")
 
+_RATE_LIMIT = int(os.environ.get("RATE_LIMIT_PER_MINUTE", "60"))
+_rate_counts: dict[str, list[float]] = {}
+
+
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next: Any) -> Response:
+    import time
+
+    if request.url.path == "/health":
+        return await call_next(request)
+
+    client = request.client.host if request.client else "unknown"
+    now = time.monotonic()
+    window = _rate_counts.setdefault(client, [])
+    window[:] = [t for t in window if now - t < 60.0]
+    if len(window) >= _RATE_LIMIT:
+        return Response(content="Rate limit exceeded", status_code=429)
+    window.append(now)
+    return await call_next(request)
+
+
+_MAX_BODY_BYTES = 10 * 1024 * 1024  # 10 MB
+
+
+@app.middleware("http")
+async def body_size_limit_middleware(request: Request, call_next: Any) -> Response:
+    content_length = request.headers.get("content-length")
+    if content_length and int(content_length) > _MAX_BODY_BYTES:
+        return Response(content="Request body too large", status_code=413)
+    return await call_next(request)
+
 
 class RunRequest(BaseModel):
-    source: str = "public_comments"
-    pipeline: str = "public_comments"
-    trigger: str = "http"
+    source: str = Field(default="public_comments", max_length=128)
+    pipeline: str = Field(default="public_comments", max_length=128)
+    trigger: str = Field(default="http", max_length=64)
 
 
 def _gov_settings(pipeline: str) -> Settings:
@@ -61,8 +93,8 @@ def run_pipeline(body: RunRequest) -> dict[str, Any]:
     try:
         result = run_graph(source=body.source, settings=settings)
     except Exception as exc:
-        logger.exception("graph_run_failed")
-        raise HTTPException(status_code=500, detail=str(exc)) from exc
+        logger.error("graph_run_failed: %s: %s", type(exc).__name__, exc)
+        raise HTTPException(status_code=500, detail="Internal pipeline error") from exc
     logger.info(json.dumps({"event": "graph_run_complete", "run_id": result.get("run_id"), "status": result.get("status")}))
     return {
         "run_id": result.get("run_id"),
@@ -110,4 +142,5 @@ def a2a_task_events(task_id: str) -> StreamingResponse:
 def main() -> None:
     import uvicorn
 
-    uvicorn.run("operator_etl_gcp.http.app:app", host="0.0.0.0", port=8080)
+    # Cloud Run and local Docker publish :8080 on all interfaces.
+    uvicorn.run("operator_etl_gcp.http.app:app", host="0.0.0.0", port=8080)  # nosec B104

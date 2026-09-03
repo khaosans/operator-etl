@@ -32,7 +32,7 @@ NIST groups AI risk work into four functions. Here is how this repo uses that la
 |---|---|---|
 | **Govern** | Policies and accountability so AI does not run unowned. | Agents never auto-publish. Default insight is a **template** so CI needs no model. Secrets stay out of git. |
 | **Map** | Know context, data, and who is affected. | The model input is **numeric gold KPI JSON only**. Ollama keeps that JSON on the machine. Cloud OpenAI sends it off-box — a FOIA-relevant boundary, not a performance footnote. [MODELS.md](MODELS.md) |
-| **Measure** | Test trustworthiness with evidence. | 51 pytest, critic on every insight, fail-closed quality gate, `./scripts/verify.sh`. |
+| **Measure** | Test trustworthiness with evidence. | 59 pytest, critic on every insight, fail-closed quality gate, `./scripts/verify.sh`. SAST/SCA in CI. |
 | **Manage** | Respond when things go wrong. | LLM failure **falls back to the template**. Critic retries then `needs_human`. We do not loosen the critic to “make the model pass.” |
 
 ```mermaid
@@ -72,11 +72,13 @@ Minimize: the LLM payload strips timestamps and non-numeric fields. That is Map 
 If you already speak 800-53, these families are the closest *story*, not a control-by-control mapping and not an ATO:
 
 - **AU** — bronze is immutable, hashed intake; pipeline runs are recorded.
-- **AC** — MCP allowlist is least privilege for agents.
-- **SC** — vault encryption; no vault over MCP.
-- **SI** — fail-closed quality gate withholds bad KPIs.
+- **AC** — MCP allowlist is least privilege for agents; HTTP rate limiting reduces anonymous abuse of `/run` and A2A.
+- **SC** — vault encryption; no vault over MCP; 10 MB body cap and path-traversal guard on extract URLs.
+- **SI** — fail-closed quality gate withholds bad KPIs; bandit SAST and pip-audit SCA on every PR.
 
 Do not copy this table into a System Security Plan as if the demo satisfied the family.
+
+HTTP and CI controls in plain English: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
 ---
 
@@ -88,3 +90,4 @@ Do not copy this table into a System Security Plan as if the demo satisfied the 
 - [RISKS.md](RISKS.md) — residual risks
 - [FOUNDATIONS.md](FOUNDATIONS.md) — proof matrix and bibliography
 - [FAQ.md](FAQ.md) — “Are you NIST certified?”
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — HTTP guards, SAST/SCA, vault perms

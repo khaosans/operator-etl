@@ -22,11 +22,15 @@
 - [Walkthrough](https://khaosans.github.io/operator-etl/WALKTHROUGH/)
 - [Testing](https://khaosans.github.io/operator-etl/TESTING/)
 - [Final review](https://khaosans.github.io/operator-etl/FINAL-REVIEW/)
+- [Security hardening](https://khaosans.github.io/operator-etl/SECURITY-HARDENING/)
 
 **Use**
+- [Run the services](https://khaosans.github.io/operator-etl/RUNNING/)
 - [CLI](https://khaosans.github.io/operator-etl/CLI/)
 - [Dashboard](https://khaosans.github.io/operator-etl/DASHBOARD/)
 - [MCP](https://khaosans.github.io/operator-etl/MCP/)
+- [A2A tasks](https://khaosans.github.io/operator-etl/A2A/)
+- [Observability](https://khaosans.github.io/operator-etl/OBSERVABILITY/)
 - [Add a source](https://khaosans.github.io/operator-etl/ADD-A-SOURCE/)
 - [Optional LLM](https://khaosans.github.io/operator-etl/LLM/)
 - [FOIA guide](https://khaosans.github.io/operator-etl/FOIA-Public-Comments-Guide/)
