@@ -13,7 +13,7 @@ All commands assume the repo root and `uv sync --extra dev` (or a green `./scrip
 | `make verify` | `scripts/verify.sh` — uv bootstrap + full proof gate |
 | `make e2e` | `harness/e2e.sh` — OKF + pytest + FOIA demo |
 | `make demo` | FOIA demo only (`scripts/demo_mvp.sh`) |
-| `make test` | `uv run pytest -q` (59 tests) |
+| `make test` | `uv run pytest -q` (76 tests) |
 | `make walkthrough` | Demo + warehouse inspection |
 | `make okf` | Strict OKF validate |
 | `make share` | e2e then regenerate PDFs |
@@ -71,6 +71,8 @@ uv run operator-etl-mcp
 
 stdio MCP server for Cursor. Tools and policy: [MCP.md](MCP.md).
 
+HTTP graph-runner (`operator-etl-gcp` on `:8080`), A2A JSON-RPC, and MCP-over-HTTP: **[RUNNING.md](RUNNING.md)**.
+
 ---
 
 ## Environment cheat sheet
@@ -92,6 +94,7 @@ Gov env vars leak into pytest if you export them in the same shell — use `make
 
 ## See also
 
+- [RUNNING.md](RUNNING.md) — HTTP graph-runner, A2A, MCP over HTTP
 - [DASHBOARD.md](DASHBOARD.md)
 - [ADD-A-SOURCE.md](ADD-A-SOURCE.md)
 - [WALKTHROUGH.md](WALKTHROUGH.md)

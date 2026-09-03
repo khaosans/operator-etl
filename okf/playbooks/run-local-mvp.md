@@ -22,7 +22,7 @@ uv sync --extra dev
 ./harness/e2e.sh
 ```
 
-Runs: OKF validate → pytest (29) → FOIA demo with fresh warehouse.
+Runs: OKF validate → pytest (76) → FOIA demo with fresh warehouse.
 
 Step-by-step proof: [docs/WALKTHROUGH.md](../../docs/WALKTHROUGH.md)
 

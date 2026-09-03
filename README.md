@@ -1,11 +1,11 @@
 # Operator ETL
 
-**Production-grade Agentic ETL pipeline for FOIA & public comments** — deterministic Medallion warehouse, LangGraph state machine, Model Context Protocol (MCP) allowlist, and zero-PII cryptographic policy plane.
+**Reference architecture for agentic data intake (FOIA & public comments)** — a locally proven MVP with a deterministic Medallion warehouse, LangGraph state machine, Model Context Protocol (MCP) allowlist, and zero-PII cryptographic policy plane.
 
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/khaosans/operator-etl?include_prereleases)](https://github.com/khaosans/operator-etl/releases)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/pytest-59%20passing-brightgreen.svg)](docs/TESTING.md)
+[![Tests](https://img.shields.io/badge/pytest-76%20passing-brightgreen.svg)](docs/TESTING.md)
 [![Docker GHCR](https://img.shields.io/badge/ghcr.io-operator--etl-blue?logo=docker)](https://github.com/khaosans/operator-etl/pkgs/container/operator-etl)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
@@ -33,7 +33,7 @@ Directly connecting Large Language Models (LLMs) or naive "Text-to-SQL" agents t
                                        │ MCP Tools (Allowlisted Queries Only)
 ┌──────────────────────────────────────▼──────────────────────────────────────┐
 │  POLICY PLANE — Zero-PII Security & Cryptographic Vault         IMPLEMENTED │
-│  Regex / Presidio scan · AES token vault · Trace anonymization · Budgets    │
+│  Regex PII scan (Presidio SPECIFIED) · AES vault · Trace sanitization       │
 └──────────────────────────────────────┬──────────────────────────────────────┘
                                        │
 ┌──────────────────────────────────────▼──────────────────────────────────────┐
@@ -50,8 +50,8 @@ Directly connecting Large Language Models (LLMs) or naive "Text-to-SQL" agents t
 |---|---|---|
 | **Data Plane** | Python 3.12+, DuckDB, BigQuery, SQL, Pydantic 2 | Deterministic Medallion transformation (Bronze → Silver → Gold), Dead-Letter Quarantine |
 | **Control Plane** | LangGraph, Model Context Protocol (MCP), SQLite / Postgres | Stateful graph execution, resumable checkpoints, deterministic numeric Critic node |
-| **Policy Plane** | Cryptography (AES-256), Microsoft Presidio / Regex | PII scanning, tokenization vault, prompt trace sanitization, spend budget caps |
-| **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (59 tests), multi-arch containers |
+| **Policy Plane** | Cryptography (AES-256), regex PII scanner (Presidio optional `--extra presidio`) | PII scanning, tokenization vault, prompt trace sanitization, spend budget caps |
+| **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (76 tests), multi-arch containers |
 
 ## Why Observability And A2A
 
@@ -75,7 +75,7 @@ git clone https://github.com/khaosans/operator-etl.git
 cd operator-etl
 ./scripts/verify.sh
 ```
-*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 59 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
+*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 76 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
 
 ### 2. Run the Agentic FOIA Pipeline
 ```bash
@@ -89,6 +89,7 @@ pii_findings=3  critic_passed=True
 
 Public comment intake summary: 10 comments across 2 dockets and 2 agencies. 4 comments flagged for FOIA redaction review (PII rate 0.4). FOIA officers should prioritize redaction queue before release.
 ```
+*`pii_findings=3` is scanner groups (EMAIL, PHONE, US_SSN). Gold / Streamlit **PII flagged ≥ 4** is silver comments with PII.*
 
 ### 3. Launch the Interactive Dashboard
 ```bash
@@ -116,12 +117,12 @@ uv run streamlit run dashboard/app.py
 Every architectural invariant in Operator ETL is backed by automated tests:
 
 ```bash
-make test        # Run 59 pytest tests
+make test        # Run 76 pytest tests
 make e2e         # Full gate: OKF validation + pytest + FOIA demo
 ```
 
 ```
-============================== 59 passed in 1.43s ==============================
+============================== 76 passed in 2.76s ==============================
 ```
 
 | Invariant Tested | Test Module | Verification Result |

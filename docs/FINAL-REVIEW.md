@@ -10,7 +10,7 @@ Honest audit of Operator ETL as of the latest `make e2e` gate. Use this before s
 
 ## Executive summary
 
-Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **59 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
+Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **76 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
 
 What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, Presidio PII, or a **live** LLM API. Optional LLM wording is PARTIAL (mocked). Those are documented with explicit scale steps.
 
@@ -33,6 +33,8 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 | MCP allowlist permit/deny | **Proven** | `tests/test_mcp_tools.py` |
 | MCP gold KPI read | **Proven** | `test_get_gold_metrics_returns_expected_kpis` |
 | No vault/decrypt in MCP surface | **Proven** | `test_allowlist_has_no_vault_tools` |
+| A2A task surface | **Proven** | `tests/test_a2a.py` — JSON-RPC create/status, SSE, bearer auth |
+| Sanitized OpenTelemetry | **Proven** | `tests/test_telemetry.py` — graph/node spans, no raw PII |
 | GCP adapter (unit, no live cloud) | **Proven** | `tests/test_infra.py` |
 | PII ambiguous gray-zone HITL | **Partial** | Regex confidences 0.90–0.95 only; Presidio SPECIFIED — `test_ambiguous_confidence_flags_needs_human` |
 | BigQuery backend | **Partial** | SQL rewrite tested; staging deploy manual — [SCALING.md](SCALING.md) L3 |
@@ -51,7 +53,7 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 flowchart TB
   subgraph proven [Proven in CI]
     E2E[make e2e]
-    Pytest[59 pytest]
+    Pytest[76 pytest]
   end
 
   subgraph partial [Partial]

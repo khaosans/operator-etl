@@ -57,7 +57,7 @@ make e2e
 | Step | Tool | Proves |
 |---|---|---|
 | OKF validate | `scripts/okf_validate.py` | Documentation structure |
-| pytest | 59 tests | PII, critic, graph, idempotency, MCP, HITL, mocked LLM, release-tag metadata, path traversal |
+| pytest | 76 tests | PII, critic, graph, idempotency, MCP, HITL, mocked LLM, release-tag metadata, path traversal, cloud adapters |
 | FOIA demo | `scripts/demo_mvp.sh` | End-to-end on fresh warehouse |
 
 **Expected terminal output (FOIA demo section):**
@@ -69,6 +69,8 @@ pii_findings=3
 
 Public comment intake summary: 10 comments across 2 dockets and 2 agencies. ...
 ```
+
+`pii_findings=3` is scanner groups (EMAIL, PHONE, US_SSN). Gold / Streamlit **PII flagged ≥ 4** is comments with PII (CMT-001, 003, 006, 011).
 
 **Expected summary:**
 

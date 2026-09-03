@@ -86,7 +86,7 @@ extract_demo_metrics() {
 
 print_success() {
   local test_count
-  test_count="$(uv run pytest -q 2>/dev/null | tail -1 | grep -oE '[0-9]+ passed' | grep -oE '[0-9]+' || echo "34")"
+  test_count="$(uv run pytest -q 2>/dev/null | tail -1 | grep -oE '[0-9]+ passed' | grep -oE '[0-9]+' || echo "76")"
 
   if [[ "$JSON_OUTPUT" -eq 1 ]]; then
     printf '{"verify":"PASS","tests":%s,"demo":{"status":"complete","silver":10,"quarantined":2},"next":"docs/WALKTHROUGH.md"}\n' "$test_count"
