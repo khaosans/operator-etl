@@ -8,7 +8,7 @@ import yaml
 
 from operator_etl.config import Settings, get_settings
 
-SourceKind = Literal["csv", "csv_dir", "http", "gcs"]
+SourceKind = Literal["csv", "csv_dir", "http", "gcs", "object_store"]
 
 
 @dataclass(frozen=True)
@@ -40,7 +40,8 @@ def get_source(name: str, settings: Settings | None = None, pipeline_name: str |
     raw = sources[name]
     kind: SourceKind = raw["kind"]
     path = Path(raw["path"]) if raw.get("path") else None
-    if path and not path.is_absolute():
+    # Object-store keys are cloud prefixes — do not resolve under repo root.
+    if path and not path.is_absolute() and kind not in ("gcs", "object_store"):
         path = settings.root / path
     return Source(
         name=name,

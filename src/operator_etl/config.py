@@ -14,6 +14,7 @@ def _default_root() -> Path:
 BackendKind = Literal["duckdb", "bigquery"]
 CheckpointBackend = Literal["sqlite", "postgres"]
 InsightBackend = Literal["template", "llm"]
+ObjectStoreBackend = Literal["gcs"]
 
 
 class Settings(BaseSettings):
@@ -28,7 +29,7 @@ class Settings(BaseSettings):
     pipeline_name: str = "demo"
     domain: str = "orders"
 
-    # Runtime backend — duckdb (local) or bigquery (GCP)
+    # Runtime warehouse — duckdb (local) or bigquery (GCP reference cloud)
     backend: BackendKind = "duckdb"
     checkpoint_backend: CheckpointBackend = "sqlite"
     checkpoint_database_url: str | None = None
@@ -39,7 +40,11 @@ class Settings(BaseSettings):
     llm_base_url: str | None = None
     max_llm_calls: int = 12
 
-    # GCP (used when backend=bigquery)
+    # Portable object-store inbox (adapters: gcs today; s3/azure later)
+    object_store_backend: ObjectStoreBackend | None = None
+    inbox_uri: str | None = None
+
+    # GCP reference adapter fields (used when backend=bigquery / object_store=gcs)
     gcp_project: str | None = None
     gcs_inbox_bucket: str | None = None
     bq_dataset_bronze: str = "etl_bronze"
@@ -49,8 +54,32 @@ class Settings(BaseSettings):
     gcp_region: str = "us-central1"
 
     @property
-    def is_gcp(self) -> bool:
+    def uses_bigquery(self) -> bool:
         return self.backend == "bigquery"
+
+    @property
+    def is_gcp(self) -> bool:
+        """Deprecated alias for uses_bigquery — kept for existing callers/tests."""
+        return self.uses_bigquery
+
+    @property
+    def resolved_inbox_bucket(self) -> str | None:
+        """Bucket name from gcs_inbox_bucket or gs://inbox_uri."""
+        if self.gcs_inbox_bucket:
+            return self.gcs_inbox_bucket
+        if self.inbox_uri and self.inbox_uri.startswith("gs://"):
+            rest = self.inbox_uri[len("gs://") :]
+            return rest.split("/", 1)[0] or None
+        return None
+
+    @property
+    def resolved_inbox_prefix(self) -> str:
+        """Optional key prefix from gs://bucket/prefix inbox_uri."""
+        if self.inbox_uri and self.inbox_uri.startswith("gs://"):
+            rest = self.inbox_uri[len("gs://") :]
+            if "/" in rest:
+                return rest.split("/", 1)[1]
+        return ""
 
     @property
     def warehouse_path(self) -> Path:
