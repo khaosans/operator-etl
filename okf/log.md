@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-09-03 (cloud agent dev environment)
+
+- `.cursor/environment.json` boots the repo in Cursor Cloud Agents: uv bootstrap + `uv sync --frozen --extra dev`, Streamlit dashboard on `:8501`, demo warehouse seeded on first boot.
+- docs/CLOUD-AGENT.md explains the config and its relation to the `./scripts/verify.sh` proof gate (gate unchanged); mkdocs Contribute nav + AGENTS.md linked.
+- operator-verify / operator-run skills note Cloud Agent behavior; operator-run pytest count 51 → 53. Cut as 0.5.0-beta.3.
+
 ## 2026-08-18 (versioning: tags publish)
 
 - Releases are immutable `v*` tags (GitHub Release + GHCR + GitHub Packages). Merges to master do not publish.

@@ -7,6 +7,18 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+## [0.5.0-beta.3] — 2026-09-03
+
+### Added
+
+- Cloud Agent development environment ([`.cursor/environment.json`](.cursor/environment.json)): idempotent `uv` bootstrap + `uv sync --frozen --extra dev` install, a `streamlit-dashboard` terminal that serves the Gov / FOIA dashboard on `:8501` (seeding `.tmp/mvp-demo/operator.duckdb` on first boot), and port `8501` exposed. Validated by a fresh Cursor environment build.
+- [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md) — how the repo boots in Cursor Cloud Agents and how it relates to the `./scripts/verify.sh` proof gate; linked from the mkdocs `Contribute` nav and `AGENTS.md`.
+
+### Changed
+
+- `skills/operator-verify` and `skills/operator-run` note the Cloud Agent install/dashboard behavior; corrected the stale pytest count (`51` → `53`) on the `operator-run` command table.
+- Synchronized [mkdocs.yml](mkdocs.yml) release version string to `0.5.0-beta.3`.
+
 ## [0.5.0-beta.2] — 2026-09-01
 
 ### Added

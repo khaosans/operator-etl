@@ -1539,7 +1539,7 @@ wheels = [
 
 [[package]]
 name = "operator-etl"
-version = "0.5.0b2"
+version = "0.5.0b3"
 source = { editable = "." }
 dependencies = [
     { name = "cryptography" },
