@@ -32,7 +32,7 @@ description: >-
 
 | Gate | Tool | Config |
 |---|---|---|
-| SAST | bandit | `.bandit.yml` — scans `src/`, skips `B101` (assert in tests) |
+| SAST | bandit | `.bandit.yml` — scans `src/`, skips `B101` (assert in tests); other hits need a fix or `# nosec` |
 | SCA | pip-audit | `.github/workflows/security.yml` — dependency CVE check |
 | Secret scan | gitleaks | `.github/workflows/secret-scan.yml` |
 | Dependency updates | Dependabot | `.github/dependabot.yml` — weekly |

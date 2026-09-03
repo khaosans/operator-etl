@@ -142,4 +142,5 @@ def a2a_task_events(task_id: str) -> StreamingResponse:
 def main() -> None:
     import uvicorn
 
-    uvicorn.run("operator_etl_gcp.http.app:app", host="0.0.0.0", port=8080)
+    # Cloud Run and local Docker publish :8080 on all interfaces.
+    uvicorn.run("operator_etl_gcp.http.app:app", host="0.0.0.0", port=8080)  # nosec B104

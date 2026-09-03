@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 
@@ -7,6 +8,8 @@ import duckdb
 import pandas as pd
 
 from operator_etl.config import Settings, get_settings
+
+_IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 
 @dataclass(frozen=True)
@@ -31,7 +34,10 @@ def build_marts(con: duckdb.DuckDBPyConnection, settings: Settings | None = None
 
 
 def fetch_table(con: duckdb.DuckDBPyConnection, name: str) -> pd.DataFrame:
-    return con.execute(f"SELECT * FROM {name}").df()
+    """Load a warehouse table. ``name`` must be a SQL identifier (dashboard callers pass literals)."""
+    if not _IDENT.fullmatch(name):
+        raise ValueError(f"Refusing non-identifier table name: {name!r}")
+    return con.execute(f'SELECT * FROM "{name}"').df()  # nosec B608
 
 
 def quality_gate(con: duckdb.DuckDBPyConnection, settings: Settings | None = None) -> QualityReport:

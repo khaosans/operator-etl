@@ -1,3 +1,5 @@
+# Global skips only for rules that are noise everywhere.
+# Site-specific false positives use `# nosec Bxxx` on the line (see docs/SECURITY-HARDENING.md).
 skips:
   - B101  # assert used in tests and contracts — acceptable
 

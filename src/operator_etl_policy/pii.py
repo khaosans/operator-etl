@@ -63,7 +63,8 @@ def scan_records(records: list[dict[str, str]], text_columns: list[str] | None =
     return PiiScanResult(findings=findings, needs_human=ambiguous and bool(findings))
 
 
-def redact_text(text: str, token_prefix: str = "REDACTED") -> str:
+# token_prefix is a redaction label (REDACTED_EMAIL), not a password.
+def redact_text(text: str, token_prefix: str = "REDACTED") -> str:  # nosec B107
     out = EMAIL.sub(f"{token_prefix}_EMAIL", text)
     out = PHONE.sub(f"{token_prefix}_PHONE", out)
     out = SSN.sub(f"{token_prefix}_SSN", out)

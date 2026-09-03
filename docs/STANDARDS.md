@@ -60,7 +60,7 @@ Readable mapping: **[NIST.md](NIST.md)**. We align selected practices. We do **n
 | **Secrets hygiene** | [SECURITY.md](../SECURITY.md) | No `.env`, vault, or tfvars in git |
 | **Least privilege (GCP)** | White paper §12.3 | Separate service accounts per workload in Terraform |
 | **OWASP input validation** | [SECURITY-HARDENING.md](SECURITY-HARDENING.md) | Pydantic `max_length`, 10 MB body cap, path traversal guard |
-| **SAST** | bandit | [`.github/workflows/security.yml`](../.github/workflows/security.yml) + `.bandit.yml` scans `src/` |
+| **SAST** | bandit | [`.github/workflows/security.yml`](../.github/workflows/security.yml) + `.bandit.yml`; `# nosec` only with a reason |
 | **SCA** | pip-audit | Frozen-dep CVE check in the same Security workflow |
 | **Secret scanning** | gitleaks | [`.github/workflows/secret-scan.yml`](../.github/workflows/secret-scan.yml) |
 | **CODEOWNERS** | [CODEOWNERS](../CODEOWNERS) | `vault.py`, `pii.py`, `secrets.tf`, `iam.tf` require review |

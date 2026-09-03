@@ -15,6 +15,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 - [CODEOWNERS](CODEOWNERS) requiring review for `vault.py`, `pii.py`, `secrets.tf`, `iam.tf`.
 - [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md) — educational wiki page: defense-in-depth diagrams, HTTP middleware, vault perms, Terraform secrets, CI SAST/SCA, best-practice checklist.
 - `.bandit.yml` SAST config; `.github/workflows/security.yml` CI workflow.
+- Bandit CI is green: identifier-validated `fetch_table`, `# nosec` on documented false positives (Streamlit subprocess, Cloud Run `0.0.0.0`, `REDACTED` token), telemetry no longer uses `except: pass`.
 
 ### Changed
 

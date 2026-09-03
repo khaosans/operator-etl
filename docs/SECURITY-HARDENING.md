@@ -159,11 +159,30 @@ flowchart LR
 | Proof | `./harness/e2e.sh` | [docs/TESTING.md](TESTING.md) | PII leak, critic, MCP, path traversal, FOIA demo |
 | Docker | CI workflow | `.github/workflows/ci.yml` | Image still builds |
 | Secret scan | gitleaks | `.github/workflows/secret-scan.yml` | Keys, vault files, `.env` |
-| SAST | bandit | `.bandit.yml` — `src/`, skip `B101` | Common Python footguns |
+| SAST | bandit | `.bandit.yml` — `src/`, skip `B101`; other hits need a fix or `# nosec` | Common Python footguns |
 | SCA | pip-audit | `.github/workflows/security.yml` | Known CVEs in frozen deps |
 | Dependabot | weekly | `.github/dependabot.yml` | Stale pip and Actions |
 
 Bandit and pip-audit are **workflow jobs**, not pytest. A green `make e2e` does not replace them. Branch protection should require the **Security** workflow — [PUBLIC-READINESS.md](PUBLIC-READINESS.md).
+
+Run SAST locally:
+
+```bash
+uv run bandit -r src/ -c .bandit.yml
+```
+
+Exit 0 is required. New findings must be **fixed** or annotated `# nosec Bxxx` with a one-line reason. Do not add global skips in `.bandit.yml` unless the rule is noise on every file (today only `B101`).
+
+### Accepted `# nosec` annotations
+
+| ID | Where | Why it is accepted |
+|---|---|---|
+| B404 / B603 | `cli.py` Streamlit launch | `subprocess.call` with `shell=False` and a fixed argv (`sys.executable -m streamlit`) |
+| B608 | `insights/metrics.py` `fetch_table` | Table name is regex-validated as a SQL identifier, then quoted |
+| B104 | `app.py` `host="0.0.0.0"` | Cloud Run / container must bind all interfaces on `:8080` |
+| B107 | `pii.py` `token_prefix="REDACTED"` | Redaction label, not a password |
+
+Telemetry init no longer uses `except: pass` (B110) — it logs at debug.
 
 ---
 
