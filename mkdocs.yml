@@ -89,9 +89,12 @@ nav:
       - Testing: TESTING.md
       - Final review: FINAL-REVIEW.md
   - Use:
+      - Run the services: RUNNING.md
       - CLI: CLI.md
       - Dashboard: DASHBOARD.md
       - MCP: MCP.md
+      - A2A tasks: A2A.md
+      - Observability: OBSERVABILITY.md
       - Add a source: ADD-A-SOURCE.md
       - Optional LLM: LLM.md
       - FOIA guide: FOIA-Public-Comments-Guide.md
