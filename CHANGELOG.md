@@ -7,6 +7,15 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+### Added
+
+- [docs/RUNNING.md](docs/RUNNING.md) — run-the-services guide covering every entry point (CLI, dashboard, the `operator-etl-gcp` HTTP graph-runner on `:8080` with `/health` + `/run`, the bearer-protected A2A task surface, and the HTTP/stdio MCP tools), noting FastAPI/uvicorn/OTel are now core deps and that the stdio MCP server needs the `mcp` 1.x decorator API.
+- [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md) — documents the opt-in OpenTelemetry tracing/metrics added in `0.5.1`: `OTEL_EXPORTER_OTLP_ENDPOINT` enablement, span/counter inventory, OpenInference LLM tracing, and the no-raw-PII safety boundary.
+
+### Changed
+
+- Surfaced the existing `docs/A2A.md` in the mkdocs `Use` nav and added `RUNNING.md` + `OBSERVABILITY.md` alongside it.
+
 ## [0.5.1] — 2026-09-03
 
 ### Added

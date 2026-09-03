@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-09-03 (docs: run services + observability)
+
+- docs/RUNNING.md documents every entry point (CLI, dashboard, operator-etl-gcp HTTP graph-runner on :8080, A2A task surface, MCP HTTP/stdio); verified /health, /run, and A2A create/status live.
+- docs/OBSERVABILITY.md documents the 0.5.1 opt-in OpenTelemetry tracing/metrics (spans, counters, OpenInference, no-raw-PII boundary).
+- mkdocs Use nav now surfaces A2A.md (previously unlinked) plus RUNNING.md and OBSERVABILITY.md. Under CHANGELOG [Unreleased].
+
 ## 2026-08-18 (versioning: tags publish)
 
 - Releases are immutable `v*` tags (GitHub Release + GHCR + GitHub Packages). Merges to master do not publish.
