@@ -7,6 +7,19 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-09-03
+
+### Added
+
+- Opt-in OpenTelemetry/OpenInference observability with sanitized graph, node, MCP, and LLM tracing plus production-safe counters.
+- Bounded A2A service surface: agent-card discovery, JSON-RPC task execution, SSE lifecycle events, and bearer-token protection.
+- Streamlit `Observability & Spans` tab and dedicated A2A contract documentation.
+
+### Changed
+
+- Clarified why observability and A2A were added across the README and direct architecture/process docs.
+- Expanded the proof gate to **56** pytest, including observability and A2A safety-boundary coverage.
+
 ## [0.5.0-beta.2] — 2026-09-01
 
 ### Added

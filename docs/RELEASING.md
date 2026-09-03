@@ -12,7 +12,7 @@ How to change Operator ETL without breaking trust signals (CI, tests, share PDFs
 make e2e
 ```
 
-This runs OKF validate, 51 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
+This runs OKF validate, 56 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
 
 For OKF-only doc changes:
 
@@ -71,7 +71,7 @@ First tagged freeze after this process: **`v0.5.0-beta.1`** (separate release PR
 See [VERSIONING.md](VERSIONING.md#install-a-version). Short form:
 
 ```bash
-docker pull ghcr.io/khaosans/operator-etl:0.5.0-beta.1
+docker pull ghcr.io/khaosans/operator-etl:0.5.0
 pip install operator-etl --index-url https://pypi.pkg.github.com/khaosans/simple/
 ```
 

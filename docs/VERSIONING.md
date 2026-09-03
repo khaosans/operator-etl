@@ -115,17 +115,17 @@ Clone + verify is still the default (no package required):
 ```bash
 git clone https://github.com/khaosans/operator-etl.git
 cd operator-etl
-git checkout v0.5.0-beta.1   # after that tag exists
+git checkout v0.5.0   # after that tag exists
 ./scripts/verify.sh
 ```
 
 **GitHub Release assets** (public): download the wheel from the release page, or:
 
 ```bash
-pip install "operator-etl @ https://github.com/khaosans/operator-etl/releases/download/v0.5.0-beta.1/operator_etl-0.5.0b1-py3-none-any.whl"
+pip install "operator-etl @ https://github.com/khaosans/operator-etl/releases/download/v0.5.0/operator_etl-0.5.0-py3-none-any.whl"
 ```
 
-(Exact wheel filename follows PEP 440: `0.5.0b1`.)
+(Exact wheel filename follows PEP 440: `0.5.0`.)
 
 **GitHub Packages** (PyPI-compatible; GitHub may require a PAT with `read:packages`):
 
@@ -137,7 +137,7 @@ pip install operator-etl \
 **Container** (immutable version tag; Docker `:latest` only after a stable release):
 
 ```bash
-docker pull ghcr.io/khaosans/operator-etl:0.5.0-beta.1
+docker pull ghcr.io/khaosans/operator-etl:0.5.0
 ```
 
 The Python **wheel does not include** `sql/`, `pipelines/`, `samples/`, or `scripts/`. Clone a tag (or the GitHub source archive) to run the FOIA demo. The wheel is the library + CLI entry points only.
