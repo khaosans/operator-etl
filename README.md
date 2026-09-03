@@ -160,8 +160,8 @@ Full proof matrix & citations: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)** ·
 
 ### Run via Docker
 ```bash
-docker pull ghcr.io/khaosans/operator-etl:0.5.1
-docker run --rm -it ghcr.io/khaosans/operator-etl:0.5.1 etl-graph --help
+docker pull ghcr.io/khaosans/operator-etl:0.5.2
+docker run --rm -it ghcr.io/khaosans/operator-etl:0.5.2 etl-graph --help
 ```
 
 ### Install Python Package
