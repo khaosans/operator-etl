@@ -9,10 +9,12 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Fixed
 
+- A2A tests wait on a worker completion `threading.Event` (`wait_for_task`) instead of a short busy-poll, so cold CI graph runs cannot false-timeout after ~2.5s (keeps the rate-limiter reset from the prior poll-budget fix).
 - A2A CI flake: `test_a2a_task_create_status_and_sse` waited only ~2.5s for the background graph; raise the poll budget to 30s, assert HTTP 200 on status polls, and clear/raise the in-process rate limiter for A2A tests.
 
 ### Changed
 
+- Document required GitHub ruleset status checks so red CI cannot be merged: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md), [docs/RELEASING.md](docs/RELEASING.md), [CONTRIBUTING.md](CONTRIBUTING.md), PR template.
 - Documentation drift cleanup: canonical pytest count **76** (verify banner, wiki, OKF, README badge); distinguish CLI `pii_findings=3` from gold PII flagged ≥ 4; publication identity is the public Apache-2.0 repo plus wiki and PDFs; A2A and sanitized OpenTelemetry marked proven in CI.
 
 ## [0.6.0] — 2026-09-03

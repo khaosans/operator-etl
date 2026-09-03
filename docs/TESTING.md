@@ -149,7 +149,7 @@ Used by [`.github/workflows/release.yml`](../.github/workflows/release.yml). Pro
 
 | Test | Proves |
 |---|---|
-| `test_a2a_task_create_status_and_sse` | JSON-RPC task create/status and SSE lifecycle complete with sanitized artifacts |
+| `test_a2a_task_create_status_and_sse` | JSON-RPC task create/status and SSE lifecycle complete with sanitized artifacts; waits on `wait_for_task` (completion Event) so CI cold starts do not false-timeout |
 | `test_a2a_requires_bearer_and_jsonrpc_method` | Bearer auth enforced and unknown JSON-RPC methods return compliant errors |
 
 ### `test_quality.py` — Fail-closed KPIs
