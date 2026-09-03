@@ -7,6 +7,8 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+## [0.5.2] — 2026-09-03
+
 ### Added
 
 - [docs/RUNNING.md](docs/RUNNING.md) — run-the-services guide covering every entry point (CLI, dashboard, the `operator-etl-gcp` HTTP graph-runner on `:8080` with `/health` + `/run`, the bearer-protected A2A task surface, and the HTTP/stdio MCP tools), noting FastAPI/uvicorn/OTel are now core deps and that the stdio MCP server needs the `mcp` 1.x decorator API.
@@ -14,6 +16,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 - Security hardening: path traversal guard in HTTP extractor, bandit + pip-audit CI workflow, per-client rate limiting middleware, 10 MB body size limit, input field max_length constraints, sanitized exception logging.
 - [CODEOWNERS](CODEOWNERS) requiring review for `vault.py`, `pii.py`, `secrets.tf`, `iam.tf`.
 - [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md) — educational wiki page: defense-in-depth diagrams, HTTP middleware, vault perms, Terraform secrets, CI SAST/SCA, best-practice checklist.
+- [skills/operator-security/SKILL.md](skills/operator-security/SKILL.md) — security review skill for ongoing hardening and audit work.
 - `.bandit.yml` SAST config; `.github/workflows/security.yml` CI workflow.
 - Bandit CI is green: identifier-validated `fetch_table`, `# nosec` on documented false positives (Streamlit subprocess, Cloud Run `0.0.0.0`, `REDACTED` token), telemetry no longer uses `except: pass`.
 

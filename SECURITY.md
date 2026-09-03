@@ -13,8 +13,8 @@ Include: affected component, reproduction steps, impact on PII/MCP boundary, and
 
 | Version | Supported |
 |---|---|
-| 0.3.x (current) | Yes — `make e2e` gate |
-| < 0.3 | No |
+| 0.5.x (current) | Yes — `make e2e` gate |
+| 0.4.x | No |
 
 ## Secrets
 
