@@ -25,11 +25,14 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cloud_extra: [gcp, aws, azure]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build container image (default gcp extra)
-        run: docker build --build-arg CLOUD_EXTRA=gcp -t operator-etl:ci .
+      - name: Build container image (${{ matrix.cloud_extra }})
+        run: docker build --build-arg CLOUD_EXTRA=${{ matrix.cloud_extra }} -t operator-etl:${{ matrix.cloud_extra }} .
 
   terraform:
     runs-on: ubuntu-latest

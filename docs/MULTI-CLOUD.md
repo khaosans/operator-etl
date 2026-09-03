@@ -77,7 +77,9 @@ Details: [MODELS.md](MODELS.md#efficient-defaults-cost--tokens).
 | Claim | Status |
 |---|---|
 | Local MVP + pytest | **Proven** in CI (`./scripts/verify.sh`) |
-| Terraform `validate` for gcp/aws/azure | **Proven** in CI |
+| Terraform `validate` for gcp/aws/azure | **Proven** in CI (`./scripts/validate_infra.sh` offline) |
+| Docker images `CLOUD_EXTRA=gcp\|aws\|azure` | **Proven** in CI build matrix |
+| Env examples secret hygiene | **Proven** — comment-only `PII_VAULT_KEY` / `OPENAI_API_KEY` (gitleaks-clean) |
 | Live `terraform apply` + end-to-end cloud ingest | **Manual** (your account) — same honesty as GCP today |
 | BigQuery gold dialect / AWS Redshift / Azure Synapse | **Not** in this ladder yet |
 
