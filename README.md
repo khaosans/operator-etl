@@ -53,6 +53,15 @@ Directly connecting Large Language Models (LLMs) or naive "Text-to-SQL" agents t
 | **Policy Plane** | Cryptography (AES-256), Microsoft Presidio / Regex | PII scanning, tokenization vault, prompt trace sanitization, spend budget caps |
 | **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (56 tests), multi-arch containers |
 
+## Why Observability And A2A
+
+The newest runtime additions solve two production problems without weakening the repo's trust boundary:
+
+1. **Observability:** operators need traces and counters to understand graph execution, quarantine trends, and critic outcomes in production, but those signals must stay metadata-only so raw PII never lands in telemetry backends.
+2. **A2A task execution:** external agents need a way to request FOIA/public-comment processing as a bounded service, but that interface must stay at the task level instead of exposing arbitrary SQL, vault contents, or row-level warehouse access.
+
+Operator ETL now supports both: sanitized OpenTelemetry/OpenInference signals for operators and a constrained JSON-RPC A2A surface for other agents.
+
 ---
 
 ## ⚡ 2-Minute Quickstart

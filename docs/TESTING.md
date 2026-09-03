@@ -11,6 +11,8 @@ make e2e              # if uv already installed
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
+The new observability and A2A tests are here to prove **safety boundaries**, not just feature presence: telemetry stays sanitized, and external agents only receive bounded task execution plus public-safe artifacts.
+
 ---
 
 ## Proof map

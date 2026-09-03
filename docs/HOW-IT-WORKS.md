@@ -123,6 +123,11 @@ Agency mapping: [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md)
 
 Same graph nodes, PII policy, critic, and MCP allowlist in both environments.
 
+Why add A2A and observability on top of that base:
+
+- **Observability** gives operators production traces and counters for run flow, quarantine behavior, and critic outcomes without exporting raw rows or PII-bearing prompt content.
+- **A2A** gives external agents a task interface to the same bounded workflow, instead of expanding MCP into a write-capable or row-level data surface.
+
 ---
 
 ## Real-world Production Deployment Blueprint

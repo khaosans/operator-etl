@@ -89,7 +89,7 @@ Operator ETL now exposes a separate task-oriented A2A HTTP surface for external 
 - Tasks: `POST /a2a/v1/tasks`
 - Events: `GET /a2a/v1/tasks/{task_id}/events`
 
-That interface accepts **high-level task definitions only** and returns sanitized artifacts (`gold_metrics`, critic-approved public brief, run status). It does **not** expand MCP permissions: raw SQL, bronze/silver row export, and vault decryption remain denied.
+The split is intentional: **MCP answers bounded questions**, while **A2A runs bounded work**. The A2A interface accepts **high-level task definitions only** and returns sanitized artifacts (`gold_metrics`, critic-approved public brief, run status). It does **not** expand MCP permissions: raw SQL, bronze/silver row export, and vault decryption remain denied.
 
 ---
 

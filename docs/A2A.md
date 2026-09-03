@@ -2,6 +2,15 @@
 
 Operator ETL exposes a bounded agent-to-agent HTTP surface for FOIA/public-comment execution without widening the MCP tool surface.
 
+## Why this exists
+
+This interface was added for a different job than MCP:
+
+- **MCP** stays read-oriented and least-privilege: gold KPI reads, allowlisted SQL, and run-status lookups.
+- **A2A** handles bounded execution: an external agent can submit a high-level FOIA/public-comment task and receive sanitized artifacts back.
+
+That split preserves the repository's core rule that agents may orchestrate work, but may not receive direct raw-data or vault-level access as a shortcut.
+
 ## Discovery
 
 `GET /.well-known/agent-card.json`
