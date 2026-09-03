@@ -20,6 +20,7 @@ Operator ETL **reduces** three demo-class failures (PII in prompts, invented KPI
 | **Samples are synthetic** | `jane.doe@example.com` is fake. | Never commit real FOIA or case files. |
 | **Quality gate is a threshold** | High quarantine **withholds** KPIs (fail-closed). Tune `OPERATOR_ETL_MAX_QUARANTINE_RATE` with care — hiding failure is worse than a red gate. | |
 | **MCP is an allowlist, not IAM** | Three tools, no vault. This is least privilege **for the demo agent**, not agency identity management. | Do not expose MCP on a public URL without the Cloud Run auth story. |
+| **Rate limiting is in-process** | Per-client sliding window middleware added. Sufficient for single-instance but not for distributed or high-traffic production. | Use Cloud Armor or an API gateway for production rate limiting. |
 | **No live GCP in CI** | Terraform and adapters exist. Staging E2E is manual. | [SCALING.md](SCALING.md). |
 | **Not certified** | We align selected NIST practices. Not FedRAMP, not ATO, not “NIST compliant” as a slogan. | [NIST.md](NIST.md) · FAQ. |
 

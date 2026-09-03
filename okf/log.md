@@ -1,5 +1,18 @@
 # OKF changelog
 
+## 2026-09-03 (security hardening)
+
+- Path traversal guard in HTTP extractor `_local_path()` with resolve + `is_relative_to` check.
+- Bandit SAST + pip-audit SCA added to CI (`.github/workflows/security.yml`, `.bandit.yml`).
+- Terraform secrets use sensitive variables with validation (no more inline placeholders).
+- Vault key and PII JSON file permissions restricted to 0600; startup warns on permissive keys.
+- Per-client rate limiting middleware on all non-health FastAPI endpoints.
+- 10 MB body size middleware; `max_length` on Pydantic request fields; `raw_records` capped at 10k.
+- Exception logging sanitized to type + message only (no tracebacks in responses).
+- CODEOWNERS for security-sensitive paths (vault, pii, secrets, iam).
+- New skill: `skills/operator-security/SKILL.md` — checklist for security work.
+- Updated: SECURITY.md, FINAL-REVIEW.md, RISKS.md, implementation-status.md, wiki pages, CONTRIBUTING.md, CHANGELOG.md, AGENTS.md. Test count 51 → 59.
+
 ## 2026-09-03 (docs: run services + observability)
 
 - docs/RUNNING.md documents every entry point (CLI, dashboard, operator-etl-gcp HTTP graph-runner on :8080, A2A task surface, MCP HTTP/stdio); verified /health, /run, and A2A create/status live.

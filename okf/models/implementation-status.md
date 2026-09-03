@@ -8,7 +8,7 @@ timestamp: 2026-08-17T00:00:00Z
 
 # Implementation status
 
-**Tests:** 51 pytest passing · **MVP gate:** `./harness/e2e.sh`
+**Tests:** 59 pytest passing · **MVP gate:** `./harness/e2e.sh`
 
 | Component | Status | Proven in CI | Path |
 |---|---|---|---|
@@ -32,6 +32,12 @@ timestamp: 2026-08-17T00:00:00Z
 | Regulations.gov API | **SPECIFIED** | — | — |
 | BQ gold mart dialect | **PARTIAL** | — | DuckDB SQL; BQ lift pending |
 | Public GitHub | **IMPLEMENTED** | — | https://github.com/khaosans/operator-etl (Apache-2.0) |
+| Path traversal guard | **IMPLEMENTED** | Yes | `src/operator_etl/extract/http.py`, `tests/test_http.py` |
+| SAST / SCA CI | **IMPLEMENTED** | Yes | `.github/workflows/security.yml`, `.bandit.yml` |
+| Vault file permissions | **IMPLEMENTED** | Yes | `src/operator_etl_policy/vault.py` (0600) |
+| Rate limiting | **IMPLEMENTED** | Yes | `src/operator_etl_gcp/http/app.py` middleware |
+| Input size limits | **IMPLEMENTED** | Yes | 10 MB body cap; Pydantic `max_length` |
+| Terraform sensitive vars | **IMPLEMENTED** | — | `infra/terraform/secrets.tf` + `variables.tf` |
 
 Audit: [docs/FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md)
 
