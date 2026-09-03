@@ -47,6 +47,17 @@ gcp = [
     "langgraph-checkpoint-postgres>=2.0.0",
     "psycopg[binary,pool]>=3.2.0",
 ]
+aws = [
+    "boto3>=1.35.0",
+    "langgraph-checkpoint-postgres>=2.0.0",
+    "psycopg[binary,pool]>=3.2.0",
+]
+azure = [
+    "azure-identity>=1.19.0",
+    "azure-storage-blob>=12.23.0",
+    "langgraph-checkpoint-postgres>=2.0.0",
+    "psycopg[binary,pool]>=3.2.0",
+]
 
 [project.scripts]
 etl = "operator_etl.cli:app"

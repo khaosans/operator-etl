@@ -67,6 +67,8 @@ def _gov_settings(pipeline: str) -> Settings:
         backend=base.backend,
         checkpoint_backend=base.checkpoint_backend,
         checkpoint_database_url=base.checkpoint_database_url,
+        object_store_backend=base.object_store_backend,
+        inbox_uri=base.inbox_uri,
         gcp_project=base.gcp_project,
         gcs_inbox_bucket=base.gcs_inbox_bucket,
         bq_dataset_bronze=base.bq_dataset_bronze,
@@ -74,6 +76,10 @@ def _gov_settings(pipeline: str) -> Settings:
         bq_dataset_quarantine=base.bq_dataset_quarantine,
         bq_dataset_gold=base.bq_dataset_gold,
         gcp_region=base.gcp_region,
+        aws_region=base.aws_region,
+        s3_inbox_bucket=base.s3_inbox_bucket,
+        azure_storage_account=base.azure_storage_account,
+        azure_inbox_container=base.azure_inbox_container,
         pipeline_name=pipeline,
         domain="gov",
     )
@@ -121,9 +127,37 @@ async def pubsub_push(request: Request) -> dict[str, str]:
     settings = _gov_settings("public_comments")
     set_settings(settings)
     logger.info(json.dumps({"event": "gcs_ingest", "bucket": event.bucket, "object": event.object_name}))
-    # GCS-triggered runs use comment_inbox source; graph ingest picks up staged file via gcs path
+    # GCS-triggered runs use gcs_inbox source; graph ingest picks up staged file via object store
     result = run_graph(source="gcs_inbox", settings=settings)
     return {"status": result.get("status", "unknown"), "run_id": result.get("run_id", "")}
+
+
+@app.post("/events/azure")
+async def azure_event_grid(request: Request) -> Response:
+    """Event Grid webhook — subscription validation + BlobCreated → graph run."""
+    body = await request.json()
+    # Subscription handshake (Event Grid sends a list with SubscriptionValidationEvent)
+    events = body if isinstance(body, list) else [body]
+    for event in events:
+        event_type = event.get("eventType") or event.get("type")
+        if event_type in ("Microsoft.EventGrid.SubscriptionValidationEvent", "SubscriptionValidation"):
+            data = event.get("data") or {}
+            code = data.get("validationCode") or data.get("validation_code")
+            if not code:
+                raise HTTPException(status_code=400, detail="missing validationCode")
+            return Response(
+                content=json.dumps({"validationResponse": code}),
+                media_type="application/json",
+            )
+
+    settings = _gov_settings("public_comments")
+    set_settings(settings)
+    logger.info(json.dumps({"event": "azure_blob_ingest", "count": len(events)}))
+    result = run_graph(source="gcs_inbox", settings=settings)
+    return Response(
+        content=json.dumps({"status": result.get("status", "unknown"), "run_id": result.get("run_id", "")}),
+        media_type="application/json",
+    )
 
 
 @app.post("/a2a/v1/tasks", dependencies=[Depends(ensure_bearer_token)])
