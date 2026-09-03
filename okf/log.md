@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-09-03 (release v0.6.0)
+
+- Freeze: CHANGELOG `[0.6.0]`, `pyproject.toml` / `uv.lock` `0.6.0`, mkdocs footer `0.6.0`. Tag `v0.6.0` after merge.
+- Portable warehouse/object-store protocols; AWS + Azure L2 Terraform; GCP stack at `infra/gcp/`.
+- LLM efficiency defaults; gitleaks-clean env examples; CI terraform + Docker matrices.
+
 ## 2026-09-03 (release v0.5.2)
 
 - Freeze: CHANGELOG `[0.5.2]`, `pyproject.toml` / `uv.lock` `0.5.2`, mkdocs footer `0.5.2`. Tag `v0.5.2` after merge.

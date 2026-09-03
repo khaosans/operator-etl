@@ -4,10 +4,10 @@ site_url: https://khaosans.github.io/operator-etl/
 repo_url: https://github.com/khaosans/operator-etl
 repo_name: khaosans/operator-etl
 edit_uri: blob/master/docs/
-copyright: "Operator ETL 0.5.2 · Apache-2.0. Wiki tracks master; install tagged releases."
+copyright: "Operator ETL 0.6.0 · Apache-2.0. Wiki tracks master; install tagged releases."
 
 extra:
-  operator_etl_version: "0.5.2"
+  operator_etl_version: "0.6.0"
 
 docs_dir: docs
 site_dir: site

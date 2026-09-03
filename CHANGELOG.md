@@ -7,8 +7,26 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-09-03
+
+### Added
+
+- Cloud-portable data plane: `WarehouseConnection` protocol, `load.ops`, `ObjectStore` inbox extract (`gcs` / `s3` / `azure`), and LangGraph checkpoints in `operator_etl.checkpoints`.
+- AWS L2 Terraform (`infra/aws/`): S3 inbox, EventBridge → `POST /run`, ECS Fargate, RDS Postgres, Secrets Manager, ECR.
+- Azure L2 Terraform (`infra/azure/`): Blob inbox, Event Grid → `/events/azure`, Container Apps, Postgres Flexible Server, Key Vault, ACR.
+- Optional extras `aws` / `azure`; Dockerfile `CLOUD_EXTRA=gcp|aws|azure`; `scripts/validate_infra.sh`.
+- Wiki: [docs/MULTI-CLOUD.md](docs/MULTI-CLOUD.md); skills `operator-ship-aws` / `operator-ship-azure`.
+
+### Changed
+
+- GCP Terraform moved from `infra/terraform/` to `infra/gcp/`.
+- LLM insight defaults: `max_llm_calls=2`, `llm_max_tokens=256`, gold payload whitelist (five KPI keys). Template remains default (zero model calls in CI).
+- CI: terraform validate matrix for gcp/aws/azure; Docker build matrix per `CLOUD_EXTRA`.
+- Env examples comment-only for `PII_VAULT_KEY` / `OPENAI_API_KEY` (gitleaks-clean).
+
 ### Fixed
 
+- Missing `google_bigquery_table.pipeline_runs` resource header in GCP Terraform.
 - Release workflow GitHub Packages upload now targets `https://pypi.pkg.github.com/<owner>` (the PyPI registry namespace). `khaosans/operator-etl` 404'd on every tag including `v0.5.1` and `v0.5.2`; wheels for those tags remain on the GitHub Release.
 
 ## [0.5.2] — 2026-09-03
