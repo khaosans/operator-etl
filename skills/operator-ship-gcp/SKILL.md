@@ -17,7 +17,7 @@ description: >-
 ## Terraform
 
 ```bash
-cd infra/terraform
+cd infra/gcp
 cp terraform.tfvars.example terraform.tfvars
 terraform init && terraform apply
 ```
@@ -31,6 +31,10 @@ gcloud builds submit --config cloudbuild.yaml
 ## Env vars
 
 Copy [infra/env.example](../../infra/env.example) — set `OPERATOR_ETL_BACKEND=bigquery`, datasets, checkpoint URL. Optional LLM: [docs/LLM.md](../../docs/LLM.md) (`OPERATOR_ETL_INSIGHT_BACKEND` stays `template` until the OpenAI secret is real).
+
+## Full stack only
+
+This skill is the **GCP reference IaC** path. For Docker + portable env on AWS/Azure/K8s without GCP Terraform, use [operator-ship-portable](../operator-ship-portable/SKILL.md).
 
 ## Non-negotiables
 

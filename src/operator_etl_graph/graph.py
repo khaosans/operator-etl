@@ -6,8 +6,8 @@ from langgraph.graph import END, StateGraph
 
 from operator_etl.config import Settings, get_settings
 from operator_etl.load.connection import connect
-from operator_etl.load.duckdb import finish_run
-from operator_etl_gcp.checkpoints import build_checkpointer
+from operator_etl.checkpoints import build_checkpointer
+from operator_etl.load.ops import finish_run
 from operator_etl_graph.nodes import (
     build_gold_node,
     critic_node,

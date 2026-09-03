@@ -14,6 +14,7 @@ def _default_root() -> Path:
 BackendKind = Literal["duckdb", "bigquery"]
 CheckpointBackend = Literal["sqlite", "postgres"]
 InsightBackend = Literal["template", "llm"]
+ObjectStoreBackend = Literal["gcs", "s3", "azure"]
 
 
 class Settings(BaseSettings):
@@ -28,7 +29,7 @@ class Settings(BaseSettings):
     pipeline_name: str = "demo"
     domain: str = "orders"
 
-    # Runtime backend — duckdb (local) or bigquery (GCP)
+    # Runtime warehouse — duckdb (local / AWS / Azure L2) or bigquery (GCP L3)
     backend: BackendKind = "duckdb"
     checkpoint_backend: CheckpointBackend = "sqlite"
     checkpoint_database_url: str | None = None
@@ -37,9 +38,16 @@ class Settings(BaseSettings):
     insight_backend: InsightBackend = "template"
     llm_model: str = "gpt-4o-mini"
     llm_base_url: str | None = None
-    max_llm_calls: int = 12
+    # One insight draft + one retry; keep cloud spend low (template is default).
+    max_llm_calls: int = 2
+    # Cap completion length — insight is 2–4 sentences.
+    llm_max_tokens: int = 256
 
-    # GCP (used when backend=bigquery)
+    # Portable object-store inbox (adapters: gcs | s3 | azure)
+    object_store_backend: ObjectStoreBackend | None = None
+    inbox_uri: str | None = None
+
+    # GCP reference adapter fields
     gcp_project: str | None = None
     gcs_inbox_bucket: str | None = None
     bq_dataset_bronze: str = "etl_bronze"
@@ -48,9 +56,87 @@ class Settings(BaseSettings):
     bq_dataset_gold: str = "etl_gold"
     gcp_region: str = "us-central1"
 
+    # AWS adapter fields
+    aws_region: str = "us-east-1"
+    s3_inbox_bucket: str | None = None
+
+    # Azure adapter fields
+    azure_storage_account: str | None = None
+    azure_inbox_container: str | None = None
+
+    @property
+    def uses_bigquery(self) -> bool:
+        return self.backend == "bigquery"
+
     @property
     def is_gcp(self) -> bool:
-        return self.backend == "bigquery"
+        """Deprecated alias for uses_bigquery — kept for existing callers/tests."""
+        return self.uses_bigquery
+
+    @property
+    def resolved_inbox_bucket(self) -> str | None:
+        """Object-store bucket/account container target from settings or inbox_uri."""
+        if self.gcs_inbox_bucket:
+            return self.gcs_inbox_bucket
+        if self.s3_inbox_bucket:
+            return self.s3_inbox_bucket
+        if self.inbox_uri and self.inbox_uri.startswith("gs://"):
+            rest = self.inbox_uri[len("gs://") :]
+            return rest.split("/", 1)[0] or None
+        if self.inbox_uri and self.inbox_uri.startswith("s3://"):
+            rest = self.inbox_uri[len("s3://") :]
+            return rest.split("/", 1)[0] or None
+        if self.inbox_uri and self.inbox_uri.startswith("az://"):
+            # az://account/container/prefix — return container
+            rest = self.inbox_uri[len("az://") :]
+            parts = rest.split("/")
+            return parts[1] if len(parts) >= 2 else self.azure_inbox_container
+        return self.azure_inbox_container
+
+    @property
+    def resolved_s3_bucket(self) -> str | None:
+        if self.s3_inbox_bucket:
+            return self.s3_inbox_bucket
+        if self.inbox_uri and self.inbox_uri.startswith("s3://"):
+            rest = self.inbox_uri[len("s3://") :]
+            return rest.split("/", 1)[0] or None
+        return None
+
+    @property
+    def resolved_azure_account(self) -> str | None:
+        if self.azure_storage_account:
+            return self.azure_storage_account
+        if self.inbox_uri and self.inbox_uri.startswith("az://"):
+            rest = self.inbox_uri[len("az://") :]
+            return rest.split("/", 1)[0] or None
+        return None
+
+    @property
+    def resolved_azure_container(self) -> str | None:
+        if self.azure_inbox_container:
+            return self.azure_inbox_container
+        if self.inbox_uri and self.inbox_uri.startswith("az://"):
+            rest = self.inbox_uri[len("az://") :]
+            parts = rest.split("/")
+            return parts[1] if len(parts) >= 2 else None
+        return None
+
+    @property
+    def resolved_inbox_prefix(self) -> str:
+        """Optional key prefix from inbox_uri."""
+        if not self.inbox_uri:
+            return ""
+        for scheme, n in (("gs://", 5), ("s3://", 5), ("az://", 5)):
+            if self.inbox_uri.startswith(scheme):
+                rest = self.inbox_uri[n:]
+                if scheme == "az://":
+                    # account/container/prefix...
+                    parts = rest.split("/", 2)
+                    return parts[2] if len(parts) > 2 else ""
+                if "/" in rest:
+                    return rest.split("/", 1)[1]
+                return ""
+        return ""
 
     @property
     def warehouse_path(self) -> Path:

@@ -71,7 +71,7 @@ First tagged freeze after this process: **`v0.5.0-beta.1`** (separate release PR
 See [VERSIONING.md](VERSIONING.md#install-a-version). Short form:
 
 ```bash
-docker pull ghcr.io/khaosans/operator-etl:0.5.2
+docker pull ghcr.io/khaosans/operator-etl:0.6.0
 pip install operator-etl --index-url https://pypi.pkg.github.com/khaosans/simple/
 ```
 
@@ -123,7 +123,7 @@ When repo is **public**: link https://github.com/khaosans/operator-etl and invit
 Terraform:
 
 ```bash
-cd infra/terraform
+cd infra/gcp
 terraform init    # commit .terraform.lock.hcl when providers change
 terraform plan
 ```

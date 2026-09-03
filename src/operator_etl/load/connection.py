@@ -1,15 +1,13 @@
-"""Warehouse connection factory — dispatches DuckDB (local) or BigQuery (GCP)."""
+"""Warehouse connection factory — dispatches DuckDB (local) or cloud adapters."""
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from operator_etl.config import Settings, get_settings
 
 if TYPE_CHECKING:
-    pass
-
-WarehouseConnection = Any
+    from operator_etl.load.protocol import WarehouseConnection
 
 
 def connect(settings: Settings | None = None) -> WarehouseConnection:
@@ -20,4 +18,4 @@ def connect(settings: Settings | None = None) -> WarehouseConnection:
         return connect_bigquery(settings)
     from operator_etl.load.duckdb import connect as connect_duckdb
 
-    return connect_duckdb(settings)
+    return connect_duckdb(settings)  # type: ignore[return-value]

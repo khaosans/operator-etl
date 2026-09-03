@@ -1,0 +1,1 @@
+"""Azure extract adapters."""

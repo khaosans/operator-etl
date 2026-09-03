@@ -1,0 +1,7 @@
+location    = "eastus"
+environment = "staging"
+image_tag   = "latest"
+
+# Sensitive — REPLACE_ME* is rejected by Terraform validation
+pii_vault_key  = "REPLACE_ME_WITH_REAL_PII_VAULT_KEY_32B_MIN"
+openai_api_key = "REPLACE_ME_WITH_REAL_OPENAI_KEY_OR_PLACEHOLDER_OK_FOR_TEMPLATE"

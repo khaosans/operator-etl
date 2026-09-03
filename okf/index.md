@@ -23,6 +23,7 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 
 * [Agents never publish prod](decisions/agents-never-publish-prod.md) — No auto-release to external systems
 * [DuckDB local, BigQuery GCP](decisions/duckdb-local-bigquery-gcp.md) — ADR-005 summary
+* [Cloud-portable adapters](decisions/cloud-portable-adapters.md) — Protocols; GCP is reference cloud
 * [MCP allowlist only](decisions/mcp-allowlist-only.md) — No raw SQL, no vault decrypt
 * [PII fail-closed](decisions/pii-fail-closed.md) — Scan before insight; HITL on ambiguity
 
@@ -31,7 +32,10 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 * [Run local MVP](playbooks/run-local-mvp.md) — 2-minute FOIA proof
 * [Run orders demo](playbooks/run-orders-demo.md) — Commerce interview demo
 * [Extend new source](playbooks/extend-new-source.md) — Registry pattern
+* [Deploy container any cloud](playbooks/deploy-container-any-cloud.md) — Docker + portable env
 * [Deploy GCP staging](playbooks/deploy-gcp-staging.md) — Terraform + Cloud Build
+* [Deploy AWS staging](playbooks/deploy-aws-staging.md) — S3 + ECS + RDS
+* [Deploy Azure staging](playbooks/deploy-azure-staging.md) — Blob + Container Apps + Postgres
 * [Agency FOIA workflow](playbooks/agency-foia-workflow.md) — Public comments intake
 * [QA before share](playbooks/qa-before-share.md) — PDF share checklist
 

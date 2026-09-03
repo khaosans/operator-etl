@@ -35,7 +35,7 @@ See **Repository conventions** below. In short:
 - `warehouse/*` runtime files (`.duckdb`, vault, checkpoints) — placeholders only
 - `.env`, secrets, API keys — use `.env.example` as template
 - `.cursor/mcp.json` — local paths; commit `.cursor/mcp.json.example` only
-- `infra/terraform/terraform.tfvars` — use `terraform.tfvars.example`
+- `infra/gcp/terraform.tfvars` — use `terraform.tfvars.example`
 - `.tmp/` demo artifacts
 
 ## Repository conventions
@@ -52,7 +52,7 @@ See **Repository conventions** below. In short:
 | `.cursor/mcp.json` | No | Machine-specific MCP paths |
 | `docs/share/releases/` | No | Dated share archives; `latest/` is committed |
 
-After `terraform init`, commit any changes to `infra/terraform/.terraform.lock.hcl`.
+After `terraform init`, commit any changes to `infra/gcp/.terraform.lock.hcl`.
 
 ## Share / release docs
 

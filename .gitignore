@@ -29,13 +29,13 @@ init.sh
 e2e-local.sh
 
 # Terraform — state and secrets (commit .terraform.lock.hcl after terraform init)
-infra/terraform/.terraform/
-infra/terraform/*.tfstate
-infra/terraform/*.tfstate.*
-infra/terraform/terraform.tfvars
-infra/terraform/crash.log
-infra/terraform/override.tf
-infra/terraform/*_override.tf
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+infra/**/terraform.tfvars
+infra/**/crash.log
+infra/**/override.tf
+infra/**/*_override.tf
 
 # IDE / OS
 .DS_Store

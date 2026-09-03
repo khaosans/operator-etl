@@ -21,7 +21,7 @@ resource "google_cloud_scheduler_job" "nightly_freshness" {
 
     oidc_token {
       service_account_email = google_service_account.graph_runner.email
-      audience            = google_cloud_run_v2_service.graph_runner.uri
+      audience              = google_cloud_run_v2_service.graph_runner.uri
     }
   }
 

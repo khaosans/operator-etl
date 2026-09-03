@@ -23,7 +23,9 @@ def test_table_ref() -> None:
 
 def test_is_gcp_flag() -> None:
     assert Settings(backend="duckdb").is_gcp is False
+    assert Settings(backend="duckdb").uses_bigquery is False
     assert Settings(backend="bigquery", gcp_project="x").is_gcp is True
+    assert Settings(backend="bigquery", gcp_project="x").uses_bigquery is True
 
 
 def test_pubsub_gcs_decode() -> None:

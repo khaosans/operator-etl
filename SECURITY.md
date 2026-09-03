@@ -22,7 +22,7 @@ Never commit — see [CONTRIBUTING.md](CONTRIBUTING.md#repository-conventions) f
 
 - `warehouse/pii_vault.json`, `warehouse/.vault_key`, `warehouse/*.duckdb`
 - `.env` files with API keys or database URLs
-- `infra/terraform/terraform.tfvars` (use `terraform.tfvars.example`)
+- `infra/gcp/terraform.tfvars` (use `terraform.tfvars.example`)
 - `.cursor/mcp.json` (use `.cursor/mcp.json.example`)
 
 ## FOIA / PII

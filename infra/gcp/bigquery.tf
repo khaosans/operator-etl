@@ -122,6 +122,7 @@ resource "google_bigquery_table" "insights" {
   ])
 }
 
+resource "google_bigquery_table" "pipeline_runs" {
   dataset_id = google_bigquery_dataset.gold.dataset_id
   table_id   = "pipeline_runs"
 

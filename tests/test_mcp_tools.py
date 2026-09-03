@@ -3,7 +3,8 @@ from __future__ import annotations
 import pytest
 
 from operator_etl.config import Settings
-from operator_etl.load.duckdb import connect, start_run
+from operator_etl.load.duckdb import connect
+from operator_etl.load.ops import start_run
 from operator_etl_mcp.tools import (
     ToolDenied,
     get_gold_metrics,

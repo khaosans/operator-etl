@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class RunBudget:
-    max_llm_calls: int = 12
+    max_llm_calls: int = 2
     max_tool_calls: int = 30
     llm_calls: int = 0
     tool_calls: int = 0

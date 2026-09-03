@@ -211,7 +211,8 @@ Copy [.env.example](../.env.example) to `.env` and adjust paths. All variables u
 | `OPERATOR_ETL_INSIGHT_BACKEND` | `template` | `template` or `llm` — [LLM.md](LLM.md) · [MODELS.md](MODELS.md) |
 | `OPERATOR_ETL_LLM_MODEL` | `gpt-4o-mini` | Chat model id when backend is `llm` (`llama3.2:3b` for Ollama) |
 | `OPERATOR_ETL_LLM_BASE_URL` | — | OpenAI-compatible base URL (`http://127.0.0.1:11434/v1` for Ollama) |
-| `OPERATOR_ETL_MAX_LLM_CALLS` | `12` | Per-run LLM budget |
+| `OPERATOR_ETL_MAX_LLM_CALLS` | `2` | Per-run LLM budget (one draft + one retry) |
+| `OPERATOR_ETL_LLM_MAX_TOKENS` | `256` | Completion length cap for short FOIA summaries |
 | `OPERATOR_ETL_ORDERS_WAREHOUSE` | `warehouse/operator.duckdb` | Streamlit Orders tab warehouse |
 
 ### Checkpoints (LangGraph)

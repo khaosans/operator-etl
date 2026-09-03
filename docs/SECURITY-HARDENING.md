@@ -61,7 +61,7 @@ flowchart TB
 | Transport | Rate limiting | 60 requests / client / minute (`RATE_LIMIT_PER_MINUTE`) | `app.py` middleware |
 | Transport | Sanitized 500s | Exception type + message only; generic HTTP detail | `app.py` |
 | Storage | Vault file perms | `0o600` on key and PII JSON; warn if existing key is looser | [`src/operator_etl_policy/vault.py`](../src/operator_etl_policy/vault.py) |
-| Secrets | Terraform sensitive vars | Placeholders starting `REPLACE_ME` fail validation | [`infra/terraform/variables.tf`](../infra/terraform/variables.tf) |
+| Secrets | Terraform sensitive vars | Placeholders starting `REPLACE_ME` fail validation | [`infra/gcp/variables.tf`](../infra/gcp/variables.tf) |
 | CI | SAST + SCA | bandit on `src/`; pip-audit on frozen deps | [`.github/workflows/security.yml`](../.github/workflows/security.yml) |
 
 Existing policy-plane controls (PII scan, MCP allowlist, no auto-publish) are unchanged. See [PATTERNS.md](PATTERNS.md#defense-in-depth) and [NIST.md](NIST.md).
@@ -132,7 +132,7 @@ pii_vault_key  = ""  # Fernet key; validation rejects REPLACE_ME*
 openai_api_key = ""  # sk-...; keep insight_backend=template until this is real
 ```
 
-Both variables are `sensitive = true`. Copy from [`infra/terraform/terraform.tfvars.example`](../infra/terraform/terraform.tfvars.example). After apply, Secret Manager holds the versions — [infra/README.md](../infra/README.md). Skill: [operator-ship-gcp](https://github.com/khaosans/operator-etl/blob/master/skills/operator-ship-gcp/SKILL.md).
+Both variables are `sensitive = true`. Copy from [`infra/gcp/terraform.tfvars.example`](../infra/gcp/terraform.tfvars.example). After apply, Secret Manager holds the versions — [infra/README.md](../infra/README.md). Skill: [operator-ship-gcp](https://github.com/khaosans/operator-etl/blob/master/skills/operator-ship-gcp/SKILL.md).
 
 ---
 

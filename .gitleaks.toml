@@ -1,0 +1,15 @@
+# Operator ETL — gitleaks config
+# Extends defaults. Env *.example files are templates only; assigned secret
+# values are forbidden by tests/test_infra_examples.py.
+
+title = "operator-etl"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Infra env templates (comment-only secrets; see tests/test_infra_examples.py)"
+paths = [
+  '''(^|/)infra/env\.example$''',
+  '''(^|/)infra/env\.[a-z]+\.example$''',
+]
