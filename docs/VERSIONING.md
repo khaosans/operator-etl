@@ -152,7 +152,7 @@ The Python **wheel does not include** `sql/`, `pipelines/`, `samples/`, or `scri
 |---|---|
 | **`gh release create`** | Pass `--prerelease` for beta/rc/alpha only. There is **no** `--latest` flag on `gh`; a normal (non-prerelease) release becomes GitHub’s Latest by default. |
 | **Python** | Job pins **3.12** (`actions/setup-python`, matches `.python-version`). Version is read with stdlib **tomllib** (PEP 621 `[project]`, else Poetry `[tool.poetry]`). No `tomli` extra. |
-| **Permissions** | `contents: write` (Release + assets) and `packages: write` (GHCR + GitHub Packages). No `id-token` — this job does not use OIDC. |
+| **GitHub Packages** | `contents: write` (Release + assets) and `packages: write` (GHCR + GitHub Packages). No `id-token` — this job does not use OIDC. Twine uploads to `https://pypi.pkg.github.com/<owner>` (not `<owner>/<repo>`). |
 | **GHCR login** | `GITHUB_TOKEN` is enough for this repository. If an org policy blocks the push, create a PAT with `write:packages` and set repository secret **`GHCR_TOKEN`**. The workflow uses `secrets.GHCR_TOKEN \|\| secrets.GITHUB_TOKEN`. |
 | **Docker `:latest`** | Applied only when the git tag is **not** a pre-release. Version and `sha-` tags stay immutable. |
 | **Failure** | Do not move the tag. Fix on `master`, cut `vX.Y.Z-beta.(N+1)`. |

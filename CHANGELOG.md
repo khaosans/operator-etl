@@ -7,6 +7,10 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+### Fixed
+
+- Release workflow GitHub Packages upload now targets `https://pypi.pkg.github.com/<owner>` (the PyPI registry namespace). `khaosans/operator-etl` 404'd on every tag including `v0.5.1` and `v0.5.2`; wheels for those tags remain on the GitHub Release.
+
 ## [0.5.2] — 2026-09-03
 
 ### Added
