@@ -6,12 +6,15 @@ import json
 import logging
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
+from starlette.responses import StreamingResponse
 
+from a2a.server import JsonRpcRequest, ensure_bearer_token, get_task_events, handle_jsonrpc
 from operator_etl.config import Settings, get_settings, set_settings
 from operator_etl_graph.graph import run_graph
 from operator_etl_gcp.pubsub import decode_pubsub_push
+from telemetry import initialize_telemetry
 
 logger = logging.getLogger("operator_etl_gcp")
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -53,6 +56,7 @@ def health() -> dict[str, str]:
 def run_pipeline(body: RunRequest) -> dict[str, Any]:
     settings = _gov_settings(body.pipeline)
     set_settings(settings)
+    initialize_telemetry()
     logger.info(json.dumps({"event": "graph_run_start", "source": body.source, "trigger": body.trigger}))
     try:
         result = run_graph(source=body.source, settings=settings)
@@ -88,6 +92,19 @@ async def pubsub_push(request: Request) -> dict[str, str]:
     # GCS-triggered runs use comment_inbox source; graph ingest picks up staged file via gcs path
     result = run_graph(source="gcs_inbox", settings=settings)
     return {"status": result.get("status", "unknown"), "run_id": result.get("run_id", "")}
+
+
+@app.post("/a2a/v1/tasks", dependencies=[Depends(ensure_bearer_token)])
+def a2a_tasks(body: JsonRpcRequest) -> dict[str, Any]:
+    settings = _gov_settings("public_comments")
+    set_settings(settings)
+    initialize_telemetry()
+    return handle_jsonrpc(body, settings)
+
+
+@app.get("/a2a/v1/tasks/{task_id}/events", dependencies=[Depends(ensure_bearer_token)])
+def a2a_task_events(task_id: str) -> StreamingResponse:
+    return StreamingResponse(get_task_events(task_id), media_type="text/event-stream")
 
 
 def main() -> None:

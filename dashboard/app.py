@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import streamlit as st
+import pandas as pd
 
 from operator_etl.config import Settings, get_settings
 from operator_etl.insights.gov_metrics import gov_quality_gate
@@ -11,7 +12,7 @@ st.set_page_config(page_title="Operator ETL", layout="wide")
 st.title("Operator ETL")
 st.caption("Intake → warehouse → insights. KPIs hide when the quality gate fails.")
 
-tab_gov, tab_orders = st.tabs(["Gov / FOIA", "Orders demo"])
+tab_gov, tab_orders, tab_observability = st.tabs(["Gov / FOIA", "Orders demo", "Observability & Spans"])
 
 
 def _warehouse_exists(settings: Settings) -> bool:
@@ -136,6 +137,66 @@ def render_orders(settings: Settings) -> None:
         con.close()
 
 
+def render_observability(settings: Settings) -> None:
+    if not _warehouse_exists(settings):
+        st.warning("No warehouse yet. Run the FOIA graph first to populate `pipeline_runs`.")
+        return
+
+    con = connect(settings)
+    try:
+        runs = fetch_table(con, "pipeline_runs")
+        if runs.empty:
+            st.info("No pipeline runs yet.")
+            return
+
+        runs["started_at"] = pd.to_datetime(runs["started_at"], errors="coerce")
+        runs["finished_at"] = pd.to_datetime(runs["finished_at"], errors="coerce")
+        runs["duration_seconds"] = (runs["finished_at"] - runs["started_at"]).dt.total_seconds()
+        runs["quarantine_pct"] = runs.apply(
+            lambda row: float(row["rows_quarantined"] or 0) / float(row["rows_in"] or 1) if row["rows_in"] else 0.0,
+            axis=1,
+        )
+
+        recent = runs.sort_values("started_at", ascending=False).head(10)
+        completed = runs[runs["status"] == "ok"]
+        blocked = runs[runs["status"].isin(["needs_human", "failed", "error"])]
+
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Recent avg duration", f"{recent['duration_seconds'].dropna().mean() or 0:.2f}s")
+        c2.metric("Avg quarantine rate", f"{recent['quarantine_pct'].mean() or 0:.1%}")
+        total_evals = len(completed) + len(blocked)
+        pass_rate = (len(completed) / total_evals) if total_evals else 0.0
+        c3.metric("Critic pass rate", f"{pass_rate:.1%}")
+
+        if not recent["duration_seconds"].dropna().empty:
+            duration_chart = recent[["run_id", "duration_seconds"]].set_index("run_id")
+            st.subheader("Recent run durations")
+            st.bar_chart(duration_chart)
+
+        st.subheader("Recent execution states")
+        st.dataframe(
+            recent[
+                [
+                    "run_id",
+                    "source",
+                    "status",
+                    "rows_in",
+                    "rows_silver",
+                    "rows_quarantined",
+                    "quarantine_pct",
+                    "duration_seconds",
+                    "started_at",
+                    "finished_at",
+                ]
+            ],
+            hide_index=True,
+        )
+
+        st.caption("Telemetry spans are metadata-only: run IDs, counts, durations, and outcomes. Raw PII and payloads are never shown.")
+    finally:
+        con.close()
+
+
 def main() -> None:
     base = get_settings()
     with tab_gov:
@@ -154,6 +215,14 @@ def main() -> None:
             domain="orders",
         )
         render_orders(orders_settings)
+    with tab_observability:
+        gov_settings = Settings(
+            root=base.root,
+            warehouse=base.warehouse_path,
+            pipeline_name="public_comments",
+            domain="gov",
+        )
+        render_observability(gov_settings)
 
 
 main()

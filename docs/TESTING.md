@@ -7,7 +7,7 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**53 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**56 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
@@ -128,6 +128,19 @@ Used by [`.github/workflows/release.yml`](../.github/workflows/release.yml). Pro
 | `test_get_gold_metrics_returns_expected_kpis` | MCP gold read matches pipeline output |
 | `test_get_run_status_returns_audit_row` | Audit row lookup by run_id |
 | `test_get_run_status_not_found` | Unknown run_id returns NOT_FOUND |
+
+### `test_telemetry.py` — Observability boundary
+
+| Test | Proves |
+|---|---|
+| `test_run_graph_emits_sanitized_spans_and_metrics` | Root graph span, node spans, and metrics emit without recording raw PII |
+
+### `test_a2a.py` — Agent-to-agent task surface
+
+| Test | Proves |
+|---|---|
+| `test_a2a_task_create_status_and_sse` | JSON-RPC task create/status and SSE lifecycle complete with sanitized artifacts |
+| `test_a2a_requires_bearer_and_jsonrpc_method` | Bearer auth enforced and unknown JSON-RPC methods return compliant errors |
 
 ### `test_quality.py` — Fail-closed KPIs
 

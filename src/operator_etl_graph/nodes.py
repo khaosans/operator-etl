@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import hashlib
+import json
 from datetime import UTC, datetime
 
 from operator_etl.config import Settings, get_settings
+from operator_etl.extract.csv import ExtractResult
 from operator_etl_graph.critic import critic_check
 from operator_etl_graph.insights import render_llm_insight, render_template_insight
 from operator_etl_graph.state import PipelineState
@@ -17,6 +20,19 @@ from operator_etl_mcp.tools import get_gold_metrics, run_allowlisted_sql
 from operator_etl_policy.pii import scan_records
 
 
+def _extract_from_state_records(state: PipelineState, source_name: str) -> ExtractResult | None:
+    records = state.get("_input_records") or []
+    if not records:
+        return None
+    payload = json.dumps(records, sort_keys=True, ensure_ascii=False)
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+    return ExtractResult(
+        file_name=f"{state.get('task_id', state['run_id'])}.jsonrpc.csv",
+        content_hash=digest,
+        rows=[{key: str(value) if value is not None else "" for key, value in row.items()} for row in records],
+    )
+
+
 def ingest_node(state: PipelineState, settings: Settings | None = None) -> dict:
     settings = settings or get_settings()
     source = get_source(state["source"], settings, settings.pipeline_name)
@@ -27,7 +43,11 @@ def ingest_node(state: PipelineState, settings: Settings | None = None) -> dict:
     records: list[dict[str, str]] = []
     content_hash = state.get("content_hash") or ""
     try:
-        for extracted in collect_extracts(source, settings):
+        extracts = collect_extracts(source, settings)
+        injected = _extract_from_state_records(state, source.name)
+        if injected is not None:
+            extracts = [injected]
+        for extracted in extracts:
             content_hash = extracted.content_hash
             if already_ingested(con, extracted.content_hash):
                 continue
@@ -166,4 +186,29 @@ def persist_node(state: PipelineState, settings: Settings | None = None) -> dict
         )
     finally:
         con.close()
-    return {"insight_id": insight_id, "status": "complete"}
+    return {
+        "insight_id": insight_id,
+        "status": "complete",
+        "artifacts": {
+            "gold_metrics": state.get("gold_metrics") or {},
+            "public_brief": state.get("insight_draft", ""),
+        },
+    }
+
+
+def needs_human_node(state: PipelineState, settings: Settings | None = None) -> dict:
+    settings = settings or get_settings()
+    con = connect(settings)
+    try:
+        finish_run(
+            con,
+            state["run_id"],
+            status="needs_human",
+            rows_in=state.get("rows_in", 0),
+            rows_silver=state.get("rows_silver", 0),
+            rows_quarantined=state.get("rows_quarantined", 0),
+            error="; ".join(state.get("errors", [])) or None,
+        )
+    finally:
+        con.close()
+    return {"status": "needs_human"}

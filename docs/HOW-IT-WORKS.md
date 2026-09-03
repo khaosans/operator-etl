@@ -116,8 +116,10 @@ Agency mapping: [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md)
 | **Warehouse** | DuckDB (`warehouse/operator.duckdb`) | BigQuery (`etl_*` datasets) | Bit-identical SQL aggregation |
 | **Graph runner** | `operator_etl_graph` on laptop | Cloud Run `graph-runner` | Deterministic LangGraph state machine |
 | **Checkpoints** | SQLite | Cloud SQL PostgreSQL | Resumable HITL interruption |
-| **MCP** | stdio (`operator-etl-mcp`) | HTTP/SSE on Cloud Run | Strict query allowlist enforcement |
+| **MCP** | stdio (`operator-etl-mcp`) | HTTP on Cloud Run | Strict query allowlist enforcement |
+| **A2A** | FastAPI JSON-RPC task surface | Cloud Run `graph-runner` | High-level task execution only; sanitized artifacts back out |
 | **PII vault** | Local encrypted file | Secret Manager + Cloud KMS | Zero raw PII in model context |
+| **Observability** | Metadata-only OpenTelemetry spans | OTLP exporter when configured | No raw PII in traces, metrics, or LLM instrumentation |
 
 Same graph nodes, PII policy, critic, and MCP allowlist in both environments.
 
@@ -144,10 +146,13 @@ flowchart TD
         CR --> BQ_S["BigQuery: etl_silver<br/>(Validated Entities)"]
         CR --> BQ_Q["BigQuery: etl_quarantine<br/>(Audit Dead-Letter)"]
         CR --> BQ_G["BigQuery: etl_gold<br/>(Audited KPI Marts)"]
+        OTEL["OTLP Collector"] -.->|sanitized spans| CR
     end
 
     subgraph Governance [4. Output & HITL Sign-off]
         BQ_G --> MCP["Cloud Run MCP Server<br/>(SSE Transport)"]
+        AgentClient["External agent"] --> A2A["A2A JSON-RPC + SSE<br/>graph-runner"]
+        A2A --> CR
         MCP --> Agent["Analytical Agent<br/>(Briefing Generator)"]
         Agent --> Critic["Critic Node"]
         Critic --> Persist["Persist Verified Memo"]
@@ -206,7 +211,7 @@ Before claiming the system works or scaling to staging:
 make e2e
 ```
 
-This runs OKF validation, 51 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
+This runs OKF validation, 56 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
 
 **CI:** Every push to `master` runs the same gate on GitHub Actions — see the CI badge in [README.md](../README.md).
 
