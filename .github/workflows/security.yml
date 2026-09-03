@@ -1,0 +1,44 @@
+name: Security
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install bandit
+        run: pip install bandit==1.8.3
+
+      - name: Run bandit SAST
+        run: bandit -r src/ -c .bandit.yml -f json -o bandit-report.json || true
+
+      - name: Check bandit results
+        run: bandit -r src/ -c .bandit.yml
+
+  pip-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --frozen --extra dev
+
+      - name: Install pip-audit
+        run: uv pip install pip-audit==2.7.3
+
+      - name: Run pip-audit
+        run: uv run pip-audit --requirement <(uv pip freeze) --desc

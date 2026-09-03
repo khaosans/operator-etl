@@ -50,6 +50,28 @@ variable "scheduler_cron" {
   default     = "0 6 * * *"
 }
 
+variable "pii_vault_key" {
+  type        = string
+  description = "PII vault encryption key (min 32 bytes, base64-encoded Fernet key)"
+  sensitive   = true
+
+  validation {
+    condition     = !startswith(var.pii_vault_key, "REPLACE_ME")
+    error_message = "pii_vault_key must be set to a real value, not a placeholder"
+  }
+}
+
+variable "openai_api_key" {
+  type        = string
+  description = "OpenAI API key for LLM-powered pipeline steps"
+  sensitive   = true
+
+  validation {
+    condition     = !startswith(var.openai_api_key, "REPLACE_ME")
+    error_message = "openai_api_key must be set to a real value, not a placeholder"
+  }
+}
+
 variable "labels" {
   type        = map(string)
   description = "Common resource labels"

@@ -1,0 +1,7 @@
+skips:
+  - B101  # assert used in tests and contracts — acceptable
+
+exclude_dirs:
+  - tests
+  - .venv
+  - harness

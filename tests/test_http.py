@@ -4,7 +4,9 @@ import json
 
 import httpx
 
-from operator_etl.extract.http import extract_http
+import pytest
+
+from operator_etl.extract.http import _local_path, extract_http
 from operator_etl.pipeline import run_pipeline
 from operator_etl.sources import get_source, list_sources
 
@@ -44,6 +46,22 @@ def test_http_get_json_list(settings, monkeypatch) -> None:
     extracted = extract_http("https://example.test/orders")
     assert extracted.file_name == "orders"
     assert extracted.rows[0]["order_id"] == "ORD-3001"
+
+
+def test_local_path_rejects_traversal(tmp_path) -> None:
+    with pytest.raises(ValueError, match="Path traversal"):
+        _local_path("file:../../etc/passwd", tmp_path)
+
+
+def test_local_path_rejects_absolute_with_root(tmp_path) -> None:
+    with pytest.raises(ValueError, match="Absolute paths are not allowed"):
+        _local_path("file:///etc/passwd", tmp_path)
+
+
+def test_local_path_allows_valid_relative(tmp_path) -> None:
+    (tmp_path / "data.json").touch()
+    result = _local_path("file:data.json", tmp_path)
+    assert result == (tmp_path / "data.json").resolve()
 
 
 def test_http_source_lands_in_warehouse(settings) -> None:

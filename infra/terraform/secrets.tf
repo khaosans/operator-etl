@@ -16,14 +16,12 @@ resource "google_secret_manager_secret" "openai_api_key" {
   }
 }
 
-# Placeholder versions — replace with real values via:
-#   gcloud secrets versions add SECRET_ID --data-file=-
 resource "google_secret_manager_secret_version" "pii_vault_key" {
   secret      = google_secret_manager_secret.pii_vault_key.id
-  secret_data = "REPLACE_ME_PII_VAULT_KEY_32_BYTES_MIN"
+  secret_data = var.pii_vault_key
 }
 
 resource "google_secret_manager_secret_version" "openai_api_key" {
   secret      = google_secret_manager_secret.openai_api_key.id
-  secret_data = "REPLACE_ME"
+  secret_data = var.openai_api_key
 }
