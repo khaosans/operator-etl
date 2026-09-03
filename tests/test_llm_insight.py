@@ -112,8 +112,36 @@ def test_llm_payload_strips_timestamps(monkeypatch):
         return GROUNDED
 
     monkeypatch.setattr("operator_etl_graph.insights._invoke_chat", fake_invoke)
-    metrics = {**METRICS, "as_of": "2026-08-18T00:51:51.647651"}
+    metrics = {**METRICS, "as_of": "2026-08-18T00:51:51.647651", "extra_mart_col": 999}
     insight_node({"gold_metrics": metrics, "quality_passes": True, "_llm_calls": 0}, _llm_settings())
     assert "comment_count" in captured["human"]
     assert "2026" not in captured["human"]
     assert "as_of" not in captured["human"]
+    assert "extra_mart_col" not in captured["human"]
+    assert "999" not in captured["human"]
+
+
+def test_llm_invoke_passes_max_tokens(monkeypatch):
+    import sys
+    import types
+
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-test-not-real")
+    captured: dict = {}
+
+    class FakeChat:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+        def invoke(self, messages):
+            return type("R", (), {"content": GROUNDED})()
+
+    fake_mod = types.ModuleType("langchain_openai")
+    fake_mod.ChatOpenAI = FakeChat  # type: ignore[attr-defined]
+    monkeypatch.setitem(sys.modules, "langchain_openai", fake_mod)
+
+    from operator_etl_graph.insights import _invoke_chat
+
+    settings = _llm_settings(llm_max_tokens=128)
+    assert _invoke_chat(settings, [("system", "s"), ("human", "h")]) == GROUNDED
+    assert captured["max_tokens"] == 128
+    assert captured["temperature"] == 0

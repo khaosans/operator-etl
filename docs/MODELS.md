@@ -6,6 +6,18 @@ The model is a **wording engine over gold numbers**, not a warehouse analyst. It
 
 Default remains the **template**. `./scripts/verify.sh` and CI do not call a model. Optional LLM is **PARTIAL** — mocked in CI; a maintainer laptop run of `llama3.2:3b` critic-passed. That is not a production FOIA claim.
 
+## Efficient defaults (cost / tokens)
+
+| Knob | Default | Why |
+|---|---|---|
+| `OPERATOR_ETL_INSIGHT_BACKEND` | `template` | Zero model calls in CI and staging until you opt in |
+| `OPERATOR_ETL_MAX_LLM_CALLS` | `2` | One draft + one retry; FOIA path needs a single completion |
+| `OPERATOR_ETL_LLM_MAX_TOKENS` | `256` | Insight is 2–4 sentences — cap completion length |
+| LLM gold payload | 5 KPI keys only | `comment_count`, `docket_count`, `agency_count`, `pii_flagged_count`, `pii_rate` — no timestamps or extra mart columns |
+| Temperature | `0` | Deterministic wording; critic still validates digits |
+
+Prefer **template** or local **Ollama** for demos. Flip cloud `insight_backend=llm` only with a real secret and after reading [LLM.md](LLM.md).
+
 ---
 
 ## When to use which

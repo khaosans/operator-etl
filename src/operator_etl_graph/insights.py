@@ -15,6 +15,15 @@ Do not invent counts, rates, dates, identifiers, or other figures.
 Do not mention individual comments, emails, names, phone numbers, or other PII.
 Do not quote comment bodies. Two to four sentences. Plain language."""
 
+# Only the KPIs the critic/prompt require — keeps prompt tokens small and stable.
+_LLM_METRIC_KEYS = (
+    "comment_count",
+    "docket_count",
+    "agency_count",
+    "pii_flagged_count",
+    "pii_rate",
+)
+
 
 def render_template_insight(metrics: dict) -> str:
     return (
@@ -31,9 +40,17 @@ def _invoke_chat(settings: Settings, messages: list[tuple[str, str]]) -> str:
 
     with span(
         "operator_etl.llm.invoke",
-        attributes={"llm.model": settings.llm_model, "llm.base_url_configured": bool(settings.llm_base_url)},
+        attributes={
+            "llm.model": settings.llm_model,
+            "llm.base_url_configured": bool(settings.llm_base_url),
+            "llm.max_tokens": settings.llm_max_tokens,
+        },
     ):
-        kwargs: dict = {"model": settings.llm_model, "temperature": 0}
+        kwargs: dict = {
+            "model": settings.llm_model,
+            "temperature": 0,
+            "max_tokens": settings.llm_max_tokens,
+        }
         api_key = os.environ.get("OPENAI_API_KEY")
         if settings.llm_base_url:
             kwargs["base_url"] = str(settings.llm_base_url).rstrip("/")
@@ -56,9 +73,12 @@ def _has_llm_credentials(settings: Settings) -> bool:
 
 
 def _llm_metric_payload(metrics: dict) -> dict:
-    """Numeric gold KPIs only — drop timestamps so the model cannot echo dates."""
+    """Minimal numeric gold KPIs only — no timestamps, no extra mart columns."""
     out: dict = {}
-    for key, value in metrics.items():
+    for key in _LLM_METRIC_KEYS:
+        if key not in metrics:
+            continue
+        value = metrics[key]
         if isinstance(value, bool):
             continue
         if isinstance(value, (int, float)):
