@@ -17,7 +17,7 @@ description: >-
 ## Terraform
 
 ```bash
-cd infra/terraform
+cd infra/gcp
 cp terraform.tfvars.example terraform.tfvars
 terraform init && terraform apply
 ```

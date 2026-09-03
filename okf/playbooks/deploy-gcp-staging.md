@@ -19,7 +19,7 @@ timestamp: 2026-08-17T00:00:00Z
 1. Enable APIs (see [`infra/README.md`](/infra/README.md))
 2. Configure Terraform:
    ```bash
-   cd infra/terraform
+   cd infra/gcp
    cp terraform.tfvars.example terraform.tfvars
    terraform init && terraform apply
    ```

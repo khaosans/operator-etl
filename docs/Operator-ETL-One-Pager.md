@@ -60,7 +60,7 @@ Government agencies intake public comments and FOIA requests. Chatbots with data
 
 1. **Prove:** `./harness/e2e.sh`
 2. **Run:** `uv run etl-graph --source public_comments`
-3. **Deploy:** `infra/terraform` + `cloudbuild.yaml`
+3. **Deploy:** `infra/gcp` + `cloudbuild.yaml`
 
 Full engineering spec: *Operator-ETL-White-Paper.pdf*
 

@@ -123,7 +123,7 @@ When repo is **public**: link https://github.com/khaosans/operator-etl and invit
 Terraform:
 
 ```bash
-cd infra/terraform
+cd infra/gcp
 terraform init    # commit .terraform.lock.hcl when providers change
 terraform plan
 ```
