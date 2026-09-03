@@ -27,8 +27,10 @@ description: >-
 |---|---|
 | `uv run etl-graph --source public_comments` | Full FOIA agentic pipeline |
 | `uv run etl run --source demo` | Orders ETL (interviews) |
-| `uv run pytest -q` | 51 tests |
+| `uv run pytest -q` | 53 tests |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
+
+In a Cursor Cloud Agent the dashboard is already served on `:8501` (see [docs/CLOUD-AGENT.md](../../docs/CLOUD-AGENT.md)); no need to start it by hand.
 
 ## Fresh warehouse for demos
 

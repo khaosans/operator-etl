@@ -30,6 +30,10 @@ JSON for parsing:
 ./scripts/verify.sh --json
 ```
 
+## In Cursor Cloud
+
+A Cloud Agent boots from [`.cursor/environment.json`](../../.cursor/environment.json), which runs the same install (`uv` bootstrap + `uv sync --frozen --extra dev`) automatically and serves the dashboard on `:8501`. That prepares the machine but does **not** run the proof gate — still run `./scripts/verify.sh` yourself. See [docs/CLOUD-AGENT.md](../../docs/CLOUD-AGENT.md).
+
 ## Do not proceed until verify passes
 
 - Do not load [operator-ship-gcp](../operator-ship-gcp/SKILL.md) or [operator-extend](../operator-extend/SKILL.md)
