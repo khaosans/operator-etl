@@ -1,6 +1,0 @@
-project_id     = "your-gcp-project-id"
-region         = "us-central1"
-environment    = "staging"
-image_tag      = "latest"
-pii_vault_key  = ""  # Required: Fernet key (python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())')
-openai_api_key = ""  # Required: OpenAI API key (sk-...)
