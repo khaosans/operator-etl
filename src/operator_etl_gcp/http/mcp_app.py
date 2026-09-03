@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import json
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
+from a2a.agent_card import build_agent_card
 from operator_etl.config import Settings, get_settings, set_settings
 from operator_etl.load.connection import connect
 from operator_etl_mcp.tools import ToolDenied, get_gold_metrics, get_run_status, run_allowlisted_sql
@@ -22,6 +23,11 @@ class QualitySqlRequest(BaseModel):
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "service": "operator-etl-mcp"}
+
+
+@app.get("/.well-known/agent-card.json")
+def agent_card(request: Request) -> dict:
+    return build_agent_card(str(request.base_url).rstrip("/"))
 
 
 @app.get("/tools/gold-metrics")

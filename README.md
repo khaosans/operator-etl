@@ -5,7 +5,7 @@
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/khaosans/operator-etl?include_prereleases)](https://github.com/khaosans/operator-etl/releases)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/pytest-53%20passing-brightgreen.svg)](docs/TESTING.md)
+[![Tests](https://img.shields.io/badge/pytest-56%20passing-brightgreen.svg)](docs/TESTING.md)
 [![Docker GHCR](https://img.shields.io/badge/ghcr.io-operator--etl-blue?logo=docker)](https://github.com/khaosans/operator-etl/pkgs/container/operator-etl)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
@@ -51,7 +51,16 @@ Directly connecting Large Language Models (LLMs) or naive "Text-to-SQL" agents t
 | **Data Plane** | Python 3.12+, DuckDB, BigQuery, SQL, Pydantic 2 | Deterministic Medallion transformation (Bronze → Silver → Gold), Dead-Letter Quarantine |
 | **Control Plane** | LangGraph, Model Context Protocol (MCP), SQLite / Postgres | Stateful graph execution, resumable checkpoints, deterministic numeric Critic node |
 | **Policy Plane** | Cryptography (AES-256), Microsoft Presidio / Regex | PII scanning, tokenization vault, prompt trace sanitization, spend budget caps |
-| **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (53 tests), multi-arch containers |
+| **Packaging & CI/CD** | uv, Docker (GHCR), GitHub Actions, MkDocs, ReportLab | Bit-identical local replay, automated test gates (56 tests), multi-arch containers |
+
+## Why Observability And A2A
+
+The newest runtime additions solve two production problems without weakening the repo's trust boundary:
+
+1. **Observability:** operators need traces and counters to understand graph execution, quarantine trends, and critic outcomes in production, but those signals must stay metadata-only so raw PII never lands in telemetry backends.
+2. **A2A task execution:** external agents need a way to request FOIA/public-comment processing as a bounded service, but that interface must stay at the task level instead of exposing arbitrary SQL, vault contents, or row-level warehouse access.
+
+Operator ETL now supports both: sanitized OpenTelemetry/OpenInference signals for operators and a constrained JSON-RPC A2A surface for other agents.
 
 ---
 
@@ -66,7 +75,7 @@ git clone https://github.com/khaosans/operator-etl.git
 cd operator-etl
 ./scripts/verify.sh
 ```
-*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 53 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
+*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 56 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
 
 ### 2. Run the Agentic FOIA Pipeline
 ```bash
@@ -107,12 +116,12 @@ uv run streamlit run dashboard/app.py
 Every architectural invariant in Operator ETL is backed by automated tests:
 
 ```bash
-make test        # Run 53 pytest tests
+make test        # Run 56 pytest tests
 make e2e         # Full gate: OKF validation + pytest + FOIA demo
 ```
 
 ```
-============================== 53 passed in 1.43s ==============================
+============================== 56 passed in 1.43s ==============================
 ```
 
 | Invariant Tested | Test Module | Verification Result |
@@ -123,6 +132,8 @@ make e2e         # Full gate: OKF validation + pytest + FOIA demo
 | **Critic Faithfulness** | `tests/test_critic.py` | Rejects hallucinated numbers (`999`); allows only numbers present in Gold SQL marts |
 | **Fail-Closed Gate** | `tests/test_quality.py` | Quarantine rate > 35% withholds KPIs and halts pipeline into `needs_human` |
 | **MCP Least Privilege** | `tests/test_mcp_tools.py` | Denies arbitrary SQL execution and vault decryption tools (`TOOL_DENIED`) |
+| **Observability Telemetry** | `tests/test_telemetry.py` | Emits sanitized graph/node spans and counters without recording raw PII |
+| **A2A Task Surface** | `tests/test_a2a.py` | JSON-RPC task creation, bearer auth, SSE events, and sanitized artifacts |
 
 Full proof matrix & citations: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)** · Test map: **[docs/TESTING.md](docs/TESTING.md)**
 
@@ -137,6 +148,7 @@ Full proof matrix & citations: **[docs/FOUNDATIONS.md](docs/FOUNDATIONS.md)** ·
 | **[Engineering White Paper (v3.0)](docs/Operator-ETL-White-Paper.md)** | Deep architectural spec, FOIA case study, STRIDE threat model, and diagrams ([PDF version](docs/Operator-ETL-White-Paper.pdf)) |
 | **[Interactive Walkthrough](docs/WALKTHROUGH.md)** | Step-by-step local proof and operational learning tour |
 | **[How It Works](docs/HOW-IT-WORKS.md)** | Runtime execution model, Three Planes, and serverless GCP cloud architecture |
+| **[A2A Service Contract](docs/A2A.md)** | Agent card discovery, JSON-RPC task API, SSE lifecycle events, and auth |
 | **[FOIA Implementation Guide](docs/FOIA-Public-Comments-Guide.md)** | Agency intake workflow, PII handling, and docket aggregate marts |
 | **[Design Patterns & Citations](docs/PATTERNS.md)** | Plain-English component definitions with academic and industry citations |
 | **[Versioning & Release Policy](docs/VERSIONING.md)** | SemVer tag immutability, GitHub Packages, and GHCR container publishing |
