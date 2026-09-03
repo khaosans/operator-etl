@@ -7,7 +7,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
-## [0.5.0] — 2026-09-03
+## [0.5.1] — 2026-09-03
 
 ### Added
 

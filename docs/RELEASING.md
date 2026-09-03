@@ -71,7 +71,7 @@ First tagged freeze after this process: **`v0.5.0-beta.1`** (separate release PR
 See [VERSIONING.md](VERSIONING.md#install-a-version). Short form:
 
 ```bash
-docker pull ghcr.io/khaosans/operator-etl:0.5.0
+docker pull ghcr.io/khaosans/operator-etl:0.5.1
 pip install operator-etl --index-url https://pypi.pkg.github.com/khaosans/simple/
 ```
 

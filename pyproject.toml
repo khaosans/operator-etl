@@ -1,6 +1,6 @@
 [project]
 name = "operator-etl"
-version = "0.5.0"
+version = "0.5.1"
 description = "Agentic ETL for FOIA and public comments — medallion warehouse + LangGraph + MCP"
 readme = "README.md"
 requires-python = ">=3.12"
