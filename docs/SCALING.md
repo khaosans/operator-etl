@@ -1,10 +1,10 @@
 # Scaling Operator ETL
 
-From local MVP on a laptop to GCP staging and production. **Prove local first:** `make e2e`.
+From local MVP on a laptop to cloud staging and production. **Prove local first:** `make e2e`. GCP is the **reference** cloud; portable protocols let other clouds add adapters without rewriting the graph.
 
 **When to read:** You are ready to lift beyond DuckDB on a laptop.
 
-**Pre-scale:** [FINAL-REVIEW.md](FINAL-REVIEW.md) pre-scale checklist · **Start here:** [README.md](../README.md)
+**Pre-scale:** [FINAL-REVIEW.md](FINAL-REVIEW.md) pre-scale checklist · **Start here:** [README.md](../README.md) · **Any cloud:** [okf/playbooks/deploy-container-any-cloud.md](../okf/playbooks/deploy-container-any-cloud.md)
 
 ---
 
@@ -14,8 +14,8 @@ From local MVP on a laptop to GCP staging and production. **Prove local first:**
 flowchart LR
   L0[Local MVP DuckDB]
   L1[File inbox]
-  L2[Terraform staging]
-  L3[BigQuery backend]
+  L2[Container staging]
+  L3[Warehouse backend]
   L4[Production HITL]
 
   L0 --> L1
@@ -23,6 +23,8 @@ flowchart LR
   L2 --> L3
   L3 --> L4
 ```
+
+Portable interfaces (warehouse Protocol, object-store inbox, postgres checkpoints) land before provider-specific IaC. Full GCP Terraform remains Stage 2 reference path.
 
 ---
 
@@ -46,7 +48,8 @@ Add drop-folder or bucket intake without changing the graph.
 | Change | How |
 |---|---|
 | Local inbox | Drop CSV in `drops/inbox/` — source `comment_inbox` |
-| GCS inbox | Set `OPERATOR_ETL_GCS_INBOX_BUCKET`, source `gcs_inbox` |
+| Object-store inbox | `OPERATOR_ETL_OBJECT_STORE_BACKEND=gcs` + bucket/URI — source `gcs_inbox` or `object_store` |
+| GCS (legacy alias) | `OPERATOR_ETL_GCS_INBOX_BUCKET` still works |
 
 Playbook: [okf/playbooks/extend-new-source.md](../okf/playbooks/extend-new-source.md)
 
@@ -54,9 +57,9 @@ Playbook: [okf/playbooks/extend-new-source.md](../okf/playbooks/extend-new-sourc
 
 ---
 
-## Stage 2 — GCP infrastructure
+## Stage 2 — Container staging (any cloud) + GCP reference IaC
 
-Provision cloud resources with Terraform.
+Run the same Docker image with the [portable env contract](../okf/playbooks/deploy-container-any-cloud.md). On GCP, provision resources with Terraform:
 
 ```bash
 cd infra/terraform
@@ -95,11 +98,12 @@ Switch warehouse from DuckDB to BigQuery — same medallion layers, dialect-adju
 
 | Env var | Purpose |
 |---|---|
-| `OPERATOR_ETL_BACKEND=bigquery` | Use BQ adapter |
-| `OPERATOR_ETL_GCP_PROJECT` | Project ID |
+| `OPERATOR_ETL_BACKEND=bigquery` | Use BQ adapter (reference warehouse) |
+| `OPERATOR_ETL_GCP_PROJECT` | Project ID (GCP adapter) |
 | `OPERATOR_ETL_BQ_DATASET_*` | Bronze/silver/quarantine/gold datasets |
-| `OPERATOR_ETL_CHECKPOINT_BACKEND=postgres` | Cloud SQL checkpoints |
+| `OPERATOR_ETL_CHECKPOINT_BACKEND=postgres` | Managed Postgres checkpoints (any cloud) |
 | `OPERATOR_ETL_CHECKPOINT_DATABASE_URL` | Postgres connection string |
+| `OPERATOR_ETL_OBJECT_STORE_BACKEND` / `INBOX_URI` | Portable inbox (GCS today) |
 
 Full example: [infra/env.example](../infra/env.example)
 
@@ -128,12 +132,13 @@ Track progress: [okf/models/implementation-status.md](../okf/models/implementati
 
 | Stays the same | Changes when scaling |
 |---|---|
-| Graph node sequence | Warehouse: DuckDB → BigQuery |
-| PII scan + vault policy | Trigger: CLI → GCS/Pub/Sub |
+| Graph node sequence | Warehouse adapter (DuckDB → BigQuery today) |
+| PII scan + vault policy | Trigger: CLI → object-store / event → HTTP |
 | Critic faithfulness check | Checkpoints: SQLite → Postgres |
 | MCP allowlist | MCP transport: stdio → HTTP |
-| Quality gate thresholds | Secrets: local file → Secret Manager |
+| Quality gate thresholds | Secrets: local file → cloud secret store |
 | Sample → production data | Inbox path, IAM, monitoring |
+| Portable load / extract protocols | Provider IaC under `infra/<provider>/` |
 
 ---
 

@@ -31,8 +31,9 @@ Only after verify passes → continue below.
 3. Open the skill that matches the task:
    - Verify / bootstrap → [`skills/operator-verify/SKILL.md`](skills/operator-verify/SKILL.md)
    - Local MVP / pytest / dashboard → [`skills/operator-run/SKILL.md`](skills/operator-run/SKILL.md)
-   - GCP Terraform / Cloud Run / BigQuery → [`skills/operator-ship-gcp/SKILL.md`](skills/operator-ship-gcp/SKILL.md)
-   - New source / domain / gold SQL → [`skills/operator-extend/SKILL.md`](skills/operator-extend/SKILL.md)
+ - GCP Terraform / Cloud Run / BigQuery → [`skills/operator-ship-gcp/SKILL.md`](skills/operator-ship-gcp/SKILL.md)
+ - Any-cloud container deploy → [`skills/operator-ship-portable/SKILL.md`](skills/operator-ship-portable/SKILL.md)
+ - New source / domain / gold SQL → [`skills/operator-extend/SKILL.md`](skills/operator-extend/SKILL.md)
    - Security review / hardening / audit → [`skills/operator-security/SKILL.md`](skills/operator-security/SKILL.md)
    - Edit OKF bundle → [`skills/okf-maintain/SKILL.md`](skills/okf-maintain/SKILL.md)
 4. Follow linked OKF concepts (`okf/playbooks/`, `okf/models/`, `okf/decisions/`) before improvising.

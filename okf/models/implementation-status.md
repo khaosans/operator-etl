@@ -20,11 +20,13 @@ timestamp: 2026-08-17T00:00:00Z
 | Critic faithfulness | **IMPLEMENTED** | Yes | `src/operator_etl_graph/critic.py` |
 | MCP allowlisted tools | **IMPLEMENTED** | Yes | `src/operator_etl_mcp/` |
 | HITL `needs_human` routes | **IMPLEMENTED** | Yes | `tests/test_gov_graph.py`, `test_critic.py` |
-| Sqlite checkpoints | **IMPLEMENTED** | Yes | `operator_etl_gcp/checkpoints.py` |
+| Sqlite checkpoints | **IMPLEMENTED** | Yes | `operator_etl/checkpoints.py` |
 | GCP Terraform scaffold | **IMPLEMENTED** | Unit only | `infra/terraform/` |
 | BigQuery adapter | **PARTIAL** | SQL rewrite only | `src/operator_etl_gcp/load/bigquery.py` |
+| Warehouse / object-store protocols | **IMPLEMENTED** | Yes | `load/protocol.py`, `extract/object_store.py` |
 | Cloud Run HTTP entry | **IMPLEMENTED** | Unit only | `src/operator_etl_gcp/http/` |
-| Postgres checkpoints | **IMPLEMENTED** | Env config | optional via env |
+| Postgres checkpoints | **IMPLEMENTED** | Env config | `operator_etl/checkpoints.py` (any managed Postgres) |
+| Container any-cloud deploy | **IMPLEMENTED** | Docs | `okf/playbooks/deploy-container-any-cloud.md` |
 | HITL dashboard | **PARTIAL** | No | gov tab in Streamlit |
 | Product officer UX | **SPECIFIED** | — | responsive, streaming, gen UI — [docs/PRODUCT-UX.md](../../docs/PRODUCT-UX.md) |
 | LLM insight nodes | **PARTIAL** | Mocked in CI | optional `llm`; laptop Ollama `llama3.2:3b` critic-passed; not CI |

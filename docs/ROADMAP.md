@@ -79,9 +79,10 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 **Goal:** Ingest from persistent storage (GCS or local drops) without changing graph logic.
 
 **What changes:**
-- New source type: `comment_inbox` (drops/inbox/) or `gcs_inbox` (GCS bucket)
-- File watcher or Pub/Sub trigger
+- New source type: `comment_inbox` (drops/inbox/) or `gcs_inbox` / `object_store` (bucket)
+- File watcher or cloud event → HTTP trigger
 - Checkpoint resumption across runs
+- Portable object-store Protocol (GCS reference; S3/Azure adapters additive)
 
 **What stays the same:**
 - Graph nodes, PII policy, critic, quality gate
@@ -93,39 +94,41 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 - [ ] Graph resumes from checkpoint on retry
 - [ ] Same audit trail + PII vault per run
 
-**Owner:** Data engineer. **Playbook:** [okf/playbooks/extend-new-source.md](../okf/playbooks/extend-new-source.md)
+**Owner:** Data engineer. **Playbook:** [okf/playbooks/extend-new-source.md](../okf/playbooks/extend-new-source.md) · [deploy-container-any-cloud](../okf/playbooks/deploy-container-any-cloud.md)
 
 ---
 
-### Stage L2 — GCP infrastructure (4–8 weeks)
-**Goal:** Terraform-managed staging with DuckDB. Cloud-native ops, pre-BigQuery.
+### Stage L2 — Container staging + GCP reference IaC (4–8 weeks)
+**Goal:** Run the portable Docker image in staging. GCP Terraform is the full reference path; other clouds use the same env contract.
 
 **What changes:**
-- ☁️ GCS inbox bucket (Pub/Sub trigger) replaces CLI
-- ☁️ Cloud Run graph-runner (stateless service)
-- ☁️ Cloud SQL checkpoints (replaces SQLite)
-- ☁️ Secret Manager (replaces `.env` file)
-- ☁️ Cloud Scheduler nightly trigger
+- Object-store inbox (GCS on GCP; S3/Blob via future adapters) + event → HTTP
+- Container graph-runner (Cloud Run / ECS / ACA / K8s)
+- Managed Postgres checkpoints (replaces SQLite)
+- Cloud secret store (replaces `.env` file)
+- Scheduler / cron nightly trigger
 
 **What stays the same:**
-- DuckDB warehouse (still runs in Cloud Run, ephemeral)
+- DuckDB warehouse until L3 (or ephemeral DuckDB in container)
 - LangGraph topology
 - PII vault policy
 - Critic logic
+- Warehouse / object-store protocols in core
 
 **Exit criteria:**
-- [ ] `terraform apply` provisions all resources
-- [ ] Agency uploads CSV to GCS; graph completes
-- [ ] Cloud SQL checkpoints resume on retry
+- [ ] Container deploys with portable env contract
+- [ ] Agency uploads CSV to inbox; graph completes
+- [ ] Postgres checkpoints resume on retry
 - [ ] MCP server read-only access to gold verified
+- [ ] (GCP) `terraform apply` provisions reference resources
 
-**Owner:** Cloud architect + DevOps. **Docs:** [infra/README.md](../infra/README.md) · [SCALING.md](SCALING.md)
+**Owner:** Cloud architect + DevOps. **Docs:** [infra/README.md](../infra/README.md) · [SCALING.md](SCALING.md) · [deploy-container-any-cloud](../okf/playbooks/deploy-container-any-cloud.md)
 
 **Pre-flight checklist:**
-- [ ] Terraform plan reviewed for IAM + networking
-- [ ] `.env` secrets moved to Secret Manager
-- [ ] GCS service account has `storage.objects.list` only
-- [ ] Cloud Run service account has `bigquery.dataEditor` only (L3)
+- [ ] Terraform plan reviewed for IAM + networking (GCP path)
+- [ ] `.env` secrets moved to cloud secret store
+- [ ] Inbox service account has list/read only
+- [ ] Runtime service account has warehouse write only as needed (L3)
 
 ---
 

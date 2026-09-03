@@ -9,19 +9,19 @@ timestamp: 2026-08-17T00:00:00Z
 # Repo map
 
 ```
-src/operator_etl/           Data plane — extract, load, transform, CLI
+src/operator_etl/           Data plane — extract, load, transform, CLI, checkpoints
 src/operator_etl_graph/     LangGraph control plane
 src/operator_etl_policy/    PII + budgets
 src/operator_etl_mcp/       MCP stdio server
-src/operator_etl_gcp/       BigQuery, GCS, Cloud Run HTTP
+src/operator_etl_gcp/       GCP adapters — BigQuery, GCS, Cloud Run HTTP
 pipelines/                  Source registry YAML
 sql/marts/                  Gold SQL (orders)
 sql/marts/gov/              Gold SQL (FOIA)
 sql/allowlist.yaml          MCP SQL whitelist
 samples/                    Demo CSV + HTTP JSON
-tests/                      pytest (29)
+tests/                      pytest
 evals/                      Golden eval definitions
-infra/terraform/            GCP Terraform
+infra/terraform/            GCP Terraform (reference cloud)
 docs/                       White paper, FOIA guide, share pack
 okf/                        Knowledge bundle (this tree)
 skills/                     Agent skills

@@ -32,6 +32,10 @@ gcloud builds submit --config cloudbuild.yaml
 
 Copy [infra/env.example](../../infra/env.example) — set `OPERATOR_ETL_BACKEND=bigquery`, datasets, checkpoint URL. Optional LLM: [docs/LLM.md](../../docs/LLM.md) (`OPERATOR_ETL_INSIGHT_BACKEND` stays `template` until the OpenAI secret is real).
 
+## Full stack only
+
+This skill is the **GCP reference IaC** path. For Docker + portable env on AWS/Azure/K8s without GCP Terraform, use [operator-ship-portable](../operator-ship-portable/SKILL.md).
+
 ## Non-negotiables
 
 - Set `pii_vault_key` and `openai_api_key` in `terraform.tfvars` (sensitive variables with validation — placeholders are rejected). How-to: [docs/SECURITY-HARDENING.md](../../docs/SECURITY-HARDENING.md#terraform-secrets)
