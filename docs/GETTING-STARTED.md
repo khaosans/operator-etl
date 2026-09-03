@@ -86,7 +86,7 @@ Or if uv is already installed: `make e2e`
 
 ```mermaid
 flowchart LR
-  OKF[OKF validate] --> pytest[59 pytest tests]
+  OKF[OKF validate] --> pytest[76 pytest tests]
   pytest --> demo[FOIA demo fresh warehouse]
   demo --> pass[MVP PASS]
 ```
@@ -98,7 +98,7 @@ This runs three steps in order:
 | Step | What it does |
 |---|---|
 | OKF validate | Checks `okf/` frontmatter and structure |
-| pytest | 34 unit and integration tests |
+| pytest | 76 unit and integration tests |
 | FOIA demo | Fresh warehouse, graph pipeline, output assertions |
 
 **Expected FOIA demo output:**
@@ -110,6 +110,8 @@ pii_findings=3
 
 Public comment intake summary: 10 comments across 2 dockets and 2 agencies. ...
 ```
+
+`pii_findings=3` counts scanner groups; gold **PII flagged ≥ 4** counts comments. See [QUICKSTART.md](QUICKSTART.md).
 
 Quick demo without OKF validate: `make demo`
 

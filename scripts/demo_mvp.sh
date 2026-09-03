@@ -14,7 +14,9 @@ echo "warehouse: ${WAREHOUSE}"
 echo ""
 
 echo "== pytest =="
-PYTEST_SUMMARY="$(uv run pytest -q 2>&1 | tee /dev/stderr | tail -1)"
+PYTEST_LOG="${DEMO_DIR}/pytest.out"
+uv run pytest -q | tee "${PYTEST_LOG}"
+PYTEST_SUMMARY="$(tail -1 "${PYTEST_LOG}")"
 
 echo ""
 echo "== FOIA graph pipeline =="

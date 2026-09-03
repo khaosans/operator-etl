@@ -7,7 +7,7 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**59 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**76 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 

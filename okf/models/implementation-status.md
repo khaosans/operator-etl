@@ -3,12 +3,12 @@ type: OperatingModel
 title: Implementation status matrix
 description: Source of truth for IMPLEMENTED vs SPECIFIED — update when code ships
 tags: [status, roadmap]
-timestamp: 2026-08-17T00:00:00Z
+timestamp: 2026-09-03T00:00:00Z
 ---
 
 # Implementation status
 
-**Tests:** 59 pytest passing · **MVP gate:** `./harness/e2e.sh`
+**Tests:** 76 pytest passing · **MVP gate:** `./harness/e2e.sh`
 
 | Component | Status | Proven in CI | Path |
 |---|---|---|---|
@@ -19,6 +19,8 @@ timestamp: 2026-08-17T00:00:00Z
 | PII scan + vault | **IMPLEMENTED** | Yes | `src/operator_etl_policy/` |
 | Critic faithfulness | **IMPLEMENTED** | Yes | `src/operator_etl_graph/critic.py` |
 | MCP allowlisted tools | **IMPLEMENTED** | Yes | `src/operator_etl_mcp/` |
+| A2A task surface | **IMPLEMENTED** | Yes | `src/a2a/`, `tests/test_a2a.py` |
+| OpenTelemetry (sanitized) | **IMPLEMENTED** | Yes | `src/telemetry/`, `tests/test_telemetry.py` |
 | HITL `needs_human` routes | **IMPLEMENTED** | Yes | `tests/test_gov_graph.py`, `test_critic.py` |
 | Sqlite checkpoints | **IMPLEMENTED** | Yes | `operator_etl/checkpoints.py` |
 | GCP Terraform scaffold | **IMPLEMENTED** | Validate CI | `infra/gcp/` |

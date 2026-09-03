@@ -18,6 +18,6 @@ Human-readable audit: [docs/FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md)
 | **Partial** | BigQuery, Cloud Run live, HITL dashboard, PII gray-zone, optional LLM insight |
 | **Specified** | Presidio, Regulations.gov |
 
-**Gate:** `make e2e` (59 pytest + FOIA demo)
+**Gate:** `make e2e` (76 pytest + FOIA demo)
 
 **Before scale claims:** read FINAL-REVIEW pre-scale checklist. Human how-to: [docs/SECURITY-HARDENING.md](../../docs/SECURITY-HARDENING.md).

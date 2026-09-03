@@ -17,7 +17,7 @@
 | **Date** | August 2026 |
 | **Status** | Data plane **IMPLEMENTED**; Control plane (LangGraph + Critic) **IMPLEMENTED**; Policy plane (PII Vault) **IMPLEMENTED**; MCP tools **IMPLEMENTED**; GCP cloud lift **PARTIAL** |
 | **Repository** | `https://github.com/khaosans/operator-etl` |
-| **Verification Gate** | `./scripts/verify.sh` · 51 passing tests (pytest) · bit-identical replay |
+| **Verification Gate** | `./scripts/verify.sh` · 76 passing tests (pytest) · bit-identical replay |
 | **License** | Apache License 2.0 (Open Source) |
 | **Audience** | Chief Data Officers, Agency FOIA Directors, Enterprise Architects, Security & AI Reviewers |
 
@@ -32,7 +32,7 @@
 
 | Badge | Meaning |
 |---|---|
-| **IMPLEMENTED** | Code exists in repository, covered by automated tests in CI (`make e2e` / 59 tests) |
+| **IMPLEMENTED** | Code exists in repository, covered by automated tests in CI (`make e2e` / 76 tests) |
 | **PARTIAL** | Core architecture implemented; live cloud deployment or external API mocked in local suite |
 | **SPECIFIED** | Complete technical specification and data contract designed; pending enterprise rollout |
 
@@ -50,7 +50,7 @@
 | PII policy & vault | `src/operator_etl_policy/pii.py`, `vault.py` | `tests/test_pii.py` |
 | MCP tool server | `src/operator_etl_mcp/server.py`, `tools.py` | `tests/test_mcp_tools.py` |
 | Release metadata & packaging | `scripts/release_meta.py` | `tests/test_release_meta.py` |
-| One-command proof gate | `harness/e2e.sh`, `scripts/verify.sh` | 51 passing pytest suite |
+| One-command proof gate | `harness/e2e.sh`, `scripts/verify.sh` | 76 passing pytest suite |
 
 ---
 
@@ -531,14 +531,14 @@ def critic_check(insight_draft: str, gold_metrics: dict) -> CriticResult:
 
 ---
 
-## 9. Testing & Verification Suite (59 Passing Pytest Tests)
+## 9. Testing & Verification Suite (76 Passing Pytest Tests)
 
 **Status:** IMPLEMENTED (`make e2e` / `pytest`)
 
 Every claim made in this white paper is backed by automated, reproducible test suites:
 
 ```
-============================== 51 passed in 1.65s ==============================
+============================== 76 passed in 2.76s ==============================
 ```
 
 | Test Module | Test Name | Invariant Verified |
@@ -581,7 +581,7 @@ Every claim made in this white paper is backed by automated, reproducible test s
 
 ```mermaid
 flowchart LR
-    L0["Level 0: Local Proof<br/>• DuckDB + SQLite<br/>• stdio MCP<br/>• 59 pytest passing"] --> L1["Level 1: Team Staging<br/>• GCS Inbox Trigger<br/>• Cloud Run Container<br/>• BigQuery SQL Marts"]
+    L0["Level 0: Local Proof<br/>• DuckDB + SQLite<br/>• stdio MCP<br/>• 76 pytest passing"] --> L1["Level 1: Team Staging<br/>• GCS Inbox Trigger<br/>• Cloud Run Container<br/>• BigQuery SQL Marts"]
     L1 --> L2["Level 2: Enterprise ATO<br/>• Presidio NLP PII<br/>• Cloud KMS Vault Key<br/>• HITL Officer Dashboard"]
 ```
 
@@ -592,7 +592,7 @@ flowchart LR
 Operator ETL proves that enterprise generative AI does not require sacrificing data engineering discipline, regulatory compliance, or mathematical precision. By enforcing a **deterministic Medallion Data Plane**, an isolated **Cryptographic Policy Plane**, and a **Bounded Control Plane with a Rule-Based Critic**, organizations can safely automate high-volume public comment intake and complex analytical workflows without legal or operational exposure.
 
 ### Summary of Proof Points:
-- **Reproducible Local Verification:** Clone the open-source repository and execute `./scripts/verify.sh` to run OKF validation, 59 pytest unit/integration tests, and a fresh-warehouse FOIA execution in under 10 seconds.
+- **Reproducible Local Verification:** Clone the open-source repository and execute `./scripts/verify.sh` to run OKF validation, 76 pytest unit/integration tests, and a fresh-warehouse FOIA execution in under 10 seconds.
 - **Fail-Closed Governance:** Unvalidated records are permanently audited in quarantine; ungrounded AI text is halted by the Critic; PII is vaulted before model synthesis.
 
 ---

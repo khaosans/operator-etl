@@ -15,6 +15,7 @@ description: >-
 2. Update directory listings in [okf/index.md](../../okf/index.md) when adding concepts.
 3. Append dated entries to [okf/log.md](../../okf/log.md).
 4. Sync [implementation-status.md](../../okf/models/implementation-status.md) when code status changes.
+5. When the pytest suite size changes, update together: README badge, [TESTING.md](../../docs/TESTING.md), implementation-status, QUICKSTART examples, and the fallback count in [scripts/verify.sh](../../scripts/verify.sh).
 
 ## Validate
 

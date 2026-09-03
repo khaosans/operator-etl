@@ -32,13 +32,15 @@ pii_findings=3
 Public comment intake summary: 10 comments across 2 dockets and 2 agencies. ...
 ```
 
+`pii_findings=3` is scanner **groups** (EMAIL, PHONE, US_SSN on `body`). Gold / Streamlit **PII flagged ≥ 4** is silver comments with PII (sample rows CMT-001, 003, 006, 011). Both are expected.
+
 Final banner:
 
 ```
 ==========================================
   OPERATOR_ETL_VERIFY=PASS
 ==========================================
-  tests=51
+  tests=76
   demo=silver=10 quarantined=2 status=complete
   next=docs/WALKTHROUGH.md
 ==========================================
@@ -52,7 +54,7 @@ Screenshots of Streamlit and CLI: [TOUR.md](TOUR.md).
 
 ```bash
 ./scripts/verify.sh --json
-# {"verify":"PASS","tests":34,"demo":{"status":"complete","silver":10,"quarantined":2},"next":"docs/WALKTHROUGH.md"}
+# {"verify":"PASS","tests":76,"demo":{"status":"complete","silver":10,"quarantined":2},"next":"docs/WALKTHROUGH.md"}
 ```
 
 ---
@@ -63,7 +65,7 @@ After `./scripts/verify.sh`, confirm:
 
 - [ ] Exit code `0`
 - [ ] Output contains `OPERATOR_ETL_VERIFY=PASS`
-- [ ] `34 passed` (or current test count in banner)
+- [ ] `76 passed` (or current test count in the verify banner)
 - [ ] Demo shows `status=complete`, `silver=10`, `quarantined=2`
 - [ ] Insight text mentions comments (no raw email/phone in output)
 

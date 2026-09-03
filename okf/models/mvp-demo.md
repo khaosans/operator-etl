@@ -23,7 +23,8 @@ timestamp: 2026-08-17T00:00:00Z
 | Bronze rows in | 12 |
 | Silver comments | 10 |
 | Quarantined | 2 (empty body, invalid date) |
-| PII flagged | ≥ 4 |
+| PII flagged (gold / dashboard) | ≥ 4 comments (CMT-001, 003, 006, 011) |
+| CLI `pii_findings=` | 3 scanner groups (EMAIL, PHONE, US_SSN on `body`) |
 | Graph status | `complete` |
 | Critic | passed |
 | Quality gate | pass (quarantine rate ≤ 35%) |

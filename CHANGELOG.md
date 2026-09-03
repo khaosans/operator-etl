@@ -7,6 +7,10 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+### Changed
+
+- Documentation drift cleanup: canonical pytest count **76** (verify banner, wiki, OKF, README badge); distinguish CLI `pii_findings=3` from gold PII flagged ≥ 4; publication identity is the public Apache-2.0 repo plus wiki and PDFs; A2A and sanitized OpenTelemetry marked proven in CI.
+
 ## [0.6.0] — 2026-09-03
 
 ### Added

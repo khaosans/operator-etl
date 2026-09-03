@@ -1,5 +1,12 @@
 # OKF changelog
 
+## 2026-09-03 (docs drift cleanup)
+
+- Publication identity is public Apache-2.0 (`khaosans/operator-etl`); external face is repo + wiki + PDFs, not PDFs-only.
+- Canonical pytest count is **76** (verify banner / `uv run pytest -q`). Distinguishes CLI `pii_findings=3` from gold `pii_flagged_count` ≥ 4.
+- Implementation status + FINAL-REVIEW: A2A and sanitized OpenTelemetry marked IMPLEMENTED / Proven in CI.
+- Repo map lists `src/a2a/`, `src/telemetry/`, cloud adapter packages, `scripts/verify.sh`.
+
 ## 2026-09-03 (release v0.6.0)
 
 - Freeze: CHANGELOG `[0.6.0]`, `pyproject.toml` / `uv.lock` `0.6.0`, mkdocs footer `0.6.0`. Tag `v0.6.0` after merge.
