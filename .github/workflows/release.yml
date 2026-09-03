@@ -116,5 +116,5 @@ jobs:
         run: |
           uvx twine upload \
             --non-interactive \
-            --repository-url "https://pypi.pkg.github.com/${{ github.repository }}" \
+            --repository-url "https://pypi.pkg.github.com/${{ github.repository_owner }}" \
             dist/*
