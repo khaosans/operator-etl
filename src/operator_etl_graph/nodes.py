@@ -12,7 +12,7 @@ from operator_etl_graph.state import PipelineState
 from operator_etl_policy.budgets import RunBudget
 from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
 from operator_etl.load.connection import connect
-from operator_etl.load.duckdb import already_ingested, finish_run, load_bronze, start_run
+from operator_etl.load.ops import already_ingested, finish_run, load_bronze, start_run
 from operator_etl.pipeline import collect_extracts
 from operator_etl.sources import get_source
 from operator_etl.transform.gov_clean import init_gov_schema, transform_comments_bronze

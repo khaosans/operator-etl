@@ -3,7 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from operator_etl.extract.csv import extract_csv
-from operator_etl.load.duckdb import already_ingested, connect, load_bronze
+from operator_etl.load.duckdb import connect
+from operator_etl.load.ops import already_ingested, load_bronze
 from operator_etl.pipeline import ingest_source, run_pipeline
 from operator_etl.transform.clean import transform_bronze
 

@@ -1,3 +1,5 @@
+"""DuckDB warehouse backend — local MVP path."""
+
 from __future__ import annotations
 
 import json
@@ -71,6 +73,11 @@ def connect(settings: Settings | None = None) -> duckdb.DuckDBPyConnection:
     path = settings.warehouse_path
     path.parent.mkdir(parents=True, exist_ok=True)
     con = duckdb.connect(str(path))
+    # Annotate for WarehouseConnection / load.ops dispatch (C extension may reject setattr).
+    try:
+        con.backend = "duckdb"  # type: ignore[attr-defined]
+    except (AttributeError, TypeError):
+        pass
     init_schema(con)
     return con
 
@@ -80,10 +87,6 @@ def init_schema(con: duckdb.DuckDBPyConnection) -> None:
 
 
 def already_ingested(con: duckdb.DuckDBPyConnection, content_hash: str) -> bool:
-    if getattr(con, "backend", None) == "bigquery":
-        from operator_etl_gcp.load.bigquery import already_ingested as bq_already_ingested
-
-        return bq_already_ingested(con, content_hash)
     row = con.execute(
         "SELECT 1 FROM ingest_files WHERE content_hash = ?",
         [content_hash],
@@ -99,10 +102,6 @@ def load_bronze(
     ingested_at: datetime | None = None,
 ) -> int:
     """Insert bronze rows. Caller must skip when already_ingested is true."""
-    if getattr(con, "backend", None) == "bigquery":
-        from operator_etl_gcp.load.bigquery import load_bronze as bq_load_bronze
-
-        return bq_load_bronze(con, source=source, extracted=extracted, ingested_at=ingested_at)
     if not extracted.rows:
         con.execute(
             """
@@ -138,10 +137,6 @@ def load_bronze(
 
 
 def start_run(con: duckdb.DuckDBPyConnection, run_id: str, source: str) -> None:
-    if getattr(con, "backend", None) == "bigquery":
-        from operator_etl_gcp.load.bigquery import start_run as bq_start_run
-
-        return bq_start_run(con, run_id, source)
     con.execute(
         """
         INSERT INTO pipeline_runs (run_id, started_at, source, status)
@@ -162,19 +157,6 @@ def finish_run(
     files_skipped: int = 0,
     error: str | None = None,
 ) -> None:
-    if getattr(con, "backend", None) == "bigquery":
-        from operator_etl_gcp.load.bigquery import finish_run as bq_finish_run
-
-        return bq_finish_run(
-            con,
-            run_id,
-            status=status,
-            rows_in=rows_in,
-            rows_silver=rows_silver,
-            rows_quarantined=rows_quarantined,
-            files_skipped=files_skipped,
-            error=error,
-        )
     con.execute(
         """
         UPDATE pipeline_runs
