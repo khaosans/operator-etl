@@ -1,0 +1,11 @@
+{
+  "name": "Operator ETL",
+  "install": "curl -LsSf https://astral.sh/uv/install.sh | sh && export PATH=\"$HOME/.local/bin:$PATH\" && uv sync --frozen --extra dev",
+  "terminals": [
+    {
+      "name": "streamlit-dashboard",
+      "command": "export PATH=\"$HOME/.local/bin:$PATH\"; [ -f .tmp/mvp-demo/operator.duckdb ] || ./scripts/demo_mvp.sh > /tmp/demo-seed.log 2>&1 || true; OPERATOR_ETL_WAREHOUSE=.tmp/mvp-demo/operator.duckdb OPERATOR_ETL_PIPELINE_NAME=public_comments OPERATOR_ETL_DOMAIN=gov uv run streamlit run dashboard/app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true"
+    }
+  ],
+  "ports": [{ "name": "streamlit", "port": 8501 }]
+}
