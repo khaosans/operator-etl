@@ -70,6 +70,20 @@ curl -s -X POST localhost:8080/run \
 
 `/pubsub/push` decodes a Pub/Sub push envelope (GCS `OBJECT_FINALIZE`) and runs the graph on the staged object. Production blueprint: [HOW-IT-WORKS.md](HOW-IT-WORKS.md).
 
+### Rate limit and body size
+
+All routes except `/health` share an in-process per-client sliding window (default **60** requests per minute). Tune with `RATE_LIMIT_PER_MINUTE`. Excess requests return **429**. POST bodies over **10 MB** return **413**. A2A `raw_records` is also capped at 10,000 items.
+
+```bash
+# After ~60 POSTs in a minute from the same client:
+curl -s -o /dev/null -w '%{http_code}\n' -X POST localhost:8080/run \
+  -H 'Content-Type: application/json' \
+  -d '{"source":"public_comments","pipeline":"public_comments"}'
+# 429
+```
+
+This limiter is **one process**. Multi-instance Cloud Run needs Cloud Armor or an API gateway. Full control list: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
+
 ## A2A task surface
 
 The same `operator-etl-gcp` service exposes the bounded agent-to-agent surface ([A2A.md](A2A.md)). Every A2A route requires a bearer token. Set one on the server and reuse it from the client via an env var (never hard-code a token):
@@ -113,3 +127,4 @@ curl -s -X POST localhost:8080/a2a/v1/tasks \
 - [CLI.md](CLI.md) · [DASHBOARD.md](DASHBOARD.md) · [MCP.md](MCP.md) · [A2A.md](A2A.md) · [OBSERVABILITY.md](OBSERVABILITY.md)
 - [CLOUD-AGENT.md](CLOUD-AGENT.md) — the same services, auto-started in Cursor Cloud
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — GCP / Cloud Run production path
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — rate limit, body cap, path traversal, CI gates

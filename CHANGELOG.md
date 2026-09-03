@@ -13,7 +13,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 - [docs/OBSERVABILITY.md](docs/OBSERVABILITY.md) — documents the opt-in OpenTelemetry tracing/metrics added in `0.5.1`: `OTEL_EXPORTER_OTLP_ENDPOINT` enablement, span/counter inventory, OpenInference LLM tracing, and the no-raw-PII safety boundary.
 - Security hardening: path traversal guard in HTTP extractor, bandit + pip-audit CI workflow, per-client rate limiting middleware, 10 MB body size limit, input field max_length constraints, sanitized exception logging.
 - [CODEOWNERS](CODEOWNERS) requiring review for `vault.py`, `pii.py`, `secrets.tf`, `iam.tf`.
-- [skills/operator-security/SKILL.md](skills/operator-security/SKILL.md) — security review skill for ongoing hardening and audit work.
+- [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md) — educational wiki page: defense-in-depth diagrams, HTTP middleware, vault perms, Terraform secrets, CI SAST/SCA, best-practice checklist.
 - `.bandit.yml` SAST config; `.github/workflows/security.yml` CI workflow.
 
 ### Changed
@@ -24,6 +24,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 - Exception logging in graph-runner no longer includes full tracebacks (type + message only).
 - Test suite expanded to **59** pytest (path traversal coverage).
 - Updated SECURITY.md production readiness matrix, FINAL-REVIEW.md proof inventory, RISKS.md, implementation-status.md, and wiki pages to reflect hardening.
+- Educational wiki completeness: [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md) plus mkdocs / GitHub-wiki nav, test-count sync to **59**, and security how-to coverage in TESTING, STANDARDS, HOW-IT-WORKS, RUNNING, FAQ, GLOSSARY, PATTERNS, NIST, PUBLIC-READINESS.
 
 ## [0.5.1] — 2026-09-03
 

@@ -87,6 +87,18 @@ Same graph nodes and critic. Lift is a backend swap, not a rewrite of policy.
 
 ---
 
+## What security controls run in CI?
+
+Every push and PR runs the proof gate (`e2e` + FOIA demo), Docker build, **gitleaks**, **bandit** (SAST on `src/`), and **pip-audit** (SCA on frozen deps). Bandit and pip-audit are GitHub Actions jobs, not pytest. Guide: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
+
+---
+
+## Is rate limiting production-grade?
+
+**No.** The graph-runner uses an **in-process** per-client sliding window (`RATE_LIMIT_PER_MINUTE`, default 60). That is enough for a single instance. Multi-instance or public traffic needs Cloud Armor or an API gateway. [RISKS.md](RISKS.md).
+
+---
+
 ## Why does a second ingest report `rows_in=0`?
 
 Idempotency. The file **content hash** is stored in `ingest_files`. Re-dropping the same CSV skips bronze. Fresh warehouse: `./scripts/demo_mvp.sh` or `verify.sh`.
@@ -129,3 +141,4 @@ See [ADD-A-SOURCE.md](ADD-A-SOURCE.md). Register it in `pipelines/*.yaml`, add a
 - [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 - [QUICKSTART.md](QUICKSTART.md)
 - [VERSIONING.md](VERSIONING.md)
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md)

@@ -144,6 +144,20 @@ flowchart LR
 
 ---
 
+## Defense in depth
+
+**Plain English.** PII policy and the critic are not enough once you expose HTTP. Put **independent** guards at intake (path traversal, body size), transport (rate limit, sanitized 500s), storage (vault `0600`), and CI (bandit, pip-audit, gitleaks). Losing one layer must not dump PII or run arbitrary files.
+
+**In this repo.** Graph-runner middleware + `_local_path()` + Security workflow. In-process rate limit is single-instance only.
+
+**Pattern.** Defense in depth / fail-safe defaults at the HTTP edge.
+
+**Citation.** Saltzer & Schroeder (1975) — fail-safe defaults. OWASP input validation. CI SAST/SCA as a merge gate.
+
+**Code / test.** `src/operator_etl_gcp/http/app.py` · `tests/test_http.py` · [SECURITY-HARDENING.md](SECURITY-HARDENING.md)
+
+---
+
 ## Template vs LLM wording
 
 **Plain English.** Default: fill gold numbers into a fixed sentence (what `verify.sh` prints). Optional model: rewrite **wording** from numeric gold JSON only. [MODELS.md](MODELS.md) · [LLM.md](LLM.md).
@@ -171,3 +185,4 @@ No extra paper.
 - [FOUNDATIONS.md](FOUNDATIONS.md) — citations + tests
 - [STANDARDS.md](STANDARDS.md) — index
 - [RISKS.md](RISKS.md) — what these patterns do *not* buy you
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — HTTP guards and CI gates

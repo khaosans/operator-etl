@@ -13,7 +13,7 @@ All commands assume the repo root and `uv sync --extra dev` (or a green `./scrip
 | `make verify` | `scripts/verify.sh` — uv bootstrap + full proof gate |
 | `make e2e` | `harness/e2e.sh` — OKF + pytest + FOIA demo |
 | `make demo` | FOIA demo only (`scripts/demo_mvp.sh`) |
-| `make test` | `uv run pytest -q` (51 tests) |
+| `make test` | `uv run pytest -q` (59 tests) |
 | `make walkthrough` | Demo + warehouse inspection |
 | `make okf` | Strict OKF validate |
 | `make share` | e2e then regenerate PDFs |

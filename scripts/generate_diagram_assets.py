@@ -317,7 +317,7 @@ def create_cover_hero() -> None:
         draw_rounded_card(draw, (px, py, px + 380, py + 220), BG_DARK, border=p_col, radius=12)
         draw.text((px + 24, py + 30), p_title, fill=p_col, font=get_font(20, bold=True))
         draw.text((px + 24, py + 75), p_desc, fill=WHITE, font=get_font(15, bold=False))
-        draw.text((px + 24, py + 120), "• Fail-closed governance\n• 51 pytest test suite passing\n• Zero raw PII in agent context", fill=SLATE_LIGHT, font=get_font(13, bold=False))
+        draw.text((px + 24, py + 120), "• Fail-closed governance\n• 59 pytest test suite passing\n• Zero raw PII in agent context", fill=SLATE_LIGHT, font=get_font(13, bold=False))
 
     img.save(ASSETS / "cover-hero.png", "PNG", dpi=(300, 300))
     print(f"Generated {ASSETS / 'cover-hero.png'}")

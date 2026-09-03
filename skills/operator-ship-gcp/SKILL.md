@@ -34,6 +34,6 @@ Copy [infra/env.example](../../infra/env.example) — set `OPERATOR_ETL_BACKEND=
 
 ## Non-negotiables
 
-- Set `pii_vault_key` and `openai_api_key` in `terraform.tfvars` (sensitive variables with validation — placeholders are rejected)
+- Set `pii_vault_key` and `openai_api_key` in `terraform.tfvars` (sensitive variables with validation — placeholders are rejected). How-to: [docs/SECURITY-HARDENING.md](../../docs/SECURITY-HARDENING.md#terraform-secrets)
 - MCP service account: gold dataset read only (see Terraform IAM)
 - Never skip local e2e before promote

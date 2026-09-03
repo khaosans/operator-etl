@@ -57,6 +57,18 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 
 ---
 
+## Security
+
+| Term | Meaning |
+|---|---|
+| **Defense in depth** | Independent layers: HTTP guards, policy plane, vault perms, CI SAST/SCA. No single control is enough. [SECURITY-HARDENING](SECURITY-HARDENING.md) |
+| **Path traversal** | A `../` (or absolute) file URL that would read outside the extract root. Rejected by `_local_path()`. |
+| **SAST** | Static application security testing — bandit scans `src/` on every PR. |
+| **SCA** | Software composition analysis — pip-audit checks frozen deps for known CVEs. |
+| **Rate limit** | In-process sliding window (`RATE_LIMIT_PER_MINUTE`, default 60). Not a multi-instance gateway. |
+
+---
+
 ## Proof and ops
 
 | Term | Meaning |
@@ -93,3 +105,4 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 - [FAQ.md](FAQ.md)
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md)
 - [FOUNDATIONS.md](FOUNDATIONS.md)
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md)

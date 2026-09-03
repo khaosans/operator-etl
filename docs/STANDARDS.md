@@ -59,6 +59,13 @@ Readable mapping: **[NIST.md](NIST.md)**. We align selected practices. We do **n
 | **FOIA workflow** | [FOUNDATIONS.md §9](FOUNDATIONS.md#references) | Public comments intake and redaction queue |
 | **Secrets hygiene** | [SECURITY.md](../SECURITY.md) | No `.env`, vault, or tfvars in git |
 | **Least privilege (GCP)** | White paper §12.3 | Separate service accounts per workload in Terraform |
+| **OWASP input validation** | [SECURITY-HARDENING.md](SECURITY-HARDENING.md) | Pydantic `max_length`, 10 MB body cap, path traversal guard |
+| **SAST** | bandit | [`.github/workflows/security.yml`](../.github/workflows/security.yml) + `.bandit.yml` scans `src/` |
+| **SCA** | pip-audit | Frozen-dep CVE check in the same Security workflow |
+| **Secret scanning** | gitleaks | [`.github/workflows/secret-scan.yml`](../.github/workflows/secret-scan.yml) |
+| **CODEOWNERS** | [CODEOWNERS](../CODEOWNERS) | `vault.py`, `pii.py`, `secrets.tf`, `iam.tf` require review |
+
+Human how-to: [SECURITY-HARDENING.md](SECURITY-HARDENING.md). Agent checklist: [operator-security](https://github.com/khaosans/operator-etl/blob/master/skills/operator-security/SKILL.md).
 
 ---
 
@@ -83,7 +90,7 @@ Documented in [docs/Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) §
 | **src layout** | [PyPA src layout](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/) | Packages under `src/` |
 | **uv** | [Astral uv](https://docs.astral.sh/uv/) | `pyproject.toml` + `uv.lock` |
 | **Proof gate** | [FOUNDATIONS.md](FOUNDATIONS.md) proof matrix | `make e2e` before share, deploy, or scale claims — see [WALKTHROUGH.md](WALKTHROUGH.md) |
-| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — same gate as local e2e + Docker build |
+| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — e2e + Docker; [`.github/workflows/security.yml`](../.github/workflows/security.yml) — bandit + pip-audit |
 
 ---
 

@@ -60,6 +60,23 @@ Details: [okf/models/three-planes.md](../okf/models/three-planes.md)
 
 ---
 
+## HTTP security layer
+
+The local `:8080` graph-runner and Cloud Run share the same FastAPI app. Requests hit rate limiting and a body-size cap before A2A bearer auth or `/run`. File extract URLs cannot traverse above the configured root. Guide: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
+
+```mermaid
+flowchart LR
+  Client[Client] --> MW[Rate limit then 10 MB cap]
+  MW --> Auth[A2A bearer or /run]
+  Auth --> Graph[LangGraph]
+  Extract[file URL] --> Guard[_local_path resolve]
+  Guard --> Bronze[bronze_raw]
+```
+
+`RATE_LIMIT_PER_MINUTE` defaults to 60 (in-process; not a multi-instance gateway). `/health` is excluded so probes stay cheap. HTTP 500s return a generic detail string.
+
+---
+
 ## FOIA comment lifecycle
 
 ```mermaid
@@ -216,7 +233,7 @@ Before claiming the system works or scaling to staging:
 make e2e
 ```
 
-This runs OKF validation, 56 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
+This runs OKF validation, 59 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
 
 **CI:** Every push to `master` runs the same gate on GitHub Actions — see the CI badge in [README.md](../README.md).
 
@@ -230,3 +247,4 @@ Step-by-step: [WALKTHROUGH.md](WALKTHROUGH.md)
 - [FOUNDATIONS.md](FOUNDATIONS.md) — why this design; proof matrix
 - [GETTING-STARTED.md](GETTING-STARTED.md) — install and env vars
 - [FINAL-REVIEW.md](FINAL-REVIEW.md) — proven vs specified audit
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — HTTP guards, CI SAST/SCA, vault perms

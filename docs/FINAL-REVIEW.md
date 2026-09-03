@@ -173,3 +173,4 @@ Before promoting to GCP staging or external production claims:
 - [README.md](../README.md) — problem, design, quick start
 - [docs/share/README.md](share/README.md) — external PDF share pack
 - [SECURITY.md](../SECURITY.md) — production readiness controls
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — defense in depth, diagrams, checklist

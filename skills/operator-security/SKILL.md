@@ -7,7 +7,7 @@ description: >-
 
 # Security hardening — Operator ETL
 
-**Load:** [SECURITY.md](../../SECURITY.md) · [FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md) · [okf/decisions/pii-fail-closed.md](../../okf/decisions/pii-fail-closed.md)
+**Load:** [SECURITY.md](../../SECURITY.md) · [SECURITY-HARDENING.md](../../docs/SECURITY-HARDENING.md) · [FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md) · [okf/decisions/pii-fail-closed.md](../../okf/decisions/pii-fail-closed.md)
 
 ## When to use this skill
 
@@ -60,6 +60,7 @@ description: >-
 ## Related
 
 - [SECURITY.md](../../SECURITY.md) — reporting, secrets, production readiness matrix
+- [SECURITY-HARDENING.md](../../docs/SECURITY-HARDENING.md) — human-readable guide, diagrams, best-practice checklist
 - [RISKS.md](../../docs/RISKS.md) — residual risks
 - [FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md) — proof inventory with security controls
 - [okf/decisions/pii-fail-closed.md](../../okf/decisions/pii-fail-closed.md) — PII policy

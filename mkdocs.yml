@@ -88,6 +88,7 @@ nav:
       - Walkthrough: WALKTHROUGH.md
       - Testing: TESTING.md
       - Final review: FINAL-REVIEW.md
+      - Security hardening: SECURITY-HARDENING.md
   - Use:
       - Run the services: RUNNING.md
       - CLI: CLI.md

@@ -68,3 +68,4 @@ Stay on the **template** insight, local DuckDB, and human review of silver/quara
 - [APPLY.md](APPLY.md) — other data sources
 - [FINAL-REVIEW.md](FINAL-REVIEW.md) — proven / partial / specified
 - [SECURITY.md](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md) — secrets and PII in git
+- [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — HTTP guards, CI SAST/SCA, vault perms

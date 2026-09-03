@@ -11,7 +11,8 @@
 - Exception logging sanitized to type + message only (no tracebacks in responses).
 - CODEOWNERS for security-sensitive paths (vault, pii, secrets, iam).
 - New skill: `skills/operator-security/SKILL.md` — checklist for security work.
-- Updated: SECURITY.md, FINAL-REVIEW.md, RISKS.md, implementation-status.md, wiki pages, CONTRIBUTING.md, CHANGELOG.md, AGENTS.md. Test count 51 → 59.
+- Educational wiki: [docs/SECURITY-HARDENING.md](../docs/SECURITY-HARDENING.md) — defense-in-depth diagrams, HTTP middleware, CI gates, best-practice checklist. mkdocs Prove nav + wiki sidebar (also surfaces RUNNING / A2A / OBSERVABILITY).
+- Updated: SECURITY.md, FINAL-REVIEW.md, RISKS.md, implementation-status.md, wiki pages, CONTRIBUTING.md, CHANGELOG.md, AGENTS.md, TESTING.md, STANDARDS.md, HOW-IT-WORKS.md, RUNNING.md, FAQ, GLOSSARY, PATTERNS, NIST, PUBLIC-READINESS. Test count 51 → 59.
 
 ## 2026-09-03 (docs: run services + observability)
 
