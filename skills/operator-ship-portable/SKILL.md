@@ -20,9 +20,12 @@ description: >-
 2. Use warehouse / object-store protocols; add provider adapters under optional extras — do not rewrite `operator_etl_graph`.
 3. Map inbox events to HTTP `POST /run` (GCP Pub/Sub push is one adapter).
 
-## Full GCP IaC
+## Full provider IaC
 
-For Terraform + Cloud Build + BigQuery staging, use [operator-ship-gcp](../operator-ship-gcp/SKILL.md) instead.
+- GCP (BigQuery L3): [operator-ship-gcp](../operator-ship-gcp/SKILL.md)
+- AWS (L2): [operator-ship-aws](../operator-ship-aws/SKILL.md)
+- Azure (L2): [operator-ship-azure](../operator-ship-azure/SKILL.md)
+- Wiki overview: [docs/MULTI-CLOUD.md](../../docs/MULTI-CLOUD.md)
 
 ## Non-negotiables
 

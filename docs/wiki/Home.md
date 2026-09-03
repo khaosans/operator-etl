@@ -18,13 +18,13 @@ cd operator-etl
 
 Success: **`OPERATOR_ETL_VERIFY=PASS`**, 59 tests, FOIA demo `silver=10` `quarantined=2`.
 
-Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QUICKSTART.md) · Learn: [CONCEPTS](https://khaosans.github.io/operator-etl/CONCEPTS/) · Patterns: [PATTERNS](https://khaosans.github.io/operator-etl/PATTERNS/) · Apply: [APPLY](https://khaosans.github.io/operator-etl/APPLY/) · Screenshots: [TOUR](https://khaosans.github.io/operator-etl/TOUR/) · Security: [SECURITY-HARDENING](https://khaosans.github.io/operator-etl/SECURITY-HARDENING/)
+Guide: [QUICKSTART](https://github.com/khaosans/operator-etl/blob/master/docs/QUICKSTART.md) · Learn: [CONCEPTS](https://khaosans.github.io/operator-etl/CONCEPTS/) · Patterns: [PATTERNS](https://khaosans.github.io/operator-etl/PATTERNS/) · Apply: [APPLY](https://khaosans.github.io/operator-etl/APPLY/) · Screenshots: [TOUR](https://khaosans.github.io/operator-etl/TOUR/) · Security: [SECURITY-HARDENING](https://khaosans.github.io/operator-etl/SECURITY-HARDENING/) · Multi-cloud: [MULTI-CLOUD](https://khaosans.github.io/operator-etl/MULTI-CLOUD/) · Models: [MODELS](https://khaosans.github.io/operator-etl/MODELS/)
 
 ---
 
 ## Honest scope
 
-Local demo + tests are proven. Live GCP, Presidio, and a **live** LLM API are not. Optional LLM insights are mocked in CI. See [FINAL-REVIEW](https://github.com/khaosans/operator-etl/blob/master/docs/FINAL-REVIEW.md).
+Local demo + tests are proven. Terraform for **GCP / AWS / Azure** validates in CI; live cloud apply + ingest is manual. Presidio and a **live** LLM API are not proven in CI. Optional LLM insights are mocked. See [FINAL-REVIEW](https://github.com/khaosans/operator-etl/blob/master/docs/FINAL-REVIEW.md) · [MULTI-CLOUD](https://khaosans.github.io/operator-etl/MULTI-CLOUD/).
 
 This GitHub Wiki tab is a **pointer** (Home + sidebar only). Articles live in `docs/` so they stay in PRs and CI.
 

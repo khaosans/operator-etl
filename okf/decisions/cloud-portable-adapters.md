@@ -21,10 +21,10 @@ timestamp: 2026-09-03T00:00:00Z
 **Rules:**
 
 1. Core packages never hard-require Google (or AWS/Azure) SDKs — only optional extras.
-2. Provider IaC lives under `infra/<provider>/` (today: `infra/terraform/` = GCP).
-3. Adding a second cloud = implement Warehouse + ObjectStore (+ event → HTTP `/run`) — do not fork the graph.
+2. Provider IaC lives under `infra/<provider>/` (`gcp/`, `aws/`, `azure/`).
+3. Adding a second cloud = implement Warehouse + ObjectStore (+ event → HTTP `/run` or provider webhook) — do not fork the graph.
 4. Env contract is portable: warehouse backend, checkpoint URL, inbox URI / object-store backend, secrets.
 
-**Not in scope of this ADR:** shipping AWS/Azure Terraform or non-BigQuery warehouses. See [deploy-container-any-cloud](/playbooks/deploy-container-any-cloud.md).
+**L2 status:** AWS and Azure Terraform + S3/Blob ObjectStore adapters are **IMPLEMENTED** (CI `terraform validate` + unit tests). Live apply remains manual. Warehouse lift beyond DuckDB remains GCP BigQuery-only.
 
-**Related:** [DuckDB local, BigQuery GCP](/decisions/duckdb-local-bigquery-gcp.md) remains the warehouse lift path on the reference cloud.
+**Related:** [DuckDB local, BigQuery GCP](/decisions/duckdb-local-bigquery-gcp.md) · Wiki: [docs/MULTI-CLOUD.md](/docs/MULTI-CLOUD.md)

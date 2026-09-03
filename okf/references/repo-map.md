@@ -21,7 +21,9 @@ sql/allowlist.yaml          MCP SQL whitelist
 samples/                    Demo CSV + HTTP JSON
 tests/                      pytest
 evals/                      Golden eval definitions
-infra/terraform/            GCP Terraform (reference cloud)
+infra/gcp/                  GCP Terraform (reference + BigQuery)
+infra/aws/                  AWS Terraform (L2 S3/ECS/RDS)
+infra/azure/                Azure Terraform (L2 Blob/ACA/Postgres)
 docs/                       White paper, FOIA guide, share pack
 okf/                        Knowledge bundle (this tree)
 skills/                     Agent skills

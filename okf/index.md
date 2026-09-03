@@ -34,6 +34,8 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 * [Extend new source](playbooks/extend-new-source.md) — Registry pattern
 * [Deploy container any cloud](playbooks/deploy-container-any-cloud.md) — Docker + portable env
 * [Deploy GCP staging](playbooks/deploy-gcp-staging.md) — Terraform + Cloud Build
+* [Deploy AWS staging](playbooks/deploy-aws-staging.md) — S3 + ECS + RDS
+* [Deploy Azure staging](playbooks/deploy-azure-staging.md) — Blob + Container Apps + Postgres
 * [Agency FOIA workflow](playbooks/agency-foia-workflow.md) — Public comments intake
 * [QA before share](playbooks/qa-before-share.md) — PDF share checklist
 

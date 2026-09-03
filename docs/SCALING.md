@@ -62,7 +62,7 @@ Playbook: [okf/playbooks/extend-new-source.md](../okf/playbooks/extend-new-sourc
 Run the same Docker image with the [portable env contract](../okf/playbooks/deploy-container-any-cloud.md). On GCP, provision resources with Terraform:
 
 ```bash
-cd infra/terraform
+cd infra/gcp
 cp terraform.tfvars.example terraform.tfvars
 terraform init && terraform apply
 ```
@@ -80,7 +80,7 @@ flowchart TB
   Secrets[Secret Manager] --> GraphRunner
 ```
 
-Details: [infra/README.md](../infra/README.md)
+Details: [infra/gcp/README.md](../infra/gcp/README.md) · Multi-cloud: [MULTI-CLOUD.md](MULTI-CLOUD.md) · AWS: [infra/aws](../infra/aws/) · Azure: [infra/azure](../infra/azure/)
 
 **Prerequisite:** `make e2e` green locally.
 

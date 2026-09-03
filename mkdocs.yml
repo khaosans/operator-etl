@@ -106,6 +106,7 @@ nav:
       - Standards: STANDARDS.md
   - Scale:
       - Scaling: SCALING.md
+      - Multi-cloud: MULTI-CLOUD.md
       - Product UX: PRODUCT-UX.md
   - Contribute:
       - Versioning: VERSIONING.md

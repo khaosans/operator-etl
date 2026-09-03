@@ -12,10 +12,10 @@
 - [Concepts](https://khaosans.github.io/operator-etl/CONCEPTS/)
 - [Patterns](https://khaosans.github.io/operator-etl/PATTERNS/)
 - [How it works](https://khaosans.github.io/operator-etl/HOW-IT-WORKS/)
+- [Models](https://khaosans.github.io/operator-etl/MODELS/)
 - [Other data sources](https://khaosans.github.io/operator-etl/APPLY/)
 - [Risks](https://khaosans.github.io/operator-etl/RISKS/)
 - [NIST](https://khaosans.github.io/operator-etl/NIST/)
-- [Models](https://khaosans.github.io/operator-etl/MODELS/)
 - [Foundations](https://khaosans.github.io/operator-etl/FOUNDATIONS/)
 
 **Prove**
@@ -43,8 +43,12 @@
 
 **Scale**
 - [Scaling](https://khaosans.github.io/operator-etl/SCALING/)
+- [Multi-cloud](https://khaosans.github.io/operator-etl/MULTI-CLOUD/)
 - [Product UX](https://khaosans.github.io/operator-etl/PRODUCT-UX/)
-- [Infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
+- [Infra index](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
+- [GCP Terraform](https://github.com/khaosans/operator-etl/blob/master/infra/gcp/README.md)
+- [AWS Terraform](https://github.com/khaosans/operator-etl/blob/master/infra/aws/README.md)
+- [Azure Terraform](https://github.com/khaosans/operator-etl/blob/master/infra/azure/README.md)
 
 **Contribute**
 - [Contributing](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md)

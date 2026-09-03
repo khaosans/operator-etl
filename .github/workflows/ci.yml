@@ -28,5 +28,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build container image
-        run: docker build -t operator-etl:ci .
+      - name: Build container image (default gcp extra)
+        run: docker build --build-arg CLOUD_EXTRA=gcp -t operator-etl:ci .
+
+  terraform:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stack: [gcp, aws, azure]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Terraform fmt
+        run: terraform fmt -check -recursive infra/${{ matrix.stack }}
+
+      - name: Terraform init (no backend)
+        working-directory: infra/${{ matrix.stack }}
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        working-directory: infra/${{ matrix.stack }}
+        run: terraform validate

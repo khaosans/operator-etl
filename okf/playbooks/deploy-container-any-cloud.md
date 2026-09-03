@@ -30,7 +30,9 @@ Ship the same image ([`Dockerfile`](/Dockerfile)) wherever you have: a **contain
 | `OPERATOR_ETL_GCS_INBOX_BUCKET` | Legacy GCP alias — still supported |
 | `OPERATOR_ETL_DOMAIN` / `PIPELINE_NAME` | Usually `gov` / `public_comments` |
 
-Provider-specific fields (`OPERATOR_ETL_GCP_PROJECT`, region, BQ datasets) apply only when using the GCP adapters. Full example: [`infra/env.example`](/infra/env.example).
+**GCP is the reference cloud** (BigQuery L3). AWS and Azure ship at L2 (DuckDB + object inbox). See [MULTI-CLOUD.md](/docs/MULTI-CLOUD.md).
+
+Provider-specific fields (`OPERATOR_ETL_GCP_PROJECT`, region, BQ datasets, `AWS_REGION`, Azure storage account) apply only when using that adapter. Examples: [`infra/env.example`](/infra/env.example), [`env.aws.example`](/infra/env.aws.example), [`env.azure.example`](/infra/env.azure.example).
 
 ## Steps
 

@@ -32,6 +32,8 @@ Only after verify passes → continue below.
    - Verify / bootstrap → [`skills/operator-verify/SKILL.md`](skills/operator-verify/SKILL.md)
    - Local MVP / pytest / dashboard → [`skills/operator-run/SKILL.md`](skills/operator-run/SKILL.md)
  - GCP Terraform / Cloud Run / BigQuery → [`skills/operator-ship-gcp/SKILL.md`](skills/operator-ship-gcp/SKILL.md)
+ - AWS Terraform / ECS / S3 → [`skills/operator-ship-aws/SKILL.md`](skills/operator-ship-aws/SKILL.md)
+ - Azure Terraform / Container Apps / Blob → [`skills/operator-ship-azure/SKILL.md`](skills/operator-ship-azure/SKILL.md)
  - Any-cloud container deploy → [`skills/operator-ship-portable/SKILL.md`](skills/operator-ship-portable/SKILL.md)
  - New source / domain / gold SQL → [`skills/operator-extend/SKILL.md`](skills/operator-extend/SKILL.md)
    - Security review / hardening / audit → [`skills/operator-security/SKILL.md`](skills/operator-security/SKILL.md)
