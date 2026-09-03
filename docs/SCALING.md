@@ -103,7 +103,7 @@ Switch warehouse from DuckDB to BigQuery — same medallion layers, dialect-adju
 
 Full example: [infra/env.example](../infra/env.example)
 
-**Status:** BQ adapter is **PARTIAL** — bronze load and HTTP entry implemented; gold mart SQL dialect lift pending. See [okf/models/implementation-status.md](../okf/models/implementation-status.md).
+**Status:** BQ adapter + gov gold mart dialect are **IMPLEMENTED** in-repo (`sql/marts/gov/bq/`). Live staging E2E remains optional (`pytest -m integration` / staging workflow). See [okf/models/implementation-status.md](../okf/models/implementation-status.md).
 
 **Stays the same:** LangGraph topology, PII fail-closed, MCP allowlist, critic logic.
 
@@ -114,10 +114,10 @@ Full example: [infra/env.example](../infra/env.example)
 | Item | Status | Notes |
 |---|---|---|
 | Product officer UX | SPECIFIED | Responsive, streaming, gen UI — [PRODUCT-UX.md](PRODUCT-UX.md) |
-| HITL officer dashboard | PARTIAL | Gov Streamlit tab exists; approval workflow SPECIFIED |
-| Regulations.gov adapter | SPECIFIED | New source kind |
-| BQ gold mart dialect | PARTIAL | Port `sql/marts/gov/*.sql` |
-| Presidio PII | SPECIFIED | Optional `--extra presidio` |
+| HITL officer dashboard | IMPLEMENTED | Approve/reject audit store + Streamlit + CLI; product UX still SPECIFIED |
+| Regulations.gov adapter | IMPLEMENTED | `regulations_gov` source with API + sample fallback |
+| BQ gold mart dialect | IMPLEMENTED | `sql/marts/gov/bq/` COUNTIF/SAFE_DIVIDE dialect |
+| Presidio PII | IMPLEMENTED | `OPERATOR_ETL_PII_SCANNER=presidio` (optional extra) |
 | Real LLM insight nodes | PARTIAL | Optional `insight_backend=llm`; template default; not live in CI |
 
 Track progress: [okf/models/implementation-status.md](../okf/models/implementation-status.md)

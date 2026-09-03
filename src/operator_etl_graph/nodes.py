@@ -17,7 +17,22 @@ from operator_etl.pipeline import collect_extracts
 from operator_etl.sources import get_source
 from operator_etl.transform.gov_clean import init_gov_schema, transform_comments_bronze
 from operator_etl_mcp.tools import get_gold_metrics, run_allowlisted_sql
-from operator_etl_policy.pii import scan_records
+from operator_etl_policy.pii import extract_pii_values, scan_records
+from operator_etl_policy.vault import PiiVault
+
+
+def _vault_pii_from_records(records: list[dict[str, str]], text_columns: list[str]) -> int:
+    """Encrypt raw PII into the local vault. Never returns plaintext."""
+    vault = PiiVault()
+    before = vault.count()
+    for record in records:
+        for col in text_columns:
+            value = record.get(col) or ""
+            if not value:
+                continue
+            for entity_type, raw in extract_pii_values(str(value)):
+                vault.tokenize(raw, entity_type)
+    return vault.count() - before
 
 
 def _extract_from_state_records(state: PipelineState, source_name: str) -> ExtractResult | None:
@@ -61,21 +76,24 @@ def ingest_node(state: PipelineState, settings: Settings | None = None) -> dict:
 
 def pii_gate_node(state: PipelineState) -> dict:
     records = state.get("_records") or []
+    text_columns = ["body", "subject"]
     if not records:
-        return {"pii_findings": [], "pii_needs_human": False}
-    result = scan_records(records, text_columns=["body", "subject"])
+        return {"pii_findings": [], "pii_needs_human": False, "vault_tokens_added": 0}
+    result = scan_records(records, text_columns=text_columns)
     findings = [
         {"column": f.column, "entity_type": f.entity_type, "count": f.count, "max_confidence": f.max_confidence}
         for f in result.findings
     ]
+    vaulted = _vault_pii_from_records(records, text_columns) if findings else 0
     if result.needs_human:
         return {
             "pii_findings": findings,
             "pii_needs_human": True,
+            "vault_tokens_added": vaulted,
             "status": "needs_human",
             "errors": ["PII ambiguous — human review required"],
         }
-    return {"pii_findings": findings, "pii_needs_human": False}
+    return {"pii_findings": findings, "pii_needs_human": False, "vault_tokens_added": vaulted}
 
 
 def validate_load_node(state: PipelineState, settings: Settings | None = None) -> dict:

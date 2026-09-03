@@ -27,7 +27,7 @@ description: >-
 |---|---|
 | `uv run etl-graph --source public_comments` | Full FOIA agentic pipeline |
 | `uv run etl run --source demo` | Orders ETL (interviews) |
-| `uv run pytest -q` | 59 tests |
+| `uv run pytest -q` / `make test` | 78 tests + coverage gate |
 | `uv run etl dashboard` | Streamlit — Gov + Orders tabs |
 
 ## Fresh warehouse for demos

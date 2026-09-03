@@ -13,7 +13,7 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 | Item | Status |
 |---|---|
 | Apache-2.0 license | ✅ |
-| CI proof gate (59 pytest + FOIA demo) | ✅ |
+| CI proof gate (78 pytest + coverage + FOIA demo) | ✅ |
 | Secret scan (gitleaks) | ✅ |
 | SAST / SCA (bandit + pip-audit) | ✅ |
 | Dependabot (pip + Actions) | ✅ |
@@ -53,7 +53,7 @@ Suggested copy: [share/README.md](share/README.md)
 | Safe to claim | Do not claim |
 |---|---|
 | `make e2e` reproduces FOIA demo locally | Production FOIA deployment |
-| 59 pytest + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
+| 78 pytest + coverage gate + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
 | Medallion + LangGraph + MCP architecture | Live GCP/BQ E2E (PARTIAL) |
 
 ---

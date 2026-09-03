@@ -8,7 +8,7 @@ import yaml
 
 from operator_etl.config import Settings, get_settings
 
-SourceKind = Literal["csv", "csv_dir", "http", "gcs"]
+SourceKind = Literal["csv", "csv_dir", "http", "gcs", "regulations_gov"]
 
 
 @dataclass(frozen=True)
@@ -21,6 +21,8 @@ class Source:
     silver_table: str = "silver_orders"
     quarantine_table: str = "quarantine_orders"
     domain: str = "orders"
+    docket_id: str | None = None
+    options: dict[str, Any] | None = None
 
 
 def load_pipeline(settings: Settings | None = None, pipeline_name: str | None = None) -> dict[str, Any]:
@@ -51,6 +53,8 @@ def get_source(name: str, settings: Settings | None = None, pipeline_name: str |
         silver_table=spec.get("silver_table", "silver_orders"),
         quarantine_table=spec.get("quarantine_table", "quarantine_orders"),
         domain=spec.get("domain", "orders"),
+        docket_id=raw.get("docket_id"),
+        options={k: v for k, v in raw.items() if k not in {"kind", "path", "url", "docket_id"}},
     )
 
 

@@ -23,6 +23,10 @@ class GovQualityReport:
 def build_gov_marts(con: duckdb.DuckDBPyConnection, settings: Settings | None = None) -> None:
     settings = settings or get_settings()
     sql_dir = settings.sql_dir
+    if getattr(con, "backend", None) == "bigquery":
+        bq_dir = sql_dir / "bq"
+        if bq_dir.is_dir():
+            sql_dir = bq_dir
     for path in sorted(sql_dir.glob("*.sql")):
         con.execute(path.read_text(encoding="utf-8"))
 

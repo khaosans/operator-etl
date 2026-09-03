@@ -32,7 +32,7 @@ cd operator-etl
 ./scripts/verify.sh
 ```
 
-Success ends with **`OPERATOR_ETL_VERIFY=PASS`**, 59 pytest, and a FOIA demo of `status=complete`, `silver=10`, `quarantined=2`.
+Success ends with **`OPERATOR_ETL_VERIFY=PASS`**, 78 pytest, and a FOIA demo of `status=complete`, `silver=10`, `quarantined=2`.
 
 Full card: [QUICKSTART.md](QUICKSTART.md) · Screenshots: [TOUR.md](TOUR.md)
 
@@ -84,7 +84,7 @@ Personas: [PERSONAS.md](PERSONAS.md).
 | Proven locally (`make e2e`) | Not this MVP |
 |---|---|
 | FOIA CSV → PII → silver/quarantine → gold → critic-verified insight | Production Presidio PII |
-| 59 pytest + SAST/SCA CI on every push | Live GCP / BigQuery end-to-end |
+| 78 pytest + SAST/SCA CI on every push | Live GCP / BigQuery end-to-end |
 | MCP allowlist (3 tools, no vault) | Live LLM API (optional path mocked; template default) |
 
 Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md) · Residual risks: [RISKS.md](RISKS.md)

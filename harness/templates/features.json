@@ -1,0 +1,24 @@
+{
+  "features": [
+    {
+      "id": "coverage-gate",
+      "description": "pytest-cov fail_under + vault crypto tests",
+      "passes": false
+    },
+    {
+      "id": "staging-monitoring",
+      "description": "Cloud Monitoring alerts + staging smoke checklist",
+      "passes": false
+    },
+    {
+      "id": "bq-gold-dialect",
+      "description": "BigQuery gold mart dialect + optional integration tests",
+      "passes": false
+    },
+    {
+      "id": "foia-l4-controls",
+      "description": "Presidio path + HITL approve/reject + regulations.gov adapter",
+      "passes": false
+    }
+  ]
+}

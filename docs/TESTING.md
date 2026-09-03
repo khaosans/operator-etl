@@ -7,7 +7,7 @@ Every test maps to a claim we make publicly. Run the full gate:
 make e2e              # if uv already installed
 ```
 
-**59 pytest** (unit + integration) · **FOIA demo** (fresh warehouse, shell assertions)
+**78 pytest** (unit + integration; coverage fail_under=75) · **FOIA demo** (fresh warehouse, shell assertions)
 
 [`scripts/verify.sh`](../scripts/verify.sh) wraps [`harness/e2e.sh`](../harness/e2e.sh).
 
@@ -175,6 +175,42 @@ Bandit and pip-audit are **not** pytest — they run as GitHub Actions jobs. A g
 |---|---|
 | Pub/Sub decode, BQ SQL rewrite, table refs — unit level only |
 
+### `test_vault.py` — Encrypted PII vault
+
+| Test | Proves |
+|---|---|
+| Tokenize/detokenize round-trip | Fernet crypto works; MCP never gets this API |
+| Key/JSON `0600` permissions | Vault files are owner-only |
+| PII gate vaults findings | Graph gate writes tokens on scan hits |
+
+### `test_hitl.py` — Officer sign-off audit
+
+| Test | Proves |
+|---|---|
+| Approve/reject persistence | Audit trail survives reload; latest decision wins |
+
+### `test_presidio.py` — Optional Presidio scanner
+
+| Test | Proves |
+|---|---|
+| Presidio path + gray-zone HITL | Mocked analyzer → `needs_human` on mid confidence |
+| Missing extra fails closed | `presidio` backend without install raises ImportError |
+
+### `test_bq_dialect.py` / `test_bq_integration.py`
+
+| Test | Proves |
+|---|---|
+| BQ gov mart SQL dialect | COUNTIF/SAFE_DIVIDE files selected when backend=bigquery |
+| Live BQ (optional) | Skipped unless `OPERATOR_ETL_BQ_INTEGRATION=1` |
+
+### `test_regulations_gov.py` — Regulations.gov adapter
+
+| Test | Proves |
+|---|---|
+| API parse + sample fallback | Live key optional; offline CSV fallback works |
+
+**Coverage gate:** `make test` / `demo_mvp.sh` enforce `--cov-fail-under=75`. `make coverage` also writes `coverage.json` and runs package floors (policy/graph/MCP ≥ 80%).
+
 ---
 
 ## Harness assertions (`demo_mvp.sh`)
@@ -195,9 +231,9 @@ This catches env pollution (stale warehouse) that isolated tests might miss when
 
 ## What tests do not prove
 
-- Live GCP / BigQuery deploy
-- Presidio PII or a **live** LLM API (optional path is mocked)
-- Production FOIA officer HITL UI workflow
+- Live GCP / BigQuery deploy (optional integration mark + staging checklist)
+- A **live** LLM API (optional path is mocked)
+- Full product officer UX (approve/reject audit is implemented; PRODUCT-UX remains SPECIFIED)
 
 See [FINAL-REVIEW.md](FINAL-REVIEW.md).
 

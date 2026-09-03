@@ -32,7 +32,7 @@ NIST groups AI risk work into four functions. Here is how this repo uses that la
 |---|---|---|
 | **Govern** | Policies and accountability so AI does not run unowned. | Agents never auto-publish. Default insight is a **template** so CI needs no model. Secrets stay out of git. |
 | **Map** | Know context, data, and who is affected. | The model input is **numeric gold KPI JSON only**. Ollama keeps that JSON on the machine. Cloud OpenAI sends it off-box — a FOIA-relevant boundary, not a performance footnote. [MODELS.md](MODELS.md) |
-| **Measure** | Test trustworthiness with evidence. | 59 pytest, critic on every insight, fail-closed quality gate, `./scripts/verify.sh`. SAST/SCA in CI. |
+| **Measure** | Test trustworthiness with evidence. | 78 pytest, critic on every insight, fail-closed quality gate, `./scripts/verify.sh`. SAST/SCA in CI. |
 | **Manage** | Respond when things go wrong. | LLM failure **falls back to the template**. Critic retries then `needs_human`. We do not loosen the critic to “make the model pass.” |
 
 ```mermaid

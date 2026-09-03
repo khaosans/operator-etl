@@ -52,6 +52,24 @@ def collect_extracts(source: Source, settings: Settings) -> list[ExtractResult]:
             raise ValueError("OPERATOR_ETL_GCS_INBOX_BUCKET required for gcs source")
         prefix = str(source.path) if source.path else ""
         return extract_gcs_inbox(bucket, prefix, settings)
+    if source.kind == "regulations_gov":
+        from operator_etl.extract.regulations_gov import (
+            fetch_comments_for_docket,
+            load_sample_fallback,
+            rows_to_extract,
+        )
+
+        docket_id = source.docket_id or (source.options or {}).get("docket_id")
+        sample = source.path
+        try:
+            if not docket_id:
+                raise ValueError("regulations_gov source requires docket_id")
+            rows = fetch_comments_for_docket(str(docket_id))
+            return [rows_to_extract(rows, file_name=f"regulations_gov_{docket_id}.csv")]
+        except Exception:
+            if sample and sample.exists():
+                return [load_sample_fallback(sample)]
+            raise
     raise ValueError(f"Unsupported source kind {source.kind}")
 
 

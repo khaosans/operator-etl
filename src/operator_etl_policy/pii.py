@@ -8,6 +8,14 @@ EMAIL = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
 PHONE = re.compile(r"\b(?:\+?1[-.\s]?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}\b")
 SSN = re.compile(r"\b\d{3}-\d{2}-\d{4}\b")
 
+_PRESIDIO_ENTITY_MAP = {
+    "EMAIL_ADDRESS": "EMAIL",
+    "PHONE_NUMBER": "PHONE",
+    "US_SSN": "US_SSN",
+    "PERSON": "PERSON",
+    "LOCATION": "LOCATION",
+}
+
 
 @dataclass(frozen=True)
 class PiiFinding:
@@ -28,8 +36,12 @@ class PiiScanResult:
         return bool(self.findings)
 
 
-def scan_text(text: str, column: str = "body") -> list[tuple[str, float]]:
-    """Return list of (entity_type, confidence) found in text."""
+def pii_scanner_backend() -> str:
+    """regex (default) | presidio | auto (presidio if installed)."""
+    return os.environ.get("OPERATOR_ETL_PII_SCANNER", "regex").strip().lower() or "regex"
+
+
+def _regex_scan(text: str) -> list[tuple[str, float]]:
     hits: list[tuple[str, float]] = []
     if EMAIL.search(text):
         hits.append(("EMAIL", 0.95))
@@ -38,6 +50,39 @@ def scan_text(text: str, column: str = "body") -> list[tuple[str, float]]:
     if SSN.search(text):
         hits.append(("US_SSN", 0.92))
     return hits
+
+
+def _presidio_available() -> bool:
+    try:
+        import presidio_analyzer  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
+def _presidio_scan(text: str) -> list[tuple[str, float]]:
+    from presidio_analyzer import AnalyzerEngine
+
+    analyzer = AnalyzerEngine()
+    results = analyzer.analyze(text=text, language="en")
+    hits: list[tuple[str, float]] = []
+    for item in results:
+        entity = _PRESIDIO_ENTITY_MAP.get(item.entity_type, item.entity_type)
+        hits.append((entity, float(item.score)))
+    return hits
+
+
+def scan_text(text: str, column: str = "body") -> list[tuple[str, float]]:
+    """Return list of (entity_type, confidence) found in text."""
+    backend = pii_scanner_backend()
+    use_presidio = backend == "presidio" or (backend == "auto" and _presidio_available())
+    if use_presidio:
+        if not _presidio_available():
+            raise ImportError(
+                "OPERATOR_ETL_PII_SCANNER=presidio requires: uv sync --extra presidio"
+            )
+        return _presidio_scan(text)
+    return _regex_scan(text)
 
 
 def scan_records(records: list[dict[str, str]], text_columns: list[str] | None = None) -> PiiScanResult:
@@ -61,6 +106,18 @@ def scan_records(records: list[dict[str, str]], text_columns: list[str] | None =
         for (col, entity), scores in agg.items()
     ]
     return PiiScanResult(findings=findings, needs_human=ambiguous and bool(findings))
+
+
+def extract_pii_values(text: str) -> list[tuple[str, str]]:
+    """Return (entity_type, raw_value) pairs for vault tokenization (regex patterns)."""
+    found: list[tuple[str, str]] = []
+    for match in EMAIL.finditer(text):
+        found.append(("EMAIL", match.group()))
+    for match in PHONE.finditer(text):
+        found.append(("PHONE", match.group()))
+    for match in SSN.finditer(text):
+        found.append(("US_SSN", match.group()))
+    return found
 
 
 # token_prefix is a redaction label (REDACTED_EMAIL), not a password.

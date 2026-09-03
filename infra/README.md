@@ -67,6 +67,7 @@ Secrets how-to: [docs/SECURITY-HARDENING.md](../docs/SECURITY-HARDENING.md#terra
 | Cloud Scheduler | Nightly freshness trigger |
 | Artifact Registry | Container images |
 | IAM service accounts | Least-privilege per workload |
+| Cloud Monitoring alerts | Graph-runner 5xx, Pub/Sub DLQ depth, PII vault secret access burst |
 
 ## Build and push container
 
@@ -100,6 +101,29 @@ gcloud builds submit --config cloudbuild.yaml
      -H "Content-Type: application/json" \
      -d '{"source":"public_comments","pipeline":"public_comments"}'
    ```
+
+4. **Verify MCP (gold read only):**
+   ```bash
+   curl -sS "$MCP_URL/health" \
+     -H "Authorization: Bearer $(gcloud auth print-identity-token)"
+   ```
+
+5. **Confirm alerts:** Terraform created monitoring policies for Cloud Run 5xx, Pub/Sub DLQ depth, and vault secret access. Set `alert_email` in `terraform.tfvars` to attach an email channel.
+
+6. **Rotate secrets:** After any suspected exposure, add a new Secret Manager version and redeploy Cloud Run (do not commit keys).
+
+### Staging smoke checklist (synthetic data only)
+
+- [ ] `./harness/e2e.sh` green locally before promote
+- [ ] Secret Manager `pii_vault_key` / `openai_api_key` are **not** `REPLACE_ME*`
+- [ ] Identity-token `POST /run` with `samples/public_comments.csv` path / source returns `status=complete` (or documented `needs_human`)
+- [ ] MCP identity-token call cannot list vault tools / decrypt
+- [ ] BigQuery gold tables populated (`gold_comment_kpis`, quality)
+- [ ] Monitoring policies visible in Cloud Console
+- [ ] Optional: `OPERATOR_ETL_BQ_INTEGRATION=1` + `pytest -m integration`
+- [ ] **Never** upload real FOIA PII to staging without agency approval
+
+Optional CI: [`.github/workflows/staging-e2e.yml`](../.github/workflows/staging-e2e.yml) (`workflow_dispatch`).
 
 ## Local vs GCP
 

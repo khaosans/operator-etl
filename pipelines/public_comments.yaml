@@ -14,3 +14,8 @@ sources:
   gcs_inbox:
     kind: gcs
     path: incoming/
+  regulations_gov:
+    kind: regulations_gov
+    docket_id: EPA-HQ-OAR-2024-0001
+    # Offline fallback when REGULATIONS_GOV_API_KEY is unset
+    path: samples/public_comments.csv

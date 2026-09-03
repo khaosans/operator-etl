@@ -7,8 +7,19 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+### Added
+
+- Production readiness: `pytest-cov` gate (`fail_under=75`) on `make test` / demo e2e, package floors via `scripts/check_coverage_packages.py`, and vault tokenize/detokenize round-trip tests.
+- PII gate now tokenizes findings into the encrypted vault; Presidio scanner path via `OPERATOR_ETL_PII_SCANNER=presidio`.
+- HITL officer approve/reject audit (`HitlStore`), Streamlit controls, and `etl hitl-approve` / `etl hitl-reject` CLI (audit only — never auto-publish).
+- BigQuery gov gold mart dialect under `sql/marts/gov/bq/`; optional `pytest -m integration` for live BQ.
+- Regulations.gov source kind with API fetch + offline sample fallback.
+- Terraform Cloud Monitoring alerts (Cloud Run 5xx, Pub/Sub DLQ, vault secret access) + staging smoke checklist / `staging-e2e` workflow.
+- Restored `harness/templates/features.json` and `claude-progress.txt`.
+
 ### Fixed
 
+- Terraform `pipeline_runs` BigQuery table resource declaration.
 - Release workflow GitHub Packages upload now targets `https://pypi.pkg.github.com/<owner>` (the PyPI registry namespace). `khaosans/operator-etl` 404'd on every tag including `v0.5.1` and `v0.5.2`; wheels for those tags remain on the GitHub Release.
 
 ## [0.5.2] — 2026-09-03

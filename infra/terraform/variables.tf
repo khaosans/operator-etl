@@ -79,3 +79,9 @@ variable "labels" {
     system = "operator-etl"
   }
 }
+
+variable "alert_email" {
+  type        = string
+  description = "Optional email for Cloud Monitoring alert notifications (empty disables channels)"
+  default     = ""
+}

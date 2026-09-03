@@ -50,6 +50,9 @@ Thumbs.db
 # Test / coverage
 .coverage
 .coverage.*
+coverage.xml
+coverage.json
+htmlcov/
 htmlcov/
 *.log
 

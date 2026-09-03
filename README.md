@@ -75,7 +75,7 @@ git clone https://github.com/khaosans/operator-etl.git
 cd operator-etl
 ./scripts/verify.sh
 ```
-*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 59 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
+*Installs `uv` if missing, syncs dependencies, runs OKF validation, passes 78 pytest unit/integration tests, and executes the fresh-warehouse FOIA demo. Ends with `OPERATOR_ETL_VERIFY=PASS`.*
 
 ### 2. Run the Agentic FOIA Pipeline
 ```bash
@@ -116,7 +116,7 @@ uv run streamlit run dashboard/app.py
 Every architectural invariant in Operator ETL is backed by automated tests:
 
 ```bash
-make test        # Run 59 pytest tests
+make test        # Run 78 pytest tests (coverage gated)
 make e2e         # Full gate: OKF validation + pytest + FOIA demo
 ```
 

@@ -14,7 +14,8 @@ echo "warehouse: ${WAREHOUSE}"
 echo ""
 
 echo "== pytest =="
-PYTEST_SUMMARY="$(uv run pytest -q 2>&1 | tee /dev/stderr | tail -1)"
+COV_FLAGS=(--cov=operator_etl --cov=operator_etl_graph --cov=operator_etl_mcp --cov=operator_etl_policy --cov=operator_etl_gcp --cov=a2a --cov=telemetry --cov-report=term-missing:skip-covered --cov-fail-under=75)
+PYTEST_SUMMARY="$(uv run pytest -q "${COV_FLAGS[@]}" 2>&1 | tee /dev/stderr | tail -1)"
 
 echo ""
 echo "== FOIA graph pipeline =="
