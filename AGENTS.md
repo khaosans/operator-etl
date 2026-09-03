@@ -18,6 +18,8 @@ Optional: `./scripts/verify.sh --json` for machine-readable result.
 
 Skill: [skills/operator-verify/SKILL.md](skills/operator-verify/SKILL.md) · Full guide: [docs/QUICKSTART.md](docs/QUICKSTART.md)
 
+**Cursor Cloud:** [`.cursor/environment.json`](.cursor/environment.json) runs the install automatically and serves the dashboard on `:8501` — see [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md). Still run `./scripts/verify.sh` for the proof gate.
+
 **Human wiki (after verify):** [docs/index.md](docs/index.md) (published: https://khaosans.github.io/operator-etl/)
 
 Only after verify passes → continue below.
