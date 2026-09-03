@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import time
-
 from fastapi.testclient import TestClient
 
-from a2a.server import _TASKS
+from a2a.server import _TASKS, wait_for_task
 from operator_etl_gcp.http import app as http_app
 from operator_etl_gcp.http.app import app
 
@@ -48,25 +46,23 @@ def _prep_a2a(monkeypatch, gov_settings) -> None:
     _TASKS.clear()
 
 
-def _wait_for_completion(client: TestClient, task_id: str, *, timeout_s: float = 30.0) -> dict:
-    """Poll until terminal state. CI graph runs can exceed the old 2.5s budget."""
-    deadline = time.monotonic() + timeout_s
-    last_payload: dict | None = None
-    while time.monotonic() < deadline:
-        response = client.post(
-            "/a2a/v1/tasks",
-            headers=_headers(),
-            json={"jsonrpc": "2.0", "id": "status-1", "method": "tasks.get_status", "params": {"task_id": task_id}},
-        )
-        assert response.status_code == 200, f"status poll HTTP {response.status_code}: {response.text}"
-        last_payload = response.json()["result"]
-        if last_payload["state"] in {"completed", "failed"}:
-            return last_payload
-        time.sleep(0.1)
-    raise AssertionError(
-        f"task did not complete in {timeout_s}s; last state={None if last_payload is None else last_payload.get('state')}"
-        f" error={None if last_payload is None else last_payload.get('error')}"
+def _wait_for_completion(client: TestClient, task_id: str, *, timeout: float = 30.0) -> dict:
+    """Wait on the worker's completion Event, then fetch status once via JSON-RPC.
+
+    Prefer Event join over busy-polling: CI graph runs can exceed short poll budgets,
+    and Event wait stays deterministic when the worker finishes early or late.
+    """
+    if not wait_for_task(task_id, timeout=timeout):
+        raise AssertionError(f"task did not complete in {timeout}s")
+    response = client.post(
+        "/a2a/v1/tasks",
+        headers=_headers(),
+        json={"jsonrpc": "2.0", "id": "status-1", "method": "tasks.get_status", "params": {"task_id": task_id}},
     )
+    assert response.status_code == 200, f"status poll HTTP {response.status_code}: {response.text}"
+    payload = response.json()["result"]
+    assert payload["state"] in {"completed", "failed"}, payload
+    return payload
 
 
 def test_a2a_task_create_status_and_sse(gov_settings, monkeypatch) -> None:

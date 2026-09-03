@@ -26,14 +26,15 @@ python3 scripts/okf_validate.py okf --strict
 
 1. Branch from `master`
 2. Make changes
-3. Run `make e2e` locally
+3. Run `make e2e` locally (`./scripts/verify.sh` on a fresh clone)
 4. If user-visible: add a bullet under `## [Unreleased]` in [CHANGELOG.md](../CHANGELOG.md)
 5. **Do not** bump `pyproject.toml` version unless this PR *is* the release (see below)
 6. Open PR — template checklist must be complete
-7. Wait for CI: **e2e**, **docker**, **Secret scan**
-8. Merge (prefer squash for clean history)
+7. Wait for **all** required checks green: `e2e`, `docker (gcp|aws|azure)`, `terraform (gcp|aws|azure)`, `gitleaks`, `bandit`, `pip-audit`
+8. **Do not merge** while any required check is red or pending
+9. Squash-merge (preferred) after checks pass
 
-Solo maintainer: branch protection still helps — forces CI green before merge.
+Repo admins: enforce this with a GitHub ruleset — exact contexts in [PUBLIC-READINESS.md](PUBLIC-READINESS.md#required-block-merges-when-ci-fails). Without the ruleset, humans can still click merge on a red PR; treat that as a process failure.
 
 Pushes to `master` update the **wiki** (Pages). They do **not** publish GitHub Packages or GHCR. Only a `v*` tag does.
 

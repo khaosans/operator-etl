@@ -51,6 +51,8 @@ Only after verify passes → continue below.
 
 Use [`harness/`](harness/README.md): copy templates → `features.json` → one feature per session → verify gate only flips `passes` after green `./harness/e2e.sh`.
 
+**Merges:** Do not merge PRs while required GitHub Actions checks are red or pending. Ruleset checklist: [`docs/PUBLIC-READINESS.md`](docs/PUBLIC-READINESS.md#required-block-merges-when-ci-fails).
+
 ## Learning
 
 New to OKF here? Read [`docs/LEVERAGE.md`](docs/LEVERAGE.md).

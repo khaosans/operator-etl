@@ -49,6 +49,8 @@ class TaskRecord:
     error: str | None = None
     history: list[dict[str, Any]] = field(default_factory=list)
     stream: queue.Queue[dict[str, Any]] = field(default_factory=queue.Queue)
+    done: threading.Event = field(default_factory=threading.Event)
+    worker: threading.Thread | None = None
 
 
 _TASKS: dict[str, TaskRecord] = {}
@@ -90,42 +92,53 @@ def _sanitize_result(result: dict[str, Any]) -> dict[str, Any]:
 
 
 def _run_task(record: TaskRecord, settings: Settings, params: CreateTaskParams) -> None:
-    with span("operator_etl.a2a.task", attributes={"task_id": record.task_id, "run_id": record.run_id}):
-        try:
-            record.state = "working"
-            _publish(record, "working", {"state": "working"})
-            set_settings(settings)
-            result = run_graph(
-                source=params.source_type,
-                settings=settings,
-                run_id=record.run_id,
-                initial_state={
-                    "task_id": record.task_id,
-                    "docket_id": params.docket_id,
-                    "_input_records": params.raw_records,
-                },
-            )
-            sanitized = _sanitize_result(result)
-            record.artifacts = sanitized
-            record.state = "completed" if result.get("status") == "complete" else "failed"
-            record.error = "; ".join(result.get("errors", [])) or None
-            _publish(
-                record,
-                "completed" if record.state == "completed" else "failed",
-                {
-                    "state": record.state,
-                    "rows_in": int(result.get("rows_in") or 0),
-                    "rows_silver": int(result.get("rows_silver") or 0),
-                    "rows_quarantined": int(result.get("rows_quarantined") or 0),
-                    "critic_passed": bool(result.get("critic_passed")),
-                    "artifacts": sanitized,
-                    "error": record.error,
-                },
-            )
-        except Exception as exc:  # noqa: BLE001
-            record.state = "failed"
-            record.error = str(exc)
-            _publish(record, "failed", {"state": "failed", "error": record.error})
+    try:
+        with span("operator_etl.a2a.task", attributes={"task_id": record.task_id, "run_id": record.run_id}):
+            try:
+                record.state = "working"
+                _publish(record, "working", {"state": "working"})
+                set_settings(settings)
+                result = run_graph(
+                    source=params.source_type,
+                    settings=settings,
+                    run_id=record.run_id,
+                    initial_state={
+                        "task_id": record.task_id,
+                        "docket_id": params.docket_id,
+                        "_input_records": params.raw_records,
+                    },
+                )
+                sanitized = _sanitize_result(result)
+                record.artifacts = sanitized
+                record.state = "completed" if result.get("status") == "complete" else "failed"
+                record.error = "; ".join(result.get("errors", [])) or None
+                _publish(
+                    record,
+                    "completed" if record.state == "completed" else "failed",
+                    {
+                        "state": record.state,
+                        "rows_in": int(result.get("rows_in") or 0),
+                        "rows_silver": int(result.get("rows_silver") or 0),
+                        "rows_quarantined": int(result.get("rows_quarantined") or 0),
+                        "critic_passed": bool(result.get("critic_passed")),
+                        "artifacts": sanitized,
+                        "error": record.error,
+                    },
+                )
+            except Exception as exc:  # noqa: BLE001
+                record.state = "failed"
+                record.error = str(exc)
+                _publish(record, "failed", {"state": "failed", "error": record.error})
+    finally:
+        record.done.set()
+
+
+def wait_for_task(task_id: str, timeout: float = 30.0) -> bool:
+    """Block until the background worker finishes (or timeout). Used by tests."""
+    record = _TASKS.get(task_id)
+    if record is None:
+        return False
+    return record.done.wait(timeout=timeout)
 
 
 def create_task_background(settings: Settings, params: CreateTaskParams) -> TaskRecord:
@@ -140,6 +153,7 @@ def create_task_background(settings: Settings, params: CreateTaskParams) -> Task
         _TASKS[task_id] = record
     _publish(record, "accepted", {"state": "accepted", "source_type": params.source_type})
     worker = threading.Thread(target=_run_task, args=(record, settings, params), daemon=True)
+    record.worker = worker
     worker.start()
     return record
 

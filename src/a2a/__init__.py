@@ -6,6 +6,7 @@ from .server import (
     get_task_events,
     handle_jsonrpc,
     task_status_payload,
+    wait_for_task,
 )
 
 __all__ = [
@@ -16,4 +17,5 @@ __all__ = [
     "get_task_events",
     "handle_jsonrpc",
     "task_status_payload",
+    "wait_for_task",
 ]

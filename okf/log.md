@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-09-03 (CI flake + merge protection docs)
+
+- A2A background tasks expose `wait_for_task` (completion Event) so tests do not false-timeout on cold CI.
+- Human docs require GitHub ruleset status checks before merge ([docs/PUBLIC-READINESS.md](../docs/PUBLIC-READINESS.md)).
+
 ## 2026-09-03 (docs drift cleanup)
 
 - Publication identity is public Apache-2.0 (`khaosans/operator-etl`); external face is repo + wiki + PDFs, not PDFs-only.
