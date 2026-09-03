@@ -40,7 +40,7 @@ Not a chatbot. Three **planes** that must not collapse into one process:
 
 **HITL:** status `needs_human` is not success. Agents never auto-publish FOIA bundles or emails ([decision](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/agents-never-publish-prod.md)).
 
-**Proof:** `./scripts/verify.sh` → 59 pytest + FOIA demo `silver=10` `quarantined=2` `status=complete`. CI repeats that gate. Optional LLM is mocked in CI ([MODELS.md](MODELS.md), [LLM.md](LLM.md)).
+**Proof:** `./scripts/verify.sh` → 78 pytest + FOIA demo `silver=10` `quarantined=2` `status=complete`. CI repeats that gate. Optional LLM is mocked in CI ([MODELS.md](MODELS.md), [LLM.md](LLM.md)).
 
 ```mermaid
 flowchart LR

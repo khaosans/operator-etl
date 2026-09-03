@@ -76,6 +76,32 @@ def dashboard() -> None:
     raise typer.Exit(subprocess.call(cmd, shell=False))  # nosec B603
 
 
+@app.command("hitl-approve")
+def hitl_approve(
+    run_id: str = typer.Argument(..., help="Pipeline run_id needing officer sign-off"),
+    officer: str = typer.Option("officer", "--officer", "-o"),
+    reason: str = typer.Option("approved for release review", "--reason", "-r"),
+) -> None:
+    """Record an officer approve decision (audit only — does not auto-publish)."""
+    from operator_etl_policy.hitl import HitlStore
+
+    decision = HitlStore().decide(run_id, "approve", officer=officer, reason=reason)
+    typer.echo(f"hitl approve run_id={decision.run_id} officer={decision.officer} at={decision.decided_at}")
+
+
+@app.command("hitl-reject")
+def hitl_reject(
+    run_id: str = typer.Argument(..., help="Pipeline run_id to reject"),
+    officer: str = typer.Option("officer", "--officer", "-o"),
+    reason: str = typer.Option("rejected — needs remediation", "--reason", "-r"),
+) -> None:
+    """Record an officer reject decision (audit only — never auto-publishes)."""
+    from operator_etl_policy.hitl import HitlStore
+
+    decision = HitlStore().decide(run_id, "reject", officer=officer, reason=reason)
+    typer.echo(f"hitl reject run_id={decision.run_id} officer={decision.officer} reason={decision.reason}")
+
+
 def main(argv: Optional[list[str]] = None) -> None:
     app(args=argv)
 

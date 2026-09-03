@@ -1,5 +1,15 @@
 # OKF changelog
 
+## 2026-09-03 (production readiness)
+
+- Coverage gate: pytest-cov fail_under=75 on make test / demo_mvp; package floors ≥80% for policy/graph/MCP.
+- Vault tokenize/detokenize tests; PII gate writes encrypted vault tokens.
+- Presidio scanner path (`OPERATOR_ETL_PII_SCANNER`); HITL approve/reject audit + Streamlit/CLI.
+- BQ gov gold mart dialect (`sql/marts/gov/bq/`); optional integration mark; regulations.gov source adapter.
+- Terraform monitoring alerts + staging smoke checklist / staging-e2e workflow; harness templates restored.
+- Tests 59 → 78 (+1 skipped integration). MVP gate still `OPERATOR_ETL_VERIFY=PASS`.
+
+
 ## 2026-09-03 (release v0.5.2)
 
 - Freeze: CHANGELOG `[0.5.2]`, `pyproject.toml` / `uv.lock` `0.5.2`, mkdocs footer `0.5.2`. Tag `v0.5.2` after merge.

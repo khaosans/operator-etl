@@ -1,0 +1,57 @@
+name: Staging E2E
+
+# Optional live GCP proof — not required on every PR (cost + secrets).
+# Run manually after terraform apply with a staging project + SA credentials.
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: GCP project id
+        required: true
+      region:
+        description: GCP region
+        required: false
+        default: us-central1
+
+jobs:
+  staging-smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --frozen --extra dev --extra gcp
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_STAGING_SA }}
+
+      - name: Staging smoke checklist
+        env:
+          OPERATOR_ETL_BACKEND: bigquery
+          OPERATOR_ETL_GCP_PROJECT: ${{ inputs.project_id }}
+          OPERATOR_ETL_DOMAIN: gov
+          OPERATOR_ETL_PIPELINE_NAME: public_comments
+          OPERATOR_ETL_BQ_INTEGRATION: "1"
+        run: |
+          set -euo pipefail
+          echo "== Local proof first =="
+          ./harness/e2e.sh
+          echo "== Optional BQ integration (skips if credentials incomplete) =="
+          uv run pytest -q -m integration tests/test_bq_integration.py || true
+          echo "== Manual curl steps (document results in infra/README) =="
+          echo "1. curl -X POST \"\$GRAPH_RUNNER_URL/run\" with identity token + synthetic CSV"
+          echo "2. curl MCP /health or allowlisted gold metrics"
+          echo "3. Confirm Secret Manager versions are not REPLACE_ME*"
+          echo "STAGING_SMOKE_CHECKLIST=DOCUMENTED"

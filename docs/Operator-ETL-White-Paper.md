@@ -581,7 +581,7 @@ Every claim made in this white paper is backed by automated, reproducible test s
 
 ```mermaid
 flowchart LR
-    L0["Level 0: Local Proof<br/>• DuckDB + SQLite<br/>• stdio MCP<br/>• 59 pytest passing"] --> L1["Level 1: Team Staging<br/>• GCS Inbox Trigger<br/>• Cloud Run Container<br/>• BigQuery SQL Marts"]
+    L0["Level 0: Local Proof<br/>• DuckDB + SQLite<br/>• stdio MCP<br/>• 78 pytest passing"] --> L1["Level 1: Team Staging<br/>• GCS Inbox Trigger<br/>• Cloud Run Container<br/>• BigQuery SQL Marts"]
     L1 --> L2["Level 2: Enterprise ATO<br/>• Presidio NLP PII<br/>• Cloud KMS Vault Key<br/>• HITL Officer Dashboard"]
 ```
 
@@ -592,7 +592,7 @@ flowchart LR
 Operator ETL proves that enterprise generative AI does not require sacrificing data engineering discipline, regulatory compliance, or mathematical precision. By enforcing a **deterministic Medallion Data Plane**, an isolated **Cryptographic Policy Plane**, and a **Bounded Control Plane with a Rule-Based Critic**, organizations can safely automate high-volume public comment intake and complex analytical workflows without legal or operational exposure.
 
 ### Summary of Proof Points:
-- **Reproducible Local Verification:** Clone the open-source repository and execute `./scripts/verify.sh` to run OKF validation, 59 pytest unit/integration tests, and a fresh-warehouse FOIA execution in under 10 seconds.
+- **Reproducible Local Verification:** Clone the open-source repository and execute `./scripts/verify.sh` to run OKF validation, 78 pytest unit/integration tests, and a fresh-warehouse FOIA execution in under 10 seconds.
 - **Fail-Closed Governance:** Unvalidated records are permanently audited in quarantine; ungrounded AI text is halted by the Critic; PII is vaulted before model synthesis.
 
 ---

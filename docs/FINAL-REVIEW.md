@@ -10,7 +10,7 @@ Honest audit of Operator ETL as of the latest `make e2e` gate. Use this before s
 
 ## Executive summary
 
-Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **59 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
+Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **78 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
 
 What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, Presidio PII, or a **live** LLM API. Optional LLM wording is PARTIAL (mocked). Those are documented with explicit scale steps.
 
@@ -35,12 +35,12 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 | No vault/decrypt in MCP surface | **Proven** | `test_allowlist_has_no_vault_tools` |
 | GCP adapter (unit, no live cloud) | **Proven** | `tests/test_infra.py` |
 | PII ambiguous gray-zone HITL | **Partial** | Regex confidences 0.90–0.95 only; Presidio SPECIFIED — `test_ambiguous_confidence_flags_needs_human` |
-| BigQuery backend | **Partial** | SQL rewrite tested; staging deploy manual — [SCALING.md](SCALING.md) L3 |
+| BigQuery backend | **Partial** | Gold dialect + rewrite proven in CI; live staging still manual — [SCALING.md](SCALING.md) L3 |
 | Cloud Run live path | **Partial** | Terraform scaffold; post-deploy checklist — [infra/README.md](../infra/README.md) |
-| HITL officer dashboard | **Partial** | Gov Streamlit tab; no approval workflow test |
-| Presidio PII | **Specified** | `--extra presidio` |
+| HITL officer dashboard | **Proven** (audit) | Approve/reject store + tests; product UX still SPECIFIED |
+| Presidio PII | **Proven** (mocked) | `OPERATOR_ETL_PII_SCANNER=presidio`; live NLP extra optional |
 | LLM insight nodes | **Partial** | Optional `insight_backend=llm`; mocked in CI — [LLM.md](LLM.md) |
-| Regulations.gov adapter | **Specified** | — |
+| Regulations.gov adapter | **Proven** (offline) | Source kind + sample fallback; live API needs key |
 | Path traversal guard | **Proven** | `tests/test_http.py` — rejects `../` and absolute paths |
 | SAST / SCA in CI | **Proven** | `.github/workflows/security.yml` — bandit + pip-audit |
 | Vault file permissions | **Proven** | `vault.py` creates key with 0600; warns on permissive existing |
@@ -51,7 +51,7 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 flowchart TB
   subgraph proven [Proven in CI]
     E2E[make e2e]
-    Pytest[59 pytest]
+    Pytest[78 pytest]
   end
 
   subgraph partial [Partial]

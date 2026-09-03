@@ -34,6 +34,13 @@ class PiiVault:
         self._save()
         return token
 
+    def detokenize(self, token: str) -> str:
+        """Decrypt a vault token. Officer/local use only — never expose via MCP."""
+        cipher = self._tokens.get(token)
+        if cipher is None:
+            raise KeyError(f"unknown vault token: {token}")
+        return self._fernet.decrypt(cipher.encode()).decode()
+
     def _load(self) -> None:
         if self.path.exists():
             self._tokens = json.loads(self.path.read_text())

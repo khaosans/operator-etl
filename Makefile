@@ -1,4 +1,4 @@
-.PHONY: install sync test e2e demo share docker-build docker-run clean help verify walkthrough
+.PHONY: install sync test coverage e2e demo share docker-build docker-run clean help verify walkthrough
 
 help:
 	@echo "Operator ETL — common targets"
@@ -21,8 +21,14 @@ walkthrough:
 install sync:
 	uv sync --extra dev
 
+COV_FLAGS = --cov=operator_etl --cov=operator_etl_graph --cov=operator_etl_mcp --cov=operator_etl_policy --cov=operator_etl_gcp --cov=a2a --cov=telemetry --cov-report=term-missing:skip-covered --cov-fail-under=75
+
 test:
-	uv run pytest -q
+	uv run pytest -q $(COV_FLAGS)
+
+coverage:
+	uv run pytest -q $(COV_FLAGS) --cov-report=term-missing --cov-report=xml:coverage.xml --cov-report=json:coverage.json
+	uv run python scripts/check_coverage_packages.py
 
 e2e:
 	./harness/e2e.sh

@@ -80,6 +80,42 @@ def render_gov(settings: Settings) -> None:
         runs = fetch_table(con, "pipeline_runs")
         st.subheader("Pipeline runs")
         st.dataframe(runs.sort_values("started_at", ascending=False), hide_index=True)
+
+        st.subheader("HITL officer sign-off")
+        st.caption("Approve/reject writes an audit row only — agents never auto-publish FOIA.")
+        from operator_etl_policy.hitl import HitlStore
+
+        store = HitlStore(settings=settings)
+        needs = []
+        if runs is not None and not runs.empty and "status" in runs.columns:
+            needs = runs.loc[runs["status"] == "needs_human", "run_id"].astype(str).tolist()
+        run_choices = needs or (runs["run_id"].astype(str).tolist() if runs is not None and not runs.empty else [])
+        if run_choices:
+            selected = st.selectbox("Run needing review", run_choices)
+            officer = st.text_input("Officer id", value="foia-officer")
+            reason = st.text_input("Reason", value="")
+            c_approve, c_reject = st.columns(2)
+            if c_approve.button("Approve", type="primary"):
+                store.decide(selected, "approve", officer=officer, reason=reason or "approved")
+                st.success(f"Approved {selected} (audit only)")
+            if c_reject.button("Reject"):
+                store.decide(selected, "reject", officer=officer, reason=reason or "rejected")
+                st.warning(f"Rejected {selected}")
+        decisions = store.list_decisions()
+        if decisions:
+            st.dataframe(
+                [
+                    {
+                        "run_id": d.run_id,
+                        "decision": d.decision,
+                        "officer": d.officer,
+                        "reason": d.reason,
+                        "decided_at": d.decided_at,
+                    }
+                    for d in decisions
+                ],
+                hide_index=True,
+            )
     finally:
         con.close()
 

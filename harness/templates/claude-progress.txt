@@ -1,0 +1,12 @@
+# Session progress log
+
+Copy to repo root as `claude-progress.txt` for multi-session work.
+
+## Rules
+
+- Do not set `"passes": true` in features.json without a green `./harness/e2e.sh`
+- Never auto-publish FOIA releases or vault contents
+
+## Log
+
+- YYYY-MM-DD: session start — note which feature id you are working on

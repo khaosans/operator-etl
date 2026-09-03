@@ -233,7 +233,7 @@ Before claiming the system works or scaling to staging:
 make e2e
 ```
 
-This runs OKF validation, 59 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
+This runs OKF validation, 78 pytest tests, and a fresh-warehouse FOIA demo with output assertions.
 
 **CI:** Every push to `master` runs the same gate on GitHub Actions — see the CI badge in [README.md](../README.md).
 

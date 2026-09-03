@@ -3,4 +3,5 @@ region         = "us-central1"
 environment    = "staging"
 image_tag      = "latest"
 pii_vault_key  = ""  # Required: Fernet key (python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())')
-openai_api_key = ""  # Required: OpenAI API key (sk-...)
+openai_api_key = ""  # Required: OpenAI API key (sk-...); keep insight_backend=template until real
+alert_email    = ""  # Optional: Cloud Monitoring email channel (empty disables notifications)
