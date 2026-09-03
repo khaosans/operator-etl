@@ -7,6 +7,10 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+### Fixed
+
+- A2A CI flake: `test_a2a_task_create_status_and_sse` waited only ~2.5s for the background graph; raise the poll budget to 30s, assert HTTP 200 on status polls, and clear/raise the in-process rate limiter for A2A tests.
+
 ### Changed
 
 - Documentation drift cleanup: canonical pytest count **76** (verify banner, wiki, OKF, README badge); distinguish CLI `pii_findings=3` from gold PII flagged ≥ 4; publication identity is the public Apache-2.0 repo plus wiki and PDFs; A2A and sanitized OpenTelemetry marked proven in CI.
