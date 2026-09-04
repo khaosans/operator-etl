@@ -155,13 +155,14 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md)
 
 ## Who should care
 
+Named composites: [PERSONAS.md](PERSONAS.md).
+
 | You are… | Start here |
 |---|---|
-| **FOIA / program officer** | [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) |
-| **Engineer evaluating architecture** | [CONCEPTS.md](CONCEPTS.md) → [HOW-IT-WORKS.md](HOW-IT-WORKS.md) → [white paper](Operator-ETL-White-Paper.md) |
-| **Skeptic who wants proof** | [WALKTHROUGH.md](WALKTHROUGH.md) |
-| **Someone with a different CSV** | [APPLY.md](APPLY.md) |
-| **Hiring manager / reviewer** | README → `make e2e` → [FOUNDATIONS.md](FOUNDATIONS.md) proof matrix · [RISKS.md](RISKS.md) |
+| **Priya** — FOIA / program officer | [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) |
+| **Jordan** — architect, skeptic, or hiring reviewer | [CONCEPTS.md](CONCEPTS.md) → [HOW-IT-WORKS.md](HOW-IT-WORKS.md) → [WALKTHROUGH.md](WALKTHROUGH.md) · proof: [FOUNDATIONS.md](FOUNDATIONS.md) · [RISKS.md](RISKS.md) |
+| **Riley** — engineer with a different CSV | [APPLY.md](APPLY.md) |
+| **Alex** — decision-maker / buyer | [white paper](Operator-ETL-White-Paper.md) → [ROADMAP.md](ROADMAP.md) |
 
 ---
 

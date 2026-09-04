@@ -1,5 +1,7 @@
 # Quickstart — verify in one command
 
+Written for **Sam** (new engineer). Other roles: [PERSONAS.md](PERSONAS.md).
+
 Clone the repo, run one script, confirm `OPERATOR_ETL_VERIFY=PASS`. No API keys. No GCP.
 
 **Repository:** https://github.com/khaosans/operator-etl

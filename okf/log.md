@@ -1,5 +1,9 @@
 # OKF changelog
 
+## 2026-09-04 (personas canonical)
+
+- Human audience model lives in [docs/PERSONAS.md](../docs/PERSONAS.md) (Sam/Priya/Riley/Jordan primary; Casey/Alex secondary). Wiki “who” tables point there; ROADMAP stages tag primary personas.
+
 ## 2026-09-03 (CI flake + merge protection docs)
 
 - A2A background tasks expose `wait_for_task` (completion Event) so tests do not false-timeout on cold CI.

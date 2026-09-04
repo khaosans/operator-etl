@@ -53,14 +53,16 @@ Full card: [QUICKSTART.md](QUICKSTART.md) · Screenshots: [TOUR.md](TOUR.md)
 
 ## Who this is for
 
+Full jobs-to-be-done (today vs later): [PERSONAS.md](PERSONAS.md).
+
 | You are… | Start here |
 |---|---|
-| **New engineer** | [QUICKSTART](QUICKSTART.md) → [CONCEPTS](CONCEPTS.md) → [WALKTHROUGH](WALKTHROUGH.md) · [TOUR](TOUR.md) |
-| **FOIA / program officer** | [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · [TOUR](TOUR.md) |
-| **Architect / reviewer** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [RISKS](RISKS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) |
-| **Extending to another feed** | [APPLY](APPLY.md) → [ADD-A-SOURCE](ADD-A-SOURCE.md) |
-| **Learn the project** | [CONCEPTS](CONCEPTS.md) → [APPLY](APPLY.md) → [RISKS](RISKS.md) → [MODELS](MODELS.md) |
-| **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) |
+| **Sam** — new engineer | [QUICKSTART](QUICKSTART.md) → [CONCEPTS](CONCEPTS.md) → [WALKTHROUGH](WALKTHROUGH.md) · [TOUR](TOUR.md) |
+| **Priya** — FOIA / program officer | [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · [TOUR](TOUR.md) |
+| **Riley** — data engineer / extending a feed | [APPLY](APPLY.md) → [ADD-A-SOURCE](ADD-A-SOURCE.md) · [CLI](CLI.md) |
+| **Jordan** — architect / reviewer | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [RISKS](RISKS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) |
+| **Casey** — AI agent / MCP | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) |
+| **Alex** — decision-maker / buyer | [WHY](WHY.md) → [white paper](Operator-ETL-White-Paper.md) → [ROADMAP](ROADMAP.md) |
 
 ---
 

@@ -2,6 +2,8 @@
 
 **When to read:** After (or instead of) a local run — you want **screenshots** of verify, CLI, Streamlit, and the wiki. Personas: [PERSONAS.md](PERSONAS.md).
 
+Sections below match primary personas **Sam / Priya / Riley / Jordan**. Secondary audiences (**Casey** MCP, **Alex** decision-maker) use docs and share packs, not these screenshots.
+
 These images were captured from a real laptop run (DuckDB + Streamlit). The FOIA LLM shot used **local Ollama** (`llama3.2:3b` on `127.0.0.1:11434`). CI still uses the **template** insight with no Ollama.
 
 Quarantine payloads may show **synthetic** emails/phones from `samples/public_comments.csv` — not real people.
