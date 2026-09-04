@@ -28,36 +28,68 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 
 **Do not merge a PR while any required check is red or pending.** Prefer a GitHub **ruleset** so the UI enforces this (admins cannot accidentally squash-merge a failing PR).
 
-Open: [Settings → Rules → Rulesets](https://github.com/khaosans/operator-etl/rules) (repo admin).
+Agents and `gh` integrations **cannot** turn this on — it needs a **repo admin** in the GitHub Settings UI.
 
-There is a legacy ruleset named `main` that is **disabled** and has empty branch filters — replace or edit it.
+### Current state (audited)
 
-### Target
-
-- Branches: `master`, `main` (`refs/heads/master`, `refs/heads/main`)
-- Enforcement: **Active**
-
-### Rules
-
-1. **Restrict deletions**
-2. **Block force pushes** (`non_fast_forward`)
-3. **Require a pull request before merging** — approving review count may be `0` for a solo maintainer; turn on **Dismiss stale reviews**
-4. **Require status checks to pass** — enable **Require branches to be up to date before merging**, and require these contexts (exact job names from Actions):
-
-| Context | Workflow |
+| Field | Legacy ruleset `main` (id `20961783`) |
 |---|---|
-| `e2e` | CI |
-| `docker (gcp)` | CI |
-| `docker (aws)` | CI |
-| `docker (azure)` | CI |
-| `terraform (gcp)` | CI |
-| `terraform (aws)` | CI |
-| `terraform (azure)` | CI |
-| `gitleaks` | Secret scan |
-| `bandit` | Security |
-| `pip-audit` | Security |
+| URL | [Ruleset `main`](https://github.com/khaosans/operator-etl/rules/20961783) |
+| Enforcement | **Disabled** |
+| Branch targets | **Empty** (matches no branches) |
+| Rules present | Restrict deletions · Block force pushes only |
+| Missing | PR-before-merge · required status checks · Active enforcement |
 
-After saving, open a throwaway PR and confirm the merge button stays blocked until every row is green.
+Until fixed, a human can still merge a red PR. Treat that as a process failure.
+
+### Admin checklist — Settings UI (click path)
+
+You need **Admin** on `khaosans/operator-etl`. Budget: ~5 minutes.
+
+1. Open **[Settings → Rules → Rulesets](https://github.com/khaosans/operator-etl/rules)**  
+   (or edit the legacy one: [rules/20961783](https://github.com/khaosans/operator-etl/rules/20961783))
+2. Prefer **Edit** the existing `main` ruleset (or **New ruleset** → Branch if you delete it). Name it clearly, e.g. `protect-default-branches`.
+3. **Enforcement status** → **Active** (not Disabled / Evaluate).
+4. **Target branches** → **Include by pattern** (add both):
+   - `refs/heads/master`
+   - `refs/heads/main`
+5. Under **Rules**, enable:
+
+| Toggle in UI | Setting |
+|---|---|
+| **Restrict deletions** | On |
+| **Block force pushes** | On |
+| **Require a pull request before merging** | On · Required approvals: **0** (solo maintainer OK) · **Dismiss stale pull request approvals when new commits are pushed** · Prefer **Require conversation resolution** if available |
+| **Require status checks to pass** | On · **Require branches to be up to date before merging** · Add every context in the table below (exact names) |
+
+6. **Bypass list:** leave empty for production (or limit to org owners only). Do not add “all admins” if you want the gate to stick.
+7. **Save changes**.
+
+#### Required status check contexts (exact job names)
+
+Type each name when GitHub’s picker offers “Add check”. Names must match Actions job names exactly:
+
+| Context | Workflow file |
+|---|---|
+| `e2e` | `.github/workflows/ci.yml` |
+| `docker (gcp)` | `.github/workflows/ci.yml` |
+| `docker (aws)` | `.github/workflows/ci.yml` |
+| `docker (azure)` | `.github/workflows/ci.yml` |
+| `terraform (gcp)` | `.github/workflows/ci.yml` |
+| `terraform (aws)` | `.github/workflows/ci.yml` |
+| `terraform (azure)` | `.github/workflows/ci.yml` |
+| `gitleaks` | `.github/workflows/secret-scan.yml` |
+| `bandit` | `.github/workflows/security.yml` |
+| `pip-audit` | `.github/workflows/security.yml` |
+
+If a check is missing from the picker, open any recent green PR Actions run so GitHub indexes the job name, then retry Add.
+
+### Prove it works
+
+- [ ] Ruleset shows **Active** on [Rules](https://github.com/khaosans/operator-etl/rules)
+- [ ] Open a throwaway PR with a deliberate failing check (or wait mid-run) → **Merge** stays blocked / greyed for required checks
+- [ ] After all 10 contexts green → squash-merge works
+- [ ] Optional: try a direct push to `master` → rejected (PR required)
 
 ### Why this matters
 

@@ -34,7 +34,7 @@ python3 scripts/okf_validate.py okf --strict
 8. **Do not merge** while any required check is red or pending
 9. Squash-merge (preferred) after checks pass
 
-Repo admins: enforce this with a GitHub ruleset — exact contexts in [PUBLIC-READINESS.md](PUBLIC-READINESS.md#required-block-merges-when-ci-fails). Without the ruleset, humans can still click merge on a red PR; treat that as a process failure.
+Repo admins: enforce this with a GitHub ruleset — **Settings UI click-path + exact contexts** in [PUBLIC-READINESS.md](PUBLIC-READINESS.md#required-block-merges-when-ci-fails). Legacy ruleset `main` is disabled until an admin activates it. Without Active enforcement, humans can still click merge on a red PR; treat that as a process failure.
 
 Pushes to `master` update the **wiki** (Pages). They do **not** publish GitHub Packages or GHCR. Only a `v*` tag does.
 
