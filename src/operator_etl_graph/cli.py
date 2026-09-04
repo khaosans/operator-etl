@@ -5,7 +5,9 @@ import typer
 from operator_etl.config import Settings, set_settings
 from operator_etl_graph.graph import run_graph
 
-app = typer.Typer(no_args_is_help=True, help="Run the agentic FOIA / public comments graph pipeline.")
+app = typer.Typer(
+    no_args_is_help=True, help="Run the agentic FOIA / public comments graph pipeline."
+)
 
 
 @app.callback(invoke_without_command=True)
@@ -20,8 +22,12 @@ def run_cmd(
     set_settings(settings)
     result = run_graph(source=source, settings=settings)
     typer.echo(f"status={result.get('status')}  run_id={result.get('run_id')}")
-    typer.echo(f"rows_in={result.get('rows_in')}  silver={result.get('rows_silver')}  quarantined={result.get('rows_quarantined')}")
-    typer.echo(f"critic_passed={result.get('critic_passed')}  insight_backend={settings.insight_backend}")
+    typer.echo(
+        f"rows_in={result.get('rows_in')}  silver={result.get('rows_silver')}  quarantined={result.get('rows_quarantined')}"
+    )
+    typer.echo(
+        f"critic_passed={result.get('critic_passed')}  insight_backend={settings.insight_backend}"
+    )
     if result.get("critic_violations"):
         typer.echo(f"critic_violations={result['critic_violations']}")
     if result.get("pii_findings"):

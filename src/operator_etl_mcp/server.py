@@ -27,7 +27,11 @@ async def list_tools() -> list[Tool]:
         Tool(
             name="get_gold_metrics",
             description="Return gold KPI aggregates (no row-level data).",
-            inputSchema={"type": "object", "properties": {"domain": {"type": "string", "default": "gov"}}, "required": []},
+            inputSchema={
+                "type": "object",
+                "properties": {"domain": {"type": "string", "default": "gov"}},
+                "required": [],
+            },
             annotations=READ_ONLY_LOCAL,
         ),
         Tool(
@@ -35,7 +39,10 @@ async def list_tools() -> list[Tool]:
             description="Run an allowlisted quality query by id.",
             inputSchema={
                 "type": "object",
-                "properties": {"query_id": {"type": "string"}, "node": {"type": "string", "default": "quality_agent"}},
+                "properties": {
+                    "query_id": {"type": "string"},
+                    "node": {"type": "string", "default": "quality_agent"},
+                },
                 "required": ["query_id"],
             },
             annotations=READ_ONLY_LOCAL,
@@ -43,7 +50,11 @@ async def list_tools() -> list[Tool]:
         Tool(
             name="get_run_status",
             description="Return pipeline run audit row.",
-            inputSchema={"type": "object", "properties": {"run_id": {"type": "string"}}, "required": ["run_id"]},
+            inputSchema={
+                "type": "object",
+                "properties": {"run_id": {"type": "string"}},
+                "required": ["run_id"],
+            },
             annotations=READ_ONLY_LOCAL,
         ),
     ]
@@ -60,9 +71,18 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             return [TextContent(type="text", text=json.dumps(data, default=str))]
         if name == "run_quality_sql":
             try:
-                data = run_allowlisted_sql(con, arguments["query_id"], node=arguments.get("node", "quality_agent"), settings=settings)
+                data = run_allowlisted_sql(
+                    con,
+                    arguments["query_id"],
+                    node=arguments.get("node", "quality_agent"),
+                    settings=settings,
+                )
             except ToolDenied as exc:
-                return [TextContent(type="text", text=json.dumps({"error": "TOOL_DENIED", "reason": str(exc)}))]
+                return [
+                    TextContent(
+                        type="text", text=json.dumps({"error": "TOOL_DENIED", "reason": str(exc)})
+                    )
+                ]
             return [TextContent(type="text", text=json.dumps(data, default=str))]
         if name == "get_run_status":
             data = get_run_status(con, arguments["run_id"])

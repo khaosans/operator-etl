@@ -26,7 +26,10 @@ def extract_csv(path: Path) -> ExtractResult:
         raise FileNotFoundError(f"CSV not found: {path}")
     with path.open(newline="", encoding="utf-8-sig") as fh:
         reader = csv.DictReader(fh)
-        rows = [{key: (value if value is not None else "") for key, value in row.items()} for row in reader]
+        rows = [
+            {key: (value if value is not None else "") for key, value in row.items()}
+            for row in reader
+        ]
     return ExtractResult(file_name=path.name, content_hash=file_content_hash(path), rows=rows)
 
 

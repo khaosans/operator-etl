@@ -6,17 +6,17 @@ from datetime import UTC, datetime
 
 from operator_etl.config import Settings, get_settings
 from operator_etl.extract.csv import ExtractResult
-from operator_etl_graph.critic import critic_check
-from operator_etl_graph.insights import render_llm_insight, render_template_insight
-from operator_etl_graph.state import PipelineState
-from operator_etl_policy.budgets import RunBudget
 from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
 from operator_etl.load.connection import connect
 from operator_etl.load.ops import already_ingested, finish_run, load_bronze, start_run
 from operator_etl.pipeline import collect_extracts
 from operator_etl.sources import get_source
 from operator_etl.transform.gov_clean import init_gov_schema, transform_comments_bronze
+from operator_etl_graph.critic import critic_check
+from operator_etl_graph.insights import render_llm_insight, render_template_insight
+from operator_etl_graph.state import PipelineState
 from operator_etl_mcp.tools import get_gold_metrics, run_allowlisted_sql
+from operator_etl_policy.budgets import RunBudget
 from operator_etl_policy.pii import scan_records
 
 
@@ -29,7 +29,10 @@ def _extract_from_state_records(state: PipelineState, source_name: str) -> Extra
     return ExtractResult(
         file_name=f"{state.get('task_id', state['run_id'])}.jsonrpc.csv",
         content_hash=digest,
-        rows=[{key: str(value) if value is not None else "" for key, value in row.items()} for row in records],
+        rows=[
+            {key: str(value) if value is not None else "" for key, value in row.items()}
+            for row in records
+        ],
     )
 
 
@@ -65,7 +68,12 @@ def pii_gate_node(state: PipelineState) -> dict:
         return {"pii_findings": [], "pii_needs_human": False}
     result = scan_records(records, text_columns=["body", "subject"])
     findings = [
-        {"column": f.column, "entity_type": f.entity_type, "count": f.count, "max_confidence": f.max_confidence}
+        {
+            "column": f.column,
+            "entity_type": f.entity_type,
+            "count": f.count,
+            "max_confidence": f.max_confidence,
+        }
         for f in result.findings
     ]
     if result.needs_human:
@@ -94,7 +102,9 @@ def quality_node(state: PipelineState, settings: Settings | None = None) -> dict
     try:
         build_gov_marts(con, settings)
         gate = gov_quality_gate(con, settings)
-        report = run_allowlisted_sql(con, "comment_quality", node="quality_agent", settings=settings)
+        report = run_allowlisted_sql(
+            con, "comment_quality", node="quality_agent", settings=settings
+        )
     finally:
         con.close()
     if not gate.passes:
@@ -113,7 +123,9 @@ def build_gold_node(state: PipelineState, settings: Settings | None = None) -> d
         metrics = get_gold_metrics(con, domain=state.get("domain", "gov"))
     finally:
         con.close()
-    serializable = {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in metrics.items()}
+    serializable = {
+        k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in metrics.items()
+    }
     return {"gold_metrics": serializable}
 
 
@@ -121,7 +133,10 @@ def insight_node(state: PipelineState, settings: Settings | None = None) -> dict
     settings = settings or get_settings()
     m = state.get("gold_metrics") or {}
     if not state.get("quality_passes"):
-        return {"insight_draft": "Insights withheld — quality gate did not pass.", "status": "needs_human"}
+        return {
+            "insight_draft": "Insights withheld — quality gate did not pass.",
+            "status": "needs_human",
+        }
     if settings.insight_backend != "llm":
         return {"insight_draft": render_template_insight(m)}
     budget = RunBudget(
@@ -136,12 +151,18 @@ def insight_node(state: PipelineState, settings: Settings | None = None) -> dict
 
 
 def critic_node(state: PipelineState) -> dict:
-    passed, violations = critic_check(state.get("insight_draft", ""), state.get("gold_metrics") or {})
+    passed, violations = critic_check(
+        state.get("insight_draft", ""), state.get("gold_metrics") or {}
+    )
     if passed:
         return {"critic_passed": True, "critic_violations": []}
     retries = state.get("_critic_retries", 0)
     if not passed and retries < 2:
-        return {"critic_passed": False, "critic_violations": violations, "_critic_retries": retries + 1}
+        return {
+            "critic_passed": False,
+            "critic_violations": violations,
+            "_critic_retries": retries + 1,
+        }
     return {
         "critic_passed": False,
         "critic_violations": violations,

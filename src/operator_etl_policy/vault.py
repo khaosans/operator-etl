@@ -51,7 +51,11 @@ def _load_or_create_key(path: Path) -> bytes:
     if path.exists():
         mode = path.stat().st_mode
         if mode & (stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH):
-            logger.warning("Vault key %s has overly permissive permissions (%o), restricting to 0600", path, stat.S_IMODE(mode))
+            logger.warning(
+                "Vault key %s has overly permissive permissions (%o), restricting to 0600",
+                path,
+                stat.S_IMODE(mode),
+            )
             os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
         return path.read_bytes()
     key = Fernet.generate_key()

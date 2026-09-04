@@ -29,7 +29,11 @@ def test_is_gcp_flag() -> None:
 
 
 def test_pubsub_gcs_decode() -> None:
-    payload = {"bucket": "operator-etl-inbox", "name": "incoming/comments.csv", "contentType": "text/csv"}
+    payload = {
+        "bucket": "operator-etl-inbox",
+        "name": "incoming/comments.csv",
+        "contentType": "text/csv",
+    }
     envelope = {
         "message": {
             "data": base64.b64encode(json.dumps(payload).encode()).decode(),

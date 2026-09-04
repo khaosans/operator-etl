@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [master, main]
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
@@ -33,6 +40,15 @@ jobs:
 
       - name: Build container image (${{ matrix.cloud_extra }})
         run: docker build --build-arg CLOUD_EXTRA=${{ matrix.cloud_extra }} -t operator-etl:${{ matrix.cloud_extra }} .
+
+      - name: Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: operator-etl:${{ matrix.cloud_extra }}
+          format: table
+          exit-code: "1"
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
 
   terraform:
     runs-on: ubuntu-latest
@@ -64,3 +80,13 @@ jobs:
       - name: Terraform validate
         working-directory: infra/${{ matrix.stack }}
         run: terraform validate
+
+      - name: Checkov IaC scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: infra/${{ matrix.stack }}
+          framework: terraform
+          soft_fail: true
+          config_file: .checkov.yml
+          output_format: cli
+          quiet: true

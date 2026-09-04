@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from contextlib import contextmanager
-from typing import Any, Callable
+from typing import Any
 
 from telemetry.config import get_runtime, get_tracer, safe_attributes
-
 
 SAFE_STATE_KEYS = {
     "run_id",
@@ -49,7 +49,9 @@ def _record_node_metrics(name: str, result: dict[str, Any], base: dict[str, Any]
         if rows_silver:
             counters.rows_processed.add(rows_silver, {**shared, "stage": "silver"})
         if rows_quarantined:
-            counters.rows_quarantined.add(rows_quarantined, {**shared, "reason": "validation_failed"})
+            counters.rows_quarantined.add(
+                rows_quarantined, {**shared, "reason": "validation_failed"}
+            )
     if name == "build_gold":
         metrics = result.get("gold_metrics") or {}
         gold_rows = int(metrics.get("comment_count") or metrics.get("order_count") or 0)
@@ -71,7 +73,9 @@ def _record_node_metrics(name: str, result: dict[str, Any], base: dict[str, Any]
             )
 
 
-def instrument_langgraph_node(name: str, fn: Callable[[dict[str, Any]], dict[str, Any]]) -> Callable[[dict[str, Any]], dict[str, Any]]:
+def instrument_langgraph_node(
+    name: str, fn: Callable[[dict[str, Any]], dict[str, Any]]
+) -> Callable[[dict[str, Any]], dict[str, Any]]:
     def wrapped(state: dict[str, Any]) -> dict[str, Any]:
         before = state_attributes(state)
         with span(f"operator_etl.node.{name}", attributes={**before, "node.name": name}) as current:
@@ -86,7 +90,11 @@ def instrument_langgraph_node(name: str, fn: Callable[[dict[str, Any]], dict[str
 def record_branch_decision(route_name: str, decision: str, state: dict[str, Any]) -> None:
     with span(
         f"operator_etl.route.{route_name}",
-        attributes={**state_attributes(state), "route.name": route_name, "route.decision": decision},
+        attributes={
+            **state_attributes(state),
+            "route.name": route_name,
+            "route.decision": decision,
+        },
     ):
         return
 

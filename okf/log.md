@@ -1,5 +1,15 @@
 # OKF changelog
 
+## 2026-09-04 (CodeQL log injection)
+
+- `_safe_log_str` on graph-runner HTTP logs for request/event-controlled fields; pytest count **78**.
+
+## 2026-09-04 (public repo secops + README)
+
+- Platform gates: CodeQL, Trivy, Checkov, release SBOM; Dependabot docker/terraform; local `make lint` / `make security`.
+- CODEOWNERS consolidated under `.github/CODEOWNERS` (GCP/AWS/Azure secrets paths).
+- Root README aligned to Make-a-README layout; [docs/PUBLIC-READINESS.md](../docs/PUBLIC-READINESS.md) / [docs/SECURITY-HARDENING.md](../docs/SECURITY-HARDENING.md) / [docs/STANDARDS.md](../docs/STANDARDS.md) updated.
+
 ## 2026-09-04 (ruleset admin checklist)
 
 - [docs/PUBLIC-READINESS.md](../docs/PUBLIC-READINESS.md): audited legacy ruleset `main` (disabled, empty targets) + step-by-step Settings UI checklist to make merge protection Active.

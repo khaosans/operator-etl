@@ -56,7 +56,9 @@ class BigQueryConnection:
                 name = f"p{i}"
                 rewritten = rewritten.replace("?", f"@{name}", 1)
                 query_parameters.append(ScalarQueryParameter(name, _scalar_type(value), value))
-            job = self.client.query(rewritten, job_config=QueryJobConfig(query_parameters=query_parameters))
+            job = self.client.query(
+                rewritten, job_config=QueryJobConfig(query_parameters=query_parameters)
+            )
         else:
             job = self.client.query(sql)
         result = job.result()
@@ -131,13 +133,15 @@ def load_bronze(
     if not extracted.rows:
         con.insert_rows(
             "ingest_files",
-            [{
-                "content_hash": extracted.content_hash,
-                "file_name": extracted.file_name,
-                "source": source,
-                "ingested_at": stamp.isoformat(),
-                "row_count": 0,
-            }],
+            [
+                {
+                    "content_hash": extracted.content_hash,
+                    "file_name": extracted.file_name,
+                    "source": source,
+                    "ingested_at": stamp.isoformat(),
+                    "row_count": 0,
+                }
+            ],
         )
         return 0
 
@@ -155,13 +159,15 @@ def load_bronze(
     con.insert_rows("bronze_raw", bronze_rows)
     con.insert_rows(
         "ingest_files",
-        [{
-            "content_hash": extracted.content_hash,
-            "file_name": extracted.file_name,
-            "source": source,
-            "ingested_at": stamp.isoformat(),
-            "row_count": len(extracted.rows),
-        }],
+        [
+            {
+                "content_hash": extracted.content_hash,
+                "file_name": extracted.file_name,
+                "source": source,
+                "ingested_at": stamp.isoformat(),
+                "row_count": len(extracted.rows),
+            }
+        ],
     )
     return len(extracted.rows)
 
@@ -169,16 +175,18 @@ def load_bronze(
 def start_run(con: BigQueryConnection, run_id: str, source: str) -> None:
     con.insert_rows(
         "pipeline_runs",
-        [{
-            "run_id": run_id,
-            "started_at": datetime.now(UTC).replace(tzinfo=None).isoformat(),
-            "source": source,
-            "status": "running",
-            "rows_in": 0,
-            "rows_silver": 0,
-            "rows_quarantined": 0,
-            "files_skipped": 0,
-        }],
+        [
+            {
+                "run_id": run_id,
+                "started_at": datetime.now(UTC).replace(tzinfo=None).isoformat(),
+                "source": source,
+                "status": "running",
+                "rows_in": 0,
+                "rows_silver": 0,
+                "rows_quarantined": 0,
+                "files_skipped": 0,
+            }
+        ],
     )
 
 

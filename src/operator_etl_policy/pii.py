@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import re
 from dataclasses import dataclass, field
 
@@ -40,7 +39,9 @@ def scan_text(text: str, column: str = "body") -> list[tuple[str, float]]:
     return hits
 
 
-def scan_records(records: list[dict[str, str]], text_columns: list[str] | None = None) -> PiiScanResult:
+def scan_records(
+    records: list[dict[str, str]], text_columns: list[str] | None = None
+) -> PiiScanResult:
     text_columns = text_columns or ["body", "subject", "comment_text"]
     agg: dict[tuple[str, str], list[float]] = {}
     ambiguous = False

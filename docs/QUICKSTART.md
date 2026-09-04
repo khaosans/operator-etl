@@ -42,7 +42,7 @@ Final banner:
 ==========================================
   OPERATOR_ETL_VERIFY=PASS
 ==========================================
-  tests=76
+  tests=78
   demo=silver=10 quarantined=2 status=complete
   next=docs/WALKTHROUGH.md
 ==========================================
@@ -56,7 +56,7 @@ Screenshots of Streamlit and CLI: [TOUR.md](TOUR.md).
 
 ```bash
 ./scripts/verify.sh --json
-# {"verify":"PASS","tests":76,"demo":{"status":"complete","silver":10,"quarantined":2},"next":"docs/WALKTHROUGH.md"}
+# {"verify":"PASS","tests":78,"demo":{"status":"complete","silver":10,"quarantined":2},"next":"docs/WALKTHROUGH.md"}
 ```
 
 ---
@@ -67,7 +67,7 @@ After `./scripts/verify.sh`, confirm:
 
 - [ ] Exit code `0`
 - [ ] Output contains `OPERATOR_ETL_VERIFY=PASS`
-- [ ] `76 passed` (or current test count in the verify banner)
+- [ ] `78 passed` (or current test count in the verify banner)
 - [ ] Demo shows `status=complete`, `silver=10`, `quarantined=2`
 - [ ] Insight text mentions comments (no raw email/phone in output)
 

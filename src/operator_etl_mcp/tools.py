@@ -1,8 +1,5 @@
 from __future__ import annotations
 
-import json
-from pathlib import Path
-
 import yaml
 
 from operator_etl.config import Settings, get_settings
@@ -22,7 +19,9 @@ def load_allowlist(settings: Settings | None = None) -> dict:
         return yaml.safe_load(fh)
 
 
-def run_allowlisted_sql(con, query_id: str, node: str = "quality_agent", settings: Settings | None = None) -> dict:
+def run_allowlisted_sql(
+    con, query_id: str, node: str = "quality_agent", settings: Settings | None = None
+) -> dict:
     with span("operator_etl.mcp.run_quality_sql", attributes={"query_id": query_id, "node": node}):
         spec = load_allowlist(settings)
         for entry in spec.get("queries", []):

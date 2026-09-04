@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import json
-
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
@@ -47,7 +45,9 @@ def quality_sql(body: QualitySqlRequest) -> dict:
     try:
         return run_allowlisted_sql(con, body.query_id, node=body.node, settings=settings)
     except ToolDenied as exc:
-        raise HTTPException(status_code=403, detail={"error": "TOOL_DENIED", "reason": str(exc)}) from exc
+        raise HTTPException(
+            status_code=403, detail={"error": "TOOL_DENIED", "reason": str(exc)}
+        ) from exc
     finally:
         con.close()
 

@@ -58,7 +58,9 @@ def transform_bronze(con: duckdb.DuckDBPyConnection) -> TransformStats:
             )
             quarantined += 1
             continue
-        ordered_at = order.ordered_at.replace(tzinfo=None) if order.ordered_at.tzinfo else order.ordered_at
+        ordered_at = (
+            order.ordered_at.replace(tzinfo=None) if order.ordered_at.tzinfo else order.ordered_at
+        )
         con.execute(
             """
             INSERT INTO silver_orders
@@ -81,7 +83,9 @@ def transform_bronze(con: duckdb.DuckDBPyConnection) -> TransformStats:
         existing_ids.add(order.order_id)
         silver_rows += 1
 
-    return TransformStats(rows_in=len(pending), rows_silver=silver_rows, rows_quarantined=quarantined)
+    return TransformStats(
+        rows_in=len(pending), rows_silver=silver_rows, rows_quarantined=quarantined
+    )
 
 
 def _quarantine(
@@ -99,5 +103,12 @@ def _quarantine(
             (_content_hash, _row_num, _source, _ingested_at, payload, error)
         VALUES (?, ?, ?, ?, ?, ?)
         """,
-        [content_hash, row_num, source, ingested_at, json.dumps(payload, ensure_ascii=False), error],
+        [
+            content_hash,
+            row_num,
+            source,
+            ingested_at,
+            json.dumps(payload, ensure_ascii=False),
+            error,
+        ],
     )

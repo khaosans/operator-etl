@@ -78,7 +78,9 @@ def ingest_source(source_name: str, settings: Settings | None = None) -> RunResu
         finish_run(con, run_id, status="ok", rows_in=rows_in, files_skipped=skipped)
         return RunResult(run_id, source.name, rows_in, 0, 0, skipped, "ok")
     except Exception as exc:
-        finish_run(con, run_id, status="error", rows_in=rows_in, files_skipped=skipped, error=str(exc))
+        finish_run(
+            con, run_id, status="error", rows_in=rows_in, files_skipped=skipped, error=str(exc)
+        )
         raise
     finally:
         con.close()

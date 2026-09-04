@@ -12,7 +12,7 @@ How to change Operator ETL without breaking trust signals (CI, tests, share PDFs
 make e2e
 ```
 
-This runs OKF validate, 76 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
+This runs OKF validate, 78 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
 
 For OKF-only doc changes:
 
@@ -30,7 +30,7 @@ python3 scripts/okf_validate.py okf --strict
 4. If user-visible: add a bullet under `## [Unreleased]` in [CHANGELOG.md](../CHANGELOG.md)
 5. **Do not** bump `pyproject.toml` version unless this PR *is* the release (see below)
 6. Open PR — template checklist must be complete
-7. Wait for **all** required checks green: `e2e`, `docker (gcp|aws|azure)`, `terraform (gcp|aws|azure)`, `gitleaks`, `bandit`, `pip-audit`
+7. Wait for **all** required checks green: `e2e`, `docker (gcp|aws|azure)`, `terraform (gcp|aws|azure)`, `gitleaks`, `bandit`, `pip-audit`, CodeQL `Analyze`
 8. **Do not merge** while any required check is red or pending
 9. Squash-merge (preferred) after checks pass
 

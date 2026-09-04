@@ -57,7 +57,12 @@ def _wait_for_completion(client: TestClient, task_id: str, *, timeout: float = 3
     response = client.post(
         "/a2a/v1/tasks",
         headers=_headers(),
-        json={"jsonrpc": "2.0", "id": "status-1", "method": "tasks.get_status", "params": {"task_id": task_id}},
+        json={
+            "jsonrpc": "2.0",
+            "id": "status-1",
+            "method": "tasks.get_status",
+            "params": {"task_id": task_id},
+        },
     )
     assert response.status_code == 200, f"status poll HTTP {response.status_code}: {response.text}"
     payload = response.json()["result"]
@@ -108,7 +113,12 @@ def test_a2a_requires_bearer_and_jsonrpc_method(gov_settings, monkeypatch) -> No
 
     unauthorized = client.post(
         "/a2a/v1/tasks",
-        json={"jsonrpc": "2.0", "id": "bad-1", "method": "tasks.get_status", "params": {"task_id": "missing"}},
+        json={
+            "jsonrpc": "2.0",
+            "id": "bad-1",
+            "method": "tasks.get_status",
+            "params": {"task_id": "missing"},
+        },
     )
     assert unauthorized.status_code == 401
 

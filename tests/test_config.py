@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from operator_etl.config import Settings
 from conftest import REPO_ROOT
+from operator_etl.config import Settings
 
 
 def test_orders_warehouse_is_independent_of_gov(tmp_path):

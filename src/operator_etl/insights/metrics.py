@@ -65,7 +65,9 @@ def quality_gate(con: duckdb.DuckDBPyConnection, settings: Settings | None = Non
             f"quarantine rate {quarantine_rate:.1%} exceeds {settings.max_quarantine_rate:.1%}"
         )
     if last_ingest_at is not None:
-        stamp = last_ingest_at.replace(tzinfo=UTC) if last_ingest_at.tzinfo is None else last_ingest_at
+        stamp = (
+            last_ingest_at.replace(tzinfo=UTC) if last_ingest_at.tzinfo is None else last_ingest_at
+        )
         freshness_hours = (datetime.now(UTC) - stamp).total_seconds() / 3600
         if freshness_hours > settings.max_freshness_hours:
             reasons.append(

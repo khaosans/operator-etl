@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+from helpers import assert_insight_grounded_in_metrics, assert_no_pii_leak
 from operator_etl.config import Settings, set_settings
+from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
 from operator_etl.load.duckdb import connect
 from operator_etl.pipeline import ingest_source
 from operator_etl.transform.gov_clean import transform_comments_bronze
-from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
 from operator_etl_graph.graph import run_graph
-from helpers import assert_insight_grounded_in_metrics, assert_no_pii_leak
 
 
 def test_public_comments_ingest_and_transform(gov_settings: Settings) -> None:
@@ -40,7 +40,9 @@ def test_quarantine_preserves_bad_rows_with_errors(gov_settings: Settings) -> No
     ingest_source("public_comments", gov_settings)
     con = connect(gov_settings)
     transform_comments_bronze(con)
-    rows = con.execute("SELECT _row_num, error FROM quarantine_comments ORDER BY _row_num").fetchall()
+    rows = con.execute(
+        "SELECT _row_num, error FROM quarantine_comments ORDER BY _row_num"
+    ).fetchall()
     con.close()
     assert len(rows) == 2
     errors = " | ".join(r[1] for r in rows)

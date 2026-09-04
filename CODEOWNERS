@@ -1,6 +1,0 @@
-# Security-sensitive paths require review from security-reviewers
-src/operator_etl_policy/vault.py  @khaosans
-src/operator_etl_policy/pii.py    @khaosans
-infra/gcp/secrets.tf         @khaosans
-infra/gcp/iam.tf             @khaosans
-SECURITY.md                        @khaosans

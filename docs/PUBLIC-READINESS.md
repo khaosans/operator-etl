@@ -13,10 +13,17 @@ Use this checklist when onboarding contributors, enabling branch protection, or 
 | Item | Status |
 |---|---|
 | Apache-2.0 license | ✅ |
-| CI proof gate (76 pytest + FOIA demo) | ✅ |
+| CI proof gate (78 pytest + FOIA demo) | ✅ |
 | Secret scan (gitleaks) | ✅ |
 | SAST / SCA (bandit + pip-audit) | ✅ |
-| Dependabot (pip + Actions) | ✅ |
+| CodeQL (Python) | ✅ |
+| Container CVE scan (Trivy HIGH/CRITICAL) | ✅ |
+| IaC scan (Checkov) | ✅ |
+| Release CycloneDX SBOM | ✅ |
+| Dependabot (pip + Actions + Docker + Terraform) | ✅ |
+| Standardized root README (Make-a-README layout) | ✅ |
+| Local `make lint` / `make security` + pre-commit | ✅ |
+| Unified `.github/CODEOWNERS` (GCP/AWS/Azure secrets paths) | ✅ |
 | PR / issue templates, CODE_OF_CONDUCT | ✅ |
 | Educational docs + Mermaid diagrams | ✅ [WHY.md](WHY.md) |
 | Public messaging (no "request access") | ✅ |
@@ -81,8 +88,11 @@ Type each name when GitHub’s picker offers “Add check”. Names must match A
 | `gitleaks` | `.github/workflows/secret-scan.yml` |
 | `bandit` | `.github/workflows/security.yml` |
 | `pip-audit` | `.github/workflows/security.yml` |
+| `Analyze` | `.github/workflows/codeql.yml` |
 
 If a check is missing from the picker, open any recent green PR Actions run so GitHub indexes the job name, then retry Add.
+
+Trivy runs inside each `docker (*)` matrix job (build must pass the scan). Checkov runs inside each `terraform (*)` matrix job.
 
 ### Prove it works
 
@@ -101,7 +111,9 @@ If a check is missing from the picker, open any recent green PR Actions run so G
 
 | Setting | Why |
 |---|---|
-| **Dependabot alerts** | Settings → Code security → enable alerts + security updates |
+| **Dependabot alerts + security updates** | Settings → Code security → enable alerts and security updates |
+| **Secret scanning + push protection** | Settings → Code security → prevent committing secrets |
+| **Require review from Code Owners** | Optional for solo maintainer; path owners live in `.github/CODEOWNERS` |
 | **Repository visibility** | Settings → General → Public |
 | **Packages tag immutability** | After first GHCR publish: package settings → make tags immutable |
 | **Do not force-push `master` or `v*` tags** | Releases are snapshots; next freeze is a new tag |
@@ -125,7 +137,7 @@ Suggested copy: [share/README.md](share/README.md)
 | Safe to claim | Do not claim |
 |---|---|
 | `make e2e` reproduces FOIA demo locally | Production FOIA deployment |
-| 76 pytest + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
+| 78 pytest + critic + PII leak tests | Presidio or a live LLM API (optional path mocked) |
 | Medallion + LangGraph + MCP architecture | Live GCP/BQ E2E (PARTIAL) |
 
 ---

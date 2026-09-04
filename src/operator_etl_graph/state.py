@@ -1,11 +1,8 @@
 from __future__ import annotations
 
 import operator
-import re
 import uuid
 from typing import Annotated, Literal, TypedDict
-
-from operator_etl_policy.pii import PiiFinding
 
 
 class PipelineState(TypedDict, total=False):

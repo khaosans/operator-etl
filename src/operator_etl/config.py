@@ -140,7 +140,9 @@ class Settings(BaseSettings):
 
     @property
     def warehouse_path(self) -> Path:
-        return Path(self.warehouse) if self.warehouse else self.root / "warehouse" / "operator.duckdb"
+        return (
+            Path(self.warehouse) if self.warehouse else self.root / "warehouse" / "operator.duckdb"
+        )
 
     @property
     def orders_warehouse_path(self) -> Path:
@@ -174,7 +176,9 @@ class Settings(BaseSettings):
     def dashboard_path(self) -> Path:
         return self.root / "dashboard" / "app.py"
 
-    def table_ref(self, layer: Literal["bronze", "silver", "quarantine", "gold"], table: str) -> str:
+    def table_ref(
+        self, layer: Literal["bronze", "silver", "quarantine", "gold"], table: str
+    ) -> str:
         """BigQuery table reference: project.dataset.table"""
         datasets = {
             "bronze": self.bq_dataset_bronze,

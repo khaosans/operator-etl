@@ -43,12 +43,16 @@ def _store(bucket: str, settings: Settings | None = None) -> ObjectStore:
     return GcsObjectStore(bucket, settings)
 
 
-def extract_gcs_object(bucket: str, object_name: str, settings: Settings | None = None) -> ExtractResult:
+def extract_gcs_object(
+    bucket: str, object_name: str, settings: Settings | None = None
+) -> ExtractResult:
     """Download a CSV from GCS and return ExtractResult."""
     return extract_object(_store(bucket, settings), object_name)
 
 
-def extract_gcs_inbox(bucket: str, prefix: str, settings: Settings | None = None) -> list[ExtractResult]:
+def extract_gcs_inbox(
+    bucket: str, prefix: str, settings: Settings | None = None
+) -> list[ExtractResult]:
     """List CSV objects under prefix and extract each."""
     return extract_inbox(_store(bucket, settings), prefix)
 

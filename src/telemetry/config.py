@@ -6,8 +6,6 @@ from dataclasses import dataclass
 from threading import Lock
 from typing import Any
 
-logger = logging.getLogger("operator_etl.telemetry")
-
 from opentelemetry import metrics, trace
 from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExporter
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
@@ -18,6 +16,8 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor, SimpleSpanProcessor, SpanExporter
 from opentelemetry.trace import Tracer
+
+logger = logging.getLogger("operator_etl.telemetry")
 
 
 def _truthy(value: str | None) -> bool:
@@ -58,17 +58,23 @@ def _resource() -> Resource:
     return Resource.create({"service.name": _service_name()})
 
 
-def _build_tracer_provider(endpoint: str | None, span_exporter: SpanExporter | None = None) -> TracerProvider:
+def _build_tracer_provider(
+    endpoint: str | None, span_exporter: SpanExporter | None = None
+) -> TracerProvider:
     provider = TracerProvider(resource=_resource())
     if span_exporter is not None:
         provider.add_span_processor(SimpleSpanProcessor(span_exporter))
         return provider
     if endpoint:
-        provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter(endpoint=f"{endpoint.rstrip('/')}/v1/traces")))
+        provider.add_span_processor(
+            BatchSpanProcessor(OTLPSpanExporter(endpoint=f"{endpoint.rstrip('/')}/v1/traces"))
+        )
     return provider
 
 
-def _build_meter_provider(endpoint: str | None, metric_reader: MetricReader | None = None) -> MeterProvider:
+def _build_meter_provider(
+    endpoint: str | None, metric_reader: MetricReader | None = None
+) -> MeterProvider:
     readers: list[MetricReader] = []
     if metric_reader is not None:
         readers.append(metric_reader)
@@ -96,7 +102,9 @@ def _build_runtime(
         logger.debug("OpenTelemetry meter provider already installed")
     meter = meter_provider.get_meter("operator-etl")
     counters = TelemetryCounters(
-        rows_processed=meter.create_counter("etl.rows.processed", unit="rows", description="Rows processed by stage"),
+        rows_processed=meter.create_counter(
+            "etl.rows.processed", unit="rows", description="Rows processed by stage"
+        ),
         rows_quarantined=meter.create_counter(
             "etl.rows.quarantined",
             unit="rows",
@@ -162,7 +170,9 @@ def initialize_telemetry(
         if _RUNTIME is not None and not force:
             return _RUNTIME
         endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
-        _RUNTIME = _build_runtime(endpoint=endpoint, span_exporter=span_exporter, metric_reader=metric_reader)
+        _RUNTIME = _build_runtime(
+            endpoint=endpoint, span_exporter=span_exporter, metric_reader=metric_reader
+        )
         return _RUNTIME
 
 

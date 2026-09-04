@@ -2,11 +2,41 @@
 
 from __future__ import annotations
 
-import json
-
 from fastapi.testclient import TestClient
 
-from operator_etl_gcp.http.app import app
+from operator_etl_gcp.http.app import _safe_log_str, app
+
+
+def test_safe_log_str_neutralizes_newlines_and_controls() -> None:
+    assert "\n" not in _safe_log_str("evil\nINFO fake")
+    assert "\r" not in _safe_log_str("evil\rinjected")
+    assert _safe_log_str("ok-source") == "ok-source"
+    assert _safe_log_str("a\x00b\x1fc") == "a_b_c"
+    assert len(_safe_log_str("x" * 200)) == 128
+
+
+def test_run_accepts_source_with_newline_without_crashing(gov_settings, monkeypatch) -> None:
+    monkeypatch.setattr("operator_etl_gcp.http.app._gov_settings", lambda pipeline: gov_settings)
+    monkeypatch.setattr(
+        "operator_etl_gcp.http.app.run_graph",
+        lambda *, source, settings: {
+            "run_id": "run-safe-1",
+            "status": "complete",
+            "rows_in": 0,
+            "rows_silver": 0,
+            "rows_quarantined": 0,
+            "critic_passed": True,
+            "insight_draft": "",
+            "errors": [],
+        },
+    )
+    client = TestClient(app)
+    response = client.post(
+        "/run",
+        json={"source": "public_comments\nfake", "pipeline": "public_comments", "trigger": "http"},
+    )
+    assert response.status_code == 200
+    assert response.json()["status"] == "complete"
 
 
 def test_azure_event_grid_subscription_validation() -> None:

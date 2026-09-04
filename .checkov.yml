@@ -1,0 +1,18 @@
+# Checkov policy config for Operator ETL Terraform stacks.
+#
+# Staging MVP stacks intentionally omit several production controls
+# (CMEK, full SQL audit flags, public-access edge cases). Checkov runs on
+# every PR with soft-fail so findings stay visible without blocking the
+# local MVP proof gate. Promote to hard-fail when hardening infra for prod
+# — see docs/RISKS.md and docs/SECURITY-HARDENING.md.
+
+compact: true
+framework:
+  - terraform
+quiet: true
+soft-fail: true
+# Prefer fixing findings over skips. Soft-fail covers residual staging gaps
+# instead of maintaining a large skip-check denylist.
+skip-check:
+  # Local demo stacks use example backends; remote state is operator-chosen per cloud.
+  - CKV_TF_1
