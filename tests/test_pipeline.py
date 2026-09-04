@@ -49,7 +49,11 @@ def test_quarantine_invalid_rows(settings) -> None:
     assert silver == 17
     errors = " | ".join(row[0] for row in quarantined)
     assert "empty" in errors or "missing" in errors or "required" in errors
-    assert "not-a-date" in errors or "datetime" in errors.lower() or "Input should be a valid datetime" in errors
+    assert (
+        "not-a-date" in errors
+        or "datetime" in errors.lower()
+        or "Input should be a valid datetime" in errors
+    )
     assert "greater than 0" in errors or "-5" in errors
     assert "amount" in errors.lower() or "free" in errors or "valid number" in errors.lower()
 

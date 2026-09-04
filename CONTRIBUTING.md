@@ -12,15 +12,21 @@ New to the repo? Run **`./scripts/verify.sh`** — or see [docs/QUICKSTART.md](d
    ```bash
    make e2e
    ```
-2. If you changed OKF concepts:
+2. Run lint and security locally (same as CI):
+   ```bash
+   make lint
+   make security
+   ```
+   Optional hooks: `uv run pre-commit install` then `uv run pre-commit run --all-files`.
+3. If you changed OKF concepts:
    ```bash
    python3 scripts/okf_validate.py okf --strict
    ```
-3. Update [okf/models/implementation-status.md](okf/models/implementation-status.md) if component status changed
-4. Append a line to [okf/log.md](okf/log.md) for significant doc/architecture changes
-5. If the change is user-visible, add a bullet under `## [Unreleased]` in [CHANGELOG.md](CHANGELOG.md). **Do not** bump `version` in `pyproject.toml` unless this PR is a release ([docs/VERSIONING.md](docs/VERSIONING.md)).
+4. Update [okf/models/implementation-status.md](okf/models/implementation-status.md) if component status changed
+5. Append a line to [okf/log.md](okf/log.md) for significant doc/architecture changes
+6. If the change is user-visible, add a bullet under `## [Unreleased]` in [CHANGELOG.md](CHANGELOG.md). **Do not** bump `version` in `pyproject.toml` unless this PR is a release ([docs/VERSIONING.md](docs/VERSIONING.md)).
 
-CI must pass before merge: **e2e**, **docker (gcp|aws|azure)**, **terraform (gcp|aws|azure)**, **Secret scan** (`gitleaks`), and **Security** (`bandit` + `pip-audit`). Do not squash-merge while any of those are red or pending. Repo ruleset setup: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md#required-block-merges-when-ci-fails). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
+CI must pass before merge: **e2e**, **docker (gcp|aws|azure)** (includes Trivy), **terraform (gcp|aws|azure)** (includes Checkov), **Secret scan** (`gitleaks`), **Security** (`bandit` + `pip-audit`), and **CodeQL**. Do not squash-merge while any of those are red or pending. Repo ruleset setup: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md#required-block-merges-when-ci-fails). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
 
 ## OKF conventions
 

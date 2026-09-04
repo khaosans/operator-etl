@@ -7,6 +7,11 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ## [Unreleased]
 
+### Added
+
+- Public-repo secops: CodeQL workflow, Trivy image scan, Checkov IaC scan, CycloneDX SBOM on release, Dependabot for Docker/Terraform, `make lint` / `make security`, pre-commit + ruff, unified `.github/CODEOWNERS`.
+- Standardized root README (status, TOC, config, layout, security/support sections).
+
 ### Fixed
 
 - A2A tests wait on a worker completion `threading.Event` (`wait_for_task`) instead of a short busy-poll, so cold CI graph runs cannot false-timeout after ~2.5s (keeps the rate-limiter reset from the prior poll-budget fix).

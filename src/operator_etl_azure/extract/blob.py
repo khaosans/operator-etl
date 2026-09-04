@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from operator_etl.config import Settings, get_settings
 from operator_etl.extract.csv import ExtractResult
-from operator_etl.extract.object_store import extract_inbox, extract_object
+from operator_etl.extract.object_store import extract_inbox
 
 
 class AzureBlobObjectStore:
@@ -29,7 +29,9 @@ class AzureBlobObjectStore:
             from azure.storage.blob import BlobServiceClient
 
             if not self.account_name:
-                raise ValueError("OPERATOR_ETL_AZURE_STORAGE_ACCOUNT required for azure object store")
+                raise ValueError(
+                    "OPERATOR_ETL_AZURE_STORAGE_ACCOUNT required for azure object store"
+                )
             account_url = f"https://{self.account_name}.blob.core.windows.net"
             service = BlobServiceClient(account_url, credential=DefaultAzureCredential())
             self._container_client = service.get_container_client(self.container)

@@ -1,4 +1,4 @@
-# Dependabot — review and merge only after CI (e2e + secret-scan) passes.
+# Dependabot — review and merge only after CI (e2e + secret-scan + security) passes.
 # See docs/RELEASING.md for update workflow.
 
 version: 2
@@ -14,12 +14,44 @@ updates:
         patterns:
           - pytest
           - reportlab
+          - ruff
+          - bandit
+          - pip-audit
+          - pre-commit
         update-types:
           - minor
           - patch
 
   - package-ecosystem: github-actions
     directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 2
+
+  - package-ecosystem: terraform
+    directory: /infra/gcp
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: terraform
+    directory: /infra/aws
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: terraform
+    directory: /infra/azure
     schedule:
       interval: weekly
       day: monday

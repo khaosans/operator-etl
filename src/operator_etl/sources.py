@@ -23,14 +23,18 @@ class Source:
     domain: str = "orders"
 
 
-def load_pipeline(settings: Settings | None = None, pipeline_name: str | None = None) -> dict[str, Any]:
+def load_pipeline(
+    settings: Settings | None = None, pipeline_name: str | None = None
+) -> dict[str, Any]:
     settings = settings or get_settings()
     path = settings.root / "pipelines" / f"{pipeline_name or settings.pipeline_name}.yaml"
     with path.open() as fh:
         return yaml.safe_load(fh)
 
 
-def get_source(name: str, settings: Settings | None = None, pipeline_name: str | None = None) -> Source:
+def get_source(
+    name: str, settings: Settings | None = None, pipeline_name: str | None = None
+) -> Source:
     settings = settings or get_settings()
     spec = load_pipeline(settings, pipeline_name)
     sources = spec.get("sources") or {}

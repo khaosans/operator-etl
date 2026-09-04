@@ -54,6 +54,18 @@ jobs:
       - name: Build sdist and wheel
         run: uv build
 
+      - name: Generate CycloneDX SBOM
+        run: |
+          mkdir -p dist
+          uv run cyclonedx-py environment \
+            --pyproject pyproject.toml \
+            --of JSON \
+            -o dist/operator-etl.cdx.json
+          uv run cyclonedx-py environment \
+            --pyproject pyproject.toml \
+            --of XML \
+            -o dist/operator-etl.cdx.xml
+
       # GITHUB_TOKEN is enough for this repo. If an org policy blocks GHCR
       # pushes, add a PAT with write:packages as repository secret GHCR_TOKEN.
       - name: Log in to GHCR
@@ -103,6 +115,7 @@ jobs:
           if [[ "${{ steps.meta.outputs.prerelease }}" == "true" ]]; then
             extra+=(--prerelease)
           fi
+          # Attach wheels/sdists and CycloneDX SBOM assets (SLSA/cosign: follow-up).
           gh release create "${{ github.ref_name }}" dist/* \
             --title "Operator ETL ${{ steps.meta.outputs.display_version }}" \
             --notes-file "$notes" \

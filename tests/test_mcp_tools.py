@@ -24,9 +24,9 @@ def test_run_quality_sql_denies_unknown_query_id(gov_settings: Settings) -> None
 
 def test_run_quality_sql_permits_comment_quality(gov_settings: Settings) -> None:
     """run_quality_sql: comment_quality allowlist query returns quarantine_rate."""
+    from operator_etl.insights.gov_metrics import build_gov_marts
     from operator_etl.pipeline import ingest_source
     from operator_etl.transform.gov_clean import transform_comments_bronze
-    from operator_etl.insights.gov_metrics import build_gov_marts
 
     ingest_source("public_comments", gov_settings)
     con = connect(gov_settings)
@@ -47,9 +47,9 @@ def test_allowlist_has_no_vault_tools(gov_settings: Settings) -> None:
 
 def test_get_gold_metrics_returns_expected_kpis(gov_settings: Settings) -> None:
     """get_gold_metrics: aggregate KPIs from gold_comment_kpis (no row-level data)."""
+    from operator_etl.insights.gov_metrics import build_gov_marts
     from operator_etl.pipeline import ingest_source
     from operator_etl.transform.gov_clean import transform_comments_bronze
-    from operator_etl.insights.gov_metrics import build_gov_marts
 
     ingest_source("public_comments", gov_settings)
     con = connect(gov_settings)

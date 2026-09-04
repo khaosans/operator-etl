@@ -143,35 +143,44 @@ Every push and pull request against `master` / `main` runs the proof gate **and*
 ```mermaid
 flowchart LR
   PR[Push or PR] --> E2E[e2e pytest FOIA demo]
-  PR --> Docker[docker build]
+  PR --> Docker[docker build + Trivy]
+  PR --> Tf[terraform + Checkov]
   PR --> Secrets[gitleaks]
   PR --> SAST[bandit]
   PR --> SCA[pip-audit]
+  PR --> CodeQL[CodeQL]
   E2E --> Merge[Merge when all green]
   Docker --> Merge
+  Tf --> Merge
   Secrets --> Merge
   SAST --> Merge
   SCA --> Merge
+  CodeQL --> Merge
 ```
 
 | Gate | Tool | Config | What it catches |
 |---|---|---|---|
 | Proof | `./harness/e2e.sh` | [docs/TESTING.md](TESTING.md) | PII leak, critic, MCP, path traversal, FOIA demo |
-| Docker | CI workflow | `.github/workflows/ci.yml` | Image still builds |
+| Docker | CI + Trivy | `.github/workflows/ci.yml` | Image builds; HIGH/CRITICAL CVEs (unfixed ignored) |
+| Terraform | fmt/validate + Checkov | `.github/workflows/ci.yml` + `.checkov.yml` | IaC misconfig (Checkov soft-fail on staging stacks; promote to hard-fail for prod) |
 | Secret scan | gitleaks | `.github/workflows/secret-scan.yml` | Keys, vault files, `.env` |
 | SAST | bandit | `.bandit.yml` — `src/`, skip `B101`; other hits need a fix or `# nosec` | Common Python footguns |
 | SCA | pip-audit | `.github/workflows/security.yml` | Known CVEs in frozen deps |
-| Dependabot | weekly | `.github/dependabot.yml` | Stale pip and Actions |
+| CodeQL | codeql-action | `.github/workflows/codeql.yml` | Semantic vulnerability queries |
+| Dependabot | weekly | `.github/dependabot.yml` | Stale pip, Actions, Docker, Terraform |
 
-Bandit and pip-audit are **workflow jobs**, not pytest. A green `make e2e` does not replace them. Branch protection should require the **Security** workflow — [PUBLIC-READINESS.md](PUBLIC-READINESS.md).
+Bandit and pip-audit are **workflow jobs**, not pytest. A green `make e2e` does not replace them. Branch protection should require these contexts — [PUBLIC-READINESS.md](PUBLIC-READINESS.md).
 
-Run SAST locally:
+Run locally:
 
 ```bash
-uv run bandit -r src/ -c .bandit.yml
+make lint       # ruff
+make security   # bandit + pip-audit
+uv run pre-commit install
+uv run pre-commit run --all-files
 ```
 
-Exit 0 is required. New findings must be **fixed** or annotated `# nosec Bxxx` with a one-line reason. Do not add global skips in `.bandit.yml` unless the rule is noise on every file (today only `B101`).
+Exit 0 is required. New bandit findings must be **fixed** or annotated `# nosec Bxxx` with a one-line reason. Do not add global skips in `.bandit.yml` unless the rule is noise on every file (today only `B101`).
 
 ### Accepted `# nosec` annotations
 
@@ -198,7 +207,7 @@ Use this on every PR that touches extract, HTTP, vault, Terraform secrets, or MC
 6. **Error sanitization** — no tracebacks or warehouse paths in HTTP responses.
 7. **PII boundary** — raw PII never in insight text, MCP responses, LLM context, or OTel spans ([OBSERVABILITY.md](OBSERVABILITY.md)).
 8. **MCP allowlist** — three tools; no vault decrypt; no raw SQL ([MCP.md](MCP.md)).
-9. **CODEOWNERS** — `vault.py`, `pii.py`, `secrets.tf`, `iam.tf` require review.
+9. **CODEOWNERS** — `vault.py`, `pii.py`, cloud `secrets.tf` / `iam.tf` (Azure: `container_app.tf`) require review via `.github/CODEOWNERS`.
 
 ### When adding an HTTP endpoint
 
@@ -222,8 +231,9 @@ Use this on every PR that touches extract, HTTP, vault, Terraform secrets, or MC
 | In-process rate limit | Cloud Armor or API gateway (shared across instances) |
 | Regex PII | Presidio or agency-approved scanner |
 | Local vault file `0600` | Secret Manager + Cloud KMS; key rotation |
-| Bandit + pip-audit on PRs | Same, plus required checks on `master` |
-| CODEOWNERS on four paths | Expand as IAM / auth surface grows |
+| Bandit + pip-audit + CodeQL + Trivy + Checkov on PRs | Same, plus Active ruleset required checks on `master` |
+| CODEOWNERS on security paths | Expand as IAM / auth surface grows |
+| CycloneDX SBOM on release | Cosign / SLSA provenance attestations |
 
 Do not claim production FOIA software from a green `verify.sh`. [RISKS.md](RISKS.md) · [FINAL-REVIEW.md](FINAL-REVIEW.md).
 

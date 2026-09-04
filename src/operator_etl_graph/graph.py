@@ -4,9 +4,9 @@ from typing import Any, Literal
 
 from langgraph.graph import END, StateGraph
 
+from operator_etl.checkpoints import build_checkpointer
 from operator_etl.config import Settings, get_settings
 from operator_etl.load.connection import connect
-from operator_etl.checkpoints import build_checkpointer
 from operator_etl.load.ops import finish_run
 from operator_etl_graph.nodes import (
     build_gold_node,
@@ -21,7 +21,12 @@ from operator_etl_graph.nodes import (
 )
 from operator_etl_graph.state import PipelineState, new_run_id
 from telemetry import initialize_telemetry
-from telemetry.tracer import instrument_langgraph_node, record_branch_decision, record_run_exception, span
+from telemetry.tracer import (
+    instrument_langgraph_node,
+    record_branch_decision,
+    record_run_exception,
+    span,
+)
 
 
 def route_pii(state: PipelineState) -> Literal["validate_load", "needs_human"]:
@@ -60,26 +65,51 @@ def build_graph(settings: Settings | None = None, *, checkpointer: Any | None = 
     initialize_telemetry()
     graph = StateGraph(PipelineState)
 
-    graph.add_node("ingest", instrument_langgraph_node("ingest", lambda s: ingest_node(s, settings)))
+    graph.add_node(
+        "ingest", instrument_langgraph_node("ingest", lambda s: ingest_node(s, settings))
+    )
     graph.add_node("pii_gate", instrument_langgraph_node("pii_gate", pii_gate_node))
-    graph.add_node("validate_load", instrument_langgraph_node("validate_load", lambda s: validate_load_node(s, settings)))
-    graph.add_node("quality", instrument_langgraph_node("quality", lambda s: quality_node(s, settings)))
-    graph.add_node("build_gold", instrument_langgraph_node("build_gold", lambda s: build_gold_node(s, settings)))
-    graph.add_node("insight", instrument_langgraph_node("insight", lambda s: insight_node(s, settings)))
+    graph.add_node(
+        "validate_load",
+        instrument_langgraph_node("validate_load", lambda s: validate_load_node(s, settings)),
+    )
+    graph.add_node(
+        "quality", instrument_langgraph_node("quality", lambda s: quality_node(s, settings))
+    )
+    graph.add_node(
+        "build_gold",
+        instrument_langgraph_node("build_gold", lambda s: build_gold_node(s, settings)),
+    )
+    graph.add_node(
+        "insight", instrument_langgraph_node("insight", lambda s: insight_node(s, settings))
+    )
     graph.add_node("insight_blocked", insight_blocked_node)
     graph.add_node("critic", instrument_langgraph_node("critic", critic_node))
-    graph.add_node("persist", instrument_langgraph_node("persist", lambda s: persist_node(s, settings)))
-    graph.add_node("needs_human", instrument_langgraph_node("needs_human", lambda s: needs_human_node(s, settings)))
+    graph.add_node(
+        "persist", instrument_langgraph_node("persist", lambda s: persist_node(s, settings))
+    )
+    graph.add_node(
+        "needs_human",
+        instrument_langgraph_node("needs_human", lambda s: needs_human_node(s, settings)),
+    )
 
     graph.set_entry_point("ingest")
     graph.add_edge("ingest", "pii_gate")
-    graph.add_conditional_edges("pii_gate", route_pii, {"validate_load": "validate_load", "needs_human": "needs_human"})
+    graph.add_conditional_edges(
+        "pii_gate", route_pii, {"validate_load": "validate_load", "needs_human": "needs_human"}
+    )
     graph.add_edge("validate_load", "quality")
-    graph.add_conditional_edges("quality", route_quality, {"build_gold": "build_gold", "insight_blocked": "insight_blocked"})
+    graph.add_conditional_edges(
+        "quality", route_quality, {"build_gold": "build_gold", "insight_blocked": "insight_blocked"}
+    )
     graph.add_edge("build_gold", "insight")
     graph.add_edge("insight_blocked", "critic")
     graph.add_edge("insight", "critic")
-    graph.add_conditional_edges("critic", route_critic, {"persist": "persist", "revise": "insight", "needs_human": "needs_human"})
+    graph.add_conditional_edges(
+        "critic",
+        route_critic,
+        {"persist": "persist", "revise": "insight", "needs_human": "needs_human"},
+    )
     graph.add_edge("persist", END)
     graph.add_edge("needs_human", END)
 

@@ -10,7 +10,7 @@ Operator ETL follows established patterns for agentic data systems, government F
 |---|---|---|
 | **OKF v0.1** | [Google Knowledge Catalog OKF](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf) | [`okf/`](../okf/index.md) bundle with typed frontmatter; validate with `python3 scripts/okf_validate.py okf --strict` |
 | **Progressive disclosure** | OKF `index.md` pattern | Root [`okf/index.md`](../okf/index.md) → playbooks → code |
-| **README conventions** | [Make a README](https://www.makeareadme.com/) | Prerequisites, quick start, commands, doc map in [README.md](../README.md) |
+| **README conventions** | [Make a README](https://www.makeareadme.com/) | Prerequisites, quick start, status, config, layout, contributing/security in [README.md](../README.md) |
 
 ---
 
@@ -60,10 +60,11 @@ Readable mapping: **[NIST.md](NIST.md)**. We align selected practices. We do **n
 | **Secrets hygiene** | [SECURITY.md](../SECURITY.md) | No `.env`, vault, or tfvars in git |
 | **Least privilege (GCP)** | White paper §12.3 | Separate service accounts per workload in Terraform |
 | **OWASP input validation** | [SECURITY-HARDENING.md](SECURITY-HARDENING.md) | Pydantic `max_length`, 10 MB body cap, path traversal guard |
-| **SAST** | bandit | [`.github/workflows/security.yml`](../.github/workflows/security.yml) + `.bandit.yml`; `# nosec` only with a reason |
-| **SCA** | pip-audit | Frozen-dep CVE check in the same Security workflow |
+| **SAST** | bandit + CodeQL | [`.github/workflows/security.yml`](../.github/workflows/security.yml), [`.github/workflows/codeql.yml`](../.github/workflows/codeql.yml) + `.bandit.yml`; `# nosec` only with a reason |
+| **SCA** | pip-audit | Frozen-dep CVE check in the Security workflow |
 | **Secret scanning** | gitleaks | [`.github/workflows/secret-scan.yml`](../.github/workflows/secret-scan.yml) |
-| **CODEOWNERS** | [CODEOWNERS](../CODEOWNERS) | `vault.py`, `pii.py`, `secrets.tf`, `iam.tf` require review |
+| **Container / IaC** | Trivy + Checkov | CI `docker` / `terraform` jobs; `.checkov.yml` documents intentional skips |
+| **CODEOWNERS** | [`.github/CODEOWNERS`](../.github/CODEOWNERS) | `vault.py`, `pii.py`, cloud secrets/IAM paths require review |
 
 Human how-to: [SECURITY-HARDENING.md](SECURITY-HARDENING.md). Agent checklist: [operator-security](https://github.com/khaosans/operator-etl/blob/master/skills/operator-security/SKILL.md).
 
@@ -89,8 +90,9 @@ Documented in [docs/Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) §
 |---|---|---|
 | **src layout** | [PyPA src layout](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/) | Packages under `src/` |
 | **uv** | [Astral uv](https://docs.astral.sh/uv/) | `pyproject.toml` + `uv.lock` |
+| **Lint** | ruff + pre-commit | `make lint`; `.pre-commit-config.yaml` |
 | **Proof gate** | [FOUNDATIONS.md](FOUNDATIONS.md) proof matrix | `make e2e` before share, deploy, or scale claims — see [WALKTHROUGH.md](WALKTHROUGH.md) |
-| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — e2e + Docker; [`.github/workflows/security.yml`](../.github/workflows/security.yml) — bandit + pip-audit |
+| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — e2e + Docker/Trivy + Terraform/Checkov; [`.github/workflows/security.yml`](../.github/workflows/security.yml) — bandit + pip-audit; CodeQL + gitleaks |
 
 ---
 

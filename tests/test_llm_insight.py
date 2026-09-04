@@ -1,11 +1,11 @@
 from __future__ import annotations
 
+from helpers import assert_insight_grounded_in_metrics
 from operator_etl.config import Settings
 from operator_etl_graph.critic import critic_check
 from operator_etl_graph.insights import render_llm_insight, render_template_insight
 from operator_etl_graph.nodes import insight_node
 from operator_etl_policy.budgets import RunBudget
-from helpers import assert_insight_grounded_in_metrics
 
 METRICS = {
     "comment_count": 10,
@@ -113,7 +113,9 @@ def test_llm_payload_strips_timestamps(monkeypatch):
 
     monkeypatch.setattr("operator_etl_graph.insights._invoke_chat", fake_invoke)
     metrics = {**METRICS, "as_of": "2026-08-18T00:51:51.647651", "extra_mart_col": 999}
-    insight_node({"gold_metrics": metrics, "quality_passes": True, "_llm_calls": 0}, _llm_settings())
+    insight_node(
+        {"gold_metrics": metrics, "quality_passes": True, "_llm_calls": 0}, _llm_settings()
+    )
     assert "comment_count" in captured["human"]
     assert "2026" not in captured["human"]
     assert "as_of" not in captured["human"]

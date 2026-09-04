@@ -111,7 +111,7 @@ Full policy: [SECURITY.md](../SECURITY.md)
 | Rate limiting | Per-client sliding window middleware | `app.py` middleware |
 | Input size limits | 10 MB body; Pydantic `max_length` | `app.py`, `server.py` |
 | Sanitized error responses | No tracebacks or internal data in 500s | `app.py` |
-| CODEOWNERS for security paths | vault, pii, secrets, iam require review | `CODEOWNERS` |
+| CODEOWNERS for security paths | vault, pii, secrets, iam require review | `.github/CODEOWNERS` |
 
 ### Not production-ready without additional work
 

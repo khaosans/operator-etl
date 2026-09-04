@@ -35,9 +35,7 @@ def test_run_graph_emits_sanitized_spans_and_metrics(gov_settings) -> None:
     assert "operator_etl.node.critic" in span_names
 
     serialized_attrs = " ".join(
-        str(value)
-        for item in spans
-        for value in (item.attributes or {}).values()
+        str(value) for item in spans for value in (item.attributes or {}).values()
     )
     assert "jane.doe@example.com" not in serialized_attrs
     assert "614-555-0199" not in serialized_attrs

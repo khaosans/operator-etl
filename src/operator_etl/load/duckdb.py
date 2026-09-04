@@ -108,7 +108,12 @@ def load_bronze(
             INSERT INTO ingest_files (content_hash, file_name, source, ingested_at, row_count)
             VALUES (?, ?, ?, ?, 0)
             """,
-            [extracted.content_hash, extracted.file_name, source, ingested_at or datetime.now(UTC).replace(tzinfo=None)],
+            [
+                extracted.content_hash,
+                extracted.file_name,
+                source,
+                ingested_at or datetime.now(UTC).replace(tzinfo=None),
+            ],
         )
         return 0
 

@@ -5,17 +5,18 @@ import os
 import queue
 import threading
 import uuid
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Any, Iterator
+from typing import Any
 
 from fastapi import Header, HTTPException, status
 from pydantic import BaseModel, Field
 
 from operator_etl.config import Settings, set_settings
+from operator_etl.load.connection import connect
 from operator_etl_graph.graph import run_graph
 from operator_etl_mcp.tools import get_run_status
-from operator_etl.load.connection import connect
 from telemetry.tracer import span
 
 
@@ -64,7 +65,10 @@ def _now() -> str:
 def _configured_bearer_token() -> str:
     token = os.getenv("OPERATOR_ETL_A2A_BEARER_TOKEN")
     if not token:
-        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="A2A bearer token not configured")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="A2A bearer token not configured",
+        )
     return token
 
 
@@ -76,7 +80,13 @@ def ensure_bearer_token(authorization: str | None = Header(default=None)) -> Non
 
 
 def _publish(record: TaskRecord, event: str, payload: dict[str, Any]) -> None:
-    body = {"event": event, "task_id": record.task_id, "run_id": record.run_id, "timestamp": _now(), **payload}
+    body = {
+        "event": event,
+        "task_id": record.task_id,
+        "run_id": record.run_id,
+        "timestamp": _now(),
+        **payload,
+    }
     record.updated_at = datetime.now(UTC)
     record.history.append(body)
     record.stream.put(body)
@@ -93,7 +103,9 @@ def _sanitize_result(result: dict[str, Any]) -> dict[str, Any]:
 
 def _run_task(record: TaskRecord, settings: Settings, params: CreateTaskParams) -> None:
     try:
-        with span("operator_etl.a2a.task", attributes={"task_id": record.task_id, "run_id": record.run_id}):
+        with span(
+            "operator_etl.a2a.task", attributes={"task_id": record.task_id, "run_id": record.run_id}
+        ):
             try:
                 record.state = "working"
                 _publish(record, "working", {"state": "working"})
@@ -200,8 +212,12 @@ def task_status_payload(task_id: str, settings: Settings) -> dict[str, Any]:
             "rows_in": run_status.get("rows_in"),
             "rows_silver": run_status.get("rows_silver"),
             "rows_quarantined": run_status.get("rows_quarantined"),
-            "started_at": str(run_status.get("started_at")) if run_status.get("started_at") else None,
-            "finished_at": str(run_status.get("finished_at")) if run_status.get("finished_at") else None,
+            "started_at": str(run_status.get("started_at"))
+            if run_status.get("started_at")
+            else None,
+            "finished_at": str(run_status.get("finished_at"))
+            if run_status.get("finished_at")
+            else None,
         },
     }
 

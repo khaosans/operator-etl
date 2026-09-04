@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from operator_etl.config import Settings, get_settings
-from operator_etl.extract.object_store import ObjectStore, extract_inbox, extract_object
 from operator_etl.extract.csv import ExtractResult
+from operator_etl.extract.object_store import extract_inbox, extract_object
 
 
 class S3ObjectStore:
@@ -40,7 +40,9 @@ class S3ObjectStore:
         return response["Body"].read()
 
 
-def extract_s3_inbox(bucket: str, prefix: str, settings: Settings | None = None) -> list[ExtractResult]:
+def extract_s3_inbox(
+    bucket: str, prefix: str, settings: Settings | None = None
+) -> list[ExtractResult]:
     return extract_inbox(S3ObjectStore(bucket, settings), prefix)
 
 

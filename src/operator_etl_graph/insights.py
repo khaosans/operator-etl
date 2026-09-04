@@ -99,7 +99,10 @@ def render_llm_insight(
     """
     with span(
         "operator_etl.llm.render_insight",
-        attributes={"metric_keys": len(_llm_metric_payload(metrics)), "insight_backend": settings.insight_backend},
+        attributes={
+            "metric_keys": len(_llm_metric_payload(metrics)),
+            "insight_backend": settings.insight_backend,
+        },
     ):
         if not _has_llm_credentials(settings):
             return (

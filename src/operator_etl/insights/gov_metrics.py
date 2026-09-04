@@ -27,7 +27,9 @@ def build_gov_marts(con: duckdb.DuckDBPyConnection, settings: Settings | None = 
         con.execute(path.read_text(encoding="utf-8"))
 
 
-def gov_quality_gate(con: duckdb.DuckDBPyConnection, settings: Settings | None = None) -> GovQualityReport:
+def gov_quality_gate(
+    con: duckdb.DuckDBPyConnection, settings: Settings | None = None
+) -> GovQualityReport:
     settings = settings or get_settings()
     row = con.execute("SELECT * FROM gold_comment_quality").fetchone()
     if row is None:
@@ -40,7 +42,9 @@ def gov_quality_gate(con: duckdb.DuckDBPyConnection, settings: Settings | None =
     if rate and rate > settings.max_quarantine_rate:
         reasons.append(f"quarantine rate {rate:.1%} exceeds {settings.max_quarantine_rate:.1%}")
     if last_ingest_at := last_ingest:
-        stamp = last_ingest_at.replace(tzinfo=UTC) if last_ingest_at.tzinfo is None else last_ingest_at
+        stamp = (
+            last_ingest_at.replace(tzinfo=UTC) if last_ingest_at.tzinfo is None else last_ingest_at
+        )
         freshness = (datetime.now(UTC) - stamp).total_seconds() / 3600
         if freshness > settings.max_freshness_hours:
             reasons.append(f"stale ingest ({freshness:.1f}h)")

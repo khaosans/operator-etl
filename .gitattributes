@@ -1,0 +1,21 @@
+# Line endings and linguist hints for a consistent public checkout.
+
+* text=auto eol=lf
+
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.sh text eol=lf
+*.sql text eol=lf
+*.tf text eol=lf
+*.hcl text eol=lf
+
+uv.lock linguist-generated=true
+*.terraform.lock.hcl linguist-generated=true
+
+*.png binary
+*.jpg binary
+*.pdf binary
+*.duckdb binary

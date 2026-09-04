@@ -3,7 +3,6 @@ from __future__ import annotations
 # Streamlit dashboard launcher — argv is constructed here, not from user input.
 import subprocess  # nosec B404
 import sys
-from typing import Optional
 
 import typer
 
@@ -13,7 +12,9 @@ from operator_etl.load.duckdb import connect
 from operator_etl.pipeline import ingest_source, run_pipeline
 from operator_etl.sources import list_sources
 
-app = typer.Typer(no_args_is_help=True, help="Intake files/APIs, land them in DuckDB, print insights.")
+app = typer.Typer(
+    no_args_is_help=True, help="Intake files/APIs, land them in DuckDB, print insights."
+)
 
 
 @app.command()
@@ -76,7 +77,7 @@ def dashboard() -> None:
     raise typer.Exit(subprocess.call(cmd, shell=False))  # nosec B603
 
 
-def main(argv: Optional[list[str]] = None) -> None:
+def main(argv: list[str] | None = None) -> None:
     app(args=argv)
 
 

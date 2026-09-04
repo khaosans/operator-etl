@@ -57,7 +57,11 @@ def _as_row_dicts(payload: Any) -> list[dict[str, str]]:
         records = payload
     elif isinstance(payload, dict):
         nested = next(
-            (payload[key] for key in ("data", "items", "orders", "results") if isinstance(payload.get(key), list)),
+            (
+                payload[key]
+                for key in ("data", "items", "orders", "results")
+                if isinstance(payload.get(key), list)
+            ),
             None,
         )
         records = nested if nested is not None else [payload]
@@ -68,5 +72,7 @@ def _as_row_dicts(payload: Any) -> list[dict[str, str]]:
     for record in records:
         if not isinstance(record, dict):
             raise ValueError("Each JSON record must be an object")
-        rows.append({str(key): "" if value is None else str(value) for key, value in record.items()})
+        rows.append(
+            {str(key): "" if value is None else str(value) for key, value in record.items()}
+        )
     return rows

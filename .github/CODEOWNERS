@@ -1,4 +1,21 @@
-# Default reviewers for all changes. Enable "Require review from Code Owners"
-# in branch protection before going public — see docs/PUBLIC-READINESS.md.
+# Security-sensitive paths require review. Enable "Require review from Code Owners"
+# in branch protection — see docs/PUBLIC-READINESS.md.
+# Catch-all is last so path rules take precedence.
 
+src/operator_etl_policy/vault.py  @khaosans
+src/operator_etl_policy/pii.py    @khaosans
+
+infra/gcp/secrets.tf              @khaosans
+infra/gcp/iam.tf                  @khaosans
+infra/aws/secrets.tf              @khaosans
+infra/aws/iam.tf                  @khaosans
+infra/azure/secrets.tf            @khaosans
+infra/azure/container_app.tf      @khaosans
+
+SECURITY.md                       @khaosans
+.github/workflows/security.yml    @khaosans
+.github/workflows/secret-scan.yml @khaosans
+.github/workflows/codeql.yml      @khaosans
+
+# Default reviewers for all other changes
 * @khaosans

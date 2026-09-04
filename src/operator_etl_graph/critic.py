@@ -31,5 +31,7 @@ def fuzzy_match(n: float, allowed: list[float], tol: float = 0.015) -> bool:
 def critic_check(insight_draft: str, gold_metrics: dict) -> tuple[bool, list[str]]:
     numbers = extract_numbers(insight_draft)
     allowed = flatten_metrics(gold_metrics)
-    violations = [str(int(n)) if n == int(n) else str(n) for n in numbers if not fuzzy_match(n, allowed)]
+    violations = [
+        str(int(n)) if n == int(n) else str(n) for n in numbers if not fuzzy_match(n, allowed)
+    ]
     return len(violations) == 0, violations

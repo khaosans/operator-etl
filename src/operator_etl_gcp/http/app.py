@@ -13,8 +13,8 @@ from starlette.responses import StreamingResponse
 
 from a2a.server import JsonRpcRequest, ensure_bearer_token, get_task_events, handle_jsonrpc
 from operator_etl.config import Settings, get_settings, set_settings
-from operator_etl_graph.graph import run_graph
 from operator_etl_gcp.pubsub import decode_pubsub_push
+from operator_etl_graph.graph import run_graph
 from telemetry import initialize_telemetry
 
 logger = logging.getLogger("operator_etl_gcp")
@@ -95,13 +95,23 @@ def run_pipeline(body: RunRequest) -> dict[str, Any]:
     settings = _gov_settings(body.pipeline)
     set_settings(settings)
     initialize_telemetry()
-    logger.info(json.dumps({"event": "graph_run_start", "source": body.source, "trigger": body.trigger}))
+    logger.info(
+        json.dumps({"event": "graph_run_start", "source": body.source, "trigger": body.trigger})
+    )
     try:
         result = run_graph(source=body.source, settings=settings)
     except Exception as exc:
         logger.error("graph_run_failed: %s: %s", type(exc).__name__, exc)
         raise HTTPException(status_code=500, detail="Internal pipeline error") from exc
-    logger.info(json.dumps({"event": "graph_run_complete", "run_id": result.get("run_id"), "status": result.get("status")}))
+    logger.info(
+        json.dumps(
+            {
+                "event": "graph_run_complete",
+                "run_id": result.get("run_id"),
+                "status": result.get("status"),
+            }
+        )
+    )
     return {
         "run_id": result.get("run_id"),
         "status": result.get("status"),
@@ -126,7 +136,9 @@ async def pubsub_push(request: Request) -> dict[str, str]:
         return {"status": "skipped", "reason": "not a csv object"}
     settings = _gov_settings("public_comments")
     set_settings(settings)
-    logger.info(json.dumps({"event": "gcs_ingest", "bucket": event.bucket, "object": event.object_name}))
+    logger.info(
+        json.dumps({"event": "gcs_ingest", "bucket": event.bucket, "object": event.object_name})
+    )
     # GCS-triggered runs use gcs_inbox source; graph ingest picks up staged file via object store
     result = run_graph(source="gcs_inbox", settings=settings)
     return {"status": result.get("status", "unknown"), "run_id": result.get("run_id", "")}
@@ -140,7 +152,10 @@ async def azure_event_grid(request: Request) -> Response:
     events = body if isinstance(body, list) else [body]
     for event in events:
         event_type = event.get("eventType") or event.get("type")
-        if event_type in ("Microsoft.EventGrid.SubscriptionValidationEvent", "SubscriptionValidation"):
+        if event_type in (
+            "Microsoft.EventGrid.SubscriptionValidationEvent",
+            "SubscriptionValidation",
+        ):
             data = event.get("data") or {}
             code = data.get("validationCode") or data.get("validation_code")
             if not code:
@@ -155,7 +170,9 @@ async def azure_event_grid(request: Request) -> Response:
     logger.info(json.dumps({"event": "azure_blob_ingest", "count": len(events)}))
     result = run_graph(source="gcs_inbox", settings=settings)
     return Response(
-        content=json.dumps({"status": result.get("status", "unknown"), "run_id": result.get("run_id", "")}),
+        content=json.dumps(
+            {"status": result.get("status", "unknown"), "run_id": result.get("run_id", "")}
+        ),
         media_type="application/json",
     )
 

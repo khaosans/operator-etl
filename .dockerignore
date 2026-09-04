@@ -18,6 +18,12 @@ drops/inbox/*.csv
 docs/assets/
 docs/share/
 *.pdf
-infra/terraform/.terraform/
-infra/terraform/*.tfstate*
-infra/terraform/terraform.tfvars
+infra/gcp/.terraform/
+infra/aws/.terraform/
+infra/azure/.terraform/
+infra/gcp/*.tfstate*
+infra/aws/*.tfstate*
+infra/azure/*.tfstate*
+infra/gcp/terraform.tfvars
+infra/aws/terraform.tfvars
+infra/azure/terraform.tfvars

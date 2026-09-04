@@ -87,10 +87,22 @@ def transform_comments_bronze(con: duckdb.DuckDBPyConnection) -> GovTransformSta
             continue
         assert comment is not None
         if comment.comment_id in existing:
-            _quarantine(con, content_hash, row_num, source, ingested_at, data, f"duplicate comment_id {comment.comment_id}")
+            _quarantine(
+                con,
+                content_hash,
+                row_num,
+                source,
+                ingested_at,
+                data,
+                f"duplicate comment_id {comment.comment_id}",
+            )
             quarantined += 1
             continue
-        ordered_at = comment.submitted_at.replace(tzinfo=None) if comment.submitted_at.tzinfo else comment.submitted_at
+        ordered_at = (
+            comment.submitted_at.replace(tzinfo=None)
+            if comment.submitted_at.tzinfo
+            else comment.submitted_at
+        )
         con.execute(
             """
             INSERT INTO silver_comments
@@ -117,7 +129,9 @@ def transform_comments_bronze(con: duckdb.DuckDBPyConnection) -> GovTransformSta
         existing.add(comment.comment_id)
         silver_rows += 1
 
-    return GovTransformStats(rows_in=len(pending), rows_silver=silver_rows, rows_quarantined=quarantined)
+    return GovTransformStats(
+        rows_in=len(pending), rows_silver=silver_rows, rows_quarantined=quarantined
+    )
 
 
 def _quarantine(con, content_hash, row_num, source, ingested_at, payload, error):
@@ -127,5 +141,12 @@ def _quarantine(con, content_hash, row_num, source, ingested_at, payload, error)
             (_content_hash, _row_num, _source, _ingested_at, payload, error)
         VALUES (?, ?, ?, ?, ?, ?)
         """,
-        [content_hash, row_num, source, ingested_at, json.dumps(payload, ensure_ascii=False), error],
+        [
+            content_hash,
+            row_num,
+            source,
+            ingested_at,
+            json.dumps(payload, ensure_ascii=False),
+            error,
+        ],
     )

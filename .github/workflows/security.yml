@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [master, main]
 
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
 jobs:
   bandit:
     runs-on: ubuntu-latest
@@ -20,10 +27,15 @@ jobs:
         run: pip install bandit==1.8.3
 
       - name: Run bandit SAST
-        run: bandit -r src/ -c .bandit.yml -f json -o bandit-report.json || true
+        run: bandit -r src/ -c .bandit.yml -f json -o bandit-report.json
 
-      - name: Check bandit results
-        run: bandit -r src/ -c .bandit.yml
+      - name: Upload bandit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: bandit-report.json
+          if-no-files-found: ignore
 
   pip-audit:
     runs-on: ubuntu-latest
@@ -41,4 +53,12 @@ jobs:
         run: uv pip install pip-audit==2.7.3
 
       - name: Run pip-audit
-        run: uv run pip-audit --requirement <(uv pip freeze) --desc
+        run: uv run pip-audit --desc --format json --output pip-audit-report.json
+
+      - name: Upload pip-audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pip-audit-report
+          path: pip-audit-report.json
+          if-no-files-found: ignore
