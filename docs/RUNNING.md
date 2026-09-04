@@ -15,7 +15,7 @@ Console scripts are declared in [`pyproject.toml`](../pyproject.toml) (`[project
 | CLI (orders) | `uv run etl` | Ingest → silver/quarantine → gold → insights | dev |
 | CLI (FOIA graph) | `uv run etl-graph` | Agentic FOIA / public-comments LangGraph pipeline | dev |
 | Dashboard | `uv run streamlit run dashboard/app.py` | Streamlit Gov / FOIA, Orders, and Observability tabs | dev |
-| HTTP graph-runner (**main**) | `uv run operator-etl-gcp` | FastAPI service on `:8080` — `/health`, `/run`, `/pubsub/push`, and the A2A task surface | dev |
+| HTTP graph-runner (**main**) | `uv run operator-etl-gcp` | FastAPI service on `:8080` — `/health`, `/run`, `/pubsub/push`, A2A, and Discord Interactions | dev |
 | MCP over HTTP | `uv run uvicorn operator_etl_gcp.http.mcp_app:app` | FastAPI wrapper over the gold-KPI tools | dev |
 | MCP over stdio | `uv run operator-etl-mcp` | Allowlisted stdio MCP tools for local agents | dev — see caveat |
 
@@ -111,6 +111,10 @@ curl -s -X POST localhost:8080/a2a/v1/tasks \
 
 `tasks.get_status` returns sanitized artifacts only (gold metrics, public brief, critic outcome, row counts) — no raw records or PII. Stream lifecycle events over SSE at `GET /a2a/v1/tasks/{task_id}/events`. Full contract and security boundary: [A2A.md](A2A.md).
 
+## Discord Interactions
+
+Same graph-runner hosts `POST /discord/interactions` (Ed25519-verified). HITL alerts use an Incoming Webhook when `OPERATOR_ETL_DISCORD_WEBHOOK_URL` is set. Setup and command list: [DISCORD.md](DISCORD.md).
+
 ## MCP tools
 
 - **HTTP** — `uv run uvicorn operator_etl_gcp.http.mcp_app:app --port 8090`, then `GET /tools/gold_metrics?domain=gov`.
@@ -124,7 +128,7 @@ curl -s -X POST localhost:8080/a2a/v1/tasks \
 ## See also
 
 - [QUICKSTART.md](QUICKSTART.md) — one-command verify
-- [CLI.md](CLI.md) · [DASHBOARD.md](DASHBOARD.md) · [MCP.md](MCP.md) · [A2A.md](A2A.md) · [OBSERVABILITY.md](OBSERVABILITY.md)
+- [CLI.md](CLI.md) · [DASHBOARD.md](DASHBOARD.md) · [MCP.md](MCP.md) · [A2A.md](A2A.md) · [DISCORD.md](DISCORD.md) · [OBSERVABILITY.md](OBSERVABILITY.md)
 - [CLOUD-AGENT.md](CLOUD-AGENT.md) — the same services, auto-started in Cursor Cloud
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — GCP / Cloud Run production path
 - [SECURITY-HARDENING.md](SECURITY-HARDENING.md) — rate limit, body cap, path traversal, CI gates

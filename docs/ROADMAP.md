@@ -194,7 +194,7 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
   - Quarantine queue with **reasons** (not just counts)
   - HITL "approve/reject/edit" for ambiguous PII + insights
   - Audit log (who approved, when, changes)
-  - Email / Slack notification on HITL escalation
+  - Discord notification on HITL escalation (**IMPLEMENTED** — [DISCORD.md](DISCORD.md)); Slack later via same chat protocol
 - **Effort:** 4–8 weeks (product design, React/TypeScript FE, backend audit tables)
 - **Exit:** Officer can review + approve a run in under 5 minutes
 - **Docs:** [PRODUCT-UX.md](PRODUCT-UX.md)

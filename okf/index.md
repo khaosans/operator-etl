@@ -26,6 +26,7 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 * [Cloud-portable adapters](decisions/cloud-portable-adapters.md) — Protocols; GCP is reference cloud
 * [MCP allowlist only](decisions/mcp-allowlist-only.md) — No raw SQL, no vault decrypt
 * [PII fail-closed](decisions/pii-fail-closed.md) — Scan before insight; HITL on ambiguity
+* [Chat adapter boundary](decisions/chat-adapter-boundary.md) — Discord/Slack as Control-plane clients only
 
 # Playbooks
 
