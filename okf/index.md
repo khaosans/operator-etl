@@ -39,6 +39,8 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 * [Deploy Azure staging](playbooks/deploy-azure-staging.md) — Blob + Container Apps + Postgres
 * [Agency FOIA workflow](playbooks/agency-foia-workflow.md) — Public comments intake
 * [QA before share](playbooks/qa-before-share.md) — PDF share checklist
+* [Merge feature PR](playbooks/merge-feature-pr.md) — Unreleased CHANGELOG, green checks, squash-merge
+* [Cut a software release](playbooks/cut-release.md) — Freeze → tag → release.yml
 
 # References
 

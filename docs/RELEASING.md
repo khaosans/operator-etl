@@ -4,6 +4,8 @@ How to change Operator ETL without breaking trust signals (CI, tests, share PDFs
 
 **Versions:** [VERSIONING.md](VERSIONING.md) — tags publish, `master` does not.
 
+**Agents:** [merge-feature-pr](../okf/playbooks/merge-feature-pr.md) · [cut-release](../okf/playbooks/cut-release.md) · skill [operator-release](../skills/operator-release/SKILL.md)
+
 ---
 
 ## Every change (any size)
@@ -12,7 +14,7 @@ How to change Operator ETL without breaking trust signals (CI, tests, share PDFs
 make e2e
 ```
 
-This runs OKF validate, 78 pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails.
+This runs OKF validate, pytest, and the FOIA demo on a fresh warehouse. **Do not push** if it fails. Current count is in the verify banner (today **95**).
 
 For OKF-only doc changes:
 
@@ -23,6 +25,8 @@ python3 scripts/okf_validate.py okf --strict
 ---
 
 ## Pull request workflow
+
+Follow [okf/playbooks/merge-feature-pr.md](../okf/playbooks/merge-feature-pr.md). Summary:
 
 1. Branch from `master`
 2. Make changes
@@ -42,7 +46,7 @@ Pushes to `master` update the **wiki** (Pages). They do **not** publish GitHub P
 
 ## Cut a release (freeze)
 
-Do this when you intend to ship a beta or stable, not on every docs PR.
+Do this when you intend to ship a beta or stable, not on every docs PR. Full agent playbook: [okf/playbooks/cut-release.md](../okf/playbooks/cut-release.md).
 
 1. Release PR:
    - Move `[Unreleased]` to `## [X.Y.Z]` or `## [X.Y.Z-beta.N]` (today’s date)
@@ -72,7 +76,7 @@ First tagged freeze after this process: **`v0.5.0-beta.1`** (separate release PR
 See [VERSIONING.md](VERSIONING.md#install-a-version). Short form:
 
 ```bash
-docker pull ghcr.io/khaosans/operator-etl:0.6.0
+docker pull ghcr.io/khaosans/operator-etl:0.7.0
 pip install operator-etl --index-url https://pypi.pkg.github.com/khaosans/simple/
 ```
 
