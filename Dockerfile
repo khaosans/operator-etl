@@ -3,7 +3,7 @@
 #   docker build --build-arg CLOUD_EXTRA=gcp -t operator-etl:gcp .
 #   docker build --build-arg CLOUD_EXTRA=aws -t operator-etl:aws .
 #   docker build --build-arg CLOUD_EXTRA=azure -t operator-etl:azure .
-FROM python:3.12-slim AS base
+FROM python:3.14-slim AS base
 
 ARG CLOUD_EXTRA=gcp
 
