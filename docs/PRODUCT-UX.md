@@ -1,8 +1,13 @@
 # Product UX — when we go to product
 
-**When to read:** You are planning a **production officer UI**. This demo’s Streamlit app is a laptop run inspector, not that product.
+**When to read:** You are planning a **production officer UI** for **Priya**. This demo’s Streamlit app is a laptop run inspector, not that product. Personas: [PERSONAS.md](PERSONAS.md).
 
 **Status:** **SPECIFIED.** Do not treat the current dashboard as the production UX. Demo: [DASHBOARD.md](DASHBOARD.md) · Screenshots: [TOUR.md](TOUR.md).
+
+| Horizon | What Priya gets |
+|---|---|
+| **Today** | Streamlit Gov tab = run inspector (PARTIAL HITL). Enough to prove medallion + critic locally. |
+| **Later (this page)** | Responsive queue, streaming progress, approve/reject + audit — a real FOIA officer product. |
 
 ---
 

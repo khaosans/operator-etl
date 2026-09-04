@@ -12,15 +12,16 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 
 ## Reading paths by persona
 
+Canonical model: [PERSONAS.md](PERSONAS.md).
+
 | Persona | Path |
 |---|---|
-| **New engineer (30 min)** | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [CONCEPTS](CONCEPTS.md) → [PATTERNS](PATTERNS.md) → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
-| **Architect evaluating design** | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [PATTERNS](PATTERNS.md) → [RISKS](RISKS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
-| **FOIA / agency operator** | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · later [PRODUCT-UX](PRODUCT-UX.md) |
-| **New data source** | [APPLY](APPLY.md) → [ADD-A-SOURCE](ADD-A-SOURCE.md) |
-| **Scaling to GCP** | [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
-| **AI agent** | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) → QUICKSTART |
-| **External share** | [WHY](WHY.md) → [FINAL-REVIEW](FINAL-REVIEW.md) → [share](share/README.md) |
+| **Sam** — new engineer (30 min) | [QUICKSTART](QUICKSTART.md) → `./scripts/verify.sh` → [CONCEPTS](CONCEPTS.md) → [PATTERNS](PATTERNS.md) → [TOUR](TOUR.md) → [WALKTHROUGH](WALKTHROUGH.md) |
+| **Jordan** — architect / reviewer | [WHY](WHY.md) → [CONCEPTS](CONCEPTS.md) → [PATTERNS](PATTERNS.md) → [RISKS](RISKS.md) → [NIST](NIST.md) → [FOUNDATIONS](FOUNDATIONS.md) → [FINAL-REVIEW](FINAL-REVIEW.md) |
+| **Priya** — FOIA / program officer | [PERSONAS](PERSONAS.md) → [FOIA guide](FOIA-Public-Comments-Guide.md) → [DASHBOARD](DASHBOARD.md) · later [PRODUCT-UX](PRODUCT-UX.md) |
+| **Riley** — data engineer / new source | [APPLY](APPLY.md) → [ADD-A-SOURCE](ADD-A-SOURCE.md) · scale: [FINAL-REVIEW](FINAL-REVIEW.md) → [SCALING](SCALING.md) → [infra](https://github.com/khaosans/operator-etl/blob/master/infra/README.md) |
+| **Casey** — AI agent / MCP | [AGENTS.md](https://github.com/khaosans/operator-etl/blob/master/AGENTS.md) → [operator-verify](https://github.com/khaosans/operator-etl/blob/master/skills/operator-verify/SKILL.md) → QUICKSTART |
+| **Alex** — decision-maker / external share | [WHY](WHY.md) → [white paper](Operator-ETL-White-Paper.md) → [FINAL-REVIEW](FINAL-REVIEW.md) → [share](share/README.md) |
 
 **Doc tiers:** Tier 0 = QUICKSTART · Tier 1 = wiki home / README · Tier 2 = GETTING-STARTED, WALKTHROUGH, HOW-IT-WORKS · Tier 3 = FOUNDATIONS, FINAL-REVIEW, SCALING, white paper
 
@@ -33,7 +34,7 @@ Agent knowledge stays in [okf/index.md](https://github.com/khaosans/operator-etl
 | [index.md](index.md) | Wiki landing — who, verify, honest scope |
 | [QUICKSTART.md](QUICKSTART.md) | One-command verify + agent prompt |
 | [GETTING-STARTED.md](GETTING-STARTED.md) | Install, MCP, env vars |
-| [PERSONAS.md](PERSONAS.md) | Named user composites |
+| [PERSONAS.md](PERSONAS.md) | Canonical users + audiences (today vs later) |
 | [TOUR.md](TOUR.md) | Screenshots of verify, CLI, Streamlit, wiki |
 
 Proof gate: `./scripts/verify.sh` or `make e2e`.

@@ -19,7 +19,7 @@
 | **Repository** | `https://github.com/khaosans/operator-etl` |
 | **Verification Gate** | `./scripts/verify.sh` · 76 passing tests (pytest) · bit-identical replay |
 | **License** | Apache License 2.0 (Open Source) |
-| **Audience** | Chief Data Officers, Agency FOIA Directors, Enterprise Architects, Security & AI Reviewers |
+| **Audience** | Chief Data Officers, Agency FOIA Directors, Enterprise Architects, Security & AI Reviewers (**Alex** / **Jordan** in [PERSONAS.md](PERSONAS.md)) |
 
 **PDF Generation:** [`Operator-ETL-White-Paper.pdf`](Operator-ETL-White-Paper.pdf) — generated via `uv run python docs/build_whitepaper_pdf.py`
 

@@ -10,15 +10,16 @@ End-to-end usage model for FOIA / public comment intake — local MVP and scaled
 
 ## Who uses it
 
-Named composites: [PERSONAS.md](PERSONAS.md).
+Full jobs-to-be-done (today vs later): [PERSONAS.md](PERSONAS.md).
 
-| Role | What they do | Entry point |
+| Persona | What they do | Entry point |
 |---|---|---|
-| **FOIA officer (Priya)** | Review PII flags, quarantine, critic-checked insight | Dashboard Gov tab |
-| **Data engineer (Riley)** | Add sources, run pipelines, optional local Ollama | [GETTING-STARTED.md](GETTING-STARTED.md), [LLM.md](LLM.md), [MODELS.md](MODELS.md) |
-| **New engineer (Sam)** | Prove the clone | `./scripts/verify.sh` |
-| **Reviewer (Jordan)** | Honest scope | [FINAL-REVIEW.md](FINAL-REVIEW.md) |
-| **AI agent (MCP)** | Query gold KPIs, allowlisted SQL | `operator-etl-mcp` |
+| **Sam** — new engineer | Prove the clone | `./scripts/verify.sh` |
+| **Priya** — FOIA / program officer | Review PII flags, quarantine, critic-checked insight (inspector today) | Dashboard Gov tab |
+| **Riley** — data engineer | Add sources, run pipelines, optional local Ollama | [GETTING-STARTED.md](GETTING-STARTED.md), [LLM.md](LLM.md), [MODELS.md](MODELS.md) |
+| **Jordan** — architect / reviewer | Honest scope | [FINAL-REVIEW.md](FINAL-REVIEW.md) |
+| **Casey** — AI agent / MCP | Query gold KPIs via allowlisted tools | `operator-etl-mcp` |
+| **Alex** — decision-maker | Proven vs specified; budget / ATO framing | [ROADMAP.md](ROADMAP.md), [white paper](Operator-ETL-White-Paper.md) |
 
 ---
 

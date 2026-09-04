@@ -10,7 +10,7 @@ Operator ETL **proves** that a deterministic FOIA intake pipeline can ingest CSV
 
 This roadmap reflects honest assessment of what works today (IMPLEMENTED), what is partial (ready for staging), and what is specified but not yet coded (production hardening). It prioritizes **trustworthiness over feature velocity** and **local proof before cloud deploy**.
 
-**Why this doc exists:** Decision-makers, engineers, and adopters need a single source of truth for what they can rely on today, what they should plan for, and when to revisit assumptions.
+**Why this doc exists:** Decision-makers (**Alex**), engineers (**Sam** / **Riley** / **Jordan**), and officers (**Priya**) need a single source of truth for what they can rely on today, what they should plan for, and when to revisit assumptions. Audience model: [PERSONAS.md](PERSONAS.md).
 
 ---
 
@@ -64,6 +64,8 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 ### Stage L0 — Local MVP (current)
 **Goal:** Prove the invariant: *deterministic ETL enforces data quality; agents orchestrate; critic gates publish.*
 
+**Primary persona:** **Sam** (prove) · **Jordan** (scope honesty)
+
 **Exit criteria:**
 - ✅ `make e2e` passes locally (76 pytest + FOIA demo)
 - ✅ All PII found, redacted, never in insight
@@ -77,6 +79,8 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 
 ### Stage L1 — File inbox (2–4 weeks)
 **Goal:** Ingest from persistent storage (GCS or local drops) without changing graph logic.
+
+**Primary persona:** **Riley**
 
 **What changes:**
 - New source type: `comment_inbox` (drops/inbox/) or `gcs_inbox` / `object_store` (bucket)
@@ -100,6 +104,8 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 
 ### Stage L2 — Container staging + GCP reference IaC (4–8 weeks)
 **Goal:** Run the portable Docker image in staging. GCP Terraform is the full reference path; other clouds use the same env contract.
+
+**Primary persona:** **Riley** · **Jordan** (staging honesty for **Alex**)
 
 **What changes:**
 - Object-store inbox (GCS on GCP; S3/Blob via future adapters) + event → HTTP
@@ -135,6 +141,8 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 ### Stage L3 — BigQuery backend (6–12 weeks)
 **Goal:** Production-grade warehouse + cost controls.
 
+**Primary persona:** **Riley**
+
 **What changes:**
 - 🗄️ `OPERATOR_ETL_BACKEND=bigquery` activates BQ adapter
 - 🗄️ Datasets: `etl_bronze`, `etl_silver`, `etl_gold`, `etl_quarantine`
@@ -168,16 +176,20 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 ### Stage L4 — Production hardening (ongoing)
 **Goal:** Agency-ready HITL workflow, real PII detection, compliance audit trail.
 
+**Primary persona:** **Priya** (HITL / PRODUCT-UX) · **Riley** (Presidio, Reg.gov) · **Alex** (ATO / budget readiness)
+
 **Four tracks (parallel after L3):**
 
 #### Track A: PII at scale (Presidio)
 - **Goal:** Catch names, addresses, international formats
+- **Primary persona:** **Riley** (+ **Alex** for compliance bar)
 - **Effort:** Add `presidio` extra dependency; replace regex confidence thresholds
 - **Exit:** Real FOIA data scanned; zero false negatives in agency review
 - **Owner:** Policy + DevOps
 
 #### Track B: HITL officer workflow
 - **Goal:** Officer UI for quarantine + approval before publish
+- **Primary persona:** **Priya**
 - **What's needed:**
   - Quarantine queue with **reasons** (not just counts)
   - HITL "approve/reject/edit" for ambiguous PII + insights
@@ -190,6 +202,7 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 
 #### Track C: Regulations.gov adapter
 - **Goal:** Pull dockets from Regulations.gov API; transform comments
+- **Primary persona:** **Riley**
 - **What's needed:**
   - HTTP intake service (inbound + RPC)
   - Comment deduplication
@@ -201,6 +214,7 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 
 #### Track D: Real LLM insights (optional)
 - **Goal:** Optional `insight_backend=llm` for narrative text
+- **Primary persona:** **Riley** · **Priya** (consumes wording in officer UI)
 - **What's needed:**
   - Prompt engineering for agency tone
   - Token streaming to officer UI
@@ -382,18 +396,20 @@ gantt
 
 ## How to use this doc
 
-**For adopters (agency, FOIA officer):**
+Audience model: [PERSONAS.md](PERSONAS.md).
+
+**For Priya (FOIA / program officer) and agency adopters:**
 - Read the **Strategic priorities** section
 - Confirm your needs are on L0 or L1
 - See [FOIA-Public-Comments-Guide.md](FOIA-Public-Comments-Guide.md) for workflow fit
 
-**For engineers (data, cloud, product):**
+**For Riley / Sam / Jordan (engineers, architects):**
 - Find your stage (L0–L4)
-- Review **Exit criteria** + **Owner**
+- Review **Exit criteria** + **Owner** + **Primary persona**
 - Check **Known gaps** and **Risks**
 - Link to playbook for your track
 
-**For decision-makers (budget, timeline):**
+**For Alex (decision-makers — budget, timeline):**
 - Review **Execution timeline** + staffing needs
 - Check **Decision gates** before stage promote
 - Scan **Risks and mitigations**
@@ -402,6 +418,7 @@ gantt
 - Update this doc when a stage completes
 - Add decision-gate evidence as PRs merge
 - Sync [okf/models/implementation-status.md](../okf/models/implementation-status.md) when status changes
+- Keep **Primary persona** lines aligned with [PERSONAS.md](PERSONAS.md)
 
 ---
 
