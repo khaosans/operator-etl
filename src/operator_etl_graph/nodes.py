@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 from datetime import UTC, datetime
 
 from operator_etl.config import Settings, get_settings
@@ -18,6 +19,8 @@ from operator_etl_graph.state import PipelineState
 from operator_etl_mcp.tools import get_gold_metrics, run_allowlisted_sql
 from operator_etl_policy.budgets import RunBudget
 from operator_etl_policy.pii import scan_records
+
+logger = logging.getLogger("operator_etl_graph")
 
 
 def _extract_from_state_records(state: PipelineState, source_name: str) -> ExtractResult | None:
@@ -247,7 +250,7 @@ def needs_human_node(state: PipelineState, settings: Settings | None = None) -> 
                 "message": "HITL review required — open the Operator ETL dashboard.",
             }
         )
-    except Exception:
+    except Exception as exc:
         # Fail-soft: chat adapter must never block the FOIA graph.
-        pass
+        logger.warning("discord_hitl_hook_failed: %s: %s", type(exc).__name__, exc)
     return {"status": "needs_human"}
