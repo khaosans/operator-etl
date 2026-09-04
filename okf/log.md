@@ -1,5 +1,9 @@
 # OKF changelog
 
+## 2026-09-04 (CodeQL log injection)
+
+- `_safe_log_str` on graph-runner HTTP logs for request/event-controlled fields; pytest count **78**.
+
 ## 2026-09-04 (public repo secops + README)
 
 - Platform gates: CodeQL, Trivy, Checkov, release SBOM; Dependabot docker/terraform; local `make lint` / `make security`.

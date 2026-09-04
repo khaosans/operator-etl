@@ -60,6 +60,13 @@ class RunRequest(BaseModel):
     trigger: str = Field(default="http", max_length=64)
 
 
+def _safe_log_str(value: object, *, max_len: int = 128) -> str:
+    """Neutralize control characters so untrusted values cannot inject log lines."""
+    text = str(value if value is not None else "")
+    text = "".join(ch if 32 <= ord(ch) < 127 else "_" for ch in text)
+    return text[:max_len]
+
+
 def _gov_settings(pipeline: str) -> Settings:
     base = get_settings()
     return Settings(
@@ -96,7 +103,13 @@ def run_pipeline(body: RunRequest) -> dict[str, Any]:
     set_settings(settings)
     initialize_telemetry()
     logger.info(
-        json.dumps({"event": "graph_run_start", "source": body.source, "trigger": body.trigger})
+        json.dumps(
+            {
+                "event": "graph_run_start",
+                "source": _safe_log_str(body.source),
+                "trigger": _safe_log_str(body.trigger, max_len=64),
+            }
+        )
     )
     try:
         result = run_graph(source=body.source, settings=settings)
@@ -137,7 +150,13 @@ async def pubsub_push(request: Request) -> dict[str, str]:
     settings = _gov_settings("public_comments")
     set_settings(settings)
     logger.info(
-        json.dumps({"event": "gcs_ingest", "bucket": event.bucket, "object": event.object_name})
+        json.dumps(
+            {
+                "event": "gcs_ingest",
+                "bucket": _safe_log_str(event.bucket),
+                "object": _safe_log_str(event.object_name, max_len=256),
+            }
+        )
     )
     # GCS-triggered runs use gcs_inbox source; graph ingest picks up staged file via object store
     result = run_graph(source="gcs_inbox", settings=settings)
