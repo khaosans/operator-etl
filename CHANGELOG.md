@@ -14,6 +14,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Changed
 
+- Admin click-path checklist to activate the GitHub merge-protection ruleset (legacy `main` is disabled / empty targets): [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md).
 - Canonical personas / audience model: [docs/PERSONAS.md](docs/PERSONAS.md) (Sam/Priya/Riley/Jordan primary; Casey/Alex secondary). Wiki who-tables, QUICKSTART, PRODUCT-UX, ROADMAP primary-persona tags, and OKF log aligned.
 - Document required GitHub ruleset status checks so red CI cannot be merged: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md), [docs/RELEASING.md](docs/RELEASING.md), [CONTRIBUTING.md](CONTRIBUTING.md), PR template.
 - Documentation drift cleanup: canonical pytest count **76** (verify banner, wiki, OKF, README badge); distinguish CLI `pii_findings=3` from gold PII flagged ≥ 4; publication identity is the public Apache-2.0 repo plus wiki and PDFs; A2A and sanitized OpenTelemetry marked proven in CI.

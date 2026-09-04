@@ -1,5 +1,9 @@
 # OKF changelog
 
+## 2026-09-04 (ruleset admin checklist)
+
+- [docs/PUBLIC-READINESS.md](../docs/PUBLIC-READINESS.md): audited legacy ruleset `main` (disabled, empty targets) + step-by-step Settings UI checklist to make merge protection Active.
+
 ## 2026-09-04 (personas canonical)
 
 - Human audience model lives in [docs/PERSONAS.md](../docs/PERSONAS.md) (Sam/Priya/Riley/Jordan primary; Casey/Alex secondary). Wiki “who” tables point there; ROADMAP stages tag primary personas.
