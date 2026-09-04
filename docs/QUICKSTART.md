@@ -67,7 +67,7 @@ After `./scripts/verify.sh`, confirm:
 
 - [ ] Exit code `0`
 - [ ] Output contains `OPERATOR_ETL_VERIFY=PASS`
-- [ ] `78 passed` (or current test count in the verify banner)
+- [ ] `95 passed` (or current test count in the verify banner)
 - [ ] Demo shows `status=complete`, `silver=10`, `quarantined=2`
 - [ ] Insight text mentions comments (no raw email/phone in output)
 

@@ -1,5 +1,11 @@
 # OKF changelog
 
+## 2026-09-04 (release v0.7.0)
+
+- Freeze: CHANGELOG `[0.7.0]`, `pyproject.toml` / `uv.lock` / mkdocs `0.7.0`. Tag `v0.7.0` after merge.
+- Discord chat adapter IMPLEMENTED; pytest count **95**.
+- New playbooks [merge-feature-pr](playbooks/merge-feature-pr.md) + [cut-release](playbooks/cut-release.md); skill [operator-release](../skills/operator-release/SKILL.md).
+
 ## 2026-09-04 (CodeQL log injection)
 
 - `_safe_log_str` on graph-runner HTTP logs for request/event-controlled fields; pytest count **78**.

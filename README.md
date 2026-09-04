@@ -197,8 +197,8 @@ proof citations: [docs/FOUNDATIONS.md](docs/FOUNDATIONS.md).
 
 ```bash
 # Tagged release (see GitHub Releases for current version)
-docker pull ghcr.io/khaosans/operator-etl:0.6.0
-docker run --rm -it ghcr.io/khaosans/operator-etl:0.6.0 etl-graph --help
+docker pull ghcr.io/khaosans/operator-etl:0.7.0
+docker run --rm -it ghcr.io/khaosans/operator-etl:0.7.0 etl-graph --help
 
 # Or :latest for the newest non-prerelease tag
 docker pull ghcr.io/khaosans/operator-etl:latest

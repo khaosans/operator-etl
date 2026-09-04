@@ -38,6 +38,7 @@ Only after verify passes → continue below.
  - New source / domain / gold SQL → [`skills/operator-extend/SKILL.md`](skills/operator-extend/SKILL.md)
  - Security review / hardening / audit → [`skills/operator-security/SKILL.md`](skills/operator-security/SKILL.md)
  - Discord / chat adapter → [`skills/operator-chat/SKILL.md`](skills/operator-chat/SKILL.md)
+ - Finish PRs / cut a release → [`skills/operator-release/SKILL.md`](skills/operator-release/SKILL.md)
  - Edit OKF bundle → [`skills/okf-maintain/SKILL.md`](skills/okf-maintain/SKILL.md)
 4. Follow linked OKF concepts (`okf/playbooks/`, `okf/models/`, `okf/decisions/`) before improvising.
 

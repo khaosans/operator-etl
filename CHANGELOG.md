@@ -9,7 +9,16 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Added
 
+### Fixed
+
+### Changed
+
+## [0.7.0] — 2026-09-04
+
+### Added
+
 - Discord chat adapter (`operator_etl_chat`): HITL escalation webhook on `needs_human`, Ed25519-verified Interactions endpoint with allowlisted `/etl status|kpis|run` (MCP gold-read / bounded public_comments only); OKF [chat-adapter-boundary](okf/decisions/chat-adapter-boundary.md); docs [DISCORD.md](docs/DISCORD.md).
+- OKF playbooks [merge-feature-pr](okf/playbooks/merge-feature-pr.md) and [cut-release](okf/playbooks/cut-release.md); skill [operator-release](skills/operator-release/SKILL.md) for agent merge/freeze/tag workflow.
 - Public-repo secops: CodeQL workflow, Trivy image scan, Checkov IaC scan, CycloneDX SBOM on release, Dependabot for Docker/Terraform, `make lint` / `make security`, pre-commit + ruff, unified `.github/CODEOWNERS`.
 - Standardized root README (status, TOC, config, layout, security/support sections).
 
@@ -24,7 +33,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 - Admin click-path checklist to activate the GitHub merge-protection ruleset (legacy `main` is disabled / empty targets): [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md).
 - Canonical personas / audience model: [docs/PERSONAS.md](docs/PERSONAS.md) (Sam/Priya/Riley/Jordan primary; Casey/Alex secondary). Wiki who-tables, QUICKSTART, PRODUCT-UX, ROADMAP primary-persona tags, and OKF log aligned.
 - Document required GitHub ruleset status checks so red CI cannot be merged: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md), [docs/RELEASING.md](docs/RELEASING.md), [CONTRIBUTING.md](CONTRIBUTING.md), PR template.
-- Documentation drift cleanup: canonical pytest count **76** (verify banner, wiki, OKF, README badge); distinguish CLI `pii_findings=3` from gold PII flagged ≥ 4; publication identity is the public Apache-2.0 repo plus wiki and PDFs; A2A and sanitized OpenTelemetry marked proven in CI.
+- Documentation drift cleanup: canonical pytest count **95** (verify banner, wiki, OKF, README badge); distinguish CLI `pii_findings=3` from gold PII flagged ≥ 4; publication identity is the public Apache-2.0 repo plus wiki and PDFs; A2A and sanitized OpenTelemetry marked proven in CI.
 
 ## [0.6.0] — 2026-09-03
 
