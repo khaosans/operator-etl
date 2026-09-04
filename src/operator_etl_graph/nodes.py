@@ -232,4 +232,22 @@ def needs_human_node(state: PipelineState, settings: Settings | None = None) -> 
         )
     finally:
         con.close()
+    # Discord HITL alert (env-gated, fail-soft) — sanitized metrics only; never insight/PII.
+    try:
+        from operator_etl_chat.discord.webhook_notifier import notify_hitl_discord
+
+        notify_hitl_discord(
+            {
+                "run_id": state.get("run_id"),
+                "pipeline": settings.pipeline_name,
+                "status": "needs_human",
+                "rows_in": state.get("rows_in", 0),
+                "rows_silver": state.get("rows_silver", 0),
+                "rows_quarantined": state.get("rows_quarantined", 0),
+                "message": "HITL review required — open the Operator ETL dashboard.",
+            }
+        )
+    except Exception:
+        # Fail-soft: chat adapter must never block the FOIA graph.
+        pass
     return {"status": "needs_human"}
