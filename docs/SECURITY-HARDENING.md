@@ -16,14 +16,14 @@ Eight controls, four layers. Each layer is independently useful; none replaces P
 flowchart TB
   subgraph intake [Intake]
     CSV[CSV or file URL]
-    HTTP[HTTP POST /run A2A]
+    HTTP[HTTP POST /run A2A Discord]
   end
 
   subgraph middleware [HTTP guards]
     Rate[Rate limit]
     Body[10 MB body cap]
     Path[Path traversal guard]
-    Auth[A2A bearer]
+    Auth[A2A bearer / Discord Ed25519]
   end
 
   subgraph policy [Policy plane]
@@ -59,10 +59,11 @@ flowchart TB
 | Input | Body size limit | 10 MB | [`src/operator_etl_gcp/http/app.py`](../src/operator_etl_gcp/http/app.py) |
 | Input | Field constraints | `max_length` on source/pipeline/docket; `raw_records` capped at 10,000 | `app.py`, [`src/a2a/server.py`](../src/a2a/server.py) |
 | Transport | Rate limiting | 60 requests / client / minute (`RATE_LIMIT_PER_MINUTE`) | `app.py` middleware |
+| Transport | Discord Interactions | Ed25519 signature + timestamp skew; guild/channel allowlist | [`src/operator_etl_chat/discord/verify.py`](../src/operator_etl_chat/discord/verify.py) |
 | Transport | Sanitized 500s | Exception type + message only; generic HTTP detail | `app.py` |
 | Storage | Vault file perms | `0o600` on key and PII JSON; warn if existing key is looser | [`src/operator_etl_policy/vault.py`](../src/operator_etl_policy/vault.py) |
 | Secrets | Terraform sensitive vars | Placeholders starting `REPLACE_ME` fail validation | [`infra/gcp/variables.tf`](../infra/gcp/variables.tf) |
-| CI | SAST + SCA | bandit on `src/`; pip-audit on frozen deps | [`.github/workflows/security.yml`](../.github/workflows/security.yml) |
+| CI | SAST / SCA | bandit on `src/`; pip-audit on frozen deps | [`.github/workflows/security.yml`](../.github/workflows/security.yml) |
 
 Existing policy-plane controls (PII scan, MCP allowlist, no auto-publish) are unchanged. See [PATTERNS.md](PATTERNS.md#defense-in-depth) and [NIST.md](NIST.md).
 
@@ -78,11 +79,14 @@ flowchart LR
   Rate -->|no| TooMany[429]
   Rate -->|yes| Size{Body under 10 MB?}
   Size -->|no| TooLarge[413]
-  Size -->|yes| A2A{A2A route?}
-  A2A -->|yes| Bearer{Bearer valid?}
+  Size -->|yes| Route{Route}
+  Route -->|A2A| Bearer{Bearer valid?}
   Bearer -->|no| Unauth[401]
   Bearer -->|yes| Handler[Handler]
-  A2A -->|no /run /health| Handler
+  Route -->|Discord| Ed25519{Signature valid?}
+  Ed25519 -->|no| Unauth
+  Ed25519 -->|yes| Handler
+  Route -->|run health| Handler
   Handler -->|exception| Sanitized[500 generic]
 ```
 

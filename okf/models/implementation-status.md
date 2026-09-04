@@ -8,7 +8,7 @@ timestamp: 2026-09-03T00:00:00Z
 
 # Implementation status
 
-**Tests:** 78 pytest passing · **MVP gate:** `./harness/e2e.sh`
+**Tests:** 95 pytest passing · **MVP gate:** `./harness/e2e.sh`
 
 | Component | Status | Proven in CI | Path |
 |---|---|---|---|
@@ -33,6 +33,8 @@ timestamp: 2026-09-03T00:00:00Z
 | Postgres checkpoints | **IMPLEMENTED** | Env config | `operator_etl/checkpoints.py` (any managed Postgres) |
 | Container any-cloud deploy | **IMPLEMENTED** | Docs | `okf/playbooks/deploy-container-any-cloud.md` · [MULTI-CLOUD.md](../../docs/MULTI-CLOUD.md) |
 | HITL dashboard | **PARTIAL** | No | gov tab in Streamlit |
+| Discord chat adapter | **IMPLEMENTED** | Unit | `src/operator_etl_chat/` HITL webhook + Interactions |
+| Slack chat adapter | **SPECIFIED** | — | protocol ready; Discord first |
 | Product officer UX | **SPECIFIED** | — | responsive, streaming, gen UI — [docs/PRODUCT-UX.md](../../docs/PRODUCT-UX.md) |
 | LLM insight nodes | **PARTIAL** | Mocked in CI | optional `llm`; laptop Ollama `llama3.2:3b` critic-passed; not CI |
 | Presidio PII | **SPECIFIED** | — | regex scanner shipped |

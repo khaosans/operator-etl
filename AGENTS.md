@@ -36,8 +36,9 @@ Only after verify passes → continue below.
  - Azure Terraform / Container Apps / Blob → [`skills/operator-ship-azure/SKILL.md`](skills/operator-ship-azure/SKILL.md)
  - Any-cloud container deploy → [`skills/operator-ship-portable/SKILL.md`](skills/operator-ship-portable/SKILL.md)
  - New source / domain / gold SQL → [`skills/operator-extend/SKILL.md`](skills/operator-extend/SKILL.md)
-   - Security review / hardening / audit → [`skills/operator-security/SKILL.md`](skills/operator-security/SKILL.md)
-   - Edit OKF bundle → [`skills/okf-maintain/SKILL.md`](skills/okf-maintain/SKILL.md)
+ - Security review / hardening / audit → [`skills/operator-security/SKILL.md`](skills/operator-security/SKILL.md)
+ - Discord / chat adapter → [`skills/operator-chat/SKILL.md`](skills/operator-chat/SKILL.md)
+ - Edit OKF bundle → [`skills/okf-maintain/SKILL.md`](skills/okf-maintain/SKILL.md)
 4. Follow linked OKF concepts (`okf/playbooks/`, `okf/models/`, `okf/decisions/`) before improvising.
 
 ## Non-negotiables

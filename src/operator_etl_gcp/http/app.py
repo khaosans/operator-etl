@@ -13,6 +13,7 @@ from starlette.responses import StreamingResponse
 
 from a2a.server import JsonRpcRequest, ensure_bearer_token, get_task_events, handle_jsonrpc
 from operator_etl.config import Settings, get_settings, set_settings
+from operator_etl_chat.discord.interactions import router as discord_router
 from operator_etl_gcp.pubsub import decode_pubsub_push
 from operator_etl_graph.graph import run_graph
 from telemetry import initialize_telemetry
@@ -21,6 +22,7 @@ logger = logging.getLogger("operator_etl_gcp")
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 app = FastAPI(title="Operator ETL Graph Runner", version="0.2.0")
+app.include_router(discord_router)
 
 _RATE_LIMIT = int(os.environ.get("RATE_LIMIT_PER_MINUTE", "60"))
 _rate_counts: dict[str, list[float]] = {}

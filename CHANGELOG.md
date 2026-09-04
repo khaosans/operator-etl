@@ -9,6 +9,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Added
 
+- Discord chat adapter (`operator_etl_chat`): HITL escalation webhook on `needs_human`, Ed25519-verified Interactions endpoint with allowlisted `/etl status|kpis|run` (MCP gold-read / bounded public_comments only); OKF [chat-adapter-boundary](okf/decisions/chat-adapter-boundary.md); docs [DISCORD.md](docs/DISCORD.md).
 - Public-repo secops: CodeQL workflow, Trivy image scan, Checkov IaC scan, CycloneDX SBOM on release, Dependabot for Docker/Terraform, `make lint` / `make security`, pre-commit + ruff, unified `.github/CODEOWNERS`.
 - Standardized root README (status, TOC, config, layout, security/support sections).
 

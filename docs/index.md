@@ -98,7 +98,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md) · Residual risks: [RISKS.md](RIS
 1. **Start** — [QUICKSTART](QUICKSTART.md) · [GETTING-STARTED](GETTING-STARTED.md) · [PERSONAS](PERSONAS.md) · [TOUR](TOUR.md)
 2. **Understand** — [WHY](WHY.md) · [CONCEPTS](CONCEPTS.md) · [PATTERNS](PATTERNS.md) · [HOW-IT-WORKS](HOW-IT-WORKS.md) · [APPLY](APPLY.md) · [RISKS](RISKS.md) · [NIST](NIST.md) · [MODELS](MODELS.md) · [FOUNDATIONS](FOUNDATIONS.md)
 3. **Prove** — [WALKTHROUGH](WALKTHROUGH.md) · [TESTING](TESTING.md) · [FINAL-REVIEW](FINAL-REVIEW.md) · [SECURITY-HARDENING](SECURITY-HARDENING.md)
-4. **Use** — [RUNNING](RUNNING.md) · [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [A2A](A2A.md) · [OBSERVABILITY](OBSERVABILITY.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)
+4. **Use** — [RUNNING](RUNNING.md) · [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [A2A](A2A.md) · [DISCORD](DISCORD.md) · [OBSERVABILITY](OBSERVABILITY.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)
 5. **Reference** — [GLOSSARY](GLOSSARY.md) · [FAQ](FAQ.md) · [TROUBLESHOOTING](TROUBLESHOOTING.md) · [STANDARDS](STANDARDS.md)
 6. **Scale** — [SCALING](SCALING.md) · [MULTI-CLOUD](MULTI-CLOUD.md) · [PRODUCT-UX](PRODUCT-UX.md) · [infra/README](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
 7. **Contribute** — [CONTRIBUTING](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) · [VERSIONING](VERSIONING.md) · [RELEASING](RELEASING.md) · [SECURITY](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md)
