@@ -42,7 +42,7 @@ jobs:
         run: docker build --build-arg CLOUD_EXTRA=${{ matrix.cloud_extra }} -t operator-etl:${{ matrix.cloud_extra }} .
 
       - name: Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: operator-etl:${{ matrix.cloud_extra }}
           format: table
