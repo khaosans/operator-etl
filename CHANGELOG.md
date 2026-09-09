@@ -10,7 +10,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 ### Added
 
 - Branch policy and repo hygiene entry point: [docs/REPO-HYGIENE.md](docs/REPO-HYGIENE.md) (GitHub Flow, merge gate, commit/secrets hygiene; links PUBLIC-READINESS ruleset checklist).
-- Build hygiene framework: [docs/BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md), [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md), repo-managed [`.cursor/environment.json`](.cursor/environment.json); CI aggregates into required `ci-gate` (CodeQL `Analyze` stays separate).
+- Build hygiene framework: [docs/BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md), [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md), repo-managed [`.cursor/environment.json`](.cursor/environment.json) + [`scripts/cloud-agent-install.sh`](scripts/cloud-agent-install.sh); CI aggregates into required `ci-gate` (CodeQL `Analyze` stays separate).
 
 ### Fixed
 

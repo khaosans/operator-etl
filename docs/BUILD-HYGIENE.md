@@ -31,7 +31,7 @@ Secrets stay in Cursor environment secrets — never in `environment.json`, Dock
 
 | Field | Use for | Must |
 |---|---|---|
-| `install` | Idempotent `uv sync --frozen --extra dev` (deps / durable checkout state) | Terminate successfully; no Streamlit or other long-running servers |
+| `install` | [`scripts/cloud-agent-install.sh`](../scripts/cloud-agent-install.sh) — ensure `uv`, then `uv sync --frozen --extra dev` | Terminate successfully; no Streamlit or other long-running servers |
 | `terminals` | Dashboard (`streamlit` on `:8501`) and other visible long-lived processes | Stable names; agent can inspect logs |
 | `start` | Per-boot daemon reconciliation only | Idempotent; return after readiness — omit when unused |
 
@@ -41,7 +41,7 @@ Trigger a draft environment build **only** if the PR touches:
 
 - `.cursor/environment.json`
 - `uv.lock` / `pyproject.toml`
-- Scripts referenced by `install` / `start` / `terminals`
+- Scripts referenced by `install` / `start` / `terminals` (including `scripts/cloud-agent-install.sh`)
 
 Otherwise: **no build**. Feature work reuses the last successful baseline.
 

@@ -26,7 +26,7 @@ Setup lives in [`.cursor/environment.json`](../.cursor/environment.json):
 
 | Phase | What it does here |
 |---|---|
-| **`install`** | `uv sync --frozen --extra dev` — durable deps from the lockfile. Must finish; never starts the dashboard. |
+| **`install`** | [`scripts/cloud-agent-install.sh`](../scripts/cloud-agent-install.sh) — bootstrap `uv` if missing, then frozen lockfile sync. Must finish; never starts the dashboard. |
 | **`terminals`** | Streamlit FOIA dashboard on port **8501** so the agent can read logs and you can open the UI. |
 | **`start`** | Omitted — no per-boot daemon reconciliation required for the MVP. |
 

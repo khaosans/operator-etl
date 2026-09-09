@@ -57,7 +57,7 @@ Use [`harness/`](harness/README.md): copy templates → `features.json` → one 
 
 ## Cursor Cloud specific instructions
 
-- Environment config is **repo-managed**: [`.cursor/environment.json`](.cursor/environment.json) (`install` = frozen `uv sync`; dashboard in `terminals` on `:8501`).
+- Environment config is **repo-managed**: [`.cursor/environment.json`](.cursor/environment.json) (`install` = [`scripts/cloud-agent-install.sh`](scripts/cloud-agent-install.sh); dashboard in `terminals` on `:8501`).
 - Run `./scripts/verify.sh` first every session; expect `OPERATOR_ETL_VERIFY=PASS`.
 - Trigger a **draft** Cursor environment build only when the PR touches env-affecting files (see [BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md)). Do not rebuild for ordinary feature PRs.
 - Day-to-day Cloud Agent notes: [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md).

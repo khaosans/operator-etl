@@ -1,10 +1,10 @@
 {
   "name": "operator-etl",
-  "install": "uv sync --frozen --extra dev",
+  "install": "./scripts/cloud-agent-install.sh",
   "terminals": [
     {
       "name": "dashboard",
-      "command": "uv run streamlit run dashboard/app.py --server.port 8501 --server.address 0.0.0.0"
+      "command": "export PATH=\"$HOME/.local/bin:$PATH\"; uv run streamlit run dashboard/app.py --server.port 8501 --server.address 0.0.0.0"
     }
   ]
 }
