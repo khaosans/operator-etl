@@ -10,12 +10,15 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 ### Added
 
 - Branch policy and repo hygiene entry point: [docs/REPO-HYGIENE.md](docs/REPO-HYGIENE.md) (GitHub Flow, merge gate, commit/secrets hygiene; links PUBLIC-READINESS ruleset checklist).
+- Build hygiene framework: [docs/BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md), [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md), repo-managed [`.cursor/environment.json`](.cursor/environment.json); CI aggregates into required `ci-gate` (CodeQL `Analyze` stays separate).
 
 ### Fixed
 
 - Bump transitive `httpx2` to 2.12.0 (via `uv.lock`) to clear pip-audit CVEs blocking CI.
 
 ### Changed
+
+- GitHub required-check surface: prefer `ci-gate` + `Analyze` over listing every matrix/security job ([docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md), [docs/REPO-HYGIENE.md](docs/REPO-HYGIENE.md)). Security/secret-scan workflows folded into [`ci.yml`](.github/workflows/ci.yml).
 
 ## [0.7.0] — 2026-09-04
 

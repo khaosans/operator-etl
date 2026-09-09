@@ -92,8 +92,8 @@ Documented in [docs/Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) §
 | **uv** | [Astral uv](https://docs.astral.sh/uv/) | `pyproject.toml` + `uv.lock` |
 | **Lint** | ruff + pre-commit | `make lint`; `.pre-commit-config.yaml` |
 | **Proof gate** | [FOUNDATIONS.md](FOUNDATIONS.md) proof matrix | `make e2e` before share, deploy, or scale claims — see [WALKTHROUGH.md](WALKTHROUGH.md) |
-| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — e2e + Docker/Trivy + Terraform/Checkov; [`.github/workflows/security.yml`](../.github/workflows/security.yml) — bandit + pip-audit; CodeQL + gitleaks |
-| **Branch / repo hygiene** | [REPO-HYGIENE.md](REPO-HYGIENE.md) | GitHub Flow on `master`, squash-merge, required checks, secrets/tree hygiene; ruleset UI in [PUBLIC-READINESS.md](PUBLIC-READINESS.md) |
+| **CI** | GitHub Actions | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — parallel e2e + Docker/Trivy + Terraform/Checkov + gitleaks + bandit + pip-audit, aggregated by `ci-gate`; CodeQL in [`codeql.yml`](../.github/workflows/codeql.yml) |
+| **Branch / repo hygiene** | [REPO-HYGIENE.md](REPO-HYGIENE.md) | GitHub Flow on `master`, squash-merge, required checks (`ci-gate` + `Analyze`), secrets/tree hygiene; ruleset UI in [PUBLIC-READINESS.md](PUBLIC-READINESS.md); builds: [BUILD-HYGIENE.md](BUILD-HYGIENE.md) |
 
 ---
 

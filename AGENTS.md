@@ -53,7 +53,14 @@ Only after verify passes → continue below.
 
 Use [`harness/`](harness/README.md): copy templates → `features.json` → one feature per session → verify gate only flips `passes` after green `./harness/e2e.sh`.
 
-**Merges:** Do not merge PRs while required GitHub Actions checks are red or pending. Ruleset checklist: [`docs/PUBLIC-READINESS.md`](docs/PUBLIC-READINESS.md#required-block-merges-when-ci-fails).
+**Merges:** Do not merge PRs while required GitHub Actions checks are red or pending. Required contexts: `ci-gate` + CodeQL `Analyze`. Ruleset checklist: [`docs/PUBLIC-READINESS.md`](docs/PUBLIC-READINESS.md#required-block-merges-when-ci-fails). Build / Cloud Agent policy: [`docs/BUILD-HYGIENE.md`](docs/BUILD-HYGIENE.md).
+
+## Cursor Cloud specific instructions
+
+- Environment config is **repo-managed**: [`.cursor/environment.json`](.cursor/environment.json) (`install` = frozen `uv sync`; dashboard in `terminals` on `:8501`).
+- Run `./scripts/verify.sh` first every session; expect `OPERATOR_ETL_VERIFY=PASS`.
+- Trigger a **draft** Cursor environment build only when the PR touches env-affecting files (see [BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md)). Do not rebuild for ordinary feature PRs.
+- Day-to-day Cloud Agent notes: [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md).
 
 ## Learning
 

@@ -42,7 +42,7 @@ timestamp: 2026-09-03T00:00:00Z
 | BQ gold mart dialect | **PARTIAL** | — | DuckDB SQL; BQ lift pending |
 | Public GitHub | **IMPLEMENTED** | — | https://github.com/khaosans/operator-etl (Apache-2.0) |
 | Path traversal guard | **IMPLEMENTED** | Yes | `src/operator_etl/extract/http.py`, `tests/test_http.py` |
-| SAST / SCA CI | **IMPLEMENTED** | Yes | `.github/workflows/security.yml`, `.bandit.yml` |
+| SAST / SCA CI | **IMPLEMENTED** | Yes | `.github/workflows/ci.yml` (`bandit` / `pip-audit` → `ci-gate`), `.bandit.yml` |
 | Vault file permissions | **IMPLEMENTED** | Yes | `src/operator_etl_policy/vault.py` (0600) |
 | Rate limiting | **IMPLEMENTED** | Yes | `src/operator_etl_gcp/http/app.py` middleware |
 | Input size limits | **IMPLEMENTED** | Yes | 10 MB body cap; Pydantic `max_length` |

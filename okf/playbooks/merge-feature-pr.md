@@ -19,13 +19,9 @@ timestamp: 2026-09-04T00:00:00Z
 3. **Do not** bump `pyproject.toml` / `mkdocs.yml` version on a feature PR.
 4. PR template checklist complete.
 5. Wait until **all** required checks are green:
-   - `e2e`
-   - `docker (gcp|aws|azure)`
-   - `terraform (gcp|aws|azure)`
-   - `gitleaks`
-   - `bandit`
-   - `pip-audit`
+   - `ci-gate` (aggregates e2e, docker/Trivy, terraform/Checkov, gitleaks, bandit, pip-audit)
    - CodeQL `Analyze`
+   - Policy: [docs/BUILD-HYGIENE.md](../../docs/BUILD-HYGIENE.md)
 6. **Do not merge** while any required check is red or pending.
 7. Squash-merge into `master`.
 
