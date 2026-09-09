@@ -101,7 +101,7 @@ Full audit: [FINAL-REVIEW.md](FINAL-REVIEW.md) · Residual risks: [RISKS.md](RIS
 4. **Use** — [RUNNING](RUNNING.md) · [CLI](CLI.md) · [DASHBOARD](DASHBOARD.md) · [MCP](MCP.md) · [A2A](A2A.md) · [DISCORD](DISCORD.md) · [OBSERVABILITY](OBSERVABILITY.md) · [ADD-A-SOURCE](ADD-A-SOURCE.md) · [LLM](LLM.md)
 5. **Reference** — [GLOSSARY](GLOSSARY.md) · [FAQ](FAQ.md) · [TROUBLESHOOTING](TROUBLESHOOTING.md) · [STANDARDS](STANDARDS.md)
 6. **Scale** — [SCALING](SCALING.md) · [MULTI-CLOUD](MULTI-CLOUD.md) · [PRODUCT-UX](PRODUCT-UX.md) · [infra/README](https://github.com/khaosans/operator-etl/blob/master/infra/README.md)
-7. **Contribute** — [CONTRIBUTING](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) · [VERSIONING](VERSIONING.md) · [RELEASING](RELEASING.md) · [SECURITY](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md)
+7. **Contribute** — [CONTRIBUTING](https://github.com/khaosans/operator-etl/blob/master/CONTRIBUTING.md) · [REPO-HYGIENE](REPO-HYGIENE.md) · [VERSIONING](VERSIONING.md) · [RELEASING](RELEASING.md) · [SECURITY](https://github.com/khaosans/operator-etl/blob/master/SECURITY.md)
 
 **Deep spec:** [Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) (not duplicated here).
 

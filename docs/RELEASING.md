@@ -186,6 +186,7 @@ After the first package publish: GitHub → Packages → GHCR package → enable
 
 ## See also
 
+- [REPO-HYGIENE.md](REPO-HYGIENE.md) — branch policy and merge/commit hygiene
 - [VERSIONING.md](VERSIONING.md)
 - [CONTRIBUTING.md](../CONTRIBUTING.md)
 - [SECURITY.md](../SECURITY.md)

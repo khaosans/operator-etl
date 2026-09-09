@@ -109,6 +109,7 @@ nav:
       - Multi-cloud: MULTI-CLOUD.md
       - Product UX: PRODUCT-UX.md
   - Contribute:
+      - Repo hygiene: REPO-HYGIENE.md
       - Versioning: VERSIONING.md
       - Releasing: RELEASING.md
       - Public readiness: PUBLIC-READINESS.md
