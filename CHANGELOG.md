@@ -13,6 +13,8 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Fixed
 
+- Bump transitive `httpx2` to 2.12.0 (via `uv.lock`) to clear pip-audit CVEs blocking CI.
+
 ### Changed
 
 ## [0.7.0] — 2026-09-04
