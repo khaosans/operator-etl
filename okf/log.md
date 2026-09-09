@@ -1,5 +1,9 @@
 # OKF changelog
 
+## 2026-09-09 (repo hygiene guide)
+
+- Human entry point [docs/REPO-HYGIENE.md](../docs/REPO-HYGIENE.md): GitHub Flow, required merge checks, commit/secrets hygiene; wired from CONTRIBUTING, wiki Contribute map, STANDARDS, PUBLIC-READINESS, mkdocs.
+
 ## 2026-09-04 (release v0.7.0)
 
 - Freeze: CHANGELOG `[0.7.0]`, `pyproject.toml` / `uv.lock` / mkdocs `0.7.0`. Tag `v0.7.0` after merge.

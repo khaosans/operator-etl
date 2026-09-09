@@ -144,6 +144,7 @@ Suggested copy: [share/README.md](share/README.md)
 
 ## See also
 
+- [REPO-HYGIENE.md](REPO-HYGIENE.md) — branch policy, merge gate, commit/secrets hygiene
 - [VERSIONING.md](VERSIONING.md) — tags publish; Packages / GHCR
 - [RELEASING.md](RELEASING.md) — safe updates
 - [WHY.md](WHY.md) — educational overview

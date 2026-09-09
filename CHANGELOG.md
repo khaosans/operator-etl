@@ -9,7 +9,11 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Added
 
+- Branch policy and repo hygiene entry point: [docs/REPO-HYGIENE.md](docs/REPO-HYGIENE.md) (GitHub Flow, merge gate, commit/secrets hygiene; links PUBLIC-READINESS ruleset checklist).
+
 ### Fixed
+
+- Bump transitive `httpx2` to 2.12.0 (via `uv.lock`) to clear pip-audit CVEs blocking CI.
 
 ### Changed
 

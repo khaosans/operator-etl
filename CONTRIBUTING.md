@@ -4,7 +4,7 @@
 
 New to the repo? Run **`./scripts/verify.sh`** — or see [docs/QUICKSTART.md](docs/QUICKSTART.md).
 
-**Safe updates:** [docs/RELEASING.md](docs/RELEASING.md) · **Versions / tags:** [docs/VERSIONING.md](docs/VERSIONING.md) · **Going public:** [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md)
+**Safe updates:** [docs/RELEASING.md](docs/RELEASING.md) · **Versions / tags:** [docs/VERSIONING.md](docs/VERSIONING.md) · **Branch / hygiene:** [docs/REPO-HYGIENE.md](docs/REPO-HYGIENE.md) · **Going public:** [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md)
 
 ## Before you open a PR
 
