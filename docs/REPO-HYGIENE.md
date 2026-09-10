@@ -29,14 +29,12 @@ Full versioning story: [VERSIONING.md](VERSIONING.md).
 
 | Context | Workflow |
 |---|---|
-| `e2e` | `.github/workflows/ci.yml` |
-| `docker (gcp)` · `docker (aws)` · `docker (azure)` | `ci.yml` (includes Trivy) |
-| `terraform (gcp)` · `terraform (aws)` · `terraform (azure)` | `ci.yml` (includes Checkov) |
-| `gitleaks` | `.github/workflows/secret-scan.yml` |
-| `bandit` · `pip-audit` | `.github/workflows/security.yml` |
+| `ci-gate` | `.github/workflows/ci.yml` (aggregates e2e, docker/Trivy, terraform/Checkov, gitleaks, bandit, pip-audit) |
 | `Analyze` | `.github/workflows/codeql.yml` |
 
 Local proof before open/push: `./scripts/verify.sh` or `make e2e`. Lint/security: `make lint` · `make security`.
+
+Cloud Agent / Cursor environment builds: [BUILD-HYGIENE.md](BUILD-HYGIENE.md) · [CLOUD-AGENT.md](CLOUD-AGENT.md).
 
 Agent checklist: [merge-feature-pr](https://github.com/khaosans/operator-etl/blob/master/okf/playbooks/merge-feature-pr.md) · [RELEASING.md](RELEASING.md).
 
@@ -121,6 +119,8 @@ Security CI context: [SECURITY-HARDENING.md](SECURITY-HARDENING.md) · reporting
 
 - [CONTRIBUTING.md](../CONTRIBUTING.md) — PR prep, commit conventions
 - [PUBLIC-READINESS.md](PUBLIC-READINESS.md) — ruleset admin checklist
+- [BUILD-HYGIENE.md](BUILD-HYGIENE.md) — Cursor builds + `ci-gate` policy
+- [CLOUD-AGENT.md](CLOUD-AGENT.md) — Cloud Agent install / terminals
 - [VERSIONING.md](VERSIONING.md) · [RELEASING.md](RELEASING.md)
 - [STANDARDS.md](STANDARDS.md) — engineering standards index
 - [SECURITY-HARDENING.md](SECURITY-HARDENING.md)

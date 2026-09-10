@@ -91,6 +91,7 @@ nav:
       - Security hardening: SECURITY-HARDENING.md
   - Use:
       - Run the services: RUNNING.md
+      - Cloud Agent: CLOUD-AGENT.md
       - CLI: CLI.md
       - Dashboard: DASHBOARD.md
       - MCP: MCP.md
@@ -110,6 +111,7 @@ nav:
       - Product UX: PRODUCT-UX.md
   - Contribute:
       - Repo hygiene: REPO-HYGIENE.md
+      - Build hygiene: BUILD-HYGIENE.md
       - Versioning: VERSIONING.md
       - Releasing: RELEASING.md
       - Public readiness: PUBLIC-READINESS.md

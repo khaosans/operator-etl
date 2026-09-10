@@ -12,6 +12,7 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   e2e:
@@ -90,3 +91,105 @@ jobs:
           config_file: .checkov.yml
           output_format: cli
           quiet: true
+
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install bandit
+        run: pip install bandit==1.8.3
+
+      - name: Run bandit SAST
+        run: bandit -r src/ -c .bandit.yml -f json -o bandit-report.json
+
+      - name: Upload bandit report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bandit-report
+          path: bandit-report.json
+          if-no-files-found: ignore
+
+  pip-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --frozen --extra dev
+
+      - name: Install pip-audit
+        run: uv pip install pip-audit==2.7.3
+
+      - name: Run pip-audit
+        run: uv run pip-audit --desc --format json --output pip-audit-report.json
+
+      - name: Upload pip-audit report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: pip-audit-report
+          path: pip-audit-report.json
+          if-no-files-found: ignore
+
+  # Single required check for rulesets / PR merge UI.
+  # Matrices stay parallel; this job only aggregates outcomes.
+  ci-gate:
+    name: ci-gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - e2e
+      - docker
+      - terraform
+      - gitleaks
+      - bandit
+      - pip-audit
+    steps:
+      - name: Require all CI peers to succeed
+        run: |
+          set -euo pipefail
+          results=(
+            "e2e=${{ needs.e2e.result }}"
+            "docker=${{ needs.docker.result }}"
+            "terraform=${{ needs.terraform.result }}"
+            "gitleaks=${{ needs.gitleaks.result }}"
+            "bandit=${{ needs.bandit.result }}"
+            "pip-audit=${{ needs.pip-audit.result }}"
+          )
+          echo "Peer job results:"
+          printf '  %s\n' "${results[@]}"
+          failed=0
+          for entry in "${results[@]}"; do
+            name="${entry%%=*}"
+            result="${entry#*=}"
+            if [[ "$result" != "success" ]]; then
+              echo "::error::Required job '$name' did not succeed (result=$result)"
+              failed=1
+            fi
+          done
+          if [[ "$failed" -ne 0 ]]; then
+            exit 1
+          fi
+          echo "ci-gate: all required peers succeeded"

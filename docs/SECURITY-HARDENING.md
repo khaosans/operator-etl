@@ -63,7 +63,7 @@ flowchart TB
 | Transport | Sanitized 500s | Exception type + message only; generic HTTP detail | `app.py` |
 | Storage | Vault file perms | `0o600` on key and PII JSON; warn if existing key is looser | [`src/operator_etl_policy/vault.py`](../src/operator_etl_policy/vault.py) |
 | Secrets | Terraform sensitive vars | Placeholders starting `REPLACE_ME` fail validation | [`infra/gcp/variables.tf`](../infra/gcp/variables.tf) |
-| CI | SAST / SCA | bandit on `src/`; pip-audit on frozen deps | [`.github/workflows/security.yml`](../.github/workflows/security.yml) |
+| CI | SAST / SCA | bandit on `src/`; pip-audit on frozen deps | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (`bandit` / `pip-audit` jobs → `ci-gate`) |
 
 Existing policy-plane controls (PII scan, MCP allowlist, no auto-publish) are unchanged. See [PATTERNS.md](PATTERNS.md#defense-in-depth) and [NIST.md](NIST.md).
 
@@ -167,9 +167,9 @@ flowchart LR
 | Proof | `./harness/e2e.sh` | [docs/TESTING.md](TESTING.md) | PII leak, critic, MCP, path traversal, FOIA demo |
 | Docker | CI + Trivy | `.github/workflows/ci.yml` | Image builds; HIGH/CRITICAL CVEs (unfixed ignored) |
 | Terraform | fmt/validate + Checkov | `.github/workflows/ci.yml` + `.checkov.yml` | IaC misconfig (Checkov soft-fail on staging stacks; promote to hard-fail for prod) |
-| Secret scan | gitleaks | `.github/workflows/secret-scan.yml` | Keys, vault files, `.env` |
+| Secret scan | gitleaks | `.github/workflows/ci.yml` (`gitleaks` → `ci-gate`) | Keys, vault files, `.env` |
 | SAST | bandit | `.bandit.yml` — `src/`, skip `B101`; other hits need a fix or `# nosec` | Common Python footguns |
-| SCA | pip-audit | `.github/workflows/security.yml` | Known CVEs in frozen deps |
+| SCA | pip-audit | `.github/workflows/ci.yml` (`pip-audit` → `ci-gate`) | Known CVEs in frozen deps |
 | CodeQL | codeql-action | `.github/workflows/codeql.yml` | Semantic vulnerability queries |
 | Dependabot | weekly | `.github/dependabot.yml` | Stale pip, Actions, Docker, Terraform |
 

@@ -5,7 +5,7 @@
 ## Proof gate
 
 - [ ] `./harness/e2e.sh` passes locally (or `make e2e`)
-- [ ] GitHub Actions required checks are **green** on this PR (`e2e`, docker matrix, terraform matrix, gitleaks, bandit, pip-audit)
+- [ ] GitHub Actions required checks are **green** on this PR (`ci-gate`, CodeQL `Analyze`)
 - [ ] If OKF changed: `python3 scripts/okf_validate.py okf --strict`
 - [ ] If component status changed: updated `okf/models/implementation-status.md`
 - [ ] If docs/share claims changed: ran `make share` after e2e green

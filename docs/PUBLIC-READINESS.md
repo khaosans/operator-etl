@@ -78,27 +78,18 @@ Type each name when GitHub’s picker offers “Add check”. Names must match A
 
 | Context | Workflow file |
 |---|---|
-| `e2e` | `.github/workflows/ci.yml` |
-| `docker (gcp)` | `.github/workflows/ci.yml` |
-| `docker (aws)` | `.github/workflows/ci.yml` |
-| `docker (azure)` | `.github/workflows/ci.yml` |
-| `terraform (gcp)` | `.github/workflows/ci.yml` |
-| `terraform (aws)` | `.github/workflows/ci.yml` |
-| `terraform (azure)` | `.github/workflows/ci.yml` |
-| `gitleaks` | `.github/workflows/secret-scan.yml` |
-| `bandit` | `.github/workflows/security.yml` |
-| `pip-audit` | `.github/workflows/security.yml` |
+| `ci-gate` | `.github/workflows/ci.yml` |
 | `Analyze` | `.github/workflows/codeql.yml` |
 
-If a check is missing from the picker, open any recent green PR Actions run so GitHub indexes the job name, then retry Add.
+`ci-gate` aggregates parallel peers in `ci.yml` (`e2e`, docker matrix + Trivy, terraform matrix + Checkov, `gitleaks`, `bandit`, `pip-audit`). Do **not** list matrix job names in the ruleset — that is the noisy pattern this gate replaces. Policy: [BUILD-HYGIENE.md](BUILD-HYGIENE.md).
 
-Trivy runs inside each `docker (*)` matrix job (build must pass the scan). Checkov runs inside each `terraform (*)` matrix job.
+If a check is missing from the picker, open any recent green PR Actions run so GitHub indexes the job name, then retry Add.
 
 ### Prove it works
 
 - [ ] Ruleset shows **Active** on [Rules](https://github.com/khaosans/operator-etl/rules)
 - [ ] Open a throwaway PR with a deliberate failing check (or wait mid-run) → **Merge** stays blocked / greyed for required checks
-- [ ] After all 10 contexts green → squash-merge works
+- [ ] After `ci-gate` + `Analyze` green → squash-merge works
 - [ ] Optional: try a direct push to `master` → rejected (PR required)
 
 ### Why this matters
