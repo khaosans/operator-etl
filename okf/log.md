@@ -1,5 +1,10 @@
 # OKF changelog
 
+## 2026-09-10 (README badges + CI docs sync)
+
+- Root README dropped broken Security / Secret scan badges after #54 folded those workflows into `ci.yml` (`ci-gate`).
+- Synced STANDARDS, TESTING, FINAL-REVIEW (95 pytest), CONTRIBUTING, SECURITY, CODEOWNERS, and operator-security skill to the unified CI layout.
+
 ## 2026-09-09 (repo hygiene guide)
 
 - Human entry point [docs/REPO-HYGIENE.md](../docs/REPO-HYGIENE.md): GitHub Flow, required merge checks, commit/secrets hygiene; wired from CONTRIBUTING, wiki Contribute map, STANDARDS, PUBLIC-READINESS, mkdocs.

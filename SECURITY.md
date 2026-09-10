@@ -33,7 +33,7 @@ Never commit — see [CONTRIBUTING.md](CONTRIBUTING.md#repository-conventions) f
 
 ## CI
 
-GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak, critic faithfulness, MCP allowlist, HITL routing, Discord chat adapter, and path-traversal tests (95 pytest total). Security workflow: bandit + pip-audit. Human guide: [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
+GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak, critic faithfulness, MCP allowlist, HITL routing, Discord chat adapter, and path-traversal tests (95 pytest total). The same [`ci.yml`](.github/workflows/ci.yml) workflow also runs bandit, pip-audit, and gitleaks (aggregated by `ci-gate`). Human guide: [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
 
 ## Production readiness
 

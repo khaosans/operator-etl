@@ -13,7 +13,7 @@ make e2e              # if uv already installed
 
 The observability, A2A, and path-traversal tests prove **safety boundaries**, not just feature presence: telemetry stays sanitized, external agents only receive bounded task execution plus public-safe artifacts, and file extract URLs cannot leave the configured root.
 
-CI also runs **workflow-level** security jobs that are not pytest: bandit (SAST) and pip-audit (SCA) in [`.github/workflows/security.yml`](../.github/workflows/security.yml). See [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
+CI also runs **workflow-level** security jobs that are not pytest: bandit (SAST), pip-audit (SCA), and gitleaks in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (aggregated by `ci-gate`). See [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
 ---
 
@@ -167,7 +167,7 @@ Used by [`.github/workflows/release.yml`](../.github/workflows/release.yml). Pro
 | `test_local_path_rejects_absolute_with_root` | Absolute paths rejected when an extract root is set |
 | `test_local_path_allows_valid_relative` | Relative `file:data.json` resolves under the root |
 
-Bandit and pip-audit are **not** pytest — they run as GitHub Actions jobs. A green `make e2e` does not replace [`.github/workflows/security.yml`](../.github/workflows/security.yml). Guide: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
+Bandit and pip-audit are **not** pytest — they run as GitHub Actions jobs in [`ci.yml`](../.github/workflows/ci.yml). A green `make e2e` does not replace them. Guide: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
 ### `test_infra.py` — GCP adapters (no live cloud)
 
