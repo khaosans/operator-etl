@@ -16,8 +16,7 @@ infra/azure/secrets.tf            @khaosans
 infra/azure/container_app.tf      @khaosans
 
 SECURITY.md                       @khaosans
-.github/workflows/security.yml    @khaosans
-.github/workflows/secret-scan.yml @khaosans
+.github/workflows/ci.yml          @khaosans
 .github/workflows/codeql.yml      @khaosans
 
 # Default reviewers for all other changes

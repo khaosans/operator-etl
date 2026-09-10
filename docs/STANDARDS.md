@@ -60,9 +60,9 @@ Readable mapping: **[NIST.md](NIST.md)**. We align selected practices. We do **n
 | **Secrets hygiene** | [SECURITY.md](../SECURITY.md) | No `.env`, vault, or tfvars in git |
 | **Least privilege (GCP)** | White paper §12.3 | Separate service accounts per workload in Terraform |
 | **OWASP input validation** | [SECURITY-HARDENING.md](SECURITY-HARDENING.md) | Pydantic `max_length`, 10 MB body cap, path traversal guard |
-| **SAST** | bandit + CodeQL | [`.github/workflows/security.yml`](../.github/workflows/security.yml), [`.github/workflows/codeql.yml`](../.github/workflows/codeql.yml) + `.bandit.yml`; `# nosec` only with a reason |
-| **SCA** | pip-audit | Frozen-dep CVE check in the Security workflow |
-| **Secret scanning** | gitleaks | [`.github/workflows/secret-scan.yml`](../.github/workflows/secret-scan.yml) |
+| **SAST** | bandit + CodeQL | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (`bandit` → `ci-gate`), [`.github/workflows/codeql.yml`](../.github/workflows/codeql.yml) + `.bandit.yml`; `# nosec` only with a reason |
+| **SCA** | pip-audit | Frozen-dep CVE check in [`ci.yml`](../.github/workflows/ci.yml) (`pip-audit` → `ci-gate`) |
+| **Secret scanning** | gitleaks | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (`gitleaks` → `ci-gate`) |
 | **Container / IaC** | Trivy + Checkov | CI `docker` / `terraform` jobs; `.checkov.yml` documents intentional skips |
 | **CODEOWNERS** | [`.github/CODEOWNERS`](../.github/CODEOWNERS) | `vault.py`, `pii.py`, cloud secrets/IAM paths require review |
 

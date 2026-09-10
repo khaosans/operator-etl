@@ -5,8 +5,6 @@ deterministic Medallion warehouse, LangGraph orchestration, Model Context Protoc
 (MCP) allowlist, and a fail-closed PII policy plane.
 
 [![CI](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/ci.yml)
-[![Security](https://github.com/khaosans/operator-etl/actions/workflows/security.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/security.yml)
-[![Secret scan](https://github.com/khaosans/operator-etl/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/secret-scan.yml)
 [![CodeQL](https://github.com/khaosans/operator-etl/actions/workflows/codeql.yml/badge.svg)](https://github.com/khaosans/operator-etl/actions/workflows/codeql.yml)
 [![Release](https://img.shields.io/github/v/release/khaosans/operator-etl?include_prereleases)](https://github.com/khaosans/operator-etl/releases)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://khaosans.github.io/operator-etl/)
@@ -232,8 +230,9 @@ make e2e && make lint && make security
 uv run pre-commit install   # optional local hooks
 ```
 
-CI must be green before merge (e2e, docker, terraform, gitleaks, bandit, pip-audit, CodeQL,
-Trivy, Checkov). Ruleset setup: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md).
+CI must be green before merge: required checks are **`ci-gate`** (aggregates e2e, docker/Trivy,
+terraform/Checkov, gitleaks, bandit, pip-audit) and CodeQL **`Analyze`**. Ruleset setup:
+[docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md) · [docs/BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md).
 
 ## Security
 

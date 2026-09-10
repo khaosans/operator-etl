@@ -32,9 +32,9 @@ description: >-
 
 | Gate | Tool | Config |
 |---|---|---|
-| SAST | bandit | `.bandit.yml` — scans `src/`, skips `B101` (assert in tests); other hits need a fix or `# nosec` |
-| SCA | pip-audit | `.github/workflows/security.yml` — dependency CVE check |
-| Secret scan | gitleaks | `.github/workflows/secret-scan.yml` |
+| SAST | bandit | `.bandit.yml` — scans `src/`, skips `B101` (assert in tests); other hits need a fix or `# nosec`; CI job in `.github/workflows/ci.yml` → `ci-gate` |
+| SCA | pip-audit | `.github/workflows/ci.yml` (`pip-audit` → `ci-gate`) — dependency CVE check |
+| Secret scan | gitleaks | `.github/workflows/ci.yml` (`gitleaks` → `ci-gate`) |
 | CodeQL | codeql-action | `.github/workflows/codeql.yml` — Python security-extended |
 | Container CVE | Trivy | `.github/workflows/ci.yml` `docker` job — HIGH/CRITICAL |
 | IaC | Checkov | `.github/workflows/ci.yml` `terraform` job + `.checkov.yml` |

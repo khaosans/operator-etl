@@ -26,7 +26,7 @@ New to the repo? Run **`./scripts/verify.sh`** — or see [docs/QUICKSTART.md](d
 5. Append a line to [okf/log.md](okf/log.md) for significant doc/architecture changes
 6. If the change is user-visible, add a bullet under `## [Unreleased]` in [CHANGELOG.md](CHANGELOG.md). **Do not** bump `version` in `pyproject.toml` unless this PR is a release ([docs/VERSIONING.md](docs/VERSIONING.md)).
 
-CI must pass before merge: **e2e**, **docker (gcp|aws|azure)** (includes Trivy), **terraform (gcp|aws|azure)** (includes Checkov), **Secret scan** (`gitleaks`), **Security** (`bandit` + `pip-audit`), and **CodeQL**. Do not squash-merge while any of those are red or pending. Repo ruleset setup: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md#required-block-merges-when-ci-fails). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
+CI must pass before merge: required checks are **`ci-gate`** (aggregates e2e, docker/Trivy, terraform/Checkov, gitleaks, bandit, pip-audit) and CodeQL **`Analyze`**. Do not squash-merge while any of those are red or pending. Repo ruleset setup: [docs/PUBLIC-READINESS.md](docs/PUBLIC-READINESS.md#required-block-merges-when-ci-fails) · [docs/BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md). Dependabot PRs follow the same gate — see [docs/RELEASING.md](docs/RELEASING.md).
 
 ## OKF conventions
 

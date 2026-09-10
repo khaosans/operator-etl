@@ -10,7 +10,7 @@ Honest audit of Operator ETL as of the latest `make e2e` gate. Use this before s
 
 ## Executive summary
 
-Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **76 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
+Operator ETL **proves locally** that a FOIA public-comment pipeline can ingest CSV, scan PII, quarantine bad rows, build gold KPIs, run a LangGraph orchestration, and produce a critic-verified insight — all without an LLM API key. **95 pytest tests** plus a fresh-warehouse demo run on every push in GitHub Actions.
 
 What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, Presidio PII, or a **live** LLM API. Optional LLM wording is PARTIAL (mocked). Those are documented with explicit scale steps.
 
@@ -44,7 +44,7 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 | LLM insight nodes | **Partial** | Optional `insight_backend=llm`; mocked in CI — [LLM.md](LLM.md) |
 | Regulations.gov adapter | **Specified** | — |
 | Path traversal guard | **Proven** | `tests/test_http.py` — rejects `../` and absolute paths |
-| SAST / SCA in CI | **Proven** | `.github/workflows/security.yml` — bandit + pip-audit |
+| SAST / SCA in CI | **Proven** | `.github/workflows/ci.yml` (`bandit` / `pip-audit` → `ci-gate`) |
 | Vault file permissions | **Proven** | `vault.py` creates key with 0600; warns on permissive existing |
 | Rate limiting | **Proven** | In-process per-client middleware; `RATE_LIMIT_PER_MINUTE` env var |
 | Input size limits | **Proven** | 10 MB body middleware; `max_length` on Pydantic fields |
@@ -53,7 +53,7 @@ What is **not** proven in CI: live GCP deploy, BigQuery gold marts end-to-end, P
 flowchart TB
   subgraph proven [Proven in CI]
     E2E[make e2e]
-    Pytest[76 pytest]
+    Pytest[95 pytest]
   end
 
   subgraph partial [Partial]
@@ -106,7 +106,7 @@ Full policy: [SECURITY.md](../SECURITY.md)
 | Secrets not in git | `.env`, vault, tfvars gitignored | SECURITY.md |
 | IAM least privilege (GCP) | Separate SAs per workload | Terraform |
 | Path traversal prevention | `_local_path()` resolve + root guard | `tests/test_http.py` |
-| SAST + dependency audit | Bandit + pip-audit in CI | `.github/workflows/security.yml` |
+| SAST + dependency audit | Bandit + pip-audit in CI | `.github/workflows/ci.yml` (`bandit` / `pip-audit` → `ci-gate`) |
 | Vault key file permissions | 0600 on create; warn on permissive | `vault.py` |
 | Rate limiting | Per-client sliding window middleware | `app.py` middleware |
 | Input size limits | 10 MB body; Pydantic `max_length` | `app.py`, `server.py` |
