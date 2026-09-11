@@ -69,6 +69,7 @@ resource "google_bigquery_table" "silver_comments" {
     { name = "body", type = "STRING" },
     { name = "foia_status", type = "STRING" },
     { name = "pii_detected", type = "BOOL" },
+    { name = "entity_fingerprint", type = "STRING" },
     { name = "_content_hash", type = "STRING" },
     { name = "_row_num", type = "INT64" },
     { name = "_source", type = "STRING" },

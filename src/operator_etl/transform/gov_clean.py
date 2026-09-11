@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS silver_comments (
     body VARCHAR,
     foia_status VARCHAR,
     pii_detected BOOLEAN,
+    entity_fingerprint VARCHAR,
     _content_hash VARCHAR,
     _row_num INTEGER,
     _source VARCHAR,
@@ -47,6 +48,14 @@ CREATE TABLE IF NOT EXISTS insights (
 
 def init_gov_schema(con: duckdb.DuckDBPyConnection) -> None:
     con.execute(GOV_SCHEMA_SQL)
+    # Existing warehouses created before entity_fingerprint.
+    con.execute("ALTER TABLE silver_comments ADD COLUMN IF NOT EXISTS entity_fingerprint VARCHAR")
+    con.execute(
+        """
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_silver_comments_entity_fingerprint
+        ON silver_comments(entity_fingerprint)
+        """
+    )
 
 
 @dataclass(frozen=True)
@@ -74,7 +83,13 @@ def transform_comments_bronze(con: duckdb.DuckDBPyConnection) -> GovTransformSta
         """
     ).fetchall()
 
-    existing = {r[0] for r in con.execute("SELECT comment_id FROM silver_comments").fetchall()}
+    existing_ids = {r[0] for r in con.execute("SELECT comment_id FROM silver_comments").fetchall()}
+    existing_fps = {
+        r[0]
+        for r in con.execute(
+            "SELECT entity_fingerprint FROM silver_comments WHERE entity_fingerprint IS NOT NULL"
+        ).fetchall()
+    }
     silver_rows = 0
     quarantined = 0
 
@@ -86,7 +101,7 @@ def transform_comments_bronze(con: duckdb.DuckDBPyConnection) -> GovTransformSta
             quarantined += 1
             continue
         assert comment is not None
-        if comment.comment_id in existing:
+        if comment.comment_id in existing_ids:
             _quarantine(
                 con,
                 content_hash,
@@ -95,6 +110,21 @@ def transform_comments_bronze(con: duckdb.DuckDBPyConnection) -> GovTransformSta
                 ingested_at,
                 data,
                 f"duplicate comment_id {comment.comment_id}",
+            )
+            quarantined += 1
+            continue
+        if comment.entity_fingerprint in existing_fps:
+            _quarantine(
+                con,
+                content_hash,
+                row_num,
+                source,
+                ingested_at,
+                data,
+                (
+                    f"duplicate entity_fingerprint {comment.entity_fingerprint} "
+                    "(same normalized docket_id+body; comment_id kept as source PK)"
+                ),
             )
             quarantined += 1
             continue
@@ -107,8 +137,8 @@ def transform_comments_bronze(con: duckdb.DuckDBPyConnection) -> GovTransformSta
             """
             INSERT INTO silver_comments
                 (comment_id, docket_id, agency, submitted_at, commenter_type, subject, body,
-                 foia_status, pii_detected, _content_hash, _row_num, _source, _ingested_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 foia_status, pii_detected, entity_fingerprint, _content_hash, _row_num, _source, _ingested_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             [
                 comment.comment_id,
@@ -120,13 +150,15 @@ def transform_comments_bronze(con: duckdb.DuckDBPyConnection) -> GovTransformSta
                 comment.body,
                 comment.foia_status,
                 comment.pii_detected,
+                comment.entity_fingerprint,
                 content_hash,
                 row_num,
                 source,
                 ingested_at,
             ],
         )
-        existing.add(comment.comment_id)
+        existing_ids.add(comment.comment_id)
+        existing_fps.add(comment.entity_fingerprint)
         silver_rows += 1
 
     return GovTransformStats(

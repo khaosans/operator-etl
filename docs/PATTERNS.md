@@ -46,6 +46,18 @@ flowchart LR
 
 ---
 
+## Entity fingerprint (semantic dedupe)
+
+**Plain English.** Two different files can carry the **same comment text** under different IDs. File-hash idempotency alone would load both. We also fingerprint normalized `docket_id` + `body` on silver; a second delivery with the same fingerprint goes to quarantine so gold does not double-count.
+
+**In this repo.** `entity_fingerprint` on `silver_comments`; duplicate → quarantine with an explicit reason. `comment_id` remains the business PK.
+
+**Pattern.** Content-defined identity separate from delivery identity (file hash) and source PK.
+
+**Code / test.** `compute_entity_fingerprint` · `tests/test_gov_graph.py::test_entity_fingerprint_quarantines_semantic_dupes` · OKF [medallion-layers](../okf/models/medallion-layers.md)
+
+---
+
 ## Three planes
 
 **Plain English.** Do not collapse “compute the number,” “protect the PII,” and “run the agent” into one chatbot. **Data** computes. **Policy** constrains (scan, vault, withhold). **Control** orchestrates (graph, tools, critic). Same idea as a network’s data plane vs control plane: forwarding is not routing policy.

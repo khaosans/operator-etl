@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from helpers import assert_insight_grounded_in_metrics, assert_no_pii_leak
 from operator_etl.config import Settings, set_settings
+from operator_etl.extract.csv import ExtractResult
 from operator_etl.insights.gov_metrics import build_gov_marts, gov_quality_gate
-from operator_etl.load.duckdb import connect
+from operator_etl.load.duckdb import connect, load_bronze
 from operator_etl.pipeline import ingest_source
 from operator_etl.transform.gov_clean import transform_comments_bronze
+from operator_etl.transform.gov_contracts import compute_entity_fingerprint
 from operator_etl_graph.graph import run_graph
 
 
@@ -34,6 +36,55 @@ def test_gov_ingest_is_idempotent(gov_settings: Settings) -> None:
     con.close()
     assert bronze == 12
     assert files == 1
+
+
+def test_entity_fingerprint_quarantines_semantic_dupes(gov_settings: Settings) -> None:
+    """Same docket_id+body under two file hashes → second quarantined; gold counts once."""
+    docket = "EPA-HQ-OAR-2026-999"
+    body = "  Identical semantic body for fingerprint test.  "
+    shared = {
+        "docket_id": docket,
+        "agency": "EPA",
+        "submitted_at": "2026-07-01T09:00:00",
+        "commenter_type": "individual",
+        "subject": "Fingerprint",
+        "body": body,
+        "pii_detected": "false",
+    }
+    first = ExtractResult(
+        file_name="comments_a.csv",
+        content_hash="a" * 64,
+        rows=[{**shared, "comment_id": "CMT-FP-001"}],
+    )
+    second = ExtractResult(
+        file_name="comments_b.csv",
+        content_hash="b" * 64,
+        rows=[{**shared, "comment_id": "CMT-FP-002", "body": body.upper()}],
+    )
+    assert first.content_hash != second.content_hash
+
+    con = connect(gov_settings)
+    load_bronze(con, source="public_comments", extracted=first)
+    load_bronze(con, source="public_comments", extracted=second)
+    stats = transform_comments_bronze(con)
+    assert stats.rows_silver == 1
+    assert stats.rows_quarantined == 1
+
+    silver = con.execute(
+        "SELECT comment_id, entity_fingerprint FROM silver_comments ORDER BY comment_id"
+    ).fetchall()
+    assert len(silver) == 1
+    assert silver[0][0] == "CMT-FP-001"
+    assert silver[0][1] == compute_entity_fingerprint(docket, body)
+
+    q_errors = con.execute("SELECT error FROM quarantine_comments").fetchall()
+    assert len(q_errors) == 1
+    assert "duplicate entity_fingerprint" in q_errors[0][0]
+
+    build_gov_marts(con, gov_settings)
+    comment_count = con.execute("SELECT comment_count FROM gold_comment_kpis").fetchone()[0]
+    con.close()
+    assert comment_count == 1
 
 
 def test_quarantine_preserves_bad_rows_with_errors(gov_settings: Settings) -> None:

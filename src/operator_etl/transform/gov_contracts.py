@@ -1,12 +1,24 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from datetime import datetime
-from typing import Any
+from typing import Any, Self
 
-from pydantic import BaseModel, Field, ValidationError, field_validator
+from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
 
 REQUIRED = ("comment_id", "docket_id", "agency", "submitted_at", "commenter_type", "body")
+
+
+def normalize_for_fingerprint(value: str) -> str:
+    """Collapse whitespace and casefold for stable semantic fingerprints."""
+    return " ".join(str(value).split()).casefold()
+
+
+def compute_entity_fingerprint(docket_id: str, body: str) -> str:
+    """sha256(normalize(docket_id) || '\\0' || normalize(body))."""
+    payload = f"{normalize_for_fingerprint(docket_id)}\0{normalize_for_fingerprint(body)}"
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 class SilverComment(BaseModel):
@@ -19,6 +31,7 @@ class SilverComment(BaseModel):
     body: str = Field(min_length=1)
     foia_status: str = "pending_review"
     pii_detected: bool = False
+    entity_fingerprint: str = ""
 
     @field_validator("comment_id", "docket_id", "agency", "commenter_type", mode="before")
     @classmethod
@@ -29,6 +42,11 @@ class SilverComment(BaseModel):
         if not text:
             raise ValueError("empty")
         return text
+
+    @model_validator(mode="after")
+    def set_entity_fingerprint(self) -> Self:
+        self.entity_fingerprint = compute_entity_fingerprint(self.docket_id, self.body)
+        return self
 
 
 def parse_payload(payload: Any) -> dict[str, Any]:
