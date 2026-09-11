@@ -44,6 +44,7 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 
 # References
 
+* [Platform fleet](references/platform-fleet.md) — `AI_OPERATOR_INFRA_ROOT` catalog + shared process
 * [Final review](references/final-review.md) — Proven vs partial vs specified audit
 * [Design foundations](references/design-foundations.md) — Sources → invariants → tests
 * [OKF spec](references/okf-spec.md) — Spec pointer

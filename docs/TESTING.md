@@ -65,6 +65,7 @@ flowchart TB
 |---|---|
 | `test_public_comments_ingest_and_transform` | 12 rows in → 10 silver, 2 quarantined |
 | `test_gov_ingest_is_idempotent` | Re-drop same file does not duplicate bronze |
+| `test_entity_fingerprint_quarantines_semantic_dupes` | Same normalized docket+body across file hashes → one silver, one quarantine; gold counts once |
 | `test_quarantine_preserves_bad_rows_with_errors` | Bad rows kept with explicit validation errors |
 | `test_gov_gold_marts` | Gold KPIs + quality gate pass on happy path |
 | `test_graph_pipeline_completes` | LangGraph end-to-end: complete + critic pass |

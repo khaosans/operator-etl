@@ -9,6 +9,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Added
 
+- Silver `entity_fingerprint` for FOIA comments (`sha256(normalize(docket_id)+\0+normalize(body))`): semantic dupes across file hashes quarantine while `comment_id` stays the source PK; gold counts once. Proven by `test_entity_fingerprint_quarantines_semantic_dupes`. Platform contract: `$AI_OPERATOR_INFRA_ROOT/okf/models/medallion-and-idempotency.md`.
 - Branch policy and repo hygiene entry point: [docs/REPO-HYGIENE.md](docs/REPO-HYGIENE.md) (GitHub Flow, merge gate, commit/secrets hygiene; links PUBLIC-READINESS ruleset checklist).
 - Build hygiene framework: [docs/BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md), [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md), repo-managed [`.cursor/environment.json`](.cursor/environment.json) + [`scripts/cloud-agent-install.sh`](scripts/cloud-agent-install.sh); CI aggregates into required `ci-gate` (CodeQL `Analyze` stays separate).
 

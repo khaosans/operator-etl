@@ -23,6 +23,7 @@ This roadmap reflects honest assessment of what works today (IMPLEMENTED), what 
 | **End-to-end FOIA pipeline** | CSV → bronze/silver/gold | `make e2e` + [WALKTHROUGH.md](WALKTHROUGH.md) | **PROVEN** |
 | **Medallion warehouse layers** | Bronze (raw) → silver (validated) → gold (marts) + quarantine | `tests/test_pipeline.py` | **PROVEN** |
 | **Idempotent ingestion** | Same file hash twice = 0 new rows | `test_pipeline.py::test_gov_ingest_is_idempotent` | **PROVEN** |
+| **Comment entity fingerprint** | Same normalized docket_id+body across file hashes → quarantine; gold counts once | `test_gov_graph.py::test_entity_fingerprint_quarantines_semantic_dupes` | **PROVEN** |
 | **Quality gates fail-closed** | Bad rows quarantined with reasons; insights block until fixed | `tests/test_quality.py` | **PROVEN** |
 | **PII scan + redaction** | Regex scanner finds and masks email/phone | `tests/test_pii.py` | **PROVEN** |
 | **PII vault encryption** | Found PII stored encrypted; never exposed via MCP | `SECURITY.md` + tests | **PROVEN** |
@@ -205,7 +206,7 @@ Operator ETL climbs one ladder, not many at once. Each stage proves the prior st
 - **Primary persona:** **Riley**
 - **What's needed:**
   - HTTP intake service (inbound + RPC)
-  - Comment deduplication
+  - Comment deduplication — **done** via `entity_fingerprint` on `silver_comments` (see L0 proven); adapter still needed for live pull
   - Docket-to-agency mapping
   - Schema alignment with core pipeline
 - **Effort:** 2–4 weeks
@@ -310,7 +311,7 @@ gantt
 
 ### L4C (Regulations.gov)
 - [ ] Live dockets ingested daily
-- [ ] Comment dedup working (0 duplicates across runs)
+- [x] Comment dedup working (0 duplicates across runs) — `entity_fingerprint` on silver (file-hash + semantic); Regulations.gov adapter still open
 - [ ] Docket metadata queryable in gold
 
 ### L4D (LLM wording)
