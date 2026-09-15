@@ -27,6 +27,10 @@ timestamp: 2026-09-03T00:00:00Z
 3. Upload a CSV to `s3://$inbox_bucket/incoming/` or `POST /run` against the ALB URL.
 4. Keep insight backend `template` until the OpenAI secret is real. See [docs/LLM.md](/docs/LLM.md).
 
+## Next: service identity
+
+Retire static trigger headers once EventBridge / workloads present SPIFFE JWT-SVIDs: [bootstrap-spiffe-identity](/playbooks/bootstrap-spiffe-identity.md).
+
 ## Skill
 
 [`skills/operator-ship-aws/SKILL.md`](/skills/operator-ship-aws/SKILL.md) · Wiki: [docs/MULTI-CLOUD.md](/docs/MULTI-CLOUD.md)

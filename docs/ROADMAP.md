@@ -292,6 +292,7 @@ gantt
 - [ ] Agency uploads CSV; graph completes in under 2 min
 - [ ] Cloud SQL checkpoint query returns correct run state
 - [ ] MCP server IAM verified (read gold only)
+- [ ] SPIFFE JWT-SVID auth on graph-runner `/run` + HTTP MCP (`OPERATOR_ETL_AUTH_MODE=spiffe`)
 
 ### L3
 - [ ] DuckDB → BigQuery dialect port 100% (all `sql/mars/gov/*.sql` migrated)

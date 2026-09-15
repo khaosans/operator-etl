@@ -63,12 +63,12 @@ Details: [okf/models/three-planes.md](../okf/models/three-planes.md)
 
 ## HTTP security layer
 
-The local `:8080` graph-runner and Cloud Run share the same FastAPI app. Requests hit rate limiting and a body-size cap before A2A bearer auth or `/run`. File extract URLs cannot traverse above the configured root. Guide: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
+The local `:8080` graph-runner and Cloud Run share the same FastAPI app. Requests hit rate limiting and a body-size cap, then auth by route: A2A bearer and/or SPIFFE JWT-SVID (`OPERATOR_ETL_AUTH_MODE`), Discord Ed25519, or open `/run` when mode is `off`. File extract URLs cannot traverse above the configured root. Guide: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
 ```mermaid
 flowchart LR
   Client[Client] --> MW[Rate limit then 10 MB cap]
-  MW --> Auth[A2A bearer or /run]
+  MW --> Auth[A2A bearer / SPIFFE / open run]
   Auth --> Graph[LangGraph]
   Extract[file URL] --> Guard[_local_path resolve]
   Guard --> Bronze[bronze_raw]

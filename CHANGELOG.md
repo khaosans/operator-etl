@@ -9,12 +9,14 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Added
 
+- SPIFFE Control-plane service identity: OKF decision [spiffe-service-identity](okf/decisions/spiffe-service-identity.md), optional JWT-SVID verify (`OPERATOR_ETL_AUTH_MODE`, trust bundle, route allowlists) in `operator_etl_policy/spiffe_auth.py` on `/run`, push, HTTP MCP, and A2A; playbook [bootstrap-spiffe-identity](okf/playbooks/bootstrap-spiffe-identity.md). Default remains `off` for `verify.sh`.
 - Silver `entity_fingerprint` for FOIA comments (`sha256(normalize(docket_id)+\0+normalize(body))`): semantic dupes across file hashes quarantine while `comment_id` stays the source PK; gold counts once. Proven by `test_entity_fingerprint_quarantines_semantic_dupes`. Platform contract: `$AI_OPERATOR_INFRA_ROOT/okf/models/medallion-and-idempotency.md`.
 - Branch policy and repo hygiene entry point: [docs/REPO-HYGIENE.md](docs/REPO-HYGIENE.md) (GitHub Flow, merge gate, commit/secrets hygiene; links PUBLIC-READINESS ruleset checklist).
 - Build hygiene framework: [docs/BUILD-HYGIENE.md](docs/BUILD-HYGIENE.md), [docs/CLOUD-AGENT.md](docs/CLOUD-AGENT.md), repo-managed [`.cursor/environment.json`](.cursor/environment.json) + [`scripts/cloud-agent-install.sh`](scripts/cloud-agent-install.sh); CI aggregates into required `ci-gate` (CodeQL `Analyze` stays separate).
 
 ### Fixed
 
+- CI: generate SPIFFE JWT-SVID test keys at runtime (drop committed PEM) and allowlist historical fixture path for gitleaks; `apt-get upgrade` in Dockerfile to clear Trivy HIGH/CRITICAL OS CVEs on `python:3.12-slim`.
 - Root README: drop broken Security / Secret scan badges after those workflows were folded into [`ci.yml`](.github/workflows/ci.yml) (`ci-gate`); sync docs, CONTRIBUTING, SECURITY, CODEOWNERS, and FINAL-REVIEW pytest count to the unified CI layout.
 - Bump transitive `httpx2` to 2.12.0 (via `uv.lock`) to clear pip-audit CVEs blocking CI.
 

@@ -47,4 +47,6 @@ Usage narrative: [docs/HOW-IT-WORKS.md](../../docs/HOW-IT-WORKS.md)
 | Policy | `operator_etl_policy/` | Never exposed via MCP |
 | Data | `operator_etl/` | Via allowlisted tools only |
 
+**Control-plane trust:** Staging/prod HTTP callers (`/run`, provider push, HTTP MCP, A2A) authenticate with [SPIFFE](../decisions/spiffe-service-identity.md) JWT-SVIDs when `OPERATOR_ETL_AUTH_MODE=spiffe` (local MVP stays `off`). Discord keeps Ed25519; MCP tool allowlists stay separate from caller identity. Cloud IAM still gates warehouse and secret access.
+
 See [implementation status](/models/implementation-status.md) for what is coded vs specified.

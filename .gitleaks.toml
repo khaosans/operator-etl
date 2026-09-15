@@ -8,8 +8,9 @@ title = "operator-etl"
 useDefault = true
 
 [allowlist]
-description = "Infra env templates (comment-only secrets; see tests/test_infra_examples.py)"
+description = "Infra env templates (comment-only secrets; see tests/test_infra_examples.py). SPIFFE test PEM was removed; path allowlisted so PR history stays gitleaks-clean (keys are generated at test time)."
 paths = [
   '''(^|/)infra/env\.example$''',
   '''(^|/)infra/env\.[a-z]+\.example$''',
+  '''(^|/)tests/fixtures/spiffe/''',
 ]

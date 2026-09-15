@@ -23,7 +23,7 @@ flowchart TB
     Rate[Rate limit]
     Body[10 MB body cap]
     Path[Path traversal guard]
-    Auth[A2A bearer / Discord Ed25519]
+    Auth[A2A bearer / SPIFFE JWT-SVID / Discord Ed25519]
   end
 
   subgraph policy [Policy plane]
@@ -80,15 +80,31 @@ flowchart LR
   Rate -->|yes| Size{Body under 10 MB?}
   Size -->|no| TooLarge[413]
   Size -->|yes| Route{Route}
-  Route -->|A2A| Bearer{Bearer valid?}
-  Bearer -->|no| Unauth[401]
-  Bearer -->|yes| Handler[Handler]
+  Route -->|A2A| A2AAuth{Bearer or JWT-SVID?}
+  A2AAuth -->|no| Unauth[401]
+  A2AAuth -->|yes| Handler[Handler]
   Route -->|Discord| Ed25519{Signature valid?}
   Ed25519 -->|no| Unauth
   Ed25519 -->|yes| Handler
-  Route -->|run health| Handler
+  Route -->|run push mcp| Spiffe{AUTH_MODE?}
+  Spiffe -->|off or bearer| Handler
+  Spiffe -->|spiffe| Svid{JWT-SVID + allowlist?}
+  Svid -->|no| Unauth
+  Svid -->|yes| Handler
+  Route -->|health| Handler
   Handler -->|exception| Sanitized[500 generic]
 ```
+
+### Auth mode (`OPERATOR_ETL_AUTH_MODE`)
+
+| Mode | `/run`, push, HTTP MCP | A2A |
+|---|---|---|
+| `off` (default) | Open (local MVP / `verify.sh`) | Shared bearer (`OPERATOR_ETL_A2A_BEARER_TOKEN`) |
+| `bearer` | Open | Shared bearer |
+| `spiffe` | Valid JWT-SVID + route allowlist | JWT-SVID + allowlist only |
+| `bearer_or_spiffe` | JWT-SVID + allowlist | Shared bearer **or** JWT-SVID |
+
+Trust bundle / JWKS path: `OPERATOR_ETL_SPIFFE_TRUST_BUNDLE`. Allowlists: `OPERATOR_ETL_SPIFFE_ALLOW_RUN`, `_ALLOW_MCP`, `_ALLOW_A2A` (comma-separated SPIFFE IDs). Never trust a bare `X-SPIFFE-ID` header without verifying the SVID. Decision: [spiffe-service-identity](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/spiffe-service-identity.md). Staging issuer: [bootstrap-spiffe-identity](https://github.com/khaosans/operator-etl/blob/master/okf/playbooks/bootstrap-spiffe-identity.md).
 
 ### Rate limit
 

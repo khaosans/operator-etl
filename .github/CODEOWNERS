@@ -4,6 +4,7 @@
 
 src/operator_etl_policy/vault.py  @khaosans
 src/operator_etl_policy/pii.py    @khaosans
+src/operator_etl_policy/spiffe_auth.py  @khaosans
 src/operator_etl_chat/discord/verify.py  @khaosans
 src/operator_etl_chat/discord/interactions.py  @khaosans
 src/operator_etl_chat/sanitize.py  @khaosans

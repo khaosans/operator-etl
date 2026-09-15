@@ -267,7 +267,7 @@ The Critic extracts every numeric literal (`10`, `2`, `2`, `4`, `0.4`). It cross
 
 ## 3. Threat Model & Security Architecture
 
-**Status:** IMPLEMENTED (Zero-PII boundaries & allowlists) · SPECIFIED (Enterprise IAM / Cloud KMS)
+**Status:** IMPLEMENTED (Zero-PII boundaries & allowlists; optional SPIFFE JWT-SVID verify) · SPECIFIED (SPIRE / issuer bootstrap · Cloud KMS)
 
 To satisfy federal and enterprise cybersecurity standards (NIST AI RMF 1.0, NIST SP 800-122, OWASP Top 10 for LLMs), Operator ETL implements formal threat modeling across all three planes. HTTP-edge and CI controls (path traversal, rate limiting, SAST/SCA) are documented for operators in [docs/SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
@@ -275,12 +275,12 @@ To satisfy federal and enterprise cybersecurity standards (NIST AI RMF 1.0, NIST
 
 | Threat Category | Attack Vector / Failure Mode | Operator ETL Architecture Defense | Code Verification |
 |---|---|---|---|
-| **Spoofing** | Adversary submits forged docket submissions mimicking valid agencies | Bronze SHA-256 content hashing; origin tracking in `ingest_files` metadata | `tests/test_pipeline.py` |
+| **Spoofing** | Adversary submits forged docket submissions mimicking valid agencies; forged `/run` or HTTP MCP callers | Bronze SHA-256 content hashing; origin tracking in `ingest_files` metadata; SPIFFE JWT-SVID + allowlists when `OPERATOR_ETL_AUTH_MODE=spiffe` | `tests/test_pipeline.py`, `tests/test_spiffe_auth.py` |
 | **Tampering** | Citizen injects malicious prompt text into public comment body (OWASP LLM01) | Comments never reach agent prompts; models interact exclusively with aggregate JSON | `tests/test_gov_graph.py` |
 | **Repudiation** | Submitter claims comment was lost or modified post-intake | Immutable `bronze_raw` preserves original JSON payloads with line-level indices | `tests/test_pipeline.py` |
 | **Information Disclosure** | PII (SSNs, emails) leaked into model inference traces (OWASP LLM06) | Policy Plane scans, encrypts to `pii_vault`, and replaces values with tokens | `tests/test_pii.py` |
 | **Denial of Service** | Corrupted multi-gigabyte CSV overwhelms warehouse memory | Fail-closed quality gate; streaming CSV parser with per-node execution timeout | `tests/test_quality.py` |
-| **Elevation of Privilege** | Compromised agent attempts raw SQL execution or vault decryption | Strict MCP allowlist; tools expose only pre-approved queries; vault access denied | `tests/test_mcp_tools.py` |
+| **Elevation of Privilege** | Compromised agent attempts raw SQL execution or vault decryption; unauthorized trigger of graph-runner | Strict MCP allowlist; tools expose only pre-approved queries; vault access denied; SPIFFE caller allowlists on HTTP MCP / `/run` | `tests/test_mcp_tools.py`, `tests/test_spiffe_auth.py` |
 
 ### 3.2 NIST AI RMF Alignment Matrix
 

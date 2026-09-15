@@ -84,6 +84,10 @@ curl -s -o /dev/null -w '%{http_code}\n' -X POST localhost:8080/run \
 
 This limiter is **one process**. Multi-instance Cloud Run needs Cloud Armor or an API gateway. Full control list: [SECURITY-HARDENING.md](SECURITY-HARDENING.md).
 
+### Auth mode (SPIFFE)
+
+Default `OPERATOR_ETL_AUTH_MODE=off` keeps local `/run` open for MVP. Staging/prod should set `spiffe` (or `bearer_or_spiffe` during A2A cutover), point `OPERATOR_ETL_SPIFFE_TRUST_BUNDLE` at a JWKS, and set route allowlists. See [SECURITY-HARDENING.md](SECURITY-HARDENING.md#auth-mode-operator_etl_auth_mode) and [spiffe-service-identity](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/spiffe-service-identity.md).
+
 ## A2A task surface
 
 The same `operator-etl-gcp` service exposes the bounded agent-to-agent surface ([A2A.md](A2A.md)). Every A2A route requires a bearer token. Set one on the server and reuse it from the client via an env var (never hard-code a token):

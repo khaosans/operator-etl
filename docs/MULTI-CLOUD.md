@@ -16,6 +16,7 @@ Prove local first: `./scripts/verify.sh` → `OPERATOR_ETL_VERIFY=PASS`.
 | Warehouse | Protocol + `load.ops` | BigQuery (L3) or DuckDB | **DuckDB** in task | **DuckDB** in app |
 | Inbox | `ObjectStore` | GCS | S3 | Blob |
 | Trigger | `POST /run` | Pub/Sub → `/pubsub/push` | EventBridge → `/run` | Event Grid → `/events/azure` |
+| **Service identity** | SPIFFE JWT-SVID (`AUTH_MODE`) | Cloud Run invoker OIDC + optional SPIFFE | ALB + optional SPIFFE | Public ingress + optional SPIFFE |
 | Checkpoints | sqlite \| postgres | Cloud SQL | RDS | Flexible Server |
 | IaC | `infra/<provider>/` | [`infra/gcp`](https://github.com/khaosans/operator-etl/tree/master/infra/gcp) | [`infra/aws`](https://github.com/khaosans/operator-etl/tree/master/infra/aws) | [`infra/azure`](https://github.com/khaosans/operator-etl/tree/master/infra/azure) |
 
@@ -37,6 +38,11 @@ flowchart LR
 | `OPERATOR_ETL_INBOX_URI` | `gs://…` / `s3://…` / `az://account/container/prefix` |
 | `OPERATOR_ETL_CHECKPOINT_BACKEND` | `sqlite` \| `postgres` |
 | `OPERATOR_ETL_CHECKPOINT_DATABASE_URL` | Managed Postgres URL |
+| `OPERATOR_ETL_AUTH_MODE` | `off` (default) \| `bearer` \| `spiffe` \| `bearer_or_spiffe` — [spiffe-service-identity](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/spiffe-service-identity.md) |
+| `OPERATOR_ETL_SPIFFE_TRUST_BUNDLE` | Path or inline JWKS for JWT-SVID verification |
+| `OPERATOR_ETL_SPIFFE_ALLOW_RUN` / `_ALLOW_MCP` / `_ALLOW_A2A` | Comma-separated SPIFFE IDs allowed per surface |
+
+Cloud **resource** IAM (BQ / S3 / Blob / secrets) stays provider-native. SPIFFE is the portable **caller** identity for Control-plane HTTP — it does not replace warehouse bindings.
 
 Examples: [`infra/env.example`](https://github.com/khaosans/operator-etl/blob/master/infra/env.example) · [`env.aws.example`](https://github.com/khaosans/operator-etl/blob/master/infra/env.aws.example) · [`env.azure.example`](https://github.com/khaosans/operator-etl/blob/master/infra/env.azure.example)
 

@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
 from a2a.agent_card import build_agent_card
 from operator_etl.config import Settings, get_settings, set_settings
 from operator_etl.load.connection import connect
 from operator_etl_mcp.tools import ToolDenied, get_gold_metrics, get_run_status, run_allowlisted_sql
+from operator_etl_policy.spiffe_auth import depends_identity
 
 app = FastAPI(title="Operator ETL MCP (HTTP)", version="0.2.0")
+
+_mcp_auth = Depends(depends_identity("mcp"))
 
 
 class QualitySqlRequest(BaseModel):
@@ -28,7 +31,7 @@ def agent_card(request: Request) -> dict:
     return build_agent_card(str(request.base_url).rstrip("/"))
 
 
-@app.get("/tools/gold-metrics")
+@app.get("/tools/gold-metrics", dependencies=[_mcp_auth])
 def gold_metrics(domain: str = "gov") -> dict:
     settings = get_settings()
     con = connect(settings)
@@ -38,7 +41,7 @@ def gold_metrics(domain: str = "gov") -> dict:
         con.close()
 
 
-@app.post("/tools/quality-sql")
+@app.post("/tools/quality-sql", dependencies=[_mcp_auth])
 def quality_sql(body: QualitySqlRequest) -> dict:
     settings = get_settings()
     con = connect(settings)
@@ -52,7 +55,7 @@ def quality_sql(body: QualitySqlRequest) -> dict:
         con.close()
 
 
-@app.get("/tools/run-status/{run_id}")
+@app.get("/tools/run-status/{run_id}", dependencies=[_mcp_auth])
 def run_status(run_id: str) -> dict:
     settings = get_settings()
     con = connect(settings)

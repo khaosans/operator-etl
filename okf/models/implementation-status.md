@@ -8,7 +8,7 @@ timestamp: 2026-09-03T00:00:00Z
 
 # Implementation status
 
-**Tests:** 95 pytest passing · **MVP gate:** `./harness/e2e.sh`
+**Tests:** 103 pytest passing · **MVP gate:** `./harness/e2e.sh`
 
 | Component | Status | Proven in CI | Path |
 |---|---|---|---|
@@ -47,6 +47,8 @@ timestamp: 2026-09-03T00:00:00Z
 | Rate limiting | **IMPLEMENTED** | Yes | `src/operator_etl_gcp/http/app.py` middleware |
 | Input size limits | **IMPLEMENTED** | Yes | 10 MB body cap; Pydantic `max_length` |
 | Terraform sensitive vars | **IMPLEMENTED** | — | `infra/gcp|aws|azure/variables.tf` |
+| SPIFFE service identity (JWT-SVID verify) | **PARTIAL** | Unit (mode=`spiffe`) | `operator_etl_policy/spiffe_auth.py` · [spiffe-service-identity](../decisions/spiffe-service-identity.md) |
+| SPIRE / issuer bootstrap | **SPECIFIED** | — | [bootstrap-spiffe-identity](../playbooks/bootstrap-spiffe-identity.md) |
 
 Audit: [docs/FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md)
 

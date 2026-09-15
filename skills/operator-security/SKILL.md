@@ -7,11 +7,11 @@ description: >-
 
 # Security hardening — Operator ETL
 
-**Load:** [SECURITY.md](../../SECURITY.md) · [SECURITY-HARDENING.md](../../docs/SECURITY-HARDENING.md) · [FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md) · [okf/decisions/pii-fail-closed.md](../../okf/decisions/pii-fail-closed.md)
+**Load:** [SECURITY.md](../../SECURITY.md) · [SECURITY-HARDENING.md](../../docs/SECURITY-HARDENING.md) · [FINAL-REVIEW.md](../../docs/FINAL-REVIEW.md) · [okf/decisions/pii-fail-closed.md](../../okf/decisions/pii-fail-closed.md) · [okf/decisions/spiffe-service-identity.md](../../okf/decisions/spiffe-service-identity.md)
 
 ## When to use this skill
 
-- Any change touching `vault.py`, `pii.py`, `secrets.tf`, `iam.tf`, or auth middleware
+- Any change touching `vault.py`, `pii.py`, `spiffe_auth.py`, `secrets.tf`, `iam.tf`, or auth middleware
 - Adding new HTTP endpoints or MCP tools
 - Reviewing PRs that modify data extraction, transformation, or loading
 - Before any GCP deploy or production-readiness claim
@@ -26,7 +26,8 @@ description: >-
 6. **Error sanitization** — no tracebacks or internal data in HTTP responses; log type + message only
 7. **PII boundary** — raw PII never in insight text, MCP responses, or LLM context
 8. **MCP allowlist** — only 3 tools; no vault decrypt; no raw SQL
-9. **CODEOWNERS** — security-sensitive paths require review (`.github/CODEOWNERS`)
+9. **SPIFFE allowlists** — never weaken `OPERATOR_ETL_SPIFFE_ALLOW_*` or default `AUTH_MODE` to open in staging docs; never trust unsigned `X-SPIFFE-ID` headers
+10. **CODEOWNERS** — security-sensitive paths require review (`.github/CODEOWNERS`)
 
 ## CI security gates
 

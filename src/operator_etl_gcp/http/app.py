@@ -11,11 +11,12 @@ from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 from starlette.responses import StreamingResponse
 
-from a2a.server import JsonRpcRequest, ensure_bearer_token, get_task_events, handle_jsonrpc
+from a2a.server import JsonRpcRequest, get_task_events, handle_jsonrpc
 from operator_etl.config import Settings, get_settings, set_settings
 from operator_etl_chat.discord.interactions import router as discord_router
 from operator_etl_gcp.pubsub import decode_pubsub_push
 from operator_etl_graph.graph import run_graph
+from operator_etl_policy.spiffe_auth import depends_identity
 from telemetry import initialize_telemetry
 
 logger = logging.getLogger("operator_etl_gcp")
@@ -99,7 +100,7 @@ def health() -> dict[str, str]:
     return {"status": "ok", "service": "graph-runner"}
 
 
-@app.post("/run")
+@app.post("/run", dependencies=[Depends(depends_identity("run"))])
 def run_pipeline(body: RunRequest) -> dict[str, Any]:
     settings = _gov_settings(body.pipeline)
     set_settings(settings)
@@ -139,7 +140,7 @@ def run_pipeline(body: RunRequest) -> dict[str, Any]:
     }
 
 
-@app.post("/pubsub/push")
+@app.post("/pubsub/push", dependencies=[Depends(depends_identity("run"))])
 async def pubsub_push(request: Request) -> dict[str, str]:
     """Pub/Sub push handler for GCS OBJECT_FINALIZE → graph run."""
     body = await request.json()
@@ -167,10 +168,15 @@ async def pubsub_push(request: Request) -> dict[str, str]:
 
 @app.post("/events/azure")
 async def azure_event_grid(request: Request) -> Response:
-    """Event Grid webhook — subscription validation + BlobCreated → graph run."""
+    """Event Grid webhook — subscription validation + BlobCreated → graph run.
+
+    SubscriptionValidationEvent is exempt from SPIFFE (Azure handshake).
+    Data events require the same identity as ``/run`` when AUTH_MODE=spiffe.
+    """
     body = await request.json()
     # Subscription handshake (Event Grid sends a list with SubscriptionValidationEvent)
     events = body if isinstance(body, list) else [body]
+    validation_only = True
     for event in events:
         event_type = event.get("eventType") or event.get("type")
         if event_type in (
@@ -185,6 +191,11 @@ async def azure_event_grid(request: Request) -> Response:
                 content=json.dumps({"validationResponse": code}),
                 media_type="application/json",
             )
+        validation_only = False
+
+    if not validation_only:
+        # Enforce SPIFFE/bearer policy for real ingest events
+        depends_identity("run")(authorization=request.headers.get("authorization"))
 
     settings = _gov_settings("public_comments")
     set_settings(settings)
@@ -198,7 +209,7 @@ async def azure_event_grid(request: Request) -> Response:
     )
 
 
-@app.post("/a2a/v1/tasks", dependencies=[Depends(ensure_bearer_token)])
+@app.post("/a2a/v1/tasks", dependencies=[Depends(depends_identity("a2a"))])
 def a2a_tasks(body: JsonRpcRequest) -> dict[str, Any]:
     settings = _gov_settings("public_comments")
     set_settings(settings)
@@ -206,7 +217,7 @@ def a2a_tasks(body: JsonRpcRequest) -> dict[str, Any]:
     return handle_jsonrpc(body, settings)
 
 
-@app.get("/a2a/v1/tasks/{task_id}/events", dependencies=[Depends(ensure_bearer_token)])
+@app.get("/a2a/v1/tasks/{task_id}/events", dependencies=[Depends(depends_identity("a2a"))])
 def a2a_task_events(task_id: str) -> StreamingResponse:
     return StreamingResponse(get_task_events(task_id), media_type="text/event-stream")
 

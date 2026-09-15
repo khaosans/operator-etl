@@ -72,8 +72,8 @@ Minimize: the LLM payload strips timestamps and non-numeric fields. That is Map 
 If you already speak 800-53, these families are the closest *story*, not a control-by-control mapping and not an ATO:
 
 - **AU** — bronze is immutable, hashed intake; pipeline runs are recorded.
-- **AC** — MCP allowlist is least privilege for agents; HTTP rate limiting reduces anonymous abuse of `/run` and A2A.
-- **SC** — vault encryption; no vault over MCP; 10 MB body cap and path-traversal guard on extract URLs.
+- **AC** — MCP allowlist is least privilege for agents; SPIFFE JWT-SVIDs (when `AUTH_MODE=spiffe`) authenticate HTTP callers; rate limiting reduces anonymous abuse of `/run` and A2A.
+- **SC** — vault encryption; no vault over MCP; 10 MB body cap and path-traversal guard on extract URLs; short-lived SVIDs for service authentication.
 - **SI** — fail-closed quality gate withholds bad KPIs; bandit SAST and pip-audit SCA on every PR.
 
 Do not copy this table into a System Security Plan as if the demo satisfied the family.
