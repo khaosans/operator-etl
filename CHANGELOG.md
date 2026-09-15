@@ -16,6 +16,7 @@ Versions follow [Semantic Versioning](https://semver.org/). Daily work lands und
 
 ### Fixed
 
+- CI: generate SPIFFE JWT-SVID test keys at runtime (drop committed PEM) and allowlist historical fixture path for gitleaks; `apt-get upgrade` in Dockerfile to clear Trivy HIGH/CRITICAL OS CVEs on `python:3.12-slim`.
 - Root README: drop broken Security / Secret scan badges after those workflows were folded into [`ci.yml`](.github/workflows/ci.yml) (`ci-gate`); sync docs, CONTRIBUTING, SECURITY, CODEOWNERS, and FINAL-REVIEW pytest count to the unified CI layout.
 - Bump transitive `httpx2` to 2.12.0 (via `uv.lock`) to clear pip-audit CVEs blocking CI.
 
