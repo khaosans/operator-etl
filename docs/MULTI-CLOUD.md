@@ -44,6 +44,8 @@ flowchart LR
 
 Cloud **resource** IAM (BQ / S3 / Blob / secrets) stays provider-native. SPIFFE is the portable **caller** identity for Control-plane HTTP — it does not replace warehouse bindings.
 
+Examples: [`infra/env.example`](https://github.com/khaosans/operator-etl/blob/master/infra/env.example) · [`env.aws.example`](https://github.com/khaosans/operator-etl/blob/master/infra/env.aws.example) · [`env.azure.example`](https://github.com/khaosans/operator-etl/blob/master/infra/env.azure.example)
+
 ## Container images
 
 ```bash
