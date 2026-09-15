@@ -38,3 +38,7 @@ timestamp: 2026-08-17T00:00:00Z
 POST to graph-runner `/run` with identity token (see infra README).
 
 **Local MVP must pass first:** `./harness/e2e.sh`
+
+## Next: service identity
+
+After staging is reachable, bootstrap SPIFFE/SPIRE (or OIDC→SPIFFE federation) so `/run` and HTTP MCP require JWT-SVIDs: [bootstrap-spiffe-identity](/playbooks/bootstrap-spiffe-identity.md).

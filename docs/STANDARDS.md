@@ -58,7 +58,8 @@ Readable mapping: **[NIST.md](NIST.md)**. We align selected practices. We do **n
 | **PII fail-closed** | [NIST.md](NIST.md) · [FOUNDATIONS.md §5](FOUNDATIONS.md#references) | Scan before insight; encrypted vault; no MCP vault access |
 | **FOIA workflow** | [FOUNDATIONS.md §9](FOUNDATIONS.md#references) | Public comments intake and redaction queue |
 | **Secrets hygiene** | [SECURITY.md](../SECURITY.md) | No `.env`, vault, or tfvars in git |
-| **Least privilege (GCP)** | White paper §12.3 | Separate service accounts per workload in Terraform |
+| **Least privilege (IAM)** | [`infra/*/iam.tf`](../infra/gcp/iam.tf) · [spiffe-service-identity](../okf/decisions/spiffe-service-identity.md) | Separate cloud service accounts / roles per workload; SPIFFE JWT-SVIDs for portable Control-plane caller identity |
+| **SPIFFE** | [SPIFFE overview](https://spiffe.io/docs/latest/spiffe-about/overview/) · [spiffe-service-identity](../okf/decisions/spiffe-service-identity.md) | Optional JWT-SVID verify (`OPERATOR_ETL_AUTH_MODE`); SPIRE issuer bootstrap SPECIFIED |
 | **OWASP input validation** | [SECURITY-HARDENING.md](SECURITY-HARDENING.md) | Pydantic `max_length`, 10 MB body cap, path traversal guard |
 | **SAST** | bandit + CodeQL | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (`bandit` → `ci-gate`), [`.github/workflows/codeql.yml`](../.github/workflows/codeql.yml) + `.bandit.yml`; `# nosec` only with a reason |
 | **SCA** | pip-audit | Frozen-dep CVE check in [`ci.yml`](../.github/workflows/ci.yml) (`pip-audit` → `ci-gate`) |
@@ -81,6 +82,7 @@ Documented in [docs/Operator-ETL-White-Paper.md](Operator-ETL-White-Paper.md) §
 | ADR-003 | MCP as agent boundary |
 | ADR-004 | Fail-closed quality gate |
 | ADR-005 | DuckDB local → BigQuery GCP — [okf/decisions/duckdb-local-bigquery-gcp.md](../okf/decisions/duckdb-local-bigquery-gcp.md) |
+| ADR-006 | SPIFFE for portable Control-plane service identity — [okf/decisions/spiffe-service-identity.md](../okf/decisions/spiffe-service-identity.md) |
 
 ---
 

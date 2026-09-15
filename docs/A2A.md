@@ -19,7 +19,7 @@ Returns capability metadata:
 
 - Name: `Operator ETL FOIA & Redaction Service`
 - Capabilities: `FOIARedaction`, `PublicCommentSummarization`, `PIIVaulting`
-- Authentication: Bearer token
+- Authentication: Bearer token (MVP); SPIFFE JWT-SVID when `OPERATOR_ETL_AUTH_MODE=spiffe` or `bearer_or_spiffe`
 
 ## Task API
 
@@ -77,7 +77,8 @@ Events include only task IDs, run IDs, timestamps, row counts, critic outcome, a
 
 ## Security boundary
 
-- Bearer token required via `Authorization: Bearer <token>`
+- MVP: Bearer token required via `Authorization: Bearer <token>` (`OPERATOR_ETL_A2A_BEARER_TOKEN`)
+- Staging/prod: SPIFFE JWT-SVID on the same header when `OPERATOR_ETL_AUTH_MODE=spiffe`; transition with `bearer_or_spiffe` — [spiffe-service-identity](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/spiffe-service-identity.md)
 - No raw SQL execution
 - No bronze/silver row export
 - No vault decrypt

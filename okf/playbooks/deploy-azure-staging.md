@@ -27,6 +27,10 @@ timestamp: 2026-09-03T00:00:00Z
 3. Upload a blob under `incoming/` or `POST /run` / Event Grid → `/events/azure`.
 4. Keep insight backend `template` until the OpenAI secret is real. See [docs/LLM.md](/docs/LLM.md).
 
+## Next: service identity
+
+Tighten public Container Apps ingress with SPIFFE JWT-SVID auth on `/run` and `/events/azure`: [bootstrap-spiffe-identity](/playbooks/bootstrap-spiffe-identity.md).
+
 ## Skill
 
 [`skills/operator-ship-azure/SKILL.md`](/skills/operator-ship-azure/SKILL.md) · Wiki: [docs/MULTI-CLOUD.md](/docs/MULTI-CLOUD.md)

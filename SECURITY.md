@@ -33,7 +33,7 @@ Never commit — see [CONTRIBUTING.md](CONTRIBUTING.md#repository-conventions) f
 
 ## CI
 
-GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak, critic faithfulness, MCP allowlist, HITL routing, Discord chat adapter, and path-traversal tests (95 pytest total). The same [`ci.yml`](.github/workflows/ci.yml) workflow also runs bandit, pip-audit, and gitleaks (aggregated by `ci-gate`). Human guide: [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
+GitHub Actions runs `./harness/e2e.sh` on every push — includes PII leak, critic faithfulness, MCP allowlist, HITL routing, Discord chat adapter, path-traversal, and SPIFFE auth tests (103 pytest total). The same [`ci.yml`](.github/workflows/ci.yml) workflow also runs bandit, pip-audit, and gitleaks (aggregated by `ci-gate`). Human guide: [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
 
 ## Production readiness
 
@@ -43,7 +43,8 @@ Before claiming production or staging readiness:
 |---|---|---|
 | PII detection | Regex (email, phone, SSN) | Presidio or agency-approved scanner |
 | PII gray-zone HITL | Unit-tested path; regex confidences skip gray zone | Presidio confidence thresholds |
-| MCP boundary | 3 allowlisted tools; no vault | Same + HTTP auth on Cloud Run |
+| MCP boundary | 3 allowlisted tools; no vault | Same + HTTP caller auth (SPIFFE JWT-SVID or platform IAM equivalent) on Cloud Run |
+| HTTP triggers (`/run`, push) | Open locally (`AUTH_MODE=off`) | `OPERATOR_ETL_AUTH_MODE=spiffe` + allowlists (or equivalent platform invoker IAM) |
 | Auto-publish | Blocked by policy and `persist` gate | Officer sign-off workflow |
 | Warehouse | DuckDB local proof | BigQuery + IAM verified in staging |
 | Secrets | Gitignored locally; Terraform uses sensitive vars | Secret Manager in GCP |

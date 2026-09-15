@@ -78,6 +78,10 @@ Short definitions for terms used across Operator ETL. Each entry links to the pa
 | **OKF** | Open Knowledge Format — agent wiki under `okf/`. Humans use this docs wiki. [LEVERAGE](LEVERAGE.md) |
 | **Fail-closed** | When the gate is unhappy, **hide** the KPIs rather than show them with a warning. [PATTERNS](PATTERNS.md#fail-closed-quality) |
 | **IMPLEMENTED / PARTIAL / SPECIFIED** | Status labels. Only **IMPLEMENTED** is proven in CI. [implementation-status](https://github.com/khaosans/operator-etl/blob/master/okf/models/implementation-status.md) |
+| **SPIFFE** | Secure Production Identity Framework For Everyone — portable workload identity via short-lived SVIDs. [overview](https://spiffe.io/docs/latest/spiffe-about/overview/) · [decision](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/spiffe-service-identity.md) |
+| **SVID** | SPIFFE Verifiable Identity Document (X.509 or JWT). Operator ETL verifies JWT-SVIDs on HTTP when `AUTH_MODE=spiffe`. |
+| **Trust domain** | SPIFFE naming authority for a deployment (e.g. `spiffe://operator-etl.staging.example/...`). |
+| **SPIRE** | Reference open-source SPIFFE implementation (attestation + Workload API). Staging bootstrap is SPECIFIED. |
 
 ---
 

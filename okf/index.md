@@ -27,6 +27,7 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 * [MCP allowlist only](decisions/mcp-allowlist-only.md) — No raw SQL, no vault decrypt
 * [PII fail-closed](decisions/pii-fail-closed.md) — Scan before insight; HITL on ambiguity
 * [Chat adapter boundary](decisions/chat-adapter-boundary.md) — Discord/Slack as Control-plane clients only
+* [SPIFFE service identity](decisions/spiffe-service-identity.md) — Portable SVID auth for staging/prod HTTP
 
 # Playbooks
 
@@ -37,6 +38,7 @@ Portable OKF knowledge for the **Operator ETL** agentic data intake system. Agen
 * [Deploy GCP staging](playbooks/deploy-gcp-staging.md) — Terraform + Cloud Build
 * [Deploy AWS staging](playbooks/deploy-aws-staging.md) — S3 + ECS + RDS
 * [Deploy Azure staging](playbooks/deploy-azure-staging.md) — Blob + Container Apps + Postgres
+* [Bootstrap SPIFFE identity](playbooks/bootstrap-spiffe-identity.md) — SPIRE / federation for staging service IDs
 * [Agency FOIA workflow](playbooks/agency-foia-workflow.md) — Public comments intake
 * [QA before share](playbooks/qa-before-share.md) — PDF share checklist
 * [Merge feature PR](playbooks/merge-feature-pr.md) — Unreleased CHANGELOG, green checks, squash-merge

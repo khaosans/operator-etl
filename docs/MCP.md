@@ -76,6 +76,9 @@ All tools are read-only against the local warehouse; none mutate data or reach e
 | `OPERATOR_ETL_WAREHOUSE` | Yes (via Settings / `.env`) | DuckDB file path with gold marts |
 | `OPERATOR_ETL_DOMAIN` | Recommended (`gov` for FOIA demo) | Selects gov vs orders gold tables |
 | `OPENAI_API_KEY` | **No** | Optional — only for LLM insight backend in LangGraph (`etl-graph`), not the MCP stdio server |
+| `OPERATOR_ETL_AUTH_MODE` | HTTP MCP only | Default `off` (stdio is process-local). Staging/prod HTTP: `spiffe` + trust bundle / allowlists |
+
+**Caller identity vs tool allowlist:** stdio MCP trusts the local process. HTTP MCP (`mcp_app.py`) should use SPIFFE JWT-SVID caller auth in staging/prod — [spiffe-service-identity](https://github.com/khaosans/operator-etl/blob/master/okf/decisions/spiffe-service-identity.md). The three-tool allowlist stays regardless of auth mode.
 
 The default MCP path uses template insights and gold aggregates only; no API key is needed.
 
